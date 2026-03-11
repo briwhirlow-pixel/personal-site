@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import { z } from "zod";
 import { getSupabaseClient } from "@/lib/supabase";
 
@@ -21,8 +21,6 @@ export async function POST(request: Request) {
 
     const { name, email, budget, message } = parsed.data;
 
-    const resend = new Resend(process.env.RESEND_API_KEY);
-
     // Save to Supabase
     const { error: dbError } = await getSupabaseClient()
       .from("contact_submissions")
@@ -33,10 +31,18 @@ export async function POST(request: Request) {
       // Don't fail the request — still attempt to send email
     }
 
-    // Send email notification via Resend
-    const { error: emailError } = await resend.emails.send({
-      from: "Contact Form <onboarding@resend.dev>",
-      to: process.env.CONTACT_TO_EMAIL!,
+    // Send email via Gmail SMTP
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_APP_PASSWORD,
+      },
+    });
+
+    await transporter.sendMail({
+      from: `"Contact Form" <${process.env.GMAIL_USER}>`,
+      to: process.env.GMAIL_USER,
       replyTo: email,
       subject: `New inquiry from ${name}`,
       text: [
@@ -44,15 +50,10 @@ export async function POST(request: Request) {
         `Email: ${email}`,
         `Budget: ${budget}`,
         "",
-        `Message:`,
+        "Message:",
         message,
       ].join("\n"),
     });
-
-    if (emailError) {
-      console.error("Resend error:", emailError);
-      return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
-    }
 
     return NextResponse.json({ success: true });
   } catch (err) {

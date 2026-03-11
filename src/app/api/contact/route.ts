@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
-import { supabase } from "@/lib/supabase";
+import { getSupabaseClient } from "@/lib/supabase";
 
 const schema = z.object({
   name: z.string().min(1),
@@ -9,8 +9,6 @@ const schema = z.object({
   budget: z.string().min(1),
   message: z.string().min(1),
 });
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
   try {
@@ -23,8 +21,10 @@ export async function POST(request: Request) {
 
     const { name, email, budget, message } = parsed.data;
 
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
     // Save to Supabase
-    const { error: dbError } = await supabase
+    const { error: dbError } = await getSupabaseClient()
       .from("contact_submissions")
       .insert({ name, email, budget, message });
 

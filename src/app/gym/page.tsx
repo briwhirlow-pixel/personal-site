@@ -1150,7 +1150,7 @@ export default function GymPage() {
   if (!isLoaded) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-white/[0.12] border-t-green-500 rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-white/[0.12] border-t-[#30D158] rounded-full animate-spin" />
       </div>
     );
   }
@@ -1211,32 +1211,24 @@ export default function GymPage() {
       <div className="min-h-screen bg-black">
         {/* Header */}
         <header className="backdrop-blur-xl bg-black/80 border-b border-white/[0.06] sticky top-0 z-10">
-          <div className="px-4 py-4 flex items-center justify-between">
+          <div className="px-4 py-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-bold text-white">Manage Cycles</h1>
               {profileName && (
-                <span className="text-xs text-white/40 bg-white/[0.05] px-2 py-0.5 rounded-full">{profileName}</span>
+                <span className="text-[13px] text-white/40">{profileName}</span>
               )}
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <button
                 onClick={() => setView('history')}
-                className="text-white/40 hover:text-white transition-colors"
-                title="TM History"
+                className="text-[#0A84FF] text-[15px] font-medium"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
+                History
               </button>
               <button
                 onClick={() => setView('settings')}
-                className="text-white/40 hover:text-white transition-colors"
-                title="Program Settings"
+                className="text-[#0A84FF] text-[15px] font-medium"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
+                Settings
               </button>
               <button
                 onClick={handleLogout}
@@ -1246,11 +1238,6 @@ export default function GymPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
               </button>
-              <Link href="/admin" className="text-white/40 hover:text-white transition-colors">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </Link>
             </div>
           </div>
         </header>
@@ -1261,14 +1248,17 @@ export default function GymPage() {
           </div>
         )}
 
-        <main className="px-4 py-6 pb-24">
+        <main className="px-4 pt-2 pb-24">
+          {/* Large title */}
+          <h1 className="text-[34px] font-bold text-white tracking-tight mb-6">Cycles</h1>
+
           {/* Create New Cycle Button */}
           <button
             onClick={handleCreateCycle}
-            className="w-full bg-[#30D158] active:bg-[#25A244] text-white font-medium py-4 rounded-xl mb-6 flex items-center justify-center gap-2 transition-colors"
+            className="w-full bg-[#30D158] active:bg-[#25A244] text-white font-semibold py-4 rounded-2xl mb-6 flex items-center justify-center gap-2 transition-colors text-[17px]"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
             </svg>
             Start New Cycle
           </button>
@@ -1423,53 +1413,50 @@ export default function GymPage() {
     return (
       <div className="min-h-screen bg-black">
         <header className="backdrop-blur-xl bg-black/80 border-b border-white/[0.06] sticky top-0 z-10">
-          <div className="px-4 py-4">
-            <div className="flex items-center justify-between">
-              <button
-                onClick={handleBackToCycles}
-                className="text-[#0A84FF] transition-colors flex items-center gap-1"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-                Cycles
-              </button>
-              <div className="flex items-center gap-2">
-                {restTimeRemaining > 0 && (
-                  <button
-                    onClick={clearRestTimer}
-                    className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium transition-all ${
-                      restTimeRemaining <= 10
-                        ? 'bg-[#FF453A]/15 text-[#FF453A] border border-[#FF453A]/40'
-                        : restTimeRemaining <= 30
-                        ? 'bg-[#FFD60A]/15 text-[#FFD60A] border border-yellow-500/50'
-                        : 'bg-[#30D158]/20 text-[#30D158] border border-[#30D158]/40'
-                    }`}
-                    title="Click to dismiss"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {restTimeRemaining}s
-                  </button>
-                )}
-                {isSaving && (
-                  <span className="text-[#30D158] text-xs flex items-center gap-1">
-                    <div className="w-3 h-3 border border-[#30D158] border-t-transparent rounded-full animate-spin" />
-                    Saving
-                  </span>
-                )}
-                {activeCycle.status === 'active' && (
-                  <button
-                    onClick={handleCompleteCycle}
-                    className="text-xs bg-[#30D158] active:bg-[#25A244] text-white px-3 py-1.5 rounded-2xl transition-colors"
-                  >
-                    Complete Cycle
-                  </button>
-                )}
-              </div>
+          <div className="px-4 py-3 flex items-center justify-between">
+            <button
+              onClick={handleBackToCycles}
+              className="text-[#0A84FF] transition-colors flex items-center gap-1 text-[17px]"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Cycles
+            </button>
+            <div className="flex items-center gap-2">
+              {restTimeRemaining > 0 && (
+                <button
+                  onClick={clearRestTimer}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-semibold transition-all ${
+                    restTimeRemaining <= 10
+                      ? 'bg-[#FF453A]/15 text-[#FF453A]'
+                      : restTimeRemaining <= 30
+                      ? 'bg-[#FFD60A]/15 text-[#FFD60A]'
+                      : 'bg-[#30D158]/15 text-[#30D158]'
+                  }`}
+                  title="Click to dismiss"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  {restTimeRemaining}s
+                </button>
+              )}
+              {isSaving && (
+                <span className="text-[#30D158] text-xs flex items-center gap-1">
+                  <div className="w-3 h-3 border border-[#30D158] border-t-transparent rounded-full animate-spin" />
+                  Saving
+                </span>
+              )}
+              {activeCycle.status === 'active' && (
+                <button
+                  onClick={handleCompleteCycle}
+                  className="text-sm bg-[#30D158] active:bg-[#25A244] text-white px-4 py-1.5 rounded-full font-medium transition-colors"
+                >
+                  Complete
+                </button>
+              )}
             </div>
-            <h1 className="text-xl font-bold text-white mt-3">Cycle {activeCycle.cycleNumber}</h1>
           </div>
         </header>
 
@@ -1479,18 +1466,18 @@ export default function GymPage() {
           </div>
         )}
 
-        <main className="px-4 py-4 pb-24">
+        <main className="px-4 pt-2 pb-24">
           {/* Active workout in progress */}
           {currentWorkout && currentWorkout.exercises.length > 0 ? (
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex items-end justify-between mb-2">
                 <div>
-                  <h2 className="text-white font-semibold">{currentWorkout.dayName}</h2>
-                  <p className="text-white/40 text-sm">{currentWorkout.workoutDate}</p>
+                  <h1 className="text-[28px] font-bold text-white tracking-tight leading-tight">{currentWorkout.dayName}</h1>
+                  <p className="text-white/40 text-sm mt-0.5">{currentWorkout.workoutDate}</p>
                 </div>
                 <button
                   onClick={startBuilder}
-                  className="text-xs text-white/50 hover:text-white border border-white/[0.08] px-3 py-1.5 rounded-2xl transition-colors"
+                  className="text-sm text-[#0A84FF] transition-colors font-medium pb-1"
                 >
                   New Workout
                 </button>
@@ -1556,7 +1543,7 @@ export default function GymPage() {
 
               {activeCycle.workouts.length > 0 && (
                 <div>
-                  <h3 className="text-white/50 text-sm font-medium uppercase tracking-wider mb-3">This Cycle</h3>
+                  <h3 className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">This Cycle</h3>
                   <div className="space-y-2">
                     {[...activeCycle.workouts]
                       .sort((a, b) => new Date(b.workoutDate).getTime() - new Date(a.workoutDate).getTime())
@@ -1687,8 +1674,8 @@ export default function GymPage() {
           {/* Step 1: Muscle group selection */}
           {builderStep === 1 && (
             <div>
-              <h2 className="text-2xl font-bold text-white mb-1">What are you training?</h2>
-              <p className="text-white/50 mb-6">Select one or more muscle groups</p>
+              <h2 className="text-[32px] font-bold text-white mb-2 tracking-tight">What are you training?</h2>
+              <p className="text-white/50 text-[17px] mb-8">Select one or more muscle groups</p>
               <div className="grid grid-cols-2 gap-3">
                 {gymExercises.muscleGroups.map(group => {
                   const isSelected = selectedMuscleGroups.includes(group.id);
@@ -1715,8 +1702,8 @@ export default function GymPage() {
           {/* Step 2: Day type */}
           {builderStep === 2 && (
             <div>
-              <h2 className="text-2xl font-bold text-white mb-1">What kind of day?</h2>
-              <p className="text-white/50 mb-6">Choose your training focus</p>
+              <h2 className="text-[32px] font-bold text-white mb-2 tracking-tight">What kind of day?</h2>
+              <p className="text-white/50 text-[17px] mb-8">Choose your training focus</p>
               <div className="space-y-3">
                 {gymExercises.dayTypes.map(dayType => {
                   const isSelected = selectedDayType === dayType.id;
@@ -1761,8 +1748,8 @@ export default function GymPage() {
           {/* Step 3: Exercise selection */}
           {builderStep === 3 && (
             <div>
-              <h2 className="text-2xl font-bold text-white mb-1">Pick your exercises</h2>
-              <p className="text-white/50 mb-6">
+              <h2 className="text-[32px] font-bold text-white mb-2 tracking-tight">Pick your exercises</h2>
+              <p className="text-white/50 text-[17px] mb-8">
                 {builderSelectedExercises.length > 0
                   ? `${builderSelectedExercises.length} selected`
                   : 'Tap to add an exercise'}
@@ -1838,7 +1825,7 @@ export default function GymPage() {
         </main>
 
         {/* Bottom action button */}
-        <div className="fixed bottom-0 left-0 right-0 px-4 pb-6 pt-4 bg-gradient-to-t from-[#0a0a0f] to-transparent">
+        <div className="fixed bottom-0 left-0 right-0 px-4 pb-6 pt-4 bg-gradient-to-t from-black to-transparent">
           {builderStep < 3 ? (
             <button
               onClick={() => {
@@ -1880,95 +1867,108 @@ export default function GymPage() {
       <div className="min-h-screen bg-black">
         {/* Header */}
         <header className="backdrop-blur-xl bg-black/80 border-b border-white/[0.06] sticky top-0 z-10">
-          <div className="px-4 py-4">
-            <div className="flex items-center justify-between mb-2">
-              <button
-                onClick={handleBackToCycle}
-                className="text-[#0A84FF] transition-colors flex items-center gap-1"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-                Back
-              </button>
-              <div className="flex items-center gap-3">
-                {/* Rest Timer */}
-                {restTimeRemaining > 0 && (
-                  <button
-                    onClick={clearRestTimer}
-                    className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium transition-all ${
-                      restTimeRemaining <= 10
-                        ? 'bg-[#FF453A]/15 text-[#FF453A] border border-[#FF453A]/40'
-                        : restTimeRemaining <= 30
-                        ? 'bg-[#FFD60A]/15 text-[#FFD60A] border border-yellow-500/50'
-                        : 'bg-[#30D158]/20 text-[#30D158] border border-[#30D158]/40'
-                    }`}
-                    title="Click to dismiss"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {restTimeRemaining}s
-                  </button>
-                )}
-                {isSaving && (
-                  <span className="text-[#30D158] text-xs flex items-center gap-1">
-                    <div className="w-3 h-3 border border-[#30D158] border-t-transparent rounded-full animate-spin" />
-                    Saving
-                  </span>
-                )}
-              </div>
-            </div>
-            <h1 className="text-xl font-bold text-white">{exercise.exerciseName}</h1>
-            {programExercise?.notes && (
-              <p className="text-white/40 text-sm mt-1">{programExercise.notes}</p>
-            )}
-          </div>
-        </header>
-
-        <main className="px-4 py-6 pb-24">
-          {/* Training Max */}
-          <div className="bg-[#1C1C1E] rounded-2xl p-4 mb-6">
-            <div className="flex items-center justify-between">
-              <span className="text-white/50 text-sm">Training Max</span>
-              {editingTM === exercise.exerciseId ? (
-                <div className="flex items-center gap-2">
-                  <input
-                    type="number"
-                    value={tmInput}
-                    onChange={(e) => setTmInput(e.target.value)}
-                    className="w-24 bg-black border border-white/[0.12] rounded px-2 py-1 text-white text-right"
-                    autoFocus
-                  />
-                  <button
-                    onClick={() => handleSaveTrainingMax(exercise.exerciseId, parseFloat(tmInput))}
-                    className="text-[#30D158] hover:text-[#57E57A]"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </button>
-                  <button
-                    onClick={() => { setEditingTM(null); setTmInput(''); }}
-                    className="text-white/50 hover:text-white/70"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-              ) : (
+          <div className="px-4 py-3 flex items-center justify-between">
+            <button
+              onClick={handleBackToCycle}
+              className="text-[#0A84FF] transition-colors flex items-center gap-1 text-[17px]"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Workout
+            </button>
+            <div className="flex items-center gap-3">
+              {/* Rest Timer */}
+              {restTimeRemaining > 0 && (
                 <button
-                  onClick={() => {
-                    setEditingTM(exercise.exerciseId);
-                    setTmInput(exercise.trainingMax.toString());
-                  }}
-                  className="text-2xl font-bold text-white hover:text-[#30D158] transition-colors"
+                  onClick={clearRestTimer}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-semibold transition-all ${
+                    restTimeRemaining <= 10
+                      ? 'bg-[#FF453A]/15 text-[#FF453A]'
+                      : restTimeRemaining <= 30
+                      ? 'bg-[#FFD60A]/15 text-[#FFD60A]'
+                      : 'bg-[#30D158]/15 text-[#30D158]'
+                  }`}
+                  title="Click to dismiss"
                 >
-                  {exercise.trainingMax > 0 ? `${exercise.trainingMax} lbs` : 'Set TM'}
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  {restTimeRemaining}s
                 </button>
               )}
+              {isSaving && (
+                <span className="text-[#30D158] text-xs flex items-center gap-1">
+                  <div className="w-3 h-3 border border-[#30D158] border-t-transparent rounded-full animate-spin" />
+                  Saving
+                </span>
+              )}
             </div>
+          </div>
+        </header>
+        {/* Large title for exercise */}
+        <div className="px-4 pt-5 pb-1">
+          <h1 className="text-[28px] font-bold text-white tracking-tight leading-tight">{exercise.exerciseName}</h1>
+          {programExercise?.notes && (
+            <p className="text-white/40 text-sm mt-1">{programExercise.notes}</p>
+          )}
+        </div>
+
+        <main className="px-4 pt-4 pb-24">
+          {/* Training Max — Hero display */}
+          <div className="text-center mb-6 py-4">
+            <p className="text-white/40 text-xs uppercase tracking-widest mb-3">Training Max</p>
+            {editingTM === exercise.exerciseId ? (
+              <div className="flex items-center justify-center gap-3">
+                <input
+                  type="number"
+                  value={tmInput}
+                  onChange={(e) => setTmInput(e.target.value)}
+                  className="w-32 bg-[#2C2C2E] rounded-2xl px-4 py-3 text-white text-2xl text-center font-bold border-0 focus:outline-none focus:ring-2 focus:ring-[#30D158]"
+                  autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSaveTrainingMax(exercise.exerciseId, parseFloat(tmInput));
+                    if (e.key === 'Escape') { setEditingTM(null); setTmInput(''); }
+                  }}
+                />
+                <button
+                  onClick={() => handleSaveTrainingMax(exercise.exerciseId, parseFloat(tmInput))}
+                  className="w-11 h-11 bg-[#30D158] rounded-full flex items-center justify-center"
+                >
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => { setEditingTM(null); setTmInput(''); }}
+                  className="w-11 h-11 bg-white/[0.08] rounded-full flex items-center justify-center"
+                >
+                  <svg className="w-5 h-5 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => {
+                  setEditingTM(exercise.exerciseId);
+                  setTmInput(exercise.trainingMax.toString());
+                }}
+                className="group"
+              >
+                <div className="flex items-baseline justify-center gap-1.5">
+                  <span className="text-[56px] font-bold text-white leading-none tracking-tight">
+                    {exercise.trainingMax > 0 ? exercise.trainingMax : '—'}
+                  </span>
+                  {exercise.trainingMax > 0 && (
+                    <span className="text-[24px] font-semibold text-white/40">lbs</span>
+                  )}
+                </div>
+                <p className="text-white/30 text-xs mt-2 group-active:text-[#0A84FF] transition-colors">
+                  {exercise.trainingMax > 0 ? 'Tap to edit' : 'Tap to set training max'}
+                </p>
+              </button>
+            )}
           </div>
 
           {/* History Button */}
@@ -1991,7 +1991,7 @@ export default function GymPage() {
             <div className="mb-6 bg-[#1C1C1E] border border-[#0A84FF]/25 rounded-2xl p-4">
               {isLoadingExerciseHistory ? (
                 <div className="flex items-center justify-center py-4">
-                  <div className="w-5 h-5 border-2 border-[#0A84FF]/25 border-t-blue-400 rounded-full animate-spin" />
+                  <div className="w-5 h-5 border-2 border-[#0A84FF]/25 border-t-[#0A84FF] rounded-full animate-spin" />
                   <span className="text-white/50 text-sm ml-2">Loading history...</span>
                 </div>
               ) : exerciseHistory ? (
@@ -2090,130 +2090,124 @@ export default function GymPage() {
             </div>
           )}
 
-          {/* Working Sets */}
+          {/* Working Sets — iOS table view style */}
           <div className="mb-6">
-            <h2 className="text-white/50 text-sm mb-3">Sets</h2>
-            <div className="space-y-3">
+            {/* Column headers */}
+            <div className="flex items-center gap-2 px-1 mb-2">
+              <div className="w-8 flex-shrink-0" />
+              <div className="w-20 flex-shrink-0 text-center">
+                <span className="text-white/30 text-[10px] uppercase tracking-widest">Target</span>
+              </div>
+              <div className="flex-1 text-center">
+                <span className="text-white/30 text-[10px] uppercase tracking-widest">Reps</span>
+              </div>
+              <div className="flex-1 text-center">
+                <span className="text-white/30 text-[10px] uppercase tracking-widest">lbs</span>
+              </div>
+              <div className="w-[88px] flex-shrink-0" />
+            </div>
+            <div className="bg-[#1C1C1E] rounded-2xl overflow-hidden">
               {exercise.sets.map((set, setIndex) => {
-                // Determine set type styling
                 const setType = set.setType || 'working';
                 const isWarmup = setType === 'warmup';
                 const isBurnout = setType === 'burnout' || setType === 'dropset';
+                const setColor = set.failed
+                  ? '#FF453A'
+                  : set.completed
+                  ? isWarmup ? '#0A84FF' : isBurnout ? '#BF5AF2' : '#30D158'
+                  : undefined;
 
                 return (
                 <div
                   key={set.setNumber}
-                  className={`bg-[#1C1C1E] border rounded-2xl p-4 transition-colors ${
-                    set.failed
-                      ? 'border-[#FF453A]/40'
-                      : set.completed
-                      ? isWarmup
-                        ? 'border-[#0A84FF]/40'
-                        : isBurnout
-                        ? 'border-[#BF5AF2]/40'
-                        : 'border-[#30D158]/40'
-                      : 'border-white/[0.08]'
-                  }`}
+                  className={`flex items-center gap-2 px-4 py-3 transition-colors ${
+                    setIndex > 0 ? 'border-t border-white/[0.06]' : ''
+                  } ${set.failed ? 'bg-[#FF453A]/[0.05]' : set.completed ? 'bg-[#30D158]/[0.04]' : ''}`}
                 >
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-3">
-                      <span className="text-white/40 text-sm">Set {set.setNumber}</span>
-                      {set.failed && (
-                        <span className="text-xs bg-[#FF453A]/15 text-[#FF453A] px-2 py-0.5 rounded">FAILED</span>
-                      )}
-                      {isWarmup && !set.failed && (
-                        <span className="text-xs bg-[#0A84FF]/15 text-[#0A84FF] px-2 py-0.5 rounded">WARM-UP</span>
-                      )}
-                      {isBurnout && !set.failed && (
-                        <span className="text-xs bg-[#BF5AF2]/20 text-[#BF5AF2] px-2 py-0.5 rounded">
-                          {setType === 'dropset' ? 'DROP SET' : 'BURNOUT'}
-                        </span>
-                      )}
-                      {set.isAmrap && !set.failed && (
-                        <span className="text-xs bg-[#FF9F0A]/15 text-[#FF9F0A] px-2 py-0.5 rounded">AMRAP</span>
-                      )}
-                    </div>
-                    <span className="text-white/50 text-sm">
-                      {set.targetReps} × {set.targetWeight} lbs ({set.targetPercent}%)
+                  {/* Set number + type badge */}
+                  <div className="w-8 flex-shrink-0 flex flex-col items-center">
+                    <span className="text-sm font-bold" style={{ color: setColor ?? 'rgba(255,255,255,0.35)' }}>
+                      {set.setNumber}
                     </span>
+                    {isWarmup && (
+                      <span className="text-[9px] text-[#0A84FF] leading-tight">WU</span>
+                    )}
+                    {set.isAmrap && !set.failed && (
+                      <span className="text-[9px] text-[#FF9F0A] leading-tight">+</span>
+                    )}
                   </div>
 
-                  <div className="flex items-center gap-3">
-                    <div className="flex-1">
-                      <label className="text-white/40 text-xs block mb-1">Reps</label>
-                      <input
-                        type="number"
-                        value={set.actualReps ?? ''}
-                        onChange={(e) => handleSetUpdate(
-                          selectedExerciseIndex,
-                          setIndex,
-                          'actualReps',
-                          e.target.value ? parseInt(e.target.value) : null
-                        )}
-                        placeholder={set.targetReps.toString()}
-                        className="w-full bg-black border border-white/[0.08] rounded-xl px-3 py-2 text-white text-center focus:ring-2 focus:ring-[#30D158] focus:border-transparent"
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <label className="text-white/40 text-xs block mb-1">Weight</label>
-                      <input
-                        type="number"
-                        value={set.actualWeight ?? ''}
-                        onChange={(e) => handleSetUpdate(
-                          selectedExerciseIndex,
-                          setIndex,
-                          'actualWeight',
-                          e.target.value ? parseFloat(e.target.value) : null
-                        )}
-                        placeholder={set.targetWeight.toString()}
-                        className="w-full bg-black border border-white/[0.08] rounded-xl px-3 py-2 text-white text-center focus:ring-2 focus:ring-[#30D158] focus:border-transparent"
-                      />
-                    </div>
-                    {/* Pass/Fail buttons */}
-                    <div className="flex gap-1">
-                      {/* Pass button (checkmark) */}
-                      <button
-                        onClick={() => handleSetUpdate(
-                          selectedExerciseIndex,
-                          setIndex,
-                          'completed',
-                          !set.completed || !!set.failed
-                        )}
-                        className={`w-11 h-11 rounded-full flex items-center justify-center transition-all ${
-                          set.completed && !set.failed
-                            ? isWarmup
-                              ? 'bg-blue-600 text-white'
-                              : isBurnout
-                              ? 'bg-[#BF5AF2] text-white'
-                              : 'bg-[#30D158] text-white'
-                            : 'bg-white/[0.08] text-white/50 hover:bg-[#30D158]/50 hover:text-white'
-                        }`}
-                        title="Pass"
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                      </button>
-                      {/* Fail button (X) */}
-                      <button
-                        onClick={() => handleSetUpdate(
-                          selectedExerciseIndex,
-                          setIndex,
-                          'failed',
-                          !set.failed
-                        )}
-                        className={`w-11 h-11 rounded-full flex items-center justify-center transition-all ${
-                          set.failed
-                            ? 'bg-[#FF453A] text-white'
-                            : 'bg-white/[0.08] text-white/50 hover:bg-[#FF453A]/50 hover:text-white'
-                        }`}
-                        title="Fail (prevents TM increase)"
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    </div>
+                  {/* Target */}
+                  <div className="w-20 flex-shrink-0 text-center">
+                    <span className="text-white/30 text-xs">{set.targetReps}×{set.targetWeight}</span>
+                  </div>
+
+                  {/* Reps input */}
+                  <div className="flex-1">
+                    <input
+                      type="number"
+                      value={set.actualReps ?? ''}
+                      onChange={(e) => handleSetUpdate(
+                        selectedExerciseIndex,
+                        setIndex,
+                        'actualReps',
+                        e.target.value ? parseInt(e.target.value) : null
+                      )}
+                      placeholder={set.targetReps.toString()}
+                      className="w-full bg-[#2C2C2E] rounded-xl px-2 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#30D158]"
+                    />
+                  </div>
+
+                  {/* Weight input */}
+                  <div className="flex-1">
+                    <input
+                      type="number"
+                      value={set.actualWeight ?? ''}
+                      onChange={(e) => handleSetUpdate(
+                        selectedExerciseIndex,
+                        setIndex,
+                        'actualWeight',
+                        e.target.value ? parseFloat(e.target.value) : null
+                      )}
+                      placeholder={set.targetWeight.toString()}
+                      className="w-full bg-[#2C2C2E] rounded-xl px-2 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#30D158]"
+                    />
+                  </div>
+
+                  {/* Pass / Fail */}
+                  <div className="flex gap-1.5 flex-shrink-0">
+                    <button
+                      onClick={() => handleSetUpdate(
+                        selectedExerciseIndex,
+                        setIndex,
+                        'completed',
+                        !set.completed || !!set.failed
+                      )}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+                        set.completed && !set.failed
+                          ? isWarmup ? 'bg-[#0A84FF]' : isBurnout ? 'bg-[#BF5AF2]' : 'bg-[#30D158]'
+                          : 'bg-white/[0.08]'
+                      }`}
+                    >
+                      <svg className="w-4.5 h-4.5" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() => handleSetUpdate(
+                        selectedExerciseIndex,
+                        setIndex,
+                        'failed',
+                        !set.failed
+                      )}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+                        set.failed ? 'bg-[#FF453A]' : 'bg-white/[0.08]'
+                      }`}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
               );
@@ -2274,102 +2268,67 @@ export default function GymPage() {
                   })()}
                 </div>
               </div>
-              <div className="space-y-3">
+              <div className="bg-[#1C1C1E] rounded-2xl overflow-hidden">
                 {exercise.supersetSets.map((set, setIndex) => (
                   <div
                     key={set.setNumber}
-                    className={`bg-[#1C1C1E] border rounded-2xl p-4 transition-colors ${
-                      set.failed
-                        ? 'border-[#FF453A]/40'
-                        : set.completed
-                        ? 'border-[#FF9F0A]/40'
-                        : 'border-white/[0.08]'
-                    }`}
+                    className={`flex items-center gap-2 px-4 py-3 ${
+                      setIndex > 0 ? 'border-t border-white/[0.06]' : ''
+                    } ${set.failed ? 'bg-[#FF453A]/[0.05]' : set.completed ? 'bg-[#FF9F0A]/[0.04]' : ''}`}
                   >
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        <span className="text-white/40 text-sm">Set {set.setNumber}</span>
-                        {set.failed && (
-                          <span className="text-xs bg-[#FF453A]/15 text-[#FF453A] px-2 py-0.5 rounded">FAILED</span>
-                        )}
-                      </div>
-                      <span className="text-white/50 text-sm">
-                        {set.targetReps} × {set.targetWeight} lbs
+                    <div className="w-8 flex-shrink-0 text-center">
+                      <span className={`text-sm font-bold ${set.failed ? 'text-[#FF453A]' : set.completed ? 'text-[#FF9F0A]' : 'text-white/35'}`}>
+                        {set.setNumber}
                       </span>
                     </div>
-
-                    <div className="flex items-center gap-3">
-                      <div className="flex-1">
-                        <label className="text-white/40 text-xs block mb-1">Reps</label>
-                        <input
-                          type="number"
-                          value={set.actualReps ?? ''}
-                          onChange={(e) => handleSupersetUpdate(
-                            selectedExerciseIndex,
-                            setIndex,
-                            'actualReps',
-                            e.target.value ? parseInt(e.target.value) : null
-                          )}
-                          placeholder={set.targetReps.toString()}
-                          className="w-full bg-black border border-[#FF9F0A]/25 rounded-xl px-3 py-2 text-white text-center focus:ring-2 focus:ring-[#FF9F0A] focus:border-transparent"
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <label className="text-white/40 text-xs block mb-1">Weight</label>
-                        <input
-                          type="number"
-                          value={set.actualWeight ?? ''}
-                          onChange={(e) => handleSupersetUpdate(
-                            selectedExerciseIndex,
-                            setIndex,
-                            'actualWeight',
-                            e.target.value ? parseFloat(e.target.value) : null
-                          )}
-                          placeholder={set.targetWeight.toString()}
-                          className="w-full bg-black border border-[#FF9F0A]/25 rounded-xl px-3 py-2 text-white text-center focus:ring-2 focus:ring-[#FF9F0A] focus:border-transparent"
-                        />
-                      </div>
-                      {/* Pass/Fail buttons */}
-                      <div className="flex gap-1">
-                        {/* Pass button (checkmark) */}
-                        <button
-                          onClick={() => handleSupersetUpdate(
-                            selectedExerciseIndex,
-                            setIndex,
-                            'completed',
-                            !set.completed || !!set.failed
-                          )}
-                          className={`w-11 h-11 rounded-full flex items-center justify-center transition-all ${
-                            set.completed && !set.failed
-                              ? 'bg-orange-600 text-white'
-                              : 'bg-white/[0.08] text-white/50 hover:bg-orange-600/50 hover:text-white'
-                          }`}
-                          title="Pass"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                        </button>
-                        {/* Fail button (X) */}
-                        <button
-                          onClick={() => handleSupersetUpdate(
-                            selectedExerciseIndex,
-                            setIndex,
-                            'failed',
-                            !set.failed
-                          )}
-                          className={`w-11 h-11 rounded-full flex items-center justify-center transition-all ${
-                            set.failed
-                              ? 'bg-[#FF453A] text-white'
-                              : 'bg-white/[0.08] text-white/50 hover:bg-[#FF453A]/50 hover:text-white'
-                          }`}
-                          title="Fail (prevents TM increase)"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                          </svg>
-                        </button>
-                      </div>
+                    <div className="w-20 flex-shrink-0 text-center">
+                      <span className="text-white/30 text-xs">{set.targetReps}×{set.targetWeight}</span>
+                    </div>
+                    <div className="flex-1">
+                      <input
+                        type="number"
+                        value={set.actualReps ?? ''}
+                        onChange={(e) => handleSupersetUpdate(
+                          selectedExerciseIndex,
+                          setIndex,
+                          'actualReps',
+                          e.target.value ? parseInt(e.target.value) : null
+                        )}
+                        placeholder={set.targetReps.toString()}
+                        className="w-full bg-[#2C2C2E] rounded-xl px-2 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#FF9F0A]"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <input
+                        type="number"
+                        value={set.actualWeight ?? ''}
+                        onChange={(e) => handleSupersetUpdate(
+                          selectedExerciseIndex,
+                          setIndex,
+                          'actualWeight',
+                          e.target.value ? parseFloat(e.target.value) : null
+                        )}
+                        placeholder={set.targetWeight.toString()}
+                        className="w-full bg-[#2C2C2E] rounded-xl px-2 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#FF9F0A]"
+                      />
+                    </div>
+                    <div className="flex gap-1.5 flex-shrink-0">
+                      <button
+                        onClick={() => handleSupersetUpdate(selectedExerciseIndex, setIndex, 'completed', !set.completed || !!set.failed)}
+                        className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${set.completed && !set.failed ? 'bg-[#FF9F0A]' : 'bg-white/[0.08]'}`}
+                      >
+                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() => handleSupersetUpdate(selectedExerciseIndex, setIndex, 'failed', !set.failed)}
+                        className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${set.failed ? 'bg-[#FF453A]' : 'bg-white/[0.08]'}`}
+                      >
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -2404,7 +2363,7 @@ export default function GymPage() {
                 Back
               </button>
             </div>
-            <h1 className="text-xl font-bold text-white">Program Settings</h1>
+            <h1 className="text-[17px] font-semibold text-white">Settings</h1>
             <p className="text-white/40 text-sm">Edit training maxes, supersets, and progression</p>
           </div>
         </header>
@@ -2415,7 +2374,8 @@ export default function GymPage() {
           </div>
         )}
 
-        <main className="px-4 py-6 pb-24">
+        <main className="px-4 pt-2 pb-24">
+          <h1 className="text-[34px] font-bold text-white tracking-tight mb-6">Settings</h1>
           {/* Seed Data Button */}
           <div className="bg-[#1C1C1E] rounded-2xl p-4 mb-6">
             <h3 className="text-white font-medium mb-2">Initial Data Setup</h3>
@@ -2774,7 +2734,7 @@ export default function GymPage() {
                 Back
               </button>
             </div>
-            <h1 className="text-xl font-bold text-white">Training Max History</h1>
+            <h1 className="text-[17px] font-semibold text-white">TM History</h1>
             <p className="text-white/40 text-sm">Track your progression over time</p>
           </div>
         </header>
@@ -2785,14 +2745,15 @@ export default function GymPage() {
           </div>
         )}
 
-        <main className="px-4 py-6 pb-24">
+        <main className="px-4 pt-2 pb-24">
+          <h1 className="text-[34px] font-bold text-white tracking-tight mb-6">TM History</h1>
           {/* Exercise selector */}
           <div className="mb-6">
             <label className="text-white/50 text-sm block mb-2">Select Exercise</label>
             <select
               value={selectedHistoryExercise}
               onChange={(e) => handleLoadHistory(e.target.value)}
-              className="w-full bg-[#1C1C1E] border border-white/[0.08] rounded-xl px-4 py-3 text-white"
+              className="w-full bg-[#1C1C1E] rounded-xl px-4 py-3 text-white border-0"
             >
               <option value="">Choose an exercise...</option>
               {allExercises.map(ex => (
@@ -2805,7 +2766,7 @@ export default function GymPage() {
 
           {isLoadingHistory && (
             <div className="flex justify-center py-8">
-              <div className="w-8 h-8 border-2 border-white/[0.12] border-t-green-500 rounded-full animate-spin" />
+              <div className="w-8 h-8 border-2 border-white/[0.12] border-t-[#30D158] rounded-full animate-spin" />
             </div>
           )}
 
@@ -2844,7 +2805,7 @@ export default function GymPage() {
                         <path
                           d={pathD}
                           fill="none"
-                          stroke="#22c55e"
+                          stroke="#30D158"
                           strokeWidth="2"
                           vectorEffect="non-scaling-stroke"
                         />
@@ -2855,7 +2816,7 @@ export default function GymPage() {
                             cx={p.x}
                             cy={p.y}
                             r="4"
-                            fill="#22c55e"
+                            fill="#30D158"
                             vectorEffect="non-scaling-stroke"
                           />
                         ))}

@@ -25,7 +25,9 @@ export default function GymLayout({
 }) {
   return (
     <>
+      <div style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif" }}>
       {children}
+      </div>
       <script
         dangerouslySetInnerHTML={{
           __html: `if('serviceWorker' in navigator){navigator.serviceWorker.register('/gym/sw.js',{scope:'/gym'})}`,

@@ -53,6 +53,49 @@ type View = 'cycles' | 'cycle' | 'builder' | 'exercise' | 'settings' | 'history'
 // Builder step: 1=muscle groups, 2=day type, 3=exercise selection
 type BuilderStep = 1 | 2 | 3;
 
+// Reusable Activity Ring component (like Apple Fitness)
+function ActivityRing({
+  percent,
+  size = 48,
+  color = '#30D158',
+  trackOpacity = 0.12,
+  strokeWidth,
+}: {
+  percent: number;
+  size?: number;
+  color?: string;
+  trackOpacity?: number;
+  strokeWidth?: number;
+}) {
+  const sw = strokeWidth ?? Math.max(size / 9, 3);
+  const r = (size - sw) / 2;
+  const circ = 2 * Math.PI * r;
+  const offset = circ - (Math.min(Math.max(percent, 0), 100) / 100) * circ;
+  const cx = size / 2;
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ transform: 'rotate(-90deg)' }}>
+      <circle cx={cx} cy={cx} r={r} fill="none" stroke={color} strokeWidth={sw} opacity={trackOpacity} />
+      <circle
+        cx={cx} cy={cx} r={r} fill="none" stroke={color} strokeWidth={sw}
+        strokeDasharray={circ} strokeDashoffset={offset}
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+const MUSCLE_COLORS: Record<string, string> = {
+  chest: '#0A84FF',
+  back: '#30D158',
+  shoulders: '#FF9F0A',
+  biceps: '#BF5AF2',
+  triceps: '#FF6B35',
+  legs: '#FF453A',
+  abs: '#32ADE6',
+  cardio: '#FFD60A',
+  calisthenics: '#5AC8FA',
+};
+
 export default function GymPage() {
   const program = getGymProgram();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -1158,48 +1201,51 @@ export default function GymPage() {
   // Login screen
   if (!isAuthed) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center px-4">
-        <div className="w-full max-w-sm">
-          <div className="bg-[#1C1C1E] rounded-3xl p-8 shadow-2xl shadow-black/60">
-            <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-[#30D158]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-[#30D158]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-              </div>
-              <h1 className="text-xl font-semibold text-white">Gym Tracker</h1>
-              <p className="text-white/50 text-sm mt-1">Enter password to access</p>
-            </div>
-
-            <form onSubmit={handleLogin}>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                className="w-full px-4 py-3 bg-black border border-white/[0.08] rounded-xl text-white placeholder-white/30 focus:ring-2 focus:ring-[#30D158] focus:border-transparent mb-4"
-                autoFocus
-                disabled={isAuthenticating}
-              />
-              {authError && (
-                <p className="text-[#FF453A] text-sm mb-4 text-center">{authError}</p>
-              )}
-              <button
-                type="submit"
-                disabled={isAuthenticating}
-                className="w-full bg-[#30D158] active:bg-[#25A244] disabled:opacity-40 disabled:cursor-not-allowed text-white font-medium py-3 rounded-2xl transition-colors"
-              >
-                {isAuthenticating ? 'Verifying...' : 'Enter'}
-              </button>
-            </form>
-
-            <Link
-              href="/admin"
-              className="block text-center text-white/40 hover:text-white/50 text-sm mt-4 transition-colors"
-            >
-              Back to Admin
-            </Link>
+      <div className="min-h-screen bg-black flex flex-col items-center justify-center px-6">
+        {/* Stacked activity rings — Apple Fitness style logo */}
+        <div className="relative mb-10" style={{ width: 96, height: 96 }}>
+          <div className="absolute inset-0">
+            <ActivityRing percent={82} size={96} color="#30D158" strokeWidth={8} trackOpacity={0.14} />
           </div>
+          <div className="absolute" style={{ inset: 13 }}>
+            <ActivityRing percent={61} size={70} color="#0A84FF" strokeWidth={7} trackOpacity={0.14} />
+          </div>
+          <div className="absolute" style={{ inset: 24 }}>
+            <ActivityRing percent={44} size={48} color="#FF453A" strokeWidth={6} trackOpacity={0.14} />
+          </div>
+        </div>
+
+        <h1 className="text-[32px] font-bold text-white tracking-tight mb-1">Gym Tracker</h1>
+        <p className="text-white/40 text-[15px] mb-10">Your personal training log</p>
+
+        <div className="w-full max-w-sm">
+          <form onSubmit={handleLogin} className="space-y-3">
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              className="w-full px-4 py-4 bg-[#1C1C1E] rounded-2xl text-white text-[17px] placeholder-white/25 border-0 focus:outline-none focus:ring-2 focus:ring-[#30D158]"
+              autoFocus
+              disabled={isAuthenticating}
+            />
+            {authError && (
+              <p className="text-[#FF453A] text-[13px] text-center">{authError}</p>
+            )}
+            <button
+              type="submit"
+              disabled={isAuthenticating}
+              className="w-full bg-[#30D158] active:bg-[#28BD4E] active:scale-[0.98] disabled:opacity-40 text-white text-[17px] font-semibold py-4 rounded-2xl transition-all"
+            >
+              {isAuthenticating ? 'Verifying…' : 'Sign In'}
+            </button>
+          </form>
+          <Link
+            href="/admin"
+            className="block text-center text-white/30 text-[13px] mt-5"
+          >
+            Back to Admin
+          </Link>
         </div>
       </div>
     );
@@ -1255,7 +1301,7 @@ export default function GymPage() {
           {/* Create New Cycle Button */}
           <button
             onClick={handleCreateCycle}
-            className="w-full bg-[#30D158] active:bg-[#25A244] text-white font-semibold py-4 rounded-2xl mb-6 flex items-center justify-center gap-2 transition-colors text-[17px]"
+            className="w-full bg-[#30D158] active:bg-[#28BD4E] active:scale-[0.98] text-white font-semibold text-[17px] py-4 rounded-2xl mb-6 flex items-center justify-center gap-2 transition-all shadow-lg shadow-[#30D158]/20"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
@@ -1300,76 +1346,82 @@ export default function GymPage() {
                   ) : (
                     <div className="flex">
                       <div
-                        className="flex-1 p-4 text-left hover:bg-white/[0.05] transition-colors cursor-pointer"
+                        className="flex-1 p-4 text-left active:bg-white/[0.04] transition-colors cursor-pointer"
                         onClick={() => handleSelectCycle(cycle)}
                       >
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-white font-medium">Cycle {cycle.cycleNumber}</span>
-                          <span className={`text-xs px-2 py-1 rounded-full ${
-                            cycle.status === 'active'
-                              ? 'bg-[#30D158]/20 text-[#30D158]'
-                              : 'bg-gray-600/20 text-white/50'
-                          }`}>
-                            {cycle.status === 'active' ? 'Active' : 'Completed'}
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between text-sm">
-                          {isEditingDate ? (
-                            <div
-                              className="flex items-center gap-2"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              <input
-                                type="date"
-                                value={dateInput}
-                                onChange={(e) => setDateInput(e.target.value)}
-                                className="bg-black border border-[#30D158]/40 rounded px-2 py-1 text-white text-sm"
-                                autoFocus
-                              />
-                              <button
-                                onClick={() => handleUpdateStartDate(cycle.id, dateInput)}
-                                className="text-[#30D158] hover:text-[#57E57A]"
-                              >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        <div className="flex items-center gap-4">
+                          {/* Activity ring showing completion */}
+                          <div className="flex-shrink-0 relative">
+                            <ActivityRing
+                              percent={completion}
+                              size={52}
+                              color={cycle.status === 'active' ? '#30D158' : '#8E8E93'}
+                              trackOpacity={0.12}
+                              strokeWidth={5}
+                            />
+                            {completion === 100 && (
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <svg width="16" height="16" fill="none" stroke={cycle.status === 'active' ? '#30D158' : '#8E8E93'} viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                                 </svg>
-                              </button>
-                              <button
-                                onClick={() => {
-                                  setEditingDateCycleId(null);
-                                  setDateInput('');
-                                }}
-                                className="text-white/50 hover:text-white/70"
-                              >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                              </button>
+                              </div>
+                            )}
+                            {completion < 100 && (
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <span className="text-[10px] font-bold text-white/50">{completion}%</span>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Text content */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-0.5">
+                              <span className="text-white font-semibold text-[17px]">Cycle {cycle.cycleNumber}</span>
+                              <span className={`text-[11px] px-1.5 py-0.5 rounded-full font-medium ${
+                                cycle.status === 'active'
+                                  ? 'bg-[#30D158]/20 text-[#30D158]'
+                                  : 'bg-white/[0.08] text-white/40'
+                              }`}>
+                                {cycle.status === 'active' ? 'Active' : 'Done'}
+                              </span>
                             </div>
-                          ) : (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setEditingDateCycleId(cycle.id);
-                                setDateInput(cycle.startDate);
-                              }}
-                              className="text-white/40 hover:text-[#0A84FF] transition-colors flex items-center gap-1"
-                              title="Click to edit start date"
-                            >
-                              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                              </svg>
-                              Started {cycle.startDate}
-                            </button>
-                          )}
-                          <span className="text-white/50">{completion}%</span>
-                        </div>
-                        {/* Progress bar */}
-                        <div className="mt-2 h-1.5 bg-white/[0.08] rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-[#30D158] rounded-full transition-all"
-                            style={{ width: `${completion}%` }}
-                          />
+                            {isEditingDate ? (
+                              <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                                <input
+                                  type="date"
+                                  value={dateInput}
+                                  onChange={(e) => setDateInput(e.target.value)}
+                                  className="bg-[#2C2C2E] border-0 rounded-lg px-2 py-1 text-white text-xs"
+                                  autoFocus
+                                />
+                                <button onClick={() => handleUpdateStartDate(cycle.id, dateInput)} className="text-[#30D158]">
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                  </svg>
+                                </button>
+                                <button onClick={() => { setEditingDateCycleId(null); setDateInput(''); }} className="text-white/40">
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                  </svg>
+                                </button>
+                              </div>
+                            ) : (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setEditingDateCycleId(cycle.id);
+                                  setDateInput(cycle.startDate);
+                                }}
+                                className="text-white/35 text-[13px]"
+                              >
+                                Started {cycle.startDate}
+                              </button>
+                            )}
+                          </div>
+
+                          <svg className="w-4 h-4 text-white/20 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
                         </div>
                       </div>
                       <button
@@ -1491,38 +1543,41 @@ export default function GymPage() {
                     <button
                       key={exercise.exerciseId}
                       onClick={() => handleSelectExercise(exercise, index)}
-                      className={`w-full bg-[#1C1C1E] border rounded-2xl p-4 text-left transition-colors ${
-                        isComplete ? 'border-[#30D158]/40' : 'border-white/[0.08] hover:border-white/[0.12]'
-                      }`}
+                      className="w-full bg-[#1C1C1E] rounded-2xl p-4 text-left active:bg-[#2C2C2E] transition-colors flex items-center gap-4"
                     >
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-white font-medium truncate">{exercise.exerciseName}</h3>
-                          {exercise.supersetName && (
-                            <p className="text-[#FF9F0A] text-sm truncate">+ {exercise.supersetName}</p>
-                          )}
-                        </div>
-                        <div className="flex items-center gap-3 ml-3">
-                          <span className="text-white/50 text-sm">{completedSets}/{totalSets}</span>
-                          {isComplete ? (
-                            <div className="w-8 h-8 bg-[#30D158] rounded-full flex items-center justify-center">
-                              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                              </svg>
-                            </div>
-                          ) : (
-                            <svg className="w-5 h-5 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                            </svg>
-                          )}
-                        </div>
-                      </div>
-                      <div className="h-1.5 bg-white/[0.08] rounded-full overflow-hidden">
-                        <div
-                          className={`h-full rounded-full transition-all ${isComplete ? 'bg-[#30D158]' : 'bg-[#30D158]'}`}
-                          style={{ width: `${(completedSets / totalSets) * 100}%` }}
+                      {/* Activity ring */}
+                      <div className="flex-shrink-0 relative">
+                        <ActivityRing
+                          percent={(completedSets / totalSets) * 100}
+                          size={44}
+                          color="#30D158"
+                          trackOpacity={0.1}
+                          strokeWidth={4}
                         />
+                        {isComplete && (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <svg width="14" height="14" fill="none" stroke="#30D158" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                        )}
+                        {!isComplete && (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="text-[10px] font-bold text-white/40">{completedSets}</span>
+                          </div>
+                        )}
                       </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-white font-semibold text-[17px] truncate">{exercise.exerciseName}</h3>
+                        {exercise.supersetName ? (
+                          <p className="text-[#FF9F0A] text-[13px] truncate mt-0.5">+ {exercise.supersetName}</p>
+                        ) : (
+                          <p className="text-white/35 text-[13px] mt-0.5">{completedSets} of {totalSets} sets</p>
+                        )}
+                      </div>
+                      <svg className="w-4 h-4 text-white/20 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
                     </button>
                   );
                 })}
@@ -1533,7 +1588,7 @@ export default function GymPage() {
             <div className="space-y-6">
               <button
                 onClick={startBuilder}
-                className="w-full bg-[#30D158] active:bg-[#25A244] text-white font-semibold py-4 rounded-2xl transition-colors flex items-center justify-center gap-2"
+                className="w-full bg-[#30D158] active:bg-[#28BD4E] active:scale-[0.98] text-white font-semibold text-[17px] py-5 rounded-2xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#30D158]/20"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -1552,26 +1607,25 @@ export default function GymPage() {
                         return (
                           <div
                             key={workout.id ?? workout.workoutDate}
-                            className="bg-[#1C1C1E] rounded-2xl p-4"
+                            className="bg-[#1C1C1E] rounded-2xl p-4 flex items-center gap-4"
                           >
-                            <div className="flex items-center justify-between mb-2">
-                              <div>
-                                <p className="text-white font-medium">{workout.dayName}</p>
-                                <p className="text-white/40 text-xs">{workout.workoutDate}</p>
-                              </div>
-                              <span className={`text-sm font-medium ${completion === 100 ? 'text-[#30D158]' : 'text-white/50'}`}>
-                                {completion}%
-                              </span>
+                            <div className="flex-shrink-0 relative">
+                              <ActivityRing percent={completion} size={44} color="#30D158" trackOpacity={0.1} strokeWidth={4} />
+                              {completion === 100 && (
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                  <svg width="14" height="14" fill="none" stroke="#30D158" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                                  </svg>
+                                </div>
+                              )}
                             </div>
-                            <div className="h-1.5 bg-white/[0.08] rounded-full overflow-hidden">
-                              <div
-                                className="h-full bg-[#30D158] rounded-full"
-                                style={{ width: `${completion}%` }}
-                              />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-white font-semibold text-[15px]">{workout.dayName}</p>
+                              <p className="text-white/35 text-[12px] mt-0.5">{workout.workoutDate}</p>
+                              <p className="text-white/25 text-[11px] mt-1 truncate">
+                                {workout.exercises.map((e: { exerciseName: string }) => e.exerciseName).join(' · ')}
+                              </p>
                             </div>
-                            <p className="text-white/40 text-xs mt-2">
-                              {workout.exercises.map(e => e.exerciseName).join(', ')}
-                            </p>
                           </div>
                         );
                       })}
@@ -1679,19 +1733,36 @@ export default function GymPage() {
               <div className="grid grid-cols-2 gap-3">
                 {gymExercises.muscleGroups.map(group => {
                   const isSelected = selectedMuscleGroups.includes(group.id);
+                  const accentColor = MUSCLE_COLORS[group.id] || '#30D158';
                   return (
                     <button
                       key={group.id}
                       onClick={() => toggleMuscleGroup(group.id)}
-                      className={`p-4 rounded-2xl border text-left transition-all ${
-                        isSelected
-                          ? 'bg-[#30D158]/20 border-[#30D158] text-white'
-                          : 'bg-[#1C1C1E] border-white/[0.08] text-white/70 hover:border-white/30'
+                      className={`p-4 rounded-2xl text-left transition-all active:scale-[0.96] relative overflow-hidden ${
+                        isSelected ? 'bg-[#1C1C1E]' : 'bg-[#1C1C1E]'
                       }`}
+                      style={isSelected ? { boxShadow: `0 0 0 1.5px ${accentColor}` } : {}}
                     >
-                      <div className="text-2xl mb-2">{group.icon}</div>
-                      <div className="font-medium">{group.name}</div>
-                      <div className="text-xs text-white/40 mt-0.5">{group.exercises.length} exercises</div>
+                      {/* iOS app icon style */}
+                      <div
+                        className="w-12 h-12 rounded-xl flex items-center justify-center mb-3"
+                        style={{ backgroundColor: isSelected ? accentColor : `${accentColor}22` }}
+                      >
+                        <span className="text-[24px] leading-none">{group.icon}</span>
+                      </div>
+                      <div className="font-semibold text-white text-[15px]">{group.name}</div>
+                      <div className="text-[12px] text-white/35 mt-0.5">{group.exercises.length} exercises</div>
+                      {/* Selection checkmark */}
+                      {isSelected && (
+                        <div
+                          className="absolute top-3 right-3 w-5 h-5 rounded-full flex items-center justify-center"
+                          style={{ backgroundColor: accentColor }}
+                        >
+                          <svg width="10" height="10" fill="none" stroke="white" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                          </svg>
+                        </div>
+                      )}
                     </button>
                   );
                 })}
@@ -1837,7 +1908,7 @@ export default function GymPage() {
                 (builderStep === 1 && selectedMuscleGroups.length === 0) ||
                 (builderStep === 2 && !selectedDayType)
               }
-              className="w-full bg-[#30D158] active:bg-[#25A244] disabled:opacity-30 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-2xl transition-colors"
+              className="w-full bg-[#30D158] active:bg-[#28BD4E] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed text-white font-semibold text-[17px] py-4 rounded-2xl transition-all"
             >
               Continue
             </button>
@@ -1845,7 +1916,7 @@ export default function GymPage() {
             <button
               onClick={startWorkout}
               disabled={builderSelectedExercises.length === 0}
-              className="w-full bg-[#30D158] active:bg-[#25A244] disabled:opacity-30 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-2xl transition-colors"
+              className="w-full bg-[#30D158] active:bg-[#28BD4E] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed text-white font-semibold text-[17px] py-4 rounded-2xl transition-all"
             >
               {builderSelectedExercises.length === 0
                 ? 'Select at least one exercise'
@@ -1913,6 +1984,38 @@ export default function GymPage() {
             <p className="text-white/40 text-sm mt-1">{programExercise.notes}</p>
           )}
         </div>
+
+        {/* Prominent rest timer banner */}
+        {restTimeRemaining > 0 && (
+          <div
+            className="mx-4 mt-3 rounded-2xl px-4 py-3 flex items-center justify-between"
+            style={{
+              backgroundColor: restTimeRemaining <= 10 ? 'rgba(255,69,58,0.12)' : restTimeRemaining <= 30 ? 'rgba(255,214,10,0.08)' : 'rgba(48,209,88,0.08)',
+            }}
+          >
+            <div className="flex items-center gap-2.5">
+              <div
+                className="w-2 h-2 rounded-full animate-pulse"
+                style={{ backgroundColor: restTimeRemaining <= 10 ? '#FF453A' : restTimeRemaining <= 30 ? '#FFD60A' : '#30D158' }}
+              />
+              <span className="text-white/60 text-[14px] font-medium">Rest</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span
+                className="text-[28px] font-bold tracking-tight tabular-nums"
+                style={{ color: restTimeRemaining <= 10 ? '#FF453A' : restTimeRemaining <= 30 ? '#FFD60A' : '#30D158' }}
+              >
+                {restTimeRemaining}s
+              </span>
+              <button
+                onClick={clearRestTimer}
+                className="text-white/35 text-[13px] font-medium"
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        )}
 
         <main className="px-4 pt-4 pb-24">
           {/* Training Max — Hero display */}
@@ -2456,7 +2559,7 @@ export default function GymPage() {
                 </button>
 
                 {isExpanded && (
-                <div className="border-t border-white/[0.08] p-4 space-y-3">
+                <div className="border-t border-white/[0.05] px-4 pt-4 pb-2 space-y-3">
                   {group.exercises.map(exercise => {
                     const settings = exerciseSettings.get(exercise.id);
                     const tm = trainingMaxes.get(exercise.id) || 0;
@@ -2466,7 +2569,7 @@ export default function GymPage() {
                     return (
                       <div
                         key={exercise.id}
-                        className="bg-[#1C1C1E] rounded-2xl overflow-hidden"
+                        className="bg-black/20 rounded-2xl overflow-hidden border border-white/[0.05]"
                       >
                         {/* Exercise header */}
                         <div className="p-4">

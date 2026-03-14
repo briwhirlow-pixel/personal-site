@@ -1149,8 +1149,8 @@ export default function GymPage() {
   // Loading state
   if (!isLoaded) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-white/20 border-t-green-500 rounded-full animate-spin" />
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-white/[0.12] border-t-green-500 rounded-full animate-spin" />
       </div>
     );
   }
@@ -1158,17 +1158,17 @@ export default function GymPage() {
   // Login screen
   if (!isAuthed) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-black flex items-center justify-center px-4">
         <div className="w-full max-w-sm">
-          <div className="bg-[#1a1a24] rounded-2xl p-8 shadow-xl border border-white/10">
+          <div className="bg-[#1C1C1E] rounded-3xl p-8 shadow-2xl shadow-black/60">
             <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-green-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-16 h-16 bg-[#30D158]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-[#30D158]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
               <h1 className="text-xl font-semibold text-white">Gym Tracker</h1>
-              <p className="text-gray-400 text-sm mt-1">Enter password to access</p>
+              <p className="text-white/50 text-sm mt-1">Enter password to access</p>
             </div>
 
             <form onSubmit={handleLogin}>
@@ -1177,17 +1177,17 @@ export default function GymPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
-                className="w-full px-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-green-500 focus:border-transparent mb-4"
+                className="w-full px-4 py-3 bg-black border border-white/[0.08] rounded-xl text-white placeholder-white/30 focus:ring-2 focus:ring-[#30D158] focus:border-transparent mb-4"
                 autoFocus
                 disabled={isAuthenticating}
               />
               {authError && (
-                <p className="text-red-400 text-sm mb-4 text-center">{authError}</p>
+                <p className="text-[#FF453A] text-sm mb-4 text-center">{authError}</p>
               )}
               <button
                 type="submit"
                 disabled={isAuthenticating}
-                className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-800 disabled:cursor-not-allowed text-white font-medium py-3 rounded-lg transition-colors"
+                className="w-full bg-[#30D158] active:bg-[#25A244] disabled:opacity-40 disabled:cursor-not-allowed text-white font-medium py-3 rounded-2xl transition-colors"
               >
                 {isAuthenticating ? 'Verifying...' : 'Enter'}
               </button>
@@ -1195,7 +1195,7 @@ export default function GymPage() {
 
             <Link
               href="/admin"
-              className="block text-center text-gray-500 hover:text-gray-400 text-sm mt-4 transition-colors"
+              className="block text-center text-white/40 hover:text-white/50 text-sm mt-4 transition-colors"
             >
               Back to Admin
             </Link>
@@ -1208,20 +1208,20 @@ export default function GymPage() {
   // Cycles list view
   if (view === 'cycles') {
     return (
-      <div className="min-h-screen bg-[#0a0a0f]">
+      <div className="min-h-screen bg-black">
         {/* Header */}
-        <header className="bg-[#0a0a0f] border-b border-white/10 sticky top-0 z-10">
+        <header className="backdrop-blur-xl bg-black/80 border-b border-white/[0.06] sticky top-0 z-10">
           <div className="px-4 py-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <h1 className="text-xl font-bold text-white">Manage Cycles</h1>
               {profileName && (
-                <span className="text-xs text-gray-500 bg-white/5 px-2 py-0.5 rounded-full">{profileName}</span>
+                <span className="text-xs text-white/40 bg-white/[0.05] px-2 py-0.5 rounded-full">{profileName}</span>
               )}
             </div>
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setView('history')}
-                className="text-gray-500 hover:text-white transition-colors"
+                className="text-white/40 hover:text-white transition-colors"
                 title="TM History"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1230,7 +1230,7 @@ export default function GymPage() {
               </button>
               <button
                 onClick={() => setView('settings')}
-                className="text-gray-500 hover:text-white transition-colors"
+                className="text-white/40 hover:text-white transition-colors"
                 title="Program Settings"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1240,13 +1240,13 @@ export default function GymPage() {
               </button>
               <button
                 onClick={handleLogout}
-                className="text-gray-500 hover:text-red-400 transition-colors"
+                className="text-white/40 hover:text-[#FF453A] transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
               </button>
-              <Link href="/admin" className="text-gray-500 hover:text-white transition-colors">
+              <Link href="/admin" className="text-white/40 hover:text-white transition-colors">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -1256,8 +1256,8 @@ export default function GymPage() {
         </header>
 
         {error && (
-          <div className="bg-red-600/20 border-b border-red-600/30 px-4 py-2">
-            <p className="text-red-400 text-sm text-center">{error}</p>
+          <div className="bg-[#FF453A]/15 border-b border-[#FF453A]/25 px-4 py-2">
+            <p className="text-[#FF453A] text-sm text-center">{error}</p>
           </div>
         )}
 
@@ -1265,7 +1265,7 @@ export default function GymPage() {
           {/* Create New Cycle Button */}
           <button
             onClick={handleCreateCycle}
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-4 rounded-xl mb-6 flex items-center justify-center gap-2 transition-colors"
+            className="w-full bg-[#30D158] active:bg-[#25A244] text-white font-medium py-4 rounded-xl mb-6 flex items-center justify-center gap-2 transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -1284,24 +1284,24 @@ export default function GymPage() {
               return (
                 <div
                   key={cycle.id}
-                  className="bg-[#1a1a24] border border-white/10 rounded-xl overflow-hidden"
+                  className="bg-[#1C1C1E] rounded-2xl overflow-hidden"
                 >
                   {isConfirmingDelete ? (
                     <div className="p-4">
                       <p className="text-white mb-3">Delete Cycle {cycle.cycleNumber}?</p>
-                      <p className="text-gray-500 text-sm mb-4">This will delete all workout logs for this cycle. This action cannot be undone.</p>
+                      <p className="text-white/40 text-sm mb-4">This will delete all workout logs for this cycle. This action cannot be undone.</p>
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleDeleteCycle(cycle.id)}
                           disabled={isDeleting}
-                          className="flex-1 bg-red-600 hover:bg-red-700 disabled:bg-red-800 text-white py-2 rounded-lg text-sm font-medium transition-colors"
+                          className="flex-1 bg-[#FF453A] active:bg-[#D93830] disabled:opacity-40 text-white py-2 rounded-xl text-sm font-medium transition-colors"
                         >
                           {isDeleting ? 'Deleting...' : 'Delete'}
                         </button>
                         <button
                           onClick={() => setDeletingCycleId(null)}
                           disabled={isDeleting}
-                          className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg text-sm transition-colors"
+                          className="flex-1 bg-[#3A3A3C] hover:bg-[#48484A] text-white py-2 rounded-xl text-sm transition-colors"
                         >
                           Cancel
                         </button>
@@ -1310,15 +1310,15 @@ export default function GymPage() {
                   ) : (
                     <div className="flex">
                       <div
-                        className="flex-1 p-4 text-left hover:bg-white/5 transition-colors cursor-pointer"
+                        className="flex-1 p-4 text-left hover:bg-white/[0.05] transition-colors cursor-pointer"
                         onClick={() => handleSelectCycle(cycle)}
                       >
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-white font-medium">Cycle {cycle.cycleNumber}</span>
                           <span className={`text-xs px-2 py-1 rounded-full ${
                             cycle.status === 'active'
-                              ? 'bg-green-600/20 text-green-400'
-                              : 'bg-gray-600/20 text-gray-400'
+                              ? 'bg-[#30D158]/20 text-[#30D158]'
+                              : 'bg-gray-600/20 text-white/50'
                           }`}>
                             {cycle.status === 'active' ? 'Active' : 'Completed'}
                           </span>
@@ -1333,12 +1333,12 @@ export default function GymPage() {
                                 type="date"
                                 value={dateInput}
                                 onChange={(e) => setDateInput(e.target.value)}
-                                className="bg-[#0a0a0f] border border-green-500/50 rounded px-2 py-1 text-white text-sm"
+                                className="bg-black border border-[#30D158]/40 rounded px-2 py-1 text-white text-sm"
                                 autoFocus
                               />
                               <button
                                 onClick={() => handleUpdateStartDate(cycle.id, dateInput)}
-                                className="text-green-400 hover:text-green-300"
+                                className="text-[#30D158] hover:text-[#57E57A]"
                               >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -1349,7 +1349,7 @@ export default function GymPage() {
                                   setEditingDateCycleId(null);
                                   setDateInput('');
                                 }}
-                                className="text-gray-400 hover:text-gray-300"
+                                className="text-white/50 hover:text-white/70"
                               >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -1363,7 +1363,7 @@ export default function GymPage() {
                                 setEditingDateCycleId(cycle.id);
                                 setDateInput(cycle.startDate);
                               }}
-                              className="text-gray-500 hover:text-blue-400 transition-colors flex items-center gap-1"
+                              className="text-white/40 hover:text-[#0A84FF] transition-colors flex items-center gap-1"
                               title="Click to edit start date"
                             >
                               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1372,19 +1372,19 @@ export default function GymPage() {
                               Started {cycle.startDate}
                             </button>
                           )}
-                          <span className="text-gray-400">{completion}%</span>
+                          <span className="text-white/50">{completion}%</span>
                         </div>
                         {/* Progress bar */}
-                        <div className="mt-2 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                        <div className="mt-2 h-1.5 bg-white/[0.08] rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-green-500 rounded-full transition-all"
+                            className="h-full bg-[#30D158] rounded-full transition-all"
                             style={{ width: `${completion}%` }}
                           />
                         </div>
                       </div>
                       <button
                         onClick={() => setDeletingCycleId(cycle.id)}
-                        className="px-4 text-gray-500 hover:text-red-400 hover:bg-red-600/10 transition-colors border-l border-white/10"
+                        className="px-4 text-white/40 hover:text-[#FF453A] hover:bg-[#FF453A]/10 transition-colors border-l border-white/[0.08]"
                         title="Delete cycle"
                       >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1399,7 +1399,7 @@ export default function GymPage() {
 
             {cycles.length === 0 && (
               <div className="text-center py-12">
-                <p className="text-gray-500">No cycles yet. Start your first cycle!</p>
+                <p className="text-white/40">No cycles yet. Start your first cycle!</p>
               </div>
             )}
           </div>
@@ -1421,13 +1421,13 @@ export default function GymPage() {
     };
 
     return (
-      <div className="min-h-screen bg-[#0a0a0f]">
-        <header className="bg-[#0a0a0f] border-b border-white/10 sticky top-0 z-10">
+      <div className="min-h-screen bg-black">
+        <header className="backdrop-blur-xl bg-black/80 border-b border-white/[0.06] sticky top-0 z-10">
           <div className="px-4 py-4">
             <div className="flex items-center justify-between">
               <button
                 onClick={handleBackToCycles}
-                className="text-gray-400 hover:text-white transition-colors flex items-center gap-1"
+                className="text-[#0A84FF] transition-colors flex items-center gap-1"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -1440,10 +1440,10 @@ export default function GymPage() {
                     onClick={clearRestTimer}
                     className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium transition-all ${
                       restTimeRemaining <= 10
-                        ? 'bg-red-600/20 text-red-400 border border-red-500/50'
+                        ? 'bg-[#FF453A]/15 text-[#FF453A] border border-[#FF453A]/40'
                         : restTimeRemaining <= 30
-                        ? 'bg-yellow-600/20 text-yellow-400 border border-yellow-500/50'
-                        : 'bg-green-600/20 text-green-400 border border-green-500/50'
+                        ? 'bg-[#FFD60A]/15 text-[#FFD60A] border border-yellow-500/50'
+                        : 'bg-[#30D158]/20 text-[#30D158] border border-[#30D158]/40'
                     }`}
                     title="Click to dismiss"
                   >
@@ -1454,15 +1454,15 @@ export default function GymPage() {
                   </button>
                 )}
                 {isSaving && (
-                  <span className="text-green-400 text-xs flex items-center gap-1">
-                    <div className="w-3 h-3 border border-green-400 border-t-transparent rounded-full animate-spin" />
+                  <span className="text-[#30D158] text-xs flex items-center gap-1">
+                    <div className="w-3 h-3 border border-[#30D158] border-t-transparent rounded-full animate-spin" />
                     Saving
                   </span>
                 )}
                 {activeCycle.status === 'active' && (
                   <button
                     onClick={handleCompleteCycle}
-                    className="text-xs bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg transition-colors"
+                    className="text-xs bg-[#30D158] active:bg-[#25A244] text-white px-3 py-1.5 rounded-2xl transition-colors"
                   >
                     Complete Cycle
                   </button>
@@ -1474,8 +1474,8 @@ export default function GymPage() {
         </header>
 
         {error && (
-          <div className="bg-red-600/20 border-b border-red-600/30 px-4 py-2">
-            <p className="text-red-400 text-sm text-center">{error}</p>
+          <div className="bg-[#FF453A]/15 border-b border-[#FF453A]/25 px-4 py-2">
+            <p className="text-[#FF453A] text-sm text-center">{error}</p>
           </div>
         )}
 
@@ -1486,11 +1486,11 @@ export default function GymPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-white font-semibold">{currentWorkout.dayName}</h2>
-                  <p className="text-gray-500 text-sm">{currentWorkout.workoutDate}</p>
+                  <p className="text-white/40 text-sm">{currentWorkout.workoutDate}</p>
                 </div>
                 <button
                   onClick={startBuilder}
-                  className="text-xs text-gray-400 hover:text-white border border-white/10 px-3 py-1.5 rounded-lg transition-colors"
+                  className="text-xs text-white/50 hover:text-white border border-white/[0.08] px-3 py-1.5 rounded-2xl transition-colors"
                 >
                   New Workout
                 </button>
@@ -1504,35 +1504,35 @@ export default function GymPage() {
                     <button
                       key={exercise.exerciseId}
                       onClick={() => handleSelectExercise(exercise, index)}
-                      className={`w-full bg-[#1a1a24] border rounded-xl p-4 text-left transition-colors ${
-                        isComplete ? 'border-green-500/50' : 'border-white/10 hover:border-white/20'
+                      className={`w-full bg-[#1C1C1E] border rounded-2xl p-4 text-left transition-colors ${
+                        isComplete ? 'border-[#30D158]/40' : 'border-white/[0.08] hover:border-white/[0.12]'
                       }`}
                     >
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex-1 min-w-0">
                           <h3 className="text-white font-medium truncate">{exercise.exerciseName}</h3>
                           {exercise.supersetName && (
-                            <p className="text-orange-400 text-sm truncate">+ {exercise.supersetName}</p>
+                            <p className="text-[#FF9F0A] text-sm truncate">+ {exercise.supersetName}</p>
                           )}
                         </div>
                         <div className="flex items-center gap-3 ml-3">
-                          <span className="text-gray-400 text-sm">{completedSets}/{totalSets}</span>
+                          <span className="text-white/50 text-sm">{completedSets}/{totalSets}</span>
                           {isComplete ? (
-                            <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                            <div className="w-8 h-8 bg-[#30D158] rounded-full flex items-center justify-center">
                               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                               </svg>
                             </div>
                           ) : (
-                            <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
                           )}
                         </div>
                       </div>
-                      <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-1.5 bg-white/[0.08] rounded-full overflow-hidden">
                         <div
-                          className={`h-full rounded-full transition-all ${isComplete ? 'bg-green-500' : 'bg-green-600'}`}
+                          className={`h-full rounded-full transition-all ${isComplete ? 'bg-[#30D158]' : 'bg-[#30D158]'}`}
                           style={{ width: `${(completedSets / totalSets) * 100}%` }}
                         />
                       </div>
@@ -1546,7 +1546,7 @@ export default function GymPage() {
             <div className="space-y-6">
               <button
                 onClick={startBuilder}
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 rounded-xl transition-colors flex items-center justify-center gap-2"
+                className="w-full bg-[#30D158] active:bg-[#25A244] text-white font-semibold py-4 rounded-2xl transition-colors flex items-center justify-center gap-2"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -1556,7 +1556,7 @@ export default function GymPage() {
 
               {activeCycle.workouts.length > 0 && (
                 <div>
-                  <h3 className="text-gray-400 text-sm font-medium uppercase tracking-wider mb-3">This Cycle</h3>
+                  <h3 className="text-white/50 text-sm font-medium uppercase tracking-wider mb-3">This Cycle</h3>
                   <div className="space-y-2">
                     {[...activeCycle.workouts]
                       .sort((a, b) => new Date(b.workoutDate).getTime() - new Date(a.workoutDate).getTime())
@@ -1565,24 +1565,24 @@ export default function GymPage() {
                         return (
                           <div
                             key={workout.id ?? workout.workoutDate}
-                            className="bg-[#1a1a24] border border-white/10 rounded-xl p-4"
+                            className="bg-[#1C1C1E] rounded-2xl p-4"
                           >
                             <div className="flex items-center justify-between mb-2">
                               <div>
                                 <p className="text-white font-medium">{workout.dayName}</p>
-                                <p className="text-gray-500 text-xs">{workout.workoutDate}</p>
+                                <p className="text-white/40 text-xs">{workout.workoutDate}</p>
                               </div>
-                              <span className={`text-sm font-medium ${completion === 100 ? 'text-green-400' : 'text-gray-400'}`}>
+                              <span className={`text-sm font-medium ${completion === 100 ? 'text-[#30D158]' : 'text-white/50'}`}>
                                 {completion}%
                               </span>
                             </div>
-                            <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+                            <div className="h-1.5 bg-white/[0.08] rounded-full overflow-hidden">
                               <div
-                                className="h-full bg-green-600 rounded-full"
+                                className="h-full bg-[#30D158] rounded-full"
                                 style={{ width: `${completion}%` }}
                               />
                             </div>
-                            <p className="text-gray-500 text-xs mt-2">
+                            <p className="text-white/40 text-xs mt-2">
                               {workout.exercises.map(e => e.exerciseName).join(', ')}
                             </p>
                           </div>
@@ -1652,8 +1652,8 @@ export default function GymPage() {
     };
 
     return (
-      <div className="min-h-screen bg-[#0a0a0f]">
-        <header className="bg-[#0a0a0f] border-b border-white/10 sticky top-0 z-10">
+      <div className="min-h-screen bg-black">
+        <header className="backdrop-blur-xl bg-black/80 border-b border-white/[0.06] sticky top-0 z-10">
           <div className="px-4 py-4 flex items-center justify-between">
             <button
               onClick={() => {
@@ -1663,7 +1663,7 @@ export default function GymPage() {
                   setBuilderStep((builderStep - 1) as BuilderStep);
                 }
               }}
-              className="text-gray-400 hover:text-white transition-colors flex items-center gap-1"
+              className="text-[#0A84FF] transition-colors flex items-center gap-1"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -1675,7 +1675,7 @@ export default function GymPage() {
                 <div
                   key={step}
                   className={`h-1.5 w-8 rounded-full transition-colors ${
-                    step <= builderStep ? 'bg-green-500' : 'bg-white/10'
+                    step <= builderStep ? 'bg-[#30D158]' : 'bg-white/[0.08]'
                   }`}
                 />
               ))}
@@ -1688,7 +1688,7 @@ export default function GymPage() {
           {builderStep === 1 && (
             <div>
               <h2 className="text-2xl font-bold text-white mb-1">What are you training?</h2>
-              <p className="text-gray-400 mb-6">Select one or more muscle groups</p>
+              <p className="text-white/50 mb-6">Select one or more muscle groups</p>
               <div className="grid grid-cols-2 gap-3">
                 {gymExercises.muscleGroups.map(group => {
                   const isSelected = selectedMuscleGroups.includes(group.id);
@@ -1696,15 +1696,15 @@ export default function GymPage() {
                     <button
                       key={group.id}
                       onClick={() => toggleMuscleGroup(group.id)}
-                      className={`p-4 rounded-xl border text-left transition-all ${
+                      className={`p-4 rounded-2xl border text-left transition-all ${
                         isSelected
-                          ? 'bg-green-600/20 border-green-500 text-white'
-                          : 'bg-[#1a1a24] border-white/10 text-gray-300 hover:border-white/30'
+                          ? 'bg-[#30D158]/20 border-[#30D158] text-white'
+                          : 'bg-[#1C1C1E] border-white/[0.08] text-white/70 hover:border-white/30'
                       }`}
                     >
                       <div className="text-2xl mb-2">{group.icon}</div>
                       <div className="font-medium">{group.name}</div>
-                      <div className="text-xs text-gray-500 mt-0.5">{group.exercises.length} exercises</div>
+                      <div className="text-xs text-white/40 mt-0.5">{group.exercises.length} exercises</div>
                     </button>
                   );
                 })}
@@ -1716,7 +1716,7 @@ export default function GymPage() {
           {builderStep === 2 && (
             <div>
               <h2 className="text-2xl font-bold text-white mb-1">What kind of day?</h2>
-              <p className="text-gray-400 mb-6">Choose your training focus</p>
+              <p className="text-white/50 mb-6">Choose your training focus</p>
               <div className="space-y-3">
                 {gymExercises.dayTypes.map(dayType => {
                   const isSelected = selectedDayType === dayType.id;
@@ -1727,19 +1727,19 @@ export default function GymPage() {
                     <button
                       key={dayType.id}
                       onClick={() => setSelectedDayType(dayType.id as 'rep' | 'strength')}
-                      className={`w-full p-5 rounded-xl border text-left transition-all ${
+                      className={`w-full p-5 rounded-2xl border text-left transition-all ${
                         isSelected
-                          ? 'bg-green-600/20 border-green-500'
-                          : 'bg-[#1a1a24] border-white/10 hover:border-white/30'
+                          ? 'bg-[#30D158]/20 border-[#30D158]'
+                          : 'bg-[#1C1C1E] border-white/[0.08] hover:border-white/30'
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <div>
                           <h3 className="text-white font-semibold text-lg">{dayType.name}</h3>
-                          <p className="text-gray-400 text-sm mt-0.5">{dayType.description}</p>
+                          <p className="text-white/50 text-sm mt-0.5">{dayType.description}</p>
                         </div>
                         {isSelected && (
-                          <div className="w-6 h-6 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+                          <div className="w-6 h-6 bg-[#30D158] rounded-full flex items-center justify-center flex-shrink-0">
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
@@ -1747,7 +1747,7 @@ export default function GymPage() {
                         )}
                       </div>
                       <div className={`mt-3 inline-block px-3 py-1 rounded-full text-xs font-medium ${
-                        dayType.id === 'rep' ? 'bg-blue-600/20 text-blue-400' : 'bg-orange-600/20 text-orange-400'
+                        dayType.id === 'rep' ? 'bg-[#0A84FF]/15 text-[#0A84FF]' : 'bg-[#FF9F0A]/15 text-[#FF9F0A]'
                       }`}>
                         Default: {config.label}
                       </div>
@@ -1762,7 +1762,7 @@ export default function GymPage() {
           {builderStep === 3 && (
             <div>
               <h2 className="text-2xl font-bold text-white mb-1">Pick your exercises</h2>
-              <p className="text-gray-400 mb-6">
+              <p className="text-white/50 mb-6">
                 {builderSelectedExercises.length > 0
                   ? `${builderSelectedExercises.length} selected`
                   : 'Tap to add an exercise'}
@@ -1776,8 +1776,8 @@ export default function GymPage() {
                   return (
                     <div
                       key={exercise.id}
-                      className={`bg-[#1a1a24] border rounded-xl overflow-hidden transition-all ${
-                        isSelected ? 'border-green-500/70' : 'border-white/10'
+                      className={`bg-[#1C1C1E] border rounded-2xl overflow-hidden transition-all ${
+                        isSelected ? 'border-[#30D158]/50' : 'border-white/[0.08]'
                       }`}
                     >
                       <button
@@ -1785,22 +1785,22 @@ export default function GymPage() {
                         className="w-full p-4 text-left flex items-center gap-3"
                       >
                         {/* Exercise image / placeholder */}
-                        <div className="w-14 h-14 bg-white/5 rounded-lg flex-shrink-0 overflow-hidden flex items-center justify-center">
+                        <div className="w-14 h-14 bg-white/[0.05] rounded-xl flex-shrink-0 overflow-hidden flex items-center justify-center">
                           {imageUrl ? (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img src={imageUrl} alt={exercise.name} className="w-full h-full object-cover" />
                           ) : (
-                            <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-6 h-6 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
                             </svg>
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-white font-medium truncate">{exercise.name}</p>
-                          <p className="text-gray-500 text-xs capitalize">{exercise.equipment}</p>
+                          <p className="text-white/40 text-xs capitalize">{exercise.equipment}</p>
                         </div>
                         <div className={`w-6 h-6 rounded-full border flex-shrink-0 flex items-center justify-center ${
-                          isSelected ? 'bg-green-600 border-green-600' : 'border-white/20'
+                          isSelected ? 'bg-[#30D158] border-[#30D158]' : 'border-white/[0.12]'
                         }`}>
                           {isSelected && (
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1813,15 +1813,15 @@ export default function GymPage() {
                       {/* Set count picker — shown only when selected */}
                       {isSelected && (
                         <div className="px-4 pb-4 flex items-center gap-3">
-                          <span className="text-gray-400 text-sm">Sets:</span>
+                          <span className="text-white/50 text-sm">Sets:</span>
                           {[1, 2, 3, 4].map(n => (
                             <button
                               key={n}
                               onClick={() => setExerciseSetCounts(prev => new Map(prev).set(exercise.id, n))}
-                              className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${
+                              className={`w-8 h-8 rounded-xl text-sm font-medium transition-colors ${
                                 setCount === n
-                                  ? 'bg-green-600 text-white'
-                                  : 'bg-white/10 text-gray-400 hover:bg-white/20'
+                                  ? 'bg-[#30D158] text-white'
+                                  : 'bg-white/[0.08] text-white/50 hover:bg-white/20'
                               }`}
                             >
                               {n}
@@ -1850,7 +1850,7 @@ export default function GymPage() {
                 (builderStep === 1 && selectedMuscleGroups.length === 0) ||
                 (builderStep === 2 && !selectedDayType)
               }
-              className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-900 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-xl transition-colors"
+              className="w-full bg-[#30D158] active:bg-[#25A244] disabled:opacity-30 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-2xl transition-colors"
             >
               Continue
             </button>
@@ -1858,7 +1858,7 @@ export default function GymPage() {
             <button
               onClick={startWorkout}
               disabled={builderSelectedExercises.length === 0}
-              className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-900 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-xl transition-colors"
+              className="w-full bg-[#30D158] active:bg-[#25A244] disabled:opacity-30 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-2xl transition-colors"
             >
               {builderSelectedExercises.length === 0
                 ? 'Select at least one exercise'
@@ -1877,14 +1877,14 @@ export default function GymPage() {
     const programExercise = { notes: exercise.notes ?? null };
 
     return (
-      <div className="min-h-screen bg-[#0a0a0f]">
+      <div className="min-h-screen bg-black">
         {/* Header */}
-        <header className="bg-[#0a0a0f] border-b border-white/10 sticky top-0 z-10">
+        <header className="backdrop-blur-xl bg-black/80 border-b border-white/[0.06] sticky top-0 z-10">
           <div className="px-4 py-4">
             <div className="flex items-center justify-between mb-2">
               <button
                 onClick={handleBackToCycle}
-                className="text-gray-400 hover:text-white transition-colors flex items-center gap-1"
+                className="text-[#0A84FF] transition-colors flex items-center gap-1"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -1898,10 +1898,10 @@ export default function GymPage() {
                     onClick={clearRestTimer}
                     className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium transition-all ${
                       restTimeRemaining <= 10
-                        ? 'bg-red-600/20 text-red-400 border border-red-500/50'
+                        ? 'bg-[#FF453A]/15 text-[#FF453A] border border-[#FF453A]/40'
                         : restTimeRemaining <= 30
-                        ? 'bg-yellow-600/20 text-yellow-400 border border-yellow-500/50'
-                        : 'bg-green-600/20 text-green-400 border border-green-500/50'
+                        ? 'bg-[#FFD60A]/15 text-[#FFD60A] border border-yellow-500/50'
+                        : 'bg-[#30D158]/20 text-[#30D158] border border-[#30D158]/40'
                     }`}
                     title="Click to dismiss"
                   >
@@ -1912,8 +1912,8 @@ export default function GymPage() {
                   </button>
                 )}
                 {isSaving && (
-                  <span className="text-green-400 text-xs flex items-center gap-1">
-                    <div className="w-3 h-3 border border-green-400 border-t-transparent rounded-full animate-spin" />
+                  <span className="text-[#30D158] text-xs flex items-center gap-1">
+                    <div className="w-3 h-3 border border-[#30D158] border-t-transparent rounded-full animate-spin" />
                     Saving
                   </span>
                 )}
@@ -1921,28 +1921,28 @@ export default function GymPage() {
             </div>
             <h1 className="text-xl font-bold text-white">{exercise.exerciseName}</h1>
             {programExercise?.notes && (
-              <p className="text-gray-500 text-sm mt-1">{programExercise.notes}</p>
+              <p className="text-white/40 text-sm mt-1">{programExercise.notes}</p>
             )}
           </div>
         </header>
 
         <main className="px-4 py-6 pb-24">
           {/* Training Max */}
-          <div className="bg-[#1a1a24] border border-white/10 rounded-xl p-4 mb-6">
+          <div className="bg-[#1C1C1E] rounded-2xl p-4 mb-6">
             <div className="flex items-center justify-between">
-              <span className="text-gray-400 text-sm">Training Max</span>
+              <span className="text-white/50 text-sm">Training Max</span>
               {editingTM === exercise.exerciseId ? (
                 <div className="flex items-center gap-2">
                   <input
                     type="number"
                     value={tmInput}
                     onChange={(e) => setTmInput(e.target.value)}
-                    className="w-24 bg-[#0a0a0f] border border-white/20 rounded px-2 py-1 text-white text-right"
+                    className="w-24 bg-black border border-white/[0.12] rounded px-2 py-1 text-white text-right"
                     autoFocus
                   />
                   <button
                     onClick={() => handleSaveTrainingMax(exercise.exerciseId, parseFloat(tmInput))}
-                    className="text-green-400 hover:text-green-300"
+                    className="text-[#30D158] hover:text-[#57E57A]"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -1950,7 +1950,7 @@ export default function GymPage() {
                   </button>
                   <button
                     onClick={() => { setEditingTM(null); setTmInput(''); }}
-                    className="text-gray-400 hover:text-gray-300"
+                    className="text-white/50 hover:text-white/70"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -1963,7 +1963,7 @@ export default function GymPage() {
                     setEditingTM(exercise.exerciseId);
                     setTmInput(exercise.trainingMax.toString());
                   }}
-                  className="text-2xl font-bold text-white hover:text-green-400 transition-colors"
+                  className="text-2xl font-bold text-white hover:text-[#30D158] transition-colors"
                 >
                   {exercise.trainingMax > 0 ? `${exercise.trainingMax} lbs` : 'Set TM'}
                 </button>
@@ -1974,10 +1974,10 @@ export default function GymPage() {
           {/* History Button */}
           <button
             onClick={() => handleLoadExerciseHistory(exercise.exerciseId, selectedDay)}
-            className={`w-full mb-6 flex items-center justify-center gap-2 py-3 rounded-xl border transition-colors ${
+            className={`w-full mb-6 flex items-center justify-center gap-2 py-3 rounded-2xl border transition-colors ${
               showExerciseHistory
-                ? 'bg-blue-600/20 border-blue-500/50 text-blue-400'
-                : 'bg-[#1a1a24] border-white/10 text-gray-400 hover:text-white hover:border-white/20'
+                ? 'bg-[#0A84FF]/15 border-[#0A84FF]/40 text-[#0A84FF]'
+                : 'bg-[#1C1C1E] border-white/[0.08] text-white/50 hover:text-white hover:border-white/[0.12]'
             }`}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1988,26 +1988,26 @@ export default function GymPage() {
 
           {/* Exercise History Panel */}
           {showExerciseHistory && (
-            <div className="mb-6 bg-[#1a1a24] border border-blue-500/30 rounded-xl p-4">
+            <div className="mb-6 bg-[#1C1C1E] border border-[#0A84FF]/25 rounded-2xl p-4">
               {isLoadingExerciseHistory ? (
                 <div className="flex items-center justify-center py-4">
-                  <div className="w-5 h-5 border-2 border-blue-400/30 border-t-blue-400 rounded-full animate-spin" />
-                  <span className="text-gray-400 text-sm ml-2">Loading history...</span>
+                  <div className="w-5 h-5 border-2 border-[#0A84FF]/25 border-t-blue-400 rounded-full animate-spin" />
+                  <span className="text-white/50 text-sm ml-2">Loading history...</span>
                 </div>
               ) : exerciseHistory ? (
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
-                      <span className="text-blue-400 text-sm font-medium">
+                      <span className="text-[#0A84FF] text-sm font-medium">
                         Cycle {exerciseHistory.cycleNumber}
                       </span>
                       {exerciseHistory.trainingMax != null && exerciseHistory.trainingMax > 0 && (
-                        <span className="text-gray-400 text-xs">
+                        <span className="text-white/50 text-xs">
                           TM: {exerciseHistory.trainingMax} lbs
                         </span>
                       )}
                     </div>
-                    <span className="text-gray-500 text-xs">
+                    <span className="text-white/40 text-xs">
                       {new Date(exerciseHistory.workoutDate + 'T00:00:00').toLocaleDateString('en-US', {
                         month: 'short', day: 'numeric', year: 'numeric'
                       })}
@@ -2020,21 +2020,21 @@ export default function GymPage() {
                       return (
                       <div
                         key={i}
-                        className={`flex items-center justify-between py-2 px-3 rounded-lg ${
-                          isFailed ? 'bg-red-600/10 border border-red-500/20' : 'bg-white/5'
+                        className={`flex items-center justify-between py-2 px-3 rounded-xl ${
+                          isFailed ? 'bg-[#FF453A]/10 border border-red-500/20' : 'bg-white/[0.05]'
                         }`}
                       >
                         <div className="flex items-center gap-3">
-                          <span className="text-gray-500 text-xs w-10">Set {set.setNumber}</span>
+                          <span className="text-white/40 text-xs w-10">Set {set.setNumber}</span>
                           {isSkipped ? (
-                            <span className="text-xs bg-red-600/20 text-red-400 px-1.5 py-0.5 rounded">SKIP</span>
+                            <span className="text-xs bg-[#FF453A]/15 text-[#FF453A] px-1.5 py-0.5 rounded">SKIP</span>
                           ) : set.failed ? (
-                            <span className="text-xs bg-red-600/20 text-red-400 px-1.5 py-0.5 rounded">FAIL</span>
+                            <span className="text-xs bg-[#FF453A]/15 text-[#FF453A] px-1.5 py-0.5 rounded">FAIL</span>
                           ) : (
-                            <span className="text-xs bg-green-600/20 text-green-400 px-1.5 py-0.5 rounded">PASS</span>
+                            <span className="text-xs bg-[#30D158]/20 text-[#30D158] px-1.5 py-0.5 rounded">PASS</span>
                           )}
                           {set.isAmrap && (
-                            <span className="text-xs bg-orange-600/20 text-orange-400 px-1.5 py-0.5 rounded">AMRAP</span>
+                            <span className="text-xs bg-[#FF9F0A]/15 text-[#FF9F0A] px-1.5 py-0.5 rounded">AMRAP</span>
                           )}
                         </div>
                         <span className="text-white text-sm">
@@ -2044,13 +2044,13 @@ export default function GymPage() {
                       );
                     })}
                     {exerciseHistory.sets.length === 0 && (
-                      <p className="text-gray-500 text-sm text-center py-2">No sets recorded</p>
+                      <p className="text-white/40 text-sm text-center py-2">No sets recorded</p>
                     )}
                   </div>
                   {/* Superset history */}
                   {exerciseHistory.supersetName && exerciseHistory.supersetSets && exerciseHistory.supersetSets.length > 0 && (
-                    <div className="mt-3 pt-3 border-t border-white/10">
-                      <span className="text-orange-400 text-xs font-medium block mb-2">
+                    <div className="mt-3 pt-3 border-t border-white/[0.08]">
+                      <span className="text-[#FF9F0A] text-xs font-medium block mb-2">
                         Superset: {exerciseHistory.supersetName}
                       </span>
                       <div className="space-y-2">
@@ -2060,18 +2060,18 @@ export default function GymPage() {
                           return (
                           <div
                             key={i}
-                            className={`flex items-center justify-between py-2 px-3 rounded-lg ${
-                              isFailed ? 'bg-red-600/10 border border-red-500/20' : 'bg-white/5'
+                            className={`flex items-center justify-between py-2 px-3 rounded-xl ${
+                              isFailed ? 'bg-[#FF453A]/10 border border-red-500/20' : 'bg-white/[0.05]'
                             }`}
                           >
                             <div className="flex items-center gap-3">
-                              <span className="text-gray-500 text-xs w-10">Set {set.setNumber}</span>
+                              <span className="text-white/40 text-xs w-10">Set {set.setNumber}</span>
                               {isSkipped ? (
-                                <span className="text-xs bg-red-600/20 text-red-400 px-1.5 py-0.5 rounded">SKIP</span>
+                                <span className="text-xs bg-[#FF453A]/15 text-[#FF453A] px-1.5 py-0.5 rounded">SKIP</span>
                               ) : set.failed ? (
-                                <span className="text-xs bg-red-600/20 text-red-400 px-1.5 py-0.5 rounded">FAIL</span>
+                                <span className="text-xs bg-[#FF453A]/15 text-[#FF453A] px-1.5 py-0.5 rounded">FAIL</span>
                               ) : (
-                                <span className="text-xs bg-green-600/20 text-green-400 px-1.5 py-0.5 rounded">PASS</span>
+                                <span className="text-xs bg-[#30D158]/20 text-[#30D158] px-1.5 py-0.5 rounded">PASS</span>
                               )}
                             </div>
                             <span className="text-white text-sm">
@@ -2085,14 +2085,14 @@ export default function GymPage() {
                   )}
                 </div>
               ) : (
-                <p className="text-gray-500 text-sm text-center py-4">No previous data found for this exercise</p>
+                <p className="text-white/40 text-sm text-center py-4">No previous data found for this exercise</p>
               )}
             </div>
           )}
 
           {/* Working Sets */}
           <div className="mb-6">
-            <h2 className="text-gray-400 text-sm mb-3">Sets</h2>
+            <h2 className="text-white/50 text-sm mb-3">Sets</h2>
             <div className="space-y-3">
               {exercise.sets.map((set, setIndex) => {
                 // Determine set type styling
@@ -2103,44 +2103,44 @@ export default function GymPage() {
                 return (
                 <div
                   key={set.setNumber}
-                  className={`bg-[#1a1a24] border rounded-xl p-4 transition-colors ${
+                  className={`bg-[#1C1C1E] border rounded-2xl p-4 transition-colors ${
                     set.failed
-                      ? 'border-red-500/50'
+                      ? 'border-[#FF453A]/40'
                       : set.completed
                       ? isWarmup
-                        ? 'border-blue-500/50'
+                        ? 'border-[#0A84FF]/40'
                         : isBurnout
-                        ? 'border-purple-500/50'
-                        : 'border-green-500/50'
-                      : 'border-white/10'
+                        ? 'border-[#BF5AF2]/40'
+                        : 'border-[#30D158]/40'
+                      : 'border-white/[0.08]'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <span className="text-gray-500 text-sm">Set {set.setNumber}</span>
+                      <span className="text-white/40 text-sm">Set {set.setNumber}</span>
                       {set.failed && (
-                        <span className="text-xs bg-red-600/20 text-red-400 px-2 py-0.5 rounded">FAILED</span>
+                        <span className="text-xs bg-[#FF453A]/15 text-[#FF453A] px-2 py-0.5 rounded">FAILED</span>
                       )}
                       {isWarmup && !set.failed && (
-                        <span className="text-xs bg-blue-600/20 text-blue-400 px-2 py-0.5 rounded">WARM-UP</span>
+                        <span className="text-xs bg-[#0A84FF]/15 text-[#0A84FF] px-2 py-0.5 rounded">WARM-UP</span>
                       )}
                       {isBurnout && !set.failed && (
-                        <span className="text-xs bg-purple-600/20 text-purple-400 px-2 py-0.5 rounded">
+                        <span className="text-xs bg-[#BF5AF2]/20 text-[#BF5AF2] px-2 py-0.5 rounded">
                           {setType === 'dropset' ? 'DROP SET' : 'BURNOUT'}
                         </span>
                       )}
                       {set.isAmrap && !set.failed && (
-                        <span className="text-xs bg-orange-600/20 text-orange-400 px-2 py-0.5 rounded">AMRAP</span>
+                        <span className="text-xs bg-[#FF9F0A]/15 text-[#FF9F0A] px-2 py-0.5 rounded">AMRAP</span>
                       )}
                     </div>
-                    <span className="text-gray-400 text-sm">
+                    <span className="text-white/50 text-sm">
                       {set.targetReps} × {set.targetWeight} lbs ({set.targetPercent}%)
                     </span>
                   </div>
 
                   <div className="flex items-center gap-3">
                     <div className="flex-1">
-                      <label className="text-gray-500 text-xs block mb-1">Reps</label>
+                      <label className="text-white/40 text-xs block mb-1">Reps</label>
                       <input
                         type="number"
                         value={set.actualReps ?? ''}
@@ -2151,11 +2151,11 @@ export default function GymPage() {
                           e.target.value ? parseInt(e.target.value) : null
                         )}
                         placeholder={set.targetReps.toString()}
-                        className="w-full bg-[#0a0a0f] border border-white/10 rounded-lg px-3 py-2 text-white text-center focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        className="w-full bg-black border border-white/[0.08] rounded-xl px-3 py-2 text-white text-center focus:ring-2 focus:ring-[#30D158] focus:border-transparent"
                       />
                     </div>
                     <div className="flex-1">
-                      <label className="text-gray-500 text-xs block mb-1">Weight</label>
+                      <label className="text-white/40 text-xs block mb-1">Weight</label>
                       <input
                         type="number"
                         value={set.actualWeight ?? ''}
@@ -2166,7 +2166,7 @@ export default function GymPage() {
                           e.target.value ? parseFloat(e.target.value) : null
                         )}
                         placeholder={set.targetWeight.toString()}
-                        className="w-full bg-[#0a0a0f] border border-white/10 rounded-lg px-3 py-2 text-white text-center focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        className="w-full bg-black border border-white/[0.08] rounded-xl px-3 py-2 text-white text-center focus:ring-2 focus:ring-[#30D158] focus:border-transparent"
                       />
                     </div>
                     {/* Pass/Fail buttons */}
@@ -2184,9 +2184,9 @@ export default function GymPage() {
                             ? isWarmup
                               ? 'bg-blue-600 text-white'
                               : isBurnout
-                              ? 'bg-purple-600 text-white'
-                              : 'bg-green-600 text-white'
-                            : 'bg-white/10 text-gray-400 hover:bg-green-600/50 hover:text-white'
+                              ? 'bg-[#BF5AF2] text-white'
+                              : 'bg-[#30D158] text-white'
+                            : 'bg-white/[0.08] text-white/50 hover:bg-[#30D158]/50 hover:text-white'
                         }`}
                         title="Pass"
                       >
@@ -2204,8 +2204,8 @@ export default function GymPage() {
                         )}
                         className={`w-11 h-11 rounded-full flex items-center justify-center transition-all ${
                           set.failed
-                            ? 'bg-red-600 text-white'
-                            : 'bg-white/10 text-gray-400 hover:bg-red-600/50 hover:text-white'
+                            ? 'bg-[#FF453A] text-white'
+                            : 'bg-white/[0.08] text-white/50 hover:bg-[#FF453A]/50 hover:text-white'
                         }`}
                         title="Fail (prevents TM increase)"
                       >
@@ -2225,10 +2225,10 @@ export default function GymPage() {
           {exercise.supersetName && exercise.supersetSets && (
             <div>
               {/* Superset header with TM */}
-              <div className="bg-[#1a1a24] border border-white/10 rounded-xl p-4 mb-3">
+              <div className="bg-[#1C1C1E] rounded-2xl p-4 mb-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-orange-400 text-sm font-medium">Superset:</span>
+                    <span className="text-[#FF9F0A] text-sm font-medium">Superset:</span>
                     <span className="text-white font-medium">{exercise.supersetName}</span>
                   </div>
                   {exercise.supersetId && (() => {
@@ -2240,12 +2240,12 @@ export default function GymPage() {
                           type="number"
                           value={tmInput}
                           onChange={(e) => setTmInput(e.target.value)}
-                          className="w-24 bg-[#0a0a0f] border border-orange-500/30 rounded px-2 py-1 text-white text-right"
+                          className="w-24 bg-black border border-[#FF9F0A]/25 rounded px-2 py-1 text-white text-right"
                           autoFocus
                         />
                         <button
                           onClick={() => handleSaveTrainingMax(exercise.supersetId!, parseFloat(tmInput))}
-                          className="text-orange-400 hover:text-orange-300"
+                          className="text-[#FF9F0A] hover:text-[#FFB340]"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -2253,7 +2253,7 @@ export default function GymPage() {
                         </button>
                         <button
                           onClick={() => { setEditingTM(null); setTmInput(''); }}
-                          className="text-gray-400 hover:text-gray-300"
+                          className="text-white/50 hover:text-white/70"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -2266,7 +2266,7 @@ export default function GymPage() {
                           setEditingTM(exercise.supersetId!);
                           setTmInput(supersetTm.toString());
                         }}
-                        className="text-orange-400 font-bold hover:text-orange-300 transition-colors"
+                        className="text-[#FF9F0A] font-bold hover:text-[#FFB340] transition-colors"
                       >
                         {supersetTm > 0 ? `TM: ${supersetTm} lbs` : 'Set TM'}
                       </button>
@@ -2278,29 +2278,29 @@ export default function GymPage() {
                 {exercise.supersetSets.map((set, setIndex) => (
                   <div
                     key={set.setNumber}
-                    className={`bg-[#1a1a24] border rounded-xl p-4 transition-colors ${
+                    className={`bg-[#1C1C1E] border rounded-2xl p-4 transition-colors ${
                       set.failed
-                        ? 'border-red-500/50'
+                        ? 'border-[#FF453A]/40'
                         : set.completed
-                        ? 'border-orange-500/50'
-                        : 'border-white/10'
+                        ? 'border-[#FF9F0A]/40'
+                        : 'border-white/[0.08]'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2">
-                        <span className="text-gray-500 text-sm">Set {set.setNumber}</span>
+                        <span className="text-white/40 text-sm">Set {set.setNumber}</span>
                         {set.failed && (
-                          <span className="text-xs bg-red-600/20 text-red-400 px-2 py-0.5 rounded">FAILED</span>
+                          <span className="text-xs bg-[#FF453A]/15 text-[#FF453A] px-2 py-0.5 rounded">FAILED</span>
                         )}
                       </div>
-                      <span className="text-gray-400 text-sm">
+                      <span className="text-white/50 text-sm">
                         {set.targetReps} × {set.targetWeight} lbs
                       </span>
                     </div>
 
                     <div className="flex items-center gap-3">
                       <div className="flex-1">
-                        <label className="text-gray-500 text-xs block mb-1">Reps</label>
+                        <label className="text-white/40 text-xs block mb-1">Reps</label>
                         <input
                           type="number"
                           value={set.actualReps ?? ''}
@@ -2311,11 +2311,11 @@ export default function GymPage() {
                             e.target.value ? parseInt(e.target.value) : null
                           )}
                           placeholder={set.targetReps.toString()}
-                          className="w-full bg-[#0a0a0f] border border-orange-500/30 rounded-lg px-3 py-2 text-white text-center focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          className="w-full bg-black border border-[#FF9F0A]/25 rounded-xl px-3 py-2 text-white text-center focus:ring-2 focus:ring-[#FF9F0A] focus:border-transparent"
                         />
                       </div>
                       <div className="flex-1">
-                        <label className="text-gray-500 text-xs block mb-1">Weight</label>
+                        <label className="text-white/40 text-xs block mb-1">Weight</label>
                         <input
                           type="number"
                           value={set.actualWeight ?? ''}
@@ -2326,7 +2326,7 @@ export default function GymPage() {
                             e.target.value ? parseFloat(e.target.value) : null
                           )}
                           placeholder={set.targetWeight.toString()}
-                          className="w-full bg-[#0a0a0f] border border-orange-500/30 rounded-lg px-3 py-2 text-white text-center focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          className="w-full bg-black border border-[#FF9F0A]/25 rounded-xl px-3 py-2 text-white text-center focus:ring-2 focus:ring-[#FF9F0A] focus:border-transparent"
                         />
                       </div>
                       {/* Pass/Fail buttons */}
@@ -2342,7 +2342,7 @@ export default function GymPage() {
                           className={`w-11 h-11 rounded-full flex items-center justify-center transition-all ${
                             set.completed && !set.failed
                               ? 'bg-orange-600 text-white'
-                              : 'bg-white/10 text-gray-400 hover:bg-orange-600/50 hover:text-white'
+                              : 'bg-white/[0.08] text-white/50 hover:bg-orange-600/50 hover:text-white'
                           }`}
                           title="Pass"
                         >
@@ -2360,8 +2360,8 @@ export default function GymPage() {
                           )}
                           className={`w-11 h-11 rounded-full flex items-center justify-center transition-all ${
                             set.failed
-                              ? 'bg-red-600 text-white'
-                              : 'bg-white/10 text-gray-400 hover:bg-red-600/50 hover:text-white'
+                              ? 'bg-[#FF453A] text-white'
+                              : 'bg-white/[0.08] text-white/50 hover:bg-[#FF453A]/50 hover:text-white'
                           }`}
                           title="Fail (prevents TM increase)"
                         >
@@ -2389,14 +2389,14 @@ export default function GymPage() {
     };
 
     return (
-      <div className="min-h-screen bg-[#0a0a0f]">
+      <div className="min-h-screen bg-black">
         {/* Header */}
-        <header className="bg-[#0a0a0f] border-b border-white/10 sticky top-0 z-10">
+        <header className="backdrop-blur-xl bg-black/80 border-b border-white/[0.06] sticky top-0 z-10">
           <div className="px-4 py-4">
             <div className="flex items-center justify-between mb-2">
               <button
                 onClick={() => setView('cycles')}
-                className="text-gray-400 hover:text-white transition-colors flex items-center gap-1"
+                className="text-[#0A84FF] transition-colors flex items-center gap-1"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -2405,27 +2405,27 @@ export default function GymPage() {
               </button>
             </div>
             <h1 className="text-xl font-bold text-white">Program Settings</h1>
-            <p className="text-gray-500 text-sm">Edit training maxes, supersets, and progression</p>
+            <p className="text-white/40 text-sm">Edit training maxes, supersets, and progression</p>
           </div>
         </header>
 
         {error && (
-          <div className="bg-red-600/20 border-b border-red-600/30 px-4 py-2">
-            <p className="text-red-400 text-sm text-center">{error}</p>
+          <div className="bg-[#FF453A]/15 border-b border-[#FF453A]/25 px-4 py-2">
+            <p className="text-[#FF453A] text-sm text-center">{error}</p>
           </div>
         )}
 
         <main className="px-4 py-6 pb-24">
           {/* Seed Data Button */}
-          <div className="bg-[#1a1a24] border border-white/10 rounded-xl p-4 mb-6">
+          <div className="bg-[#1C1C1E] rounded-2xl p-4 mb-6">
             <h3 className="text-white font-medium mb-2">Initial Data Setup</h3>
-            <p className="text-gray-500 text-sm mb-3">
+            <p className="text-white/40 text-sm mb-3">
               Load your training maxes and exercise settings. This will overwrite existing values.
             </p>
             <button
               onClick={handleSeedGymData}
               disabled={isSeeding}
-              className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-purple-800 disabled:cursor-not-allowed text-white font-medium py-3 rounded-lg flex items-center justify-center gap-2 transition-colors"
+              className="w-full bg-[#BF5AF2] active:bg-[#A044D4] disabled:opacity-40 disabled:cursor-not-allowed text-white font-medium py-3 rounded-xl flex items-center justify-center gap-2 transition-colors"
             >
               {isSeeding ? (
                 <>
@@ -2442,16 +2442,16 @@ export default function GymPage() {
               )}
             </button>
             {seedResult && (
-              <p className={`text-sm mt-2 ${seedResult.includes('Failed') ? 'text-red-400' : 'text-green-400'}`}>
+              <p className={`text-sm mt-2 ${seedResult.includes('Failed') ? 'text-[#FF453A]' : 'text-[#30D158]'}`}>
                 {seedResult}
               </p>
             )}
           </div>
 
           {/* Info card */}
-          <div className="bg-blue-600/10 border border-blue-500/30 rounded-xl p-4 mb-6">
-            <h3 className="text-blue-400 font-medium text-sm mb-2">Quick Reference</h3>
-            <ul className="text-gray-400 text-xs space-y-1">
+          <div className="bg-[#0A84FF]/10 border border-[#0A84FF]/25 rounded-2xl p-4 mb-6">
+            <h3 className="text-[#0A84FF] font-medium text-sm mb-2">Quick Reference</h3>
+            <ul className="text-white/50 text-xs space-y-1">
               <li>• <span className="text-white">Training Max</span>: Base weight for calculating sets</li>
               <li>• <span className="text-white">Superset</span>: Pair exercises to perform back-to-back</li>
               <li>• <span className="text-white">TM Bump</span>: Weight added after completing a cycle</li>
@@ -2475,18 +2475,18 @@ export default function GymPage() {
               };
 
               return (
-              <div key={group.id} className="bg-[#1a1a24] border border-white/10 rounded-xl overflow-hidden">
+              <div key={group.id} className="bg-[#1C1C1E] rounded-2xl overflow-hidden">
                 <button
                   onClick={toggleGroup}
-                  className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors"
+                  className="w-full flex items-center justify-between p-4 hover:bg-white/[0.05] transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <span className="text-lg">{group.icon}</span>
                     <h2 className="text-white font-medium">{group.name}</h2>
-                    <span className="text-gray-500 text-sm">({group.exercises.length} exercises)</span>
+                    <span className="text-white/40 text-sm">({group.exercises.length} exercises)</span>
                   </div>
                   <svg
-                    className={`w-5 h-5 text-gray-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+                    className={`w-5 h-5 text-white/50 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -2496,7 +2496,7 @@ export default function GymPage() {
                 </button>
 
                 {isExpanded && (
-                <div className="border-t border-white/10 p-4 space-y-3">
+                <div className="border-t border-white/[0.08] p-4 space-y-3">
                   {group.exercises.map(exercise => {
                     const settings = exerciseSettings.get(exercise.id);
                     const tm = trainingMaxes.get(exercise.id) || 0;
@@ -2506,14 +2506,14 @@ export default function GymPage() {
                     return (
                       <div
                         key={exercise.id}
-                        className="bg-[#1a1a24] border border-white/10 rounded-xl overflow-hidden"
+                        className="bg-[#1C1C1E] rounded-2xl overflow-hidden"
                       >
                         {/* Exercise header */}
                         <div className="p-4">
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex-1 min-w-0">
                               <h3 className="text-white font-medium truncate">{exercise.name}</h3>
-                              <p className="text-gray-500 text-xs capitalize">{exercise.equipment}</p>
+                              <p className="text-white/40 text-xs capitalize">{exercise.equipment}</p>
                             </div>
                             <div className="text-right ml-3">
                               {isEditingTM ? (
@@ -2522,7 +2522,7 @@ export default function GymPage() {
                                     type="number"
                                     value={tmInput}
                                     onChange={(e) => setTmInput(e.target.value)}
-                                    className="w-20 bg-[#0a0a0f] border border-green-500/50 rounded px-2 py-1 text-white text-right text-sm"
+                                    className="w-20 bg-black border border-[#30D158]/40 rounded px-2 py-1 text-white text-right text-sm"
                                     autoFocus
                                     onKeyDown={(e) => {
                                       if (e.key === 'Enter') {
@@ -2535,7 +2535,7 @@ export default function GymPage() {
                                   />
                                   <button
                                     onClick={() => handleSaveTrainingMax(exercise.id, parseFloat(tmInput))}
-                                    className="text-green-400 hover:text-green-300"
+                                    className="text-[#30D158] hover:text-[#57E57A]"
                                   >
                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -2543,7 +2543,7 @@ export default function GymPage() {
                                   </button>
                                   <button
                                     onClick={() => { setEditingTM(null); setTmInput(''); }}
-                                    className="text-gray-400 hover:text-gray-300"
+                                    className="text-white/50 hover:text-white/70"
                                   >
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -2558,10 +2558,10 @@ export default function GymPage() {
                                   }}
                                   className="group"
                                 >
-                                  <div className="text-green-400 font-bold group-hover:text-green-300 transition-colors">
+                                  <div className="text-[#30D158] font-bold group-hover:text-[#57E57A] transition-colors">
                                     {tm > 0 ? `${tm} lbs` : 'Set TM'}
                                   </div>
-                                  <div className="text-gray-500 text-xs group-hover:text-gray-400">
+                                  <div className="text-white/40 text-xs group-hover:text-white/50">
                                     Training Max
                                   </div>
                                 </button>
@@ -2572,18 +2572,18 @@ export default function GymPage() {
                           {/* Settings tags */}
                           <div className="flex flex-wrap gap-2 text-xs mt-3">
                             {(settings?.targetSets || settings?.targetReps) && (
-                              <span className="bg-yellow-600/20 text-yellow-400 px-2 py-1 rounded">
+                              <span className="bg-[#FFD60A]/15 text-[#FFD60A] px-2 py-1 rounded">
                                 {settings?.targetSets ?? '—'}x{settings?.targetReps ?? '—'}
                               </span>
                             )}
-                            <span className="bg-gray-700/50 text-gray-300 px-2 py-1 rounded">
+                            <span className="bg-[#3A3A3C]/50 text-white/70 px-2 py-1 rounded">
                               Base: {settings?.basePercent ?? DEFAULT_EXERCISE_SETTINGS.basePercent}%
                             </span>
-                            <span className="bg-gray-700/50 text-gray-300 px-2 py-1 rounded">
+                            <span className="bg-[#3A3A3C]/50 text-white/70 px-2 py-1 rounded">
                               TM +{settings?.tmIncrement ?? DEFAULT_EXERCISE_SETTINGS.tmIncrement} lbs
                             </span>
                             {settings?.autoProgress === false && (
-                              <span className="bg-red-600/20 text-red-400 px-2 py-1 rounded">
+                              <span className="bg-[#FF453A]/15 text-[#FF453A] px-2 py-1 rounded">
                                 No auto-progress
                               </span>
                             )}
@@ -2595,7 +2595,7 @@ export default function GymPage() {
                               exerciseId: exercise.id,
                               ...DEFAULT_EXERCISE_SETTINGS
                             })}
-                            className="text-xs text-blue-400 hover:text-blue-300 mt-2"
+                            className="text-xs text-[#0A84FF] hover:text-[#3D9BFF] mt-2"
                           >
                             {isEditing ? 'Editing...' : 'Edit Progression Settings'}
                           </button>
@@ -2603,11 +2603,11 @@ export default function GymPage() {
 
                         {/* Edit form */}
                         {isEditing && editingSettings && (
-                          <div className="border-t border-white/10 bg-[#0a0a0f] p-4 space-y-4">
+                          <div className="border-t border-white/[0.08] bg-black p-4 space-y-4">
                             {/* Sets/Reps Override */}
                             <div className="grid grid-cols-2 gap-4">
                               <div>
-                                <label className="text-gray-400 text-xs block mb-1">Sets override</label>
+                                <label className="text-white/50 text-xs block mb-1">Sets override</label>
                                 <input
                                   type="number"
                                   min="1"
@@ -2618,11 +2618,11 @@ export default function GymPage() {
                                     targetSets: e.target.value ? parseInt(e.target.value) : null
                                   })}
                                   placeholder="default"
-                                  className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm"
+                                  className="w-full bg-[#2C2C2E] border border-white/[0.08] rounded px-3 py-2 text-white text-sm"
                                 />
                               </div>
                               <div>
-                                <label className="text-gray-400 text-xs block mb-1">Reps override</label>
+                                <label className="text-white/50 text-xs block mb-1">Reps override</label>
                                 <input
                                   type="number"
                                   min="1"
@@ -2633,7 +2633,7 @@ export default function GymPage() {
                                     targetReps: e.target.value ? parseInt(e.target.value) : null
                                   })}
                                   placeholder="default"
-                                  className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm"
+                                  className="w-full bg-[#2C2C2E] border border-white/[0.08] rounded px-3 py-2 text-white text-sm"
                                 />
                               </div>
                             </div>
@@ -2641,7 +2641,7 @@ export default function GymPage() {
                             {/* Percentage Settings */}
                             <div className="grid grid-cols-2 gap-4">
                               <div>
-                                <label className="text-gray-400 text-xs block mb-1">Base Percentage (%)</label>
+                                <label className="text-white/50 text-xs block mb-1">Base Percentage (%)</label>
                                 <input
                                   type="number"
                                   step="2.5"
@@ -2650,11 +2650,11 @@ export default function GymPage() {
                                     ...editingSettings,
                                     basePercent: parseFloat(e.target.value) || 75
                                   })}
-                                  className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm"
+                                  className="w-full bg-[#2C2C2E] border border-white/[0.08] rounded px-3 py-2 text-white text-sm"
                                 />
                               </div>
                               <div>
-                                <label className="text-gray-400 text-xs block mb-1">TM Bump (lbs)</label>
+                                <label className="text-white/50 text-xs block mb-1">TM Bump (lbs)</label>
                                 <input
                                   type="number"
                                   step="2.5"
@@ -2663,7 +2663,7 @@ export default function GymPage() {
                                     ...editingSettings,
                                     tmIncrement: parseFloat(e.target.value) || 5
                                   })}
-                                  className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm"
+                                  className="w-full bg-[#2C2C2E] border border-white/[0.08] rounded px-3 py-2 text-white text-sm"
                                 />
                               </div>
                             </div>
@@ -2676,21 +2676,21 @@ export default function GymPage() {
                                   ...editingSettings,
                                   autoProgress: e.target.checked
                                 })}
-                                className="w-4 h-4 rounded bg-gray-700 border-gray-600 text-green-500"
+                                className="w-4 h-4 rounded bg-[#3A3A3C] border-transparent text-[#30D158]"
                               />
-                              <span className="text-gray-300 text-sm">Auto-progress TM on cycle complete</span>
+                              <span className="text-white/70 text-sm">Auto-progress TM on cycle complete</span>
                             </label>
 
                             <div className="flex gap-2">
                               <button
                                 onClick={() => handleSaveSettings(editingSettings)}
-                                className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg text-sm font-medium"
+                                className="flex-1 bg-[#30D158] active:bg-[#25A244] text-white py-2 rounded-xl text-sm font-medium"
                               >
                                 Save
                               </button>
                               <button
                                 onClick={() => setEditingSettings(null)}
-                                className="px-4 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg text-sm"
+                                className="px-4 bg-[#3A3A3C] hover:bg-[#48484A] text-white py-2 rounded-xl text-sm"
                               >
                                 Cancel
                               </button>
@@ -2759,14 +2759,14 @@ export default function GymPage() {
       : '';
 
     return (
-      <div className="min-h-screen bg-[#0a0a0f]">
+      <div className="min-h-screen bg-black">
         {/* Header */}
-        <header className="bg-[#0a0a0f] border-b border-white/10 sticky top-0 z-10">
+        <header className="backdrop-blur-xl bg-black/80 border-b border-white/[0.06] sticky top-0 z-10">
           <div className="px-4 py-4">
             <div className="flex items-center justify-between mb-2">
               <button
                 onClick={() => setView('cycles')}
-                className="text-gray-400 hover:text-white transition-colors flex items-center gap-1"
+                className="text-[#0A84FF] transition-colors flex items-center gap-1"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -2775,24 +2775,24 @@ export default function GymPage() {
               </button>
             </div>
             <h1 className="text-xl font-bold text-white">Training Max History</h1>
-            <p className="text-gray-500 text-sm">Track your progression over time</p>
+            <p className="text-white/40 text-sm">Track your progression over time</p>
           </div>
         </header>
 
         {error && (
-          <div className="bg-red-600/20 border-b border-red-600/30 px-4 py-2">
-            <p className="text-red-400 text-sm text-center">{error}</p>
+          <div className="bg-[#FF453A]/15 border-b border-[#FF453A]/25 px-4 py-2">
+            <p className="text-[#FF453A] text-sm text-center">{error}</p>
           </div>
         )}
 
         <main className="px-4 py-6 pb-24">
           {/* Exercise selector */}
           <div className="mb-6">
-            <label className="text-gray-400 text-sm block mb-2">Select Exercise</label>
+            <label className="text-white/50 text-sm block mb-2">Select Exercise</label>
             <select
               value={selectedHistoryExercise}
               onChange={(e) => handleLoadHistory(e.target.value)}
-              className="w-full bg-[#1a1a24] border border-white/10 rounded-xl px-4 py-3 text-white"
+              className="w-full bg-[#1C1C1E] border border-white/[0.08] rounded-xl px-4 py-3 text-white"
             >
               <option value="">Choose an exercise...</option>
               {allExercises.map(ex => (
@@ -2805,21 +2805,21 @@ export default function GymPage() {
 
           {isLoadingHistory && (
             <div className="flex justify-center py-8">
-              <div className="w-8 h-8 border-2 border-white/20 border-t-green-500 rounded-full animate-spin" />
+              <div className="w-8 h-8 border-2 border-white/[0.12] border-t-green-500 rounded-full animate-spin" />
             </div>
           )}
 
           {selectedHistoryExercise && !isLoadingHistory && (
             <>
               {/* Chart */}
-              <div className="bg-[#1a1a24] border border-white/10 rounded-xl p-4 mb-6">
+              <div className="bg-[#1C1C1E] rounded-2xl p-4 mb-6">
                 <h3 className="text-white font-medium mb-1">Training Max Progression</h3>
-                <p className="text-green-400 text-sm mb-4">{selectedExInfo?.name}</p>
+                <p className="text-[#30D158] text-sm mb-4">{selectedExInfo?.name}</p>
 
                 {sortedHistory.length > 0 ? (
                   <div className="relative" style={{ height: chartHeight }}>
                     {/* Y-axis labels */}
-                    <div className="absolute left-0 top-0 bottom-0 w-12 flex flex-col justify-between text-gray-500 text-xs">
+                    <div className="absolute left-0 top-0 bottom-0 w-12 flex flex-col justify-between text-white/40 text-xs">
                       <span>{maxWeight}</span>
                       <span>{Math.round((maxWeight + minWeight) / 2)}</span>
                       <span>{minWeight}</span>
@@ -2864,7 +2864,7 @@ export default function GymPage() {
 
                     {/* X-axis labels */}
                     {sortedHistory.length > 0 && (
-                      <div className="ml-14 mt-2 flex justify-between text-gray-500 text-xs">
+                      <div className="ml-14 mt-2 flex justify-between text-white/40 text-xs">
                         <span>
                           {new Date(sortedHistory[0].recordedAt).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: '2-digit' })}
                         </span>
@@ -2877,15 +2877,15 @@ export default function GymPage() {
                     )}
                   </div>
                 ) : (
-                  <div className="h-32 flex items-center justify-center text-gray-500">
+                  <div className="h-32 flex items-center justify-center text-white/40">
                     No history recorded yet
                   </div>
                 )}
               </div>
 
               {/* History list */}
-              <div className="bg-[#1a1a24] border border-white/10 rounded-xl overflow-hidden">
-                <div className="p-4 border-b border-white/10">
+              <div className="bg-[#1C1C1E] rounded-2xl overflow-hidden">
+                <div className="p-4 border-b border-white/[0.08]">
                   <h3 className="text-white font-medium">History</h3>
                 </div>
                 {sortedHistory.length > 0 ? (
@@ -2893,7 +2893,7 @@ export default function GymPage() {
                     {[...sortedHistory].reverse().map((entry) => (
                       <div key={entry.id} className="px-4 py-3 flex items-center justify-between">
                         <div>
-                          <p className="text-gray-400 text-sm">
+                          <p className="text-white/50 text-sm">
                             {new Date(entry.recordedAt).toLocaleDateString('en-US', {
                               month: 'short',
                               day: 'numeric',
@@ -2902,13 +2902,13 @@ export default function GymPage() {
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="text-green-400 font-bold">{entry.weight} lbs</p>
+                          <p className="text-[#30D158] font-bold">{entry.weight} lbs</p>
                         </div>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <div className="p-4 text-center text-gray-500">
+                  <div className="p-4 text-center text-white/40">
                     No history recorded yet. Update your training max to start tracking.
                   </div>
                 )}
@@ -2918,10 +2918,10 @@ export default function GymPage() {
 
           {!selectedHistoryExercise && !isLoadingHistory && (
             <div className="text-center py-12">
-              <svg className="w-16 h-16 text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-16 h-16 text-white/30 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
-              <p className="text-gray-500">Select an exercise to view its history</p>
+              <p className="text-white/40">Select an exercise to view its history</p>
             </div>
           )}
         </main>
@@ -2931,8 +2931,8 @@ export default function GymPage() {
 
   // Fallback
   return (
-    <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
-      <p className="text-gray-500">Loading...</p>
+    <div className="min-h-screen bg-black flex items-center justify-center">
+      <p className="text-white/40">Loading...</p>
     </div>
   );
 }

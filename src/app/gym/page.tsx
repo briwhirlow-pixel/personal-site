@@ -2383,8 +2383,10 @@ export default function GymPage() {
 
   // Settings view (Program Editor)
   if (view === 'settings') {
-    // Filter to only workout days (not rest days)
-    const workoutDays = program.days.filter(d => d.exercises.length > 0);
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const gymExercisesData = require('@/data/gym-exercises.json') as {
+      muscleGroups: Array<{ id: string; name: string; icon: string; exercises: Array<{ id: string; name: string; equipment: string }> }>;
+    };
 
     return (
       <div className="min-h-screen bg-[#0a0a0f]">
@@ -2456,35 +2458,32 @@ export default function GymPage() {
             </ul>
           </div>
 
-          {/* Exercise list by day */}
+          {/* Exercise list by muscle group */}
           <div className="space-y-3">
-            {workoutDays.map(day => {
-              const isExpanded = expandedSettingsDays.has(day.dayNumber);
-              const toggleDay = () => {
+            {gymExercisesData.muscleGroups.map((group, groupIndex) => {
+              const isExpanded = expandedSettingsDays.has(groupIndex);
+              const toggleGroup = () => {
                 setExpandedSettingsDays(prev => {
                   const next = new Set(prev);
-                  if (next.has(day.dayNumber)) {
-                    next.delete(day.dayNumber);
+                  if (next.has(groupIndex)) {
+                    next.delete(groupIndex);
                   } else {
-                    next.add(day.dayNumber);
+                    next.add(groupIndex);
                   }
                   return next;
                 });
               };
 
               return (
-              <div key={day.dayNumber} className="bg-[#1a1a24] border border-white/10 rounded-xl overflow-hidden">
-                {/* Day header - clickable accordion trigger */}
+              <div key={group.id} className="bg-[#1a1a24] border border-white/10 rounded-xl overflow-hidden">
                 <button
-                  onClick={toggleDay}
+                  onClick={toggleGroup}
                   className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-xs bg-green-600/20 text-green-400 px-2 py-1 rounded">
-                      {day.dayOfWeek}
-                    </span>
-                    <h2 className="text-white font-medium">{day.name}</h2>
-                    <span className="text-gray-500 text-sm">({day.exercises.length} exercises)</span>
+                    <span className="text-lg">{group.icon}</span>
+                    <h2 className="text-white font-medium">{group.name}</h2>
+                    <span className="text-gray-500 text-sm">({group.exercises.length} exercises)</span>
                   </div>
                   <svg
                     className={`w-5 h-5 text-gray-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
@@ -2498,24 +2497,11 @@ export default function GymPage() {
 
                 {isExpanded && (
                 <div className="border-t border-white/10 p-4 space-y-3">
-                  {day.exercises.map(exercise => {
+                  {group.exercises.map(exercise => {
                     const settings = exerciseSettings.get(exercise.id);
-                    const supersetSettingsId = `${exercise.id}-superset`;
-                    const ssSettings = exerciseSettings.get(supersetSettingsId);
                     const tm = trainingMaxes.get(exercise.id) || 0;
                     const isEditing = editingSettings?.exerciseId === exercise.id;
-                    const isEditingSuperset = editingSettings?.exerciseId === supersetSettingsId;
                     const isEditingTM = editingTM === exercise.id;
-
-                    // Check for superset config - database first, then JSON fallback
-                    const dbSuperset = supersetConfigs.find(
-                      s => s.primaryExerciseId === exercise.id && s.dayNumber === day.dayNumber
-                    );
-                    const currentSuperset = dbSuperset?.supersetName || exercise.superset;
-                    const isEditingSupersetFor = editingSuperset?.exerciseId === exercise.id && editingSuperset?.dayNumber === day.dayNumber;
-
-                    // Get other exercises on this day for superset options
-                    const otherExercises = day.exercises.filter(e => e.id !== exercise.id);
 
                     return (
                       <div
@@ -2527,7 +2513,7 @@ export default function GymPage() {
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex-1 min-w-0">
                               <h3 className="text-white font-medium truncate">{exercise.name}</h3>
-                              <p className="text-gray-500 text-xs">{exercise.sets} sets × {exercise.reps}</p>
+                              <p className="text-gray-500 text-xs capitalize">{exercise.equipment}</p>
                             </div>
                             <div className="text-right ml-3">
                               {isEditingTM ? (
@@ -2583,182 +2569,11 @@ export default function GymPage() {
                             </div>
                           </div>
 
-                          {/* Superset configuration */}
-                          <div className="mt-3 pt-3 border-t border-white/5">
-                            {isEditingSupersetFor ? (
-                              <div className="space-y-2">
-                                <label className="text-orange-400 text-xs font-medium">Select superset exercise:</label>
-                                <select
-                                  value={supersetSelection}
-                                  onChange={(e) => setSupersetSelection(e.target.value)}
-                                  className="w-full bg-[#0a0a0f] border border-orange-500/30 rounded px-3 py-2 text-white text-sm"
-                                >
-                                  <option value="">None (no superset)</option>
-                                  {otherExercises.map(other => (
-                                    <option key={other.id} value={other.id}>
-                                      {other.name}
-                                    </option>
-                                  ))}
-                                </select>
-                                <div className="flex gap-2">
-                                  <button
-                                    onClick={() => {
-                                      if (supersetSelection) {
-                                        const selectedEx = otherExercises.find(e => e.id === supersetSelection);
-                                        if (selectedEx) {
-                                          handleSaveSuperset(exercise.id, supersetSelection, selectedEx.name, day.dayNumber);
-                                        }
-                                      } else {
-                                        // Remove superset
-                                        handleRemoveSuperset(exercise.id, day.dayNumber);
-                                        setEditingSuperset(null);
-                                        setSupersetSelection('');
-                                      }
-                                    }}
-                                    className="flex-1 bg-orange-600 hover:bg-orange-700 text-white py-1.5 rounded text-xs font-medium"
-                                  >
-                                    Save
-                                  </button>
-                                  <button
-                                    onClick={() => {
-                                      setEditingSuperset(null);
-                                      setSupersetSelection('');
-                                    }}
-                                    className="px-3 bg-gray-700 hover:bg-gray-600 text-white py-1.5 rounded text-xs"
-                                  >
-                                    Cancel
-                                  </button>
-                                </div>
-                              </div>
-                            ) : currentSuperset ? (
-                              <div className="space-y-2">
-                                <div className="flex items-center justify-between">
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-xs bg-orange-600/20 text-orange-400 px-2 py-1 rounded">
-                                      Superset
-                                    </span>
-                                    <span className="text-orange-300 text-sm">{currentSuperset}</span>
-                                  </div>
-                                  <button
-                                    onClick={() => {
-                                      setEditingSuperset({ exerciseId: exercise.id, dayNumber: day.dayNumber });
-                                      // Find the current superset exercise id
-                                      const currentSupersetEx = otherExercises.find(e => e.name === currentSuperset);
-                                      setSupersetSelection(currentSupersetEx?.id || dbSuperset?.supersetExerciseId || '');
-                                    }}
-                                    className="text-xs text-orange-400 hover:text-orange-300"
-                                  >
-                                    Change
-                                  </button>
-                                </div>
-                                {/* Superset Training Max */}
-                                {(() => {
-                                  const supersetTmId = `${exercise.id}-superset`;
-                                  const supersetTm = trainingMaxes.get(supersetTmId) || 0;
-                                  const isEditingSupersetTM = editingTM === supersetTmId;
-
-                                  return (
-                                    <div className="flex items-center justify-between pl-4 border-l-2 border-orange-500/30">
-                                      <span className="text-gray-400 text-xs">Superset TM:</span>
-                                      {isEditingSupersetTM ? (
-                                        <div className="flex items-center gap-2">
-                                          <input
-                                            type="number"
-                                            value={tmInput}
-                                            onChange={(e) => setTmInput(e.target.value)}
-                                            className="w-16 bg-[#0a0a0f] border border-orange-500/50 rounded px-2 py-1 text-white text-right text-xs"
-                                            autoFocus
-                                            onKeyDown={(e) => {
-                                              if (e.key === 'Enter') {
-                                                handleSaveTrainingMax(supersetTmId, parseFloat(tmInput));
-                                              } else if (e.key === 'Escape') {
-                                                setEditingTM(null);
-                                                setTmInput('');
-                                              }
-                                            }}
-                                          />
-                                          <button
-                                            onClick={() => handleSaveTrainingMax(supersetTmId, parseFloat(tmInput))}
-                                            className="text-orange-400 hover:text-orange-300"
-                                          >
-                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                            </svg>
-                                          </button>
-                                          <button
-                                            onClick={() => { setEditingTM(null); setTmInput(''); }}
-                                            className="text-gray-400 hover:text-gray-300"
-                                          >
-                                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                            </svg>
-                                          </button>
-                                        </div>
-                                      ) : (
-                                        <button
-                                          onClick={() => {
-                                            setEditingTM(supersetTmId);
-                                            setTmInput(supersetTm.toString());
-                                          }}
-                                          className="text-orange-400 text-xs font-medium hover:text-orange-300"
-                                        >
-                                          {supersetTm > 0 ? `${supersetTm} lbs` : 'Set TM'}
-                                        </button>
-                                      )}
-                                    </div>
-                                  );
-                                })()}
-
-                                {/* Superset settings tags */}
-                                <div className="flex flex-wrap gap-2 text-xs mt-2 pl-4 border-l-2 border-orange-500/30">
-                                  {(ssSettings?.targetSets || ssSettings?.targetReps) && (
-                                    <span className="bg-yellow-600/20 text-yellow-400 px-2 py-1 rounded">
-                                      {ssSettings?.targetSets ?? exercise.sets}x{ssSettings?.targetReps ?? exercise.reps}
-                                    </span>
-                                  )}
-                                  <span className="bg-gray-700/50 text-gray-300 px-2 py-1 rounded">
-                                    Base: {ssSettings?.basePercent ?? DEFAULT_EXERCISE_SETTINGS.basePercent}%
-                                  </span>
-                                  <span className="bg-gray-700/50 text-gray-300 px-2 py-1 rounded">
-                                    TM +{ssSettings?.tmIncrement ?? DEFAULT_EXERCISE_SETTINGS.tmIncrement} lbs
-                                  </span>
-                                  {ssSettings?.autoProgress === false && (
-                                    <span className="bg-red-600/20 text-red-400 px-2 py-1 rounded">
-                                      No auto-progress
-                                    </span>
-                                  )}
-                                </div>
-                                <button
-                                  onClick={() => setEditingSettings(ssSettings || {
-                                    exerciseId: supersetSettingsId,
-                                    ...DEFAULT_EXERCISE_SETTINGS
-                                  })}
-                                  className="text-xs text-orange-400 hover:text-orange-300 mt-1 pl-4 border-l-2 border-orange-500/30"
-                                >
-                                  {isEditingSuperset ? 'Editing...' : 'Edit Superset Settings'}
-                                </button>
-                              </div>
-                            ) : (
-                              <button
-                                onClick={() => {
-                                  setEditingSuperset({ exerciseId: exercise.id, dayNumber: day.dayNumber });
-                                  setSupersetSelection('');
-                                }}
-                                className="text-xs text-gray-500 hover:text-orange-400 flex items-center gap-1"
-                              >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                                </svg>
-                                Add superset
-                              </button>
-                            )}
-                          </div>
-
                           {/* Settings tags */}
                           <div className="flex flex-wrap gap-2 text-xs mt-3">
                             {(settings?.targetSets || settings?.targetReps) && (
                               <span className="bg-yellow-600/20 text-yellow-400 px-2 py-1 rounded">
-                                {settings?.targetSets ?? exercise.sets}x{settings?.targetReps ?? exercise.reps}
+                                {settings?.targetSets ?? '—'}x{settings?.targetReps ?? '—'}
                               </span>
                             )}
                             <span className="bg-gray-700/50 text-gray-300 px-2 py-1 rounded">
@@ -2792,9 +2607,7 @@ export default function GymPage() {
                             {/* Sets/Reps Override */}
                             <div className="grid grid-cols-2 gap-4">
                               <div>
-                                <label className="text-gray-400 text-xs block mb-1">
-                                  Sets <span className="text-gray-600">(default: {exercise.sets})</span>
-                                </label>
+                                <label className="text-gray-400 text-xs block mb-1">Sets override</label>
                                 <input
                                   type="number"
                                   min="1"
@@ -2804,14 +2617,12 @@ export default function GymPage() {
                                     ...editingSettings,
                                     targetSets: e.target.value ? parseInt(e.target.value) : null
                                   })}
-                                  placeholder={exercise.sets.toString()}
+                                  placeholder="default"
                                   className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm"
                                 />
                               </div>
                               <div>
-                                <label className="text-gray-400 text-xs block mb-1">
-                                  Reps <span className="text-gray-600">(default: {exercise.reps})</span>
-                                </label>
+                                <label className="text-gray-400 text-xs block mb-1">Reps override</label>
                                 <input
                                   type="number"
                                   min="1"
@@ -2821,7 +2632,7 @@ export default function GymPage() {
                                     ...editingSettings,
                                     targetReps: e.target.value ? parseInt(e.target.value) : null
                                   })}
-                                  placeholder={exercise.reps.toString()}
+                                  placeholder="default"
                                   className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm"
                                 />
                               </div>
@@ -2887,107 +2698,6 @@ export default function GymPage() {
                           </div>
                         )}
 
-                        {/* Superset edit form */}
-                        {isEditingSuperset && editingSettings && (
-                          <div className="border-t border-orange-500/20 bg-[#0a0a0f] p-4 space-y-4">
-                            <p className="text-orange-400 text-xs font-medium">Superset: {currentSuperset}</p>
-                            {/* Sets/Reps Override */}
-                            <div className="grid grid-cols-2 gap-4">
-                              <div>
-                                <label className="text-gray-400 text-xs block mb-1">
-                                  Sets <span className="text-gray-600">(default: {exercise.sets})</span>
-                                </label>
-                                <input
-                                  type="number"
-                                  min="1"
-                                  max="10"
-                                  value={editingSettings.targetSets ?? ''}
-                                  onChange={(e) => setEditingSettings({
-                                    ...editingSettings,
-                                    targetSets: e.target.value ? parseInt(e.target.value) : null
-                                  })}
-                                  placeholder={exercise.sets.toString()}
-                                  className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm"
-                                />
-                              </div>
-                              <div>
-                                <label className="text-gray-400 text-xs block mb-1">
-                                  Reps <span className="text-gray-600">(default: {exercise.reps})</span>
-                                </label>
-                                <input
-                                  type="number"
-                                  min="1"
-                                  max="30"
-                                  value={editingSettings.targetReps ?? ''}
-                                  onChange={(e) => setEditingSettings({
-                                    ...editingSettings,
-                                    targetReps: e.target.value ? parseInt(e.target.value) : null
-                                  })}
-                                  placeholder={exercise.reps.toString()}
-                                  className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm"
-                                />
-                              </div>
-                            </div>
-
-                            {/* Percentage Settings */}
-                            <div className="grid grid-cols-2 gap-4">
-                              <div>
-                                <label className="text-gray-400 text-xs block mb-1">Base Percentage (%)</label>
-                                <input
-                                  type="number"
-                                  step="2.5"
-                                  value={editingSettings.basePercent}
-                                  onChange={(e) => setEditingSettings({
-                                    ...editingSettings,
-                                    basePercent: parseFloat(e.target.value) || 75
-                                  })}
-                                  className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm"
-                                />
-                              </div>
-                              <div>
-                                <label className="text-gray-400 text-xs block mb-1">TM Bump (lbs)</label>
-                                <input
-                                  type="number"
-                                  step="2.5"
-                                  value={editingSettings.tmIncrement}
-                                  onChange={(e) => setEditingSettings({
-                                    ...editingSettings,
-                                    tmIncrement: parseFloat(e.target.value) || 5
-                                  })}
-                                  className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm"
-                                />
-                              </div>
-                            </div>
-
-                            <label className="flex items-center gap-2 cursor-pointer">
-                              <input
-                                type="checkbox"
-                                checked={editingSettings.autoProgress}
-                                onChange={(e) => setEditingSettings({
-                                  ...editingSettings,
-                                  autoProgress: e.target.checked
-                                })}
-                                className="w-4 h-4 rounded bg-gray-700 border-gray-600 text-orange-500"
-                              />
-                              <span className="text-gray-300 text-sm">Auto-progress TM on cycle complete</span>
-                            </label>
-
-                            <div className="flex gap-2">
-                              <button
-                                onClick={() => handleSaveSettings(editingSettings)}
-                                className="flex-1 bg-orange-600 hover:bg-orange-700 text-white py-2 rounded-lg text-sm font-medium"
-                              >
-                                Save
-                              </button>
-                              <button
-                                onClick={() => setEditingSettings(null)}
-                                className="px-4 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg text-sm"
-                              >
-                                Cancel
-                              </button>
-                            </div>
-                          </div>
-                        )}
                       </div>
                     );
                   })}
@@ -3004,36 +2714,15 @@ export default function GymPage() {
 
   // History view
   if (view === 'history') {
-    // Get all exercises from program (including supersets)
-    const allExercises: { id: string; name: string; dayName: string; isSuperset?: boolean; parentId?: string }[] = [];
-    program.days.forEach(day => {
-      day.exercises.forEach(ex => {
-        allExercises.push({ id: ex.id, name: ex.name, dayName: day.name });
-        // Add superset exercises
-        if (ex.superset) {
-          allExercises.push({
-            id: `${ex.id}-superset`,
-            name: ex.superset,
-            dayName: day.name,
-            isSuperset: true,
-            parentId: ex.id,
-          });
-        }
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const gymExercisesForHistory = require('@/data/gym-exercises.json') as {
+      muscleGroups: Array<{ id: string; name: string; exercises: Array<{ id: string; name: string }> }>;
+    };
+    const allExercises: { id: string; name: string; dayName: string }[] = [];
+    gymExercisesForHistory.muscleGroups.forEach(group => {
+      group.exercises.forEach(ex => {
+        allExercises.push({ id: ex.id, name: ex.name, dayName: group.name });
       });
-    });
-    // Also add database supersets
-    supersetConfigs.forEach(sc => {
-      const exists = allExercises.find(e => e.id === `${sc.primaryExerciseId}-superset`);
-      if (!exists) {
-        const day = program.days.find(d => d.dayNumber === sc.dayNumber);
-        allExercises.push({
-          id: `${sc.primaryExerciseId}-superset`,
-          name: sc.supersetName,
-          dayName: day?.name || 'Unknown',
-          isSuperset: true,
-          parentId: sc.primaryExerciseId,
-        });
-      }
     });
 
     // Get selected exercise info
@@ -3108,7 +2797,7 @@ export default function GymPage() {
               <option value="">Choose an exercise...</option>
               {allExercises.map(ex => (
                 <option key={ex.id} value={ex.id}>
-                  {ex.name} {ex.isSuperset ? '(Superset)' : ''} - {ex.dayName}
+                  {ex.name} - {ex.dayName}
                 </option>
               ))}
             </select>

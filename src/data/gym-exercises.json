@@ -1,0 +1,167 @@
+{
+  "muscleGroups": [
+    {
+      "id": "chest",
+      "name": "Chest",
+      "icon": "💪",
+      "exercises": [
+        { "id": "bench-press", "name": "Bench Press", "equipment": "barbell", "isCompound": true },
+        { "id": "incline-bench-press", "name": "Incline Bench Press", "equipment": "barbell", "isCompound": true },
+        { "id": "decline-bench-press", "name": "Decline Bench Press", "equipment": "barbell", "isCompound": true },
+        { "id": "incline-db-press", "name": "Incline Dumbbell Press", "equipment": "dumbbell", "isCompound": true },
+        { "id": "db-press", "name": "Dumbbell Press", "equipment": "dumbbell", "isCompound": true },
+        { "id": "db-flyes", "name": "Dumbbell Flyes", "equipment": "dumbbell", "isCompound": false },
+        { "id": "cable-flyes", "name": "Cable Flyes", "equipment": "cable", "isCompound": false },
+        { "id": "chest-dips", "name": "Chest Dips", "equipment": "bodyweight", "isCompound": true },
+        { "id": "push-ups", "name": "Push-ups", "equipment": "bodyweight", "isCompound": true },
+        { "id": "pec-deck", "name": "Pec Deck Machine", "equipment": "machine", "isCompound": false }
+      ]
+    },
+    {
+      "id": "back",
+      "name": "Back",
+      "icon": "🏋️",
+      "exercises": [
+        { "id": "deadlift", "name": "Deadlift", "equipment": "barbell", "isCompound": true },
+        { "id": "barbell-rows", "name": "Barbell Rows", "equipment": "barbell", "isCompound": true },
+        { "id": "db-rows", "name": "Dumbbell Rows", "equipment": "dumbbell", "isCompound": true },
+        { "id": "lat-pulldowns", "name": "Lat Pulldowns", "equipment": "cable", "isCompound": true },
+        { "id": "seated-cable-rows", "name": "Seated Cable Rows", "equipment": "cable", "isCompound": true },
+        { "id": "pull-ups", "name": "Pull-ups", "equipment": "bodyweight", "isCompound": true },
+        { "id": "chin-ups", "name": "Chin-ups", "equipment": "bodyweight", "isCompound": true },
+        { "id": "t-bar-rows", "name": "T-Bar Rows", "equipment": "barbell", "isCompound": true },
+        { "id": "face-pulls", "name": "Face Pulls", "equipment": "cable", "isCompound": false },
+        { "id": "straight-arm-pulldowns", "name": "Straight Arm Pulldowns", "equipment": "cable", "isCompound": false }
+      ]
+    },
+    {
+      "id": "shoulders",
+      "name": "Shoulders",
+      "icon": "🎯",
+      "exercises": [
+        { "id": "overhead-press", "name": "Overhead Press", "equipment": "barbell", "isCompound": true },
+        { "id": "db-shoulder-press", "name": "Dumbbell Shoulder Press", "equipment": "dumbbell", "isCompound": true },
+        { "id": "lateral-raises", "name": "Lateral Raises", "equipment": "dumbbell", "isCompound": false },
+        { "id": "front-raises", "name": "Front Raises", "equipment": "dumbbell", "isCompound": false },
+        { "id": "cable-lateral-raises", "name": "Cable Lateral Raises", "equipment": "cable", "isCompound": false },
+        { "id": "rear-delt-flyes", "name": "Rear Delt Flyes", "equipment": "dumbbell", "isCompound": false },
+        { "id": "arnold-press", "name": "Arnold Press", "equipment": "dumbbell", "isCompound": true },
+        { "id": "upright-rows", "name": "Upright Rows", "equipment": "barbell", "isCompound": false },
+        { "id": "shrugs", "name": "Shrugs", "equipment": "barbell", "isCompound": false }
+      ]
+    },
+    {
+      "id": "biceps",
+      "name": "Biceps",
+      "icon": "💪",
+      "exercises": [
+        { "id": "barbell-curls", "name": "Barbell Curls", "equipment": "barbell", "isCompound": false },
+        { "id": "db-curls", "name": "Dumbbell Curls", "equipment": "dumbbell", "isCompound": false },
+        { "id": "hammer-curls", "name": "Hammer Curls", "equipment": "dumbbell", "isCompound": false },
+        { "id": "preacher-curls", "name": "Preacher Curls", "equipment": "barbell", "isCompound": false },
+        { "id": "cable-curls", "name": "Cable Curls", "equipment": "cable", "isCompound": false },
+        { "id": "concentration-curls", "name": "Concentration Curls", "equipment": "dumbbell", "isCompound": false },
+        { "id": "incline-db-curls", "name": "Incline Dumbbell Curls", "equipment": "dumbbell", "isCompound": false },
+        { "id": "ez-bar-curls", "name": "EZ-Bar Curls", "equipment": "barbell", "isCompound": false }
+      ]
+    },
+    {
+      "id": "triceps",
+      "name": "Triceps",
+      "icon": "💪",
+      "exercises": [
+        { "id": "tricep-pushdowns", "name": "Tricep Pushdowns", "equipment": "cable", "isCompound": false },
+        { "id": "overhead-tricep-ext", "name": "Overhead Tricep Extension", "equipment": "dumbbell", "isCompound": false },
+        { "id": "skull-crushers", "name": "Skull Crushers", "equipment": "barbell", "isCompound": false },
+        { "id": "close-grip-bench", "name": "Close-Grip Bench Press", "equipment": "barbell", "isCompound": true },
+        { "id": "tricep-dips", "name": "Tricep Dips", "equipment": "bodyweight", "isCompound": true },
+        { "id": "cable-overhead-ext", "name": "Cable Overhead Extension", "equipment": "cable", "isCompound": false },
+        { "id": "diamond-push-ups", "name": "Diamond Push-ups", "equipment": "bodyweight", "isCompound": true },
+        { "id": "tricep-kickbacks", "name": "Tricep Kickbacks", "equipment": "dumbbell", "isCompound": false }
+      ]
+    },
+    {
+      "id": "legs",
+      "name": "Legs",
+      "icon": "🦵",
+      "exercises": [
+        { "id": "squats", "name": "Barbell Squats", "equipment": "barbell", "isCompound": true },
+        { "id": "rdls", "name": "Romanian Deadlifts", "equipment": "barbell", "isCompound": true },
+        { "id": "leg-press", "name": "Leg Press", "equipment": "machine", "isCompound": true },
+        { "id": "leg-curls", "name": "Leg Curls", "equipment": "machine", "isCompound": false },
+        { "id": "leg-extensions", "name": "Leg Extensions", "equipment": "machine", "isCompound": false },
+        { "id": "calf-raises", "name": "Standing Calf Raises", "equipment": "machine", "isCompound": false },
+        { "id": "hip-thrusts", "name": "Hip Thrusts", "equipment": "barbell", "isCompound": false },
+        { "id": "lunges", "name": "Lunges", "equipment": "dumbbell", "isCompound": true },
+        { "id": "bulgarian-split-squats", "name": "Bulgarian Split Squats", "equipment": "dumbbell", "isCompound": true },
+        { "id": "hack-squats", "name": "Hack Squats", "equipment": "machine", "isCompound": true },
+        { "id": "seated-calf-raises", "name": "Seated Calf Raises", "equipment": "machine", "isCompound": false }
+      ]
+    },
+    {
+      "id": "abs",
+      "name": "Abs",
+      "icon": "🔥",
+      "exercises": [
+        { "id": "crunches", "name": "Crunches", "equipment": "bodyweight", "isCompound": false },
+        { "id": "cable-crunches", "name": "Cable Crunches", "equipment": "cable", "isCompound": false },
+        { "id": "plank", "name": "Plank", "equipment": "bodyweight", "isCompound": false },
+        { "id": "hanging-leg-raises", "name": "Hanging Leg Raises", "equipment": "bodyweight", "isCompound": false },
+        { "id": "russian-twists", "name": "Russian Twists", "equipment": "bodyweight", "isCompound": false },
+        { "id": "ab-wheel", "name": "Ab Wheel Rollout", "equipment": "other", "isCompound": false },
+        { "id": "bicycle-crunches", "name": "Bicycle Crunches", "equipment": "bodyweight", "isCompound": false },
+        { "id": "decline-sit-ups", "name": "Decline Sit-ups", "equipment": "bodyweight", "isCompound": false },
+        { "id": "toe-touches", "name": "Toe Touches", "equipment": "bodyweight", "isCompound": false }
+      ]
+    },
+    {
+      "id": "cardio",
+      "name": "Cardio",
+      "icon": "🏃",
+      "exercises": [
+        { "id": "treadmill", "name": "Treadmill", "equipment": "machine", "isCompound": false },
+        { "id": "elliptical", "name": "Elliptical", "equipment": "machine", "isCompound": false },
+        { "id": "stationary-bike", "name": "Stationary Bike", "equipment": "machine", "isCompound": false },
+        { "id": "stair-climber", "name": "Stair Climber", "equipment": "machine", "isCompound": false },
+        { "id": "jump-rope", "name": "Jump Rope", "equipment": "other", "isCompound": false },
+        { "id": "row-machine", "name": "Row Machine", "equipment": "machine", "isCompound": false },
+        { "id": "hiit", "name": "HIIT Intervals", "equipment": "bodyweight", "isCompound": false }
+      ]
+    },
+    {
+      "id": "calisthenics",
+      "name": "Calisthenics",
+      "icon": "🤸",
+      "exercises": [
+        { "id": "cal-pull-ups", "name": "Pull-ups", "equipment": "bodyweight", "isCompound": true },
+        { "id": "cal-push-ups", "name": "Push-ups", "equipment": "bodyweight", "isCompound": true },
+        { "id": "cal-dips", "name": "Dips", "equipment": "bodyweight", "isCompound": true },
+        { "id": "muscle-ups", "name": "Muscle-ups", "equipment": "bodyweight", "isCompound": true },
+        { "id": "handstand-push-ups", "name": "Handstand Push-ups", "equipment": "bodyweight", "isCompound": true },
+        { "id": "l-sit", "name": "L-Sit", "equipment": "bodyweight", "isCompound": false },
+        { "id": "pistol-squats", "name": "Pistol Squats", "equipment": "bodyweight", "isCompound": true },
+        { "id": "ring-rows", "name": "Ring Rows", "equipment": "other", "isCompound": true },
+        { "id": "box-jumps", "name": "Box Jumps", "equipment": "other", "isCompound": true },
+        { "id": "burpees", "name": "Burpees", "equipment": "bodyweight", "isCompound": true }
+      ]
+    }
+  ],
+  "dayTypes": [
+    {
+      "id": "rep",
+      "name": "Rep Day",
+      "description": "Higher reps, moderate weight",
+      "defaultSets": 3,
+      "defaultReps": 12,
+      "defaultPercent": 65
+    },
+    {
+      "id": "strength",
+      "name": "Strength Day",
+      "description": "Lower reps, heavier weight",
+      "defaultSets": 4,
+      "defaultReps": 5,
+      "defaultPercent": 85
+    }
+  ]
+}

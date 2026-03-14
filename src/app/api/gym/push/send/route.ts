@@ -2,13 +2,17 @@ import { NextResponse } from 'next/server';
 import { getSupabase } from '@/lib/supabase';
 import webpush from 'web-push';
 
-// Configure VAPID keys
-const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || '';
-const VAPID_PRIVATE_KEY = process.env.VAPID_PRIVATE_KEY || '';
-const VAPID_SUBJECT = process.env.VAPID_SUBJECT || 'mailto:noreply@example.com';
+let vapidConfigured = false;
 
-if (VAPID_PUBLIC_KEY && VAPID_PRIVATE_KEY) {
-  webpush.setVapidDetails(VAPID_SUBJECT, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY);
+function ensureVapidConfigured() {
+  if (vapidConfigured) return true;
+  const pub = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+  const priv = process.env.VAPID_PRIVATE_KEY;
+  const subject = process.env.VAPID_SUBJECT || 'mailto:noreply@example.com';
+  if (!pub || !priv) return false;
+  webpush.setVapidDetails(subject, pub, priv);
+  vapidConfigured = true;
+  return true;
 }
 
 // POST - Process and send due push notifications (called by pg_cron)
@@ -21,7 +25,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  if (!VAPID_PUBLIC_KEY || !VAPID_PRIVATE_KEY) {
+  if (!ensureVapidConfigured()) {
     return NextResponse.json({ error: 'VAPID keys not configured' }, { status: 500 });
   }
 

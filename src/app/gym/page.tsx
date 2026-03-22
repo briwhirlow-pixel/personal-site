@@ -85,15 +85,15 @@ function ActivityRing({
 }
 
 const MUSCLE_COLORS: Record<string, string> = {
-  chest: '#0A84FF',
-  back: '#30D158',
-  shoulders: '#FF9F0A',
-  biceps: '#BF5AF2',
-  triceps: '#FF6B35',
-  legs: '#FF453A',
-  abs: '#32ADE6',
-  cardio: '#FFD60A',
-  calisthenics: '#5AC8FA',
+  chest: '#22D3EE',
+  back: '#6366F1',
+  shoulders: '#F59E0B',
+  biceps: '#A78BFA',
+  triceps: '#F472B6',
+  legs: '#34C759',
+  abs: '#FB923C',
+  cardio: '#EF4444',
+  calisthenics: '#14B8A6',
 };
 
 export default function GymPage() {
@@ -153,6 +153,17 @@ export default function GymPage() {
   const [builderSelectedExercises, setBuilderSelectedExercises] = useState<string[]>([]);
   const [exerciseSetCounts, setExerciseSetCounts] = useState<Map<string, number>>(new Map());
   const [exerciseImages, setExerciseImages] = useState<Map<string, string | null>>(new Map());
+  const fetchExerciseImage = useCallback(async (exerciseName: string) => {
+    if (exerciseImages.has(exerciseName)) return;
+    try {
+      const res = await fetch(`/api/gym/exercise-image?name=${encodeURIComponent(exerciseName)}`);
+      const data = await res.json();
+      setExerciseImages(prev => new Map(prev).set(exerciseName, data.imageUrl ?? null));
+    } catch {
+      setExerciseImages(prev => new Map(prev).set(exerciseName, null));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // History state
   const [tmHistory, setTmHistory] = useState<TMHistoryEntry[]>([]);
@@ -411,6 +422,23 @@ export default function GymPage() {
     if (!isAuthed) return;
     loadData();
   }, [isAuthed]);
+
+  // Pre-fetch exercise images when viewing cycle
+  useEffect(() => {
+    if (view === 'cycle' && currentWorkout) {
+      currentWorkout.exercises.forEach(ex => {
+        fetchExerciseImage(ex.exerciseName);
+      });
+    }
+  }, [view, currentWorkout, fetchExerciseImage]);
+
+  // Fetch image for current exercise detail view
+  useEffect(() => {
+    if (view === 'exercise' && currentWorkout && selectedExerciseIndex !== null) {
+      const ex = currentWorkout.exercises[selectedExerciseIndex];
+      if (ex) fetchExerciseImage(ex.exerciseName);
+    }
+  }, [view, currentWorkout, selectedExerciseIndex, fetchExerciseImage]);
 
   const loadData = async () => {
     try {
@@ -1192,8 +1220,8 @@ export default function GymPage() {
   // Loading state
   if (!isLoaded) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-white/[0.12] border-t-[#30D158] rounded-full animate-spin" />
+      <div className="min-h-screen bg-[#080C14] flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-white/[0.12] border-t-[#6366F1] rounded-full animate-spin" />
       </div>
     );
   }
@@ -1201,17 +1229,17 @@ export default function GymPage() {
   // Login screen
   if (!isAuthed) {
     return (
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center px-6">
+      <div className="min-h-screen bg-[#080C14] flex flex-col items-center justify-center px-6">
         {/* Stacked activity rings — Apple Fitness style logo */}
         <div className="relative mb-10" style={{ width: 96, height: 96 }}>
           <div className="absolute inset-0">
-            <ActivityRing percent={82} size={96} color="#30D158" strokeWidth={8} trackOpacity={0.14} />
+            <ActivityRing percent={82} size={96} color="#22D3EE" strokeWidth={8} trackOpacity={0.14} />
           </div>
           <div className="absolute" style={{ inset: 13 }}>
-            <ActivityRing percent={61} size={70} color="#0A84FF" strokeWidth={7} trackOpacity={0.14} />
+            <ActivityRing percent={61} size={70} color="#6366F1" strokeWidth={7} trackOpacity={0.14} />
           </div>
           <div className="absolute" style={{ inset: 24 }}>
-            <ActivityRing percent={44} size={48} color="#FF453A" strokeWidth={6} trackOpacity={0.14} />
+            <ActivityRing percent={44} size={48} color="#F472B6" strokeWidth={6} trackOpacity={0.14} />
           </div>
         </div>
 
@@ -1225,7 +1253,7 @@ export default function GymPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
-              className="w-full px-4 py-4 bg-[#1C1C1E] rounded-2xl text-white text-[17px] placeholder-white/25 border-0 focus:outline-none focus:ring-2 focus:ring-[#30D158]"
+              className="w-full px-4 py-4 bg-[#0F1628] rounded-2xl text-white text-[17px] placeholder-white/25 border-0 focus:outline-none focus:ring-2 focus:ring-[#6366F1]"
               autoFocus
               disabled={isAuthenticating}
             />
@@ -1235,7 +1263,7 @@ export default function GymPage() {
             <button
               type="submit"
               disabled={isAuthenticating}
-              className="w-full bg-[#30D158] active:bg-[#28BD4E] active:scale-[0.98] disabled:opacity-40 text-white text-[17px] font-semibold py-4 rounded-2xl transition-all"
+              className="w-full bg-[#6366F1] active:bg-[#4F46E5] active:scale-[0.98] disabled:opacity-40 text-white text-[17px] font-semibold py-4 rounded-2xl transition-all"
             >
               {isAuthenticating ? 'Verifying…' : 'Sign In'}
             </button>
@@ -1254,9 +1282,9 @@ export default function GymPage() {
   // Cycles list view
   if (view === 'cycles') {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen" style={{ background: 'radial-gradient(ellipse at 25% 0%, rgba(99,102,241,0.12) 0%, transparent 55%), radial-gradient(ellipse at 75% 100%, rgba(34,211,238,0.06) 0%, transparent 55%), #080C14' }}>
         {/* Header */}
-        <header className="backdrop-blur-xl bg-black/80 border-b border-white/[0.06] sticky top-0 z-10">
+        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10">
           <div className="px-4 py-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
               {profileName && (
@@ -1301,7 +1329,7 @@ export default function GymPage() {
           {/* Create New Cycle Button */}
           <button
             onClick={handleCreateCycle}
-            className="w-full bg-[#30D158] active:bg-[#28BD4E] active:scale-[0.98] text-white font-semibold text-[17px] py-4 rounded-2xl mb-6 flex items-center justify-center gap-2 transition-all shadow-lg shadow-[#30D158]/20"
+            className="w-full bg-[#6366F1] active:bg-[#4F46E5] active:scale-[0.98] text-white font-semibold text-[17px] py-4 rounded-2xl mb-6 flex items-center justify-center gap-2 transition-all shadow-lg shadow-[#6366F1]/20"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
@@ -1320,7 +1348,7 @@ export default function GymPage() {
               return (
                 <div
                   key={cycle.id}
-                  className="bg-[#1C1C1E] rounded-2xl overflow-hidden"
+                  className="bg-[#0F1628] rounded-2xl overflow-hidden"
                 >
                   {isConfirmingDelete ? (
                     <div className="p-4">
@@ -1355,13 +1383,13 @@ export default function GymPage() {
                             <ActivityRing
                               percent={completion}
                               size={52}
-                              color={cycle.status === 'active' ? '#30D158' : '#8E8E93'}
+                              color={cycle.status === 'active' ? '#6366F1' : '#8E8E93'}
                               trackOpacity={0.12}
                               strokeWidth={5}
                             />
                             {completion === 100 && (
                               <div className="absolute inset-0 flex items-center justify-center">
-                                <svg width="16" height="16" fill="none" stroke={cycle.status === 'active' ? '#30D158' : '#8E8E93'} viewBox="0 0 24 24">
+                                <svg width="16" height="16" fill="none" stroke={cycle.status === 'active' ? '#6366F1' : '#8E8E93'} viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                                 </svg>
                               </div>
@@ -1391,7 +1419,7 @@ export default function GymPage() {
                                   type="date"
                                   value={dateInput}
                                   onChange={(e) => setDateInput(e.target.value)}
-                                  className="bg-[#2C2C2E] border-0 rounded-lg px-2 py-1 text-white text-xs"
+                                  className="bg-[#162038] border-0 rounded-lg px-2 py-1 text-white text-xs"
                                   autoFocus
                                 />
                                 <button onClick={() => handleUpdateStartDate(cycle.id, dateInput)} className="text-[#30D158]">
@@ -1463,8 +1491,8 @@ export default function GymPage() {
     };
 
     return (
-      <div className="min-h-screen bg-black">
-        <header className="backdrop-blur-xl bg-black/80 border-b border-white/[0.06] sticky top-0 z-10">
+      <div className="min-h-screen" style={{ background: 'radial-gradient(ellipse at 25% 0%, rgba(99,102,241,0.12) 0%, transparent 55%), radial-gradient(ellipse at 75% 100%, rgba(34,211,238,0.06) 0%, transparent 55%), #080C14' }}>
+        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10">
           <div className="px-4 py-3 flex items-center justify-between">
             <button
               onClick={handleBackToCycles}
@@ -1495,15 +1523,15 @@ export default function GymPage() {
                 </button>
               )}
               {isSaving && (
-                <span className="text-[#30D158] text-xs flex items-center gap-1">
-                  <div className="w-3 h-3 border border-[#30D158] border-t-transparent rounded-full animate-spin" />
+                <span className="text-[#6366F1] text-xs flex items-center gap-1">
+                  <div className="w-3 h-3 border border-[#6366F1] border-t-transparent rounded-full animate-spin" />
                   Saving
                 </span>
               )}
               {activeCycle.status === 'active' && (
                 <button
                   onClick={handleCompleteCycle}
-                  className="text-sm bg-[#30D158] active:bg-[#25A244] text-white px-4 py-1.5 rounded-full font-medium transition-colors"
+                  className="text-sm bg-[#6366F1] active:bg-[#4F46E5] text-white px-4 py-1.5 rounded-full font-medium transition-colors"
                 >
                   Complete
                 </button>
@@ -1543,27 +1571,34 @@ export default function GymPage() {
                     <button
                       key={exercise.exerciseId}
                       onClick={() => handleSelectExercise(exercise, index)}
-                      className="w-full bg-[#1C1C1E] rounded-2xl p-4 text-left active:bg-[#2C2C2E] transition-colors flex items-center gap-4"
+                      className="w-full bg-[#0F1628] rounded-2xl p-4 text-left active:bg-[#162038] transition-colors flex items-center gap-4"
                     >
-                      {/* Activity ring */}
-                      <div className="flex-shrink-0 relative">
-                        <ActivityRing
-                          percent={(completedSets / totalSets) * 100}
-                          size={44}
-                          color="#30D158"
-                          trackOpacity={0.1}
-                          strokeWidth={4}
-                        />
+                      {/* Exercise image thumbnail */}
+                      <div className="flex-shrink-0 relative w-[52px] h-[52px]">
+                        {exerciseImages.get(exercise.exerciseName) ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={exerciseImages.get(exercise.exerciseName)!}
+                            alt={exercise.exerciseName}
+                            className={`w-full h-full rounded-xl object-cover ${isComplete ? 'opacity-60' : ''}`}
+                          />
+                        ) : (
+                          <div className="w-full h-full rounded-xl bg-white/[0.05] flex items-center justify-center">
+                            <svg className="w-5 h-5 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                            </svg>
+                          </div>
+                        )}
                         {isComplete && (
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <svg width="14" height="14" fill="none" stroke="#30D158" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                          <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-[#34C759] rounded-full flex items-center justify-center border-2 border-[#080C14]">
+                            <svg width="9" height="9" fill="none" stroke="white" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                         )}
                         {!isComplete && (
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <span className="text-[10px] font-bold text-white/40">{completedSets}</span>
+                          <div className="absolute -bottom-1 -right-1 min-w-[18px] h-[18px] px-1 bg-[#162038] rounded-full flex items-center justify-center border border-white/[0.08]">
+                            <span className="text-[9px] font-bold text-white/50">{completedSets}/{totalSets}</span>
                           </div>
                         )}
                       </div>
@@ -1588,7 +1623,7 @@ export default function GymPage() {
             <div className="space-y-6">
               <button
                 onClick={startBuilder}
-                className="w-full bg-[#30D158] active:bg-[#28BD4E] active:scale-[0.98] text-white font-semibold text-[17px] py-5 rounded-2xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#30D158]/20"
+                className="w-full bg-[#6366F1] active:bg-[#4F46E5] active:scale-[0.98] text-white font-semibold text-[17px] py-5 rounded-2xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#6366F1]/20"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -1607,10 +1642,10 @@ export default function GymPage() {
                         return (
                           <div
                             key={workout.id ?? workout.workoutDate}
-                            className="bg-[#1C1C1E] rounded-2xl p-4 flex items-center gap-4"
+                            className="bg-[#0F1628] rounded-2xl p-4 flex items-center gap-4"
                           >
                             <div className="flex-shrink-0 relative">
-                              <ActivityRing percent={completion} size={44} color="#30D158" trackOpacity={0.1} strokeWidth={4} />
+                              <ActivityRing percent={completion} size={44} color="#6366F1" trackOpacity={0.1} strokeWidth={4} />
                               {completion === 100 && (
                                 <div className="absolute inset-0 flex items-center justify-center">
                                   <svg width="14" height="14" fill="none" stroke="#30D158" viewBox="0 0 24 24">
@@ -1651,17 +1686,6 @@ export default function GymPage() {
       .filter(g => selectedMuscleGroups.includes(g.id))
       .flatMap(g => g.exercises);
 
-    const fetchExerciseImage = async (exerciseName: string) => {
-      if (exerciseImages.has(exerciseName)) return;
-      try {
-        const res = await fetch(`/api/gym/exercise-image?name=${encodeURIComponent(exerciseName)}`);
-        const data = await res.json();
-        setExerciseImages(prev => new Map(prev).set(exerciseName, data.imageUrl ?? null));
-      } catch {
-        setExerciseImages(prev => new Map(prev).set(exerciseName, null));
-      }
-    };
-
     const toggleMuscleGroup = (id: string) => {
       setSelectedMuscleGroups(prev =>
         prev.includes(id) ? prev.filter(g => g !== id) : [...prev, id]
@@ -1693,8 +1717,8 @@ export default function GymPage() {
     };
 
     return (
-      <div className="min-h-screen bg-black">
-        <header className="backdrop-blur-xl bg-black/80 border-b border-white/[0.06] sticky top-0 z-10">
+      <div className="min-h-screen bg-[#080C14]">
+        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10">
           <div className="px-4 py-4 flex items-center justify-between">
             <button
               onClick={() => {
@@ -1716,7 +1740,7 @@ export default function GymPage() {
                 <div
                   key={step}
                   className={`h-1.5 w-8 rounded-full transition-colors ${
-                    step <= builderStep ? 'bg-[#30D158]' : 'bg-white/[0.08]'
+                    step <= builderStep ? 'bg-[#6366F1]' : 'bg-white/[0.08]'
                   }`}
                 />
               ))}
@@ -1739,7 +1763,7 @@ export default function GymPage() {
                       key={group.id}
                       onClick={() => toggleMuscleGroup(group.id)}
                       className={`p-4 rounded-2xl text-left transition-all active:scale-[0.96] relative overflow-hidden ${
-                        isSelected ? 'bg-[#1C1C1E]' : 'bg-[#1C1C1E]'
+                        isSelected ? 'bg-[#0F1628]' : 'bg-[#0F1628]'
                       }`}
                       style={isSelected ? { boxShadow: `0 0 0 1.5px ${accentColor}` } : {}}
                     >
@@ -1787,8 +1811,8 @@ export default function GymPage() {
                       onClick={() => setSelectedDayType(dayType.id as 'rep' | 'strength')}
                       className={`w-full p-5 rounded-2xl border text-left transition-all ${
                         isSelected
-                          ? 'bg-[#30D158]/20 border-[#30D158]'
-                          : 'bg-[#1C1C1E] border-white/[0.08] hover:border-white/30'
+                          ? 'bg-[#6366F1]/20 border-[#6366F1]'
+                          : 'bg-[#0F1628] border-white/[0.08] hover:border-white/30'
                       }`}
                     >
                       <div className="flex items-center justify-between">
@@ -1797,7 +1821,7 @@ export default function GymPage() {
                           <p className="text-white/50 text-sm mt-0.5">{dayType.description}</p>
                         </div>
                         {isSelected && (
-                          <div className="w-6 h-6 bg-[#30D158] rounded-full flex items-center justify-center flex-shrink-0">
+                          <div className="w-6 h-6 bg-[#6366F1] rounded-full flex items-center justify-center flex-shrink-0">
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
@@ -1834,8 +1858,8 @@ export default function GymPage() {
                   return (
                     <div
                       key={exercise.id}
-                      className={`bg-[#1C1C1E] border rounded-2xl overflow-hidden transition-all ${
-                        isSelected ? 'border-[#30D158]/50' : 'border-white/[0.08]'
+                      className={`bg-[#0F1628] border rounded-2xl overflow-hidden transition-all ${
+                        isSelected ? 'border-[#6366F1]/50' : 'border-white/[0.08]'
                       }`}
                     >
                       <button
@@ -1908,7 +1932,7 @@ export default function GymPage() {
                 (builderStep === 1 && selectedMuscleGroups.length === 0) ||
                 (builderStep === 2 && !selectedDayType)
               }
-              className="w-full bg-[#30D158] active:bg-[#28BD4E] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed text-white font-semibold text-[17px] py-4 rounded-2xl transition-all"
+              className="w-full bg-[#6366F1] active:bg-[#4F46E5] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed text-white font-semibold text-[17px] py-4 rounded-2xl transition-all"
             >
               Continue
             </button>
@@ -1916,7 +1940,7 @@ export default function GymPage() {
             <button
               onClick={startWorkout}
               disabled={builderSelectedExercises.length === 0}
-              className="w-full bg-[#30D158] active:bg-[#28BD4E] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed text-white font-semibold text-[17px] py-4 rounded-2xl transition-all"
+              className="w-full bg-[#6366F1] active:bg-[#4F46E5] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed text-white font-semibold text-[17px] py-4 rounded-2xl transition-all"
             >
               {builderSelectedExercises.length === 0
                 ? 'Select at least one exercise'
@@ -1935,9 +1959,9 @@ export default function GymPage() {
     const programExercise = { notes: exercise.notes ?? null };
 
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen bg-[#080C14]">
         {/* Header */}
-        <header className="backdrop-blur-xl bg-black/80 border-b border-white/[0.06] sticky top-0 z-10">
+        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10">
           <div className="px-4 py-3 flex items-center justify-between">
             <button
               onClick={handleBackToCycle}
@@ -1969,21 +1993,39 @@ export default function GymPage() {
                 </button>
               )}
               {isSaving && (
-                <span className="text-[#30D158] text-xs flex items-center gap-1">
-                  <div className="w-3 h-3 border border-[#30D158] border-t-transparent rounded-full animate-spin" />
+                <span className="text-[#6366F1] text-xs flex items-center gap-1">
+                  <div className="w-3 h-3 border border-[#6366F1] border-t-transparent rounded-full animate-spin" />
                   Saving
                 </span>
               )}
             </div>
           </div>
         </header>
-        {/* Large title for exercise */}
-        <div className="px-4 pt-5 pb-1">
-          <h1 className="text-[28px] font-bold text-white tracking-tight leading-tight">{exercise.exerciseName}</h1>
-          {programExercise?.notes && (
-            <p className="text-white/40 text-sm mt-1">{programExercise.notes}</p>
-          )}
-        </div>
+        {/* Exercise hero — image + title */}
+        {exerciseImages.get(exercise.exerciseName) ? (
+          <div className="relative mx-0 mt-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={exerciseImages.get(exercise.exerciseName)!}
+              alt={exercise.exerciseName}
+              className="w-full h-[200px] object-cover"
+            />
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 30%, #080C14 100%)' }} />
+            <div className="absolute bottom-0 left-0 right-0 px-4 pb-3">
+              <h1 className="text-[26px] font-bold text-white tracking-tight leading-tight">{exercise.exerciseName}</h1>
+              {programExercise?.notes && (
+                <p className="text-white/50 text-sm mt-0.5">{programExercise.notes}</p>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="px-4 pt-5 pb-1">
+            <h1 className="text-[28px] font-bold text-white tracking-tight leading-tight">{exercise.exerciseName}</h1>
+            {programExercise?.notes && (
+              <p className="text-white/40 text-sm mt-1">{programExercise.notes}</p>
+            )}
+          </div>
+        )}
 
         {/* Prominent rest timer banner */}
         {restTimeRemaining > 0 && (
@@ -2027,7 +2069,7 @@ export default function GymPage() {
                   type="number"
                   value={tmInput}
                   onChange={(e) => setTmInput(e.target.value)}
-                  className="w-32 bg-[#2C2C2E] rounded-2xl px-4 py-3 text-white text-2xl text-center font-bold border-0 focus:outline-none focus:ring-2 focus:ring-[#30D158]"
+                  className="w-32 bg-[#162038] rounded-2xl px-4 py-3 text-white text-2xl text-center font-bold border-0 focus:outline-none focus:ring-2 focus:ring-[#6366F1]"
                   autoFocus
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') handleSaveTrainingMax(exercise.exerciseId, parseFloat(tmInput));
@@ -2036,7 +2078,7 @@ export default function GymPage() {
                 />
                 <button
                   onClick={() => handleSaveTrainingMax(exercise.exerciseId, parseFloat(tmInput))}
-                  className="w-11 h-11 bg-[#30D158] rounded-full flex items-center justify-center"
+                  className="w-11 h-11 bg-[#6366F1] rounded-full flex items-center justify-center"
                 >
                   <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
@@ -2080,7 +2122,7 @@ export default function GymPage() {
             className={`w-full mb-6 flex items-center justify-center gap-2 py-3 rounded-2xl border transition-colors ${
               showExerciseHistory
                 ? 'bg-[#0A84FF]/15 border-[#0A84FF]/40 text-[#0A84FF]'
-                : 'bg-[#1C1C1E] border-white/[0.08] text-white/50 hover:text-white hover:border-white/[0.12]'
+                : 'bg-[#0F1628] border-white/[0.08] text-white/50 hover:text-white hover:border-white/[0.12]'
             }`}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2091,7 +2133,7 @@ export default function GymPage() {
 
           {/* Exercise History Panel */}
           {showExerciseHistory && (
-            <div className="mb-6 bg-[#1C1C1E] border border-[#0A84FF]/25 rounded-2xl p-4">
+            <div className="mb-6 bg-[#0F1628] border border-[#0A84FF]/25 rounded-2xl p-4">
               {isLoadingExerciseHistory ? (
                 <div className="flex items-center justify-center py-4">
                   <div className="w-5 h-5 border-2 border-[#0A84FF]/25 border-t-[#0A84FF] rounded-full animate-spin" />
@@ -2209,7 +2251,7 @@ export default function GymPage() {
               </div>
               <div className="w-[88px] flex-shrink-0" />
             </div>
-            <div className="bg-[#1C1C1E] rounded-2xl overflow-hidden">
+            <div className="bg-[#0F1628] rounded-2xl overflow-hidden">
               {exercise.sets.map((set, setIndex) => {
                 const setType = set.setType || 'working';
                 const isWarmup = setType === 'warmup';
@@ -2257,7 +2299,7 @@ export default function GymPage() {
                         e.target.value ? parseInt(e.target.value) : null
                       )}
                       placeholder={set.targetReps.toString()}
-                      className="w-full bg-[#2C2C2E] rounded-xl px-2 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#30D158]"
+                      className="w-full bg-[#162038] rounded-xl px-2 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#6366F1]"
                     />
                   </div>
 
@@ -2273,7 +2315,7 @@ export default function GymPage() {
                         e.target.value ? parseFloat(e.target.value) : null
                       )}
                       placeholder={set.targetWeight.toString()}
-                      className="w-full bg-[#2C2C2E] rounded-xl px-2 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#30D158]"
+                      className="w-full bg-[#162038] rounded-xl px-2 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#6366F1]"
                     />
                   </div>
 
@@ -2322,7 +2364,7 @@ export default function GymPage() {
           {exercise.supersetName && exercise.supersetSets && (
             <div>
               {/* Superset header with TM */}
-              <div className="bg-[#1C1C1E] rounded-2xl p-4 mb-3">
+              <div className="bg-[#0F1628] rounded-2xl p-4 mb-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="text-[#FF9F0A] text-sm font-medium">Superset:</span>
@@ -2371,7 +2413,7 @@ export default function GymPage() {
                   })()}
                 </div>
               </div>
-              <div className="bg-[#1C1C1E] rounded-2xl overflow-hidden">
+              <div className="bg-[#0F1628] rounded-2xl overflow-hidden">
                 {exercise.supersetSets.map((set, setIndex) => (
                   <div
                     key={set.setNumber}
@@ -2398,7 +2440,7 @@ export default function GymPage() {
                           e.target.value ? parseInt(e.target.value) : null
                         )}
                         placeholder={set.targetReps.toString()}
-                        className="w-full bg-[#2C2C2E] rounded-xl px-2 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#FF9F0A]"
+                        className="w-full bg-[#162038] rounded-xl px-2 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#FF9F0A]"
                       />
                     </div>
                     <div className="flex-1">
@@ -2412,7 +2454,7 @@ export default function GymPage() {
                           e.target.value ? parseFloat(e.target.value) : null
                         )}
                         placeholder={set.targetWeight.toString()}
-                        className="w-full bg-[#2C2C2E] rounded-xl px-2 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#FF9F0A]"
+                        className="w-full bg-[#162038] rounded-xl px-2 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#FF9F0A]"
                       />
                     </div>
                     <div className="flex gap-1.5 flex-shrink-0">
@@ -2451,9 +2493,9 @@ export default function GymPage() {
     };
 
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen bg-[#080C14]">
         {/* Header */}
-        <header className="backdrop-blur-xl bg-black/80 border-b border-white/[0.06] sticky top-0 z-10">
+        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10">
           <div className="px-4 py-4">
             <div className="flex items-center justify-between mb-2">
               <button
@@ -2480,7 +2522,7 @@ export default function GymPage() {
         <main className="px-4 pt-2 pb-24">
           <h1 className="text-[34px] font-bold text-white tracking-tight mb-6">Settings</h1>
           {/* Seed Data Button */}
-          <div className="bg-[#1C1C1E] rounded-2xl p-4 mb-6">
+          <div className="bg-[#0F1628] rounded-2xl p-4 mb-6">
             <h3 className="text-white font-medium mb-2">Initial Data Setup</h3>
             <p className="text-white/40 text-sm mb-3">
               Load your training maxes and exercise settings. This will overwrite existing values.
@@ -2538,7 +2580,7 @@ export default function GymPage() {
               };
 
               return (
-              <div key={group.id} className="bg-[#1C1C1E] rounded-2xl overflow-hidden">
+              <div key={group.id} className="bg-[#0F1628] rounded-2xl overflow-hidden">
                 <button
                   onClick={toggleGroup}
                   className="w-full flex items-center justify-between p-4 hover:bg-white/[0.05] transition-colors"
@@ -2569,7 +2611,7 @@ export default function GymPage() {
                     return (
                       <div
                         key={exercise.id}
-                        className="bg-black/20 rounded-2xl overflow-hidden border border-white/[0.05]"
+                        className="bg-[#080C14]/20 rounded-2xl overflow-hidden border border-white/[0.05]"
                       >
                         {/* Exercise header */}
                         <div className="p-4">
@@ -2681,7 +2723,7 @@ export default function GymPage() {
                                     targetSets: e.target.value ? parseInt(e.target.value) : null
                                   })}
                                   placeholder="default"
-                                  className="w-full bg-[#2C2C2E] border border-white/[0.08] rounded px-3 py-2 text-white text-sm"
+                                  className="w-full bg-[#162038] border border-white/[0.08] rounded px-3 py-2 text-white text-sm"
                                 />
                               </div>
                               <div>
@@ -2696,7 +2738,7 @@ export default function GymPage() {
                                     targetReps: e.target.value ? parseInt(e.target.value) : null
                                   })}
                                   placeholder="default"
-                                  className="w-full bg-[#2C2C2E] border border-white/[0.08] rounded px-3 py-2 text-white text-sm"
+                                  className="w-full bg-[#162038] border border-white/[0.08] rounded px-3 py-2 text-white text-sm"
                                 />
                               </div>
                             </div>
@@ -2713,7 +2755,7 @@ export default function GymPage() {
                                     ...editingSettings,
                                     basePercent: parseFloat(e.target.value) || 75
                                   })}
-                                  className="w-full bg-[#2C2C2E] border border-white/[0.08] rounded px-3 py-2 text-white text-sm"
+                                  className="w-full bg-[#162038] border border-white/[0.08] rounded px-3 py-2 text-white text-sm"
                                 />
                               </div>
                               <div>
@@ -2726,7 +2768,7 @@ export default function GymPage() {
                                     ...editingSettings,
                                     tmIncrement: parseFloat(e.target.value) || 5
                                   })}
-                                  className="w-full bg-[#2C2C2E] border border-white/[0.08] rounded px-3 py-2 text-white text-sm"
+                                  className="w-full bg-[#162038] border border-white/[0.08] rounded px-3 py-2 text-white text-sm"
                                 />
                               </div>
                             </div>
@@ -2747,7 +2789,7 @@ export default function GymPage() {
                             <div className="flex gap-2">
                               <button
                                 onClick={() => handleSaveSettings(editingSettings)}
-                                className="flex-1 bg-[#30D158] active:bg-[#25A244] text-white py-2 rounded-xl text-sm font-medium"
+                                className="flex-1 bg-[#6366F1] active:bg-[#4F46E5] text-white py-2 rounded-xl text-sm font-medium"
                               >
                                 Save
                               </button>
@@ -2822,9 +2864,9 @@ export default function GymPage() {
       : '';
 
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen bg-[#080C14]">
         {/* Header */}
-        <header className="backdrop-blur-xl bg-black/80 border-b border-white/[0.06] sticky top-0 z-10">
+        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10">
           <div className="px-4 py-4">
             <div className="flex items-center justify-between mb-2">
               <button
@@ -2856,7 +2898,7 @@ export default function GymPage() {
             <select
               value={selectedHistoryExercise}
               onChange={(e) => handleLoadHistory(e.target.value)}
-              className="w-full bg-[#1C1C1E] rounded-xl px-4 py-3 text-white border-0"
+              className="w-full bg-[#0F1628] rounded-xl px-4 py-3 text-white border-0"
             >
               <option value="">Choose an exercise...</option>
               {allExercises.map(ex => (
@@ -2869,14 +2911,14 @@ export default function GymPage() {
 
           {isLoadingHistory && (
             <div className="flex justify-center py-8">
-              <div className="w-8 h-8 border-2 border-white/[0.12] border-t-[#30D158] rounded-full animate-spin" />
+              <div className="w-8 h-8 border-2 border-white/[0.12] border-t-[#6366F1] rounded-full animate-spin" />
             </div>
           )}
 
           {selectedHistoryExercise && !isLoadingHistory && (
             <>
               {/* Chart */}
-              <div className="bg-[#1C1C1E] rounded-2xl p-4 mb-6">
+              <div className="bg-[#0F1628] rounded-2xl p-4 mb-6">
                 <h3 className="text-white font-medium mb-1">Training Max Progression</h3>
                 <p className="text-[#30D158] text-sm mb-4">{selectedExInfo?.name}</p>
 
@@ -2948,7 +2990,7 @@ export default function GymPage() {
               </div>
 
               {/* History list */}
-              <div className="bg-[#1C1C1E] rounded-2xl overflow-hidden">
+              <div className="bg-[#0F1628] rounded-2xl overflow-hidden">
                 <div className="p-4 border-b border-white/[0.08]">
                   <h3 className="text-white font-medium">History</h3>
                 </div>
@@ -2995,7 +3037,7 @@ export default function GymPage() {
 
   // Fallback
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
+    <div className="min-h-screen bg-[#080C14] flex items-center justify-center">
       <p className="text-white/40">Loading...</p>
     </div>
   );

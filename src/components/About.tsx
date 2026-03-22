@@ -45,9 +45,13 @@ export default function About() {
                   <p className="text-white font-black text-2xl leading-none">40+</p>
                   <p className="text-white/50 text-[10px] uppercase tracking-widest mt-1 font-medium">Sites Built</p>
                 </div>
-                <div className="absolute top-[42%] right-5 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 text-center">
-                  <p className="text-white font-black text-2xl leading-none">98%</p>
-                  <p className="text-white/50 text-[10px] uppercase tracking-widest mt-1 font-medium">Satisfaction</p>
+                <div className="absolute top-[38%] right-5 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 text-center">
+                  <p className="text-white font-black text-2xl leading-none">100%</p>
+                  <p className="text-white/50 text-[10px] uppercase tracking-widest mt-1 font-medium">Client Satisfaction</p>
+                </div>
+                <div className="absolute top-[60%] left-5 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 text-center">
+                  <p className="text-white font-black text-2xl leading-none">3×</p>
+                  <p className="text-white/50 text-[10px] uppercase tracking-widest mt-1 font-medium">Avg. Traffic Growth</p>
                 </div>
               </div>
             </div>

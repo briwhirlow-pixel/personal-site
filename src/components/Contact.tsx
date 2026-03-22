@@ -83,7 +83,7 @@ export default function Contact() {
           {/* Left */}
           <Reveal delay={100}>
             <p className="text-[#737373] text-[15px] leading-relaxed mb-10">
-              Have a project in mind? Tell me about it. Whether you need a full custom build or just want to refresh an existing site, I&apos;m here to help.
+              Have a vision for your next website? I&apos;m more than happy to help bring your <span className="text-[#1A1A1A] font-semibold">blueprint</span> to life — whether you&apos;re starting from scratch, leveling up an existing site, or just exploring the possibilities. No pressure, no jargon.
             </p>
             <div className="space-y-3">
               <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-4 group p-4 rounded-xl hover:bg-[#F2F1EC] transition-colors">
@@ -91,19 +91,19 @@ export default function Contact() {
                   <Mail size={16} className="text-[#2563EB] group-hover:text-white transition-colors" />
                 </div>
                 <div>
-                  <p className="text-[11px] text-[#AEACA6] uppercase tracking-wide font-medium">Email</p>
+                  <p className="text-[11px] text-[#AEACA6] uppercase tracking-wide font-medium">Email Me Directly</p>
                   <p className="text-[#1A1A1A] text-[14px] font-medium">{siteConfig.email}</p>
                 </div>
               </a>
-              <a href={siteConfig.calendlyUrl} className="flex items-center gap-4 group p-4 rounded-xl hover:bg-[#F2F1EC] transition-colors">
-                <div className="w-10 h-10 rounded-full bg-[#EFF6FF] flex items-center justify-center group-hover:bg-[#2563EB] transition-colors flex-shrink-0">
-                  <CalendarDays size={16} className="text-[#2563EB] group-hover:text-white transition-colors" />
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-[#F2F1EC]">
+                <div className="w-10 h-10 rounded-full bg-[#EFF6FF] flex items-center justify-center flex-shrink-0">
+                  <CalendarDays size={16} className="text-[#2563EB]" />
                 </div>
                 <div>
-                  <p className="text-[11px] text-[#AEACA6] uppercase tracking-wide font-medium">Discovery Call</p>
-                  <p className="text-[#1A1A1A] text-[14px] font-medium">Book a free 30-min call</p>
+                  <p className="text-[11px] text-[#AEACA6] uppercase tracking-wide font-medium">Response Time</p>
+                  <p className="text-[#1A1A1A] text-[14px] font-medium">Within 1–2 business days</p>
                 </div>
-              </a>
+              </div>
             </div>
           </Reveal>
 

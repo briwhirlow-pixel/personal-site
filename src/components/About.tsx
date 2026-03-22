@@ -36,21 +36,19 @@ export default function About() {
                   <p className="text-white/50 text-sm mt-0.5">Web Designer & Developer</p>
                 </div>
 
-                {/* Floating badge */}
+                {/* Floating badges — all inside the photo */}
                 <div className="absolute top-5 right-5 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 text-center">
                   <p className="text-white font-black text-2xl leading-none">5+</p>
-                  <p className="text-white/50 text-[10px] uppercase tracking-widest mt-1 font-medium">Years exp.</p>
+                  <p className="text-white/50 text-[10px] uppercase tracking-widest mt-1 font-medium">Years Exp.</p>
                 </div>
-              </div>
-
-              {/* Stats row below photo */}
-              <div className="grid grid-cols-3 gap-3 mt-4">
-                {highlights.map((h) => (
-                  <div key={h.label} className="bg-white rounded-2xl p-4 border border-[#E5E4DF] text-center">
-                    <p className="text-2xl font-black text-[#2563EB] leading-none">{h.value}</p>
-                    <p className="text-[11px] text-[#737373] mt-1 leading-tight font-medium">{h.label}</p>
-                  </div>
-                ))}
+                <div className="absolute top-5 left-5 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 text-center">
+                  <p className="text-white font-black text-2xl leading-none">40+</p>
+                  <p className="text-white/50 text-[10px] uppercase tracking-widest mt-1 font-medium">Sites Built</p>
+                </div>
+                <div className="absolute top-[42%] right-5 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 text-center">
+                  <p className="text-white font-black text-2xl leading-none">98%</p>
+                  <p className="text-white/50 text-[10px] uppercase tracking-widest mt-1 font-medium">Satisfaction</p>
+                </div>
               </div>
             </div>
           </Reveal>

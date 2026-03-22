@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import AnimatedCounter from './AnimatedCounter';
 
-const words = ['grow', 'convert', 'scale', 'dominate'];
+const words = ['grow', 'convert', 'scale', 'perform'];
 
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);

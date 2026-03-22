@@ -105,6 +105,81 @@ export default function Contact() {
                 </div>
               </div>
             </div>
+
+            {/* Process map */}
+            <div className="mt-10">
+              <p className="text-[11px] text-[#AEACA6] uppercase tracking-widest font-semibold mb-6">How It Works</p>
+              <div className="relative">
+                {/* Vertical connector line */}
+                <div className="absolute left-[19px] top-8 bottom-8 w-px bg-gradient-to-b from-[#2563EB] via-[#2563EB]/30 to-[#2563EB]/10" />
+
+                <div className="space-y-1">
+                  {[
+                    {
+                      step: '1',
+                      icon: '✍️',
+                      title: 'Fill Out the Form',
+                      desc: 'Tell me about your project, timeline & budget.',
+                      active: true,
+                    },
+                    {
+                      step: '2',
+                      icon: '📬',
+                      title: 'I Respond in 1–2 Days',
+                      desc: 'I review your request and we schedule a discovery call.',
+                      active: false,
+                    },
+                    {
+                      step: '3',
+                      icon: '📞',
+                      title: 'Discovery Call',
+                      desc: 'We align on goals, design direction & scope.',
+                      active: false,
+                    },
+                    {
+                      step: '4',
+                      icon: '⚡',
+                      title: 'Your Website Gets Built',
+                      desc: 'I design & develop your site with regular check-ins.',
+                      active: false,
+                    },
+                    {
+                      step: '5',
+                      icon: '🚀',
+                      title: 'Launch Day',
+                      desc: 'Your site goes live. We celebrate. You grow.',
+                      active: false,
+                    },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-start gap-4 group relative">
+                      {/* Step node */}
+                      <div className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-[15px] transition-all duration-300 border-2 ${
+                        item.active
+                          ? 'bg-[#2563EB] border-[#2563EB] shadow-[0_0_16px_rgba(37,99,235,0.35)]'
+                          : 'bg-white border-[#E5E4DF] group-hover:border-[#2563EB]/50 group-hover:shadow-[0_0_12px_rgba(37,99,235,0.15)]'
+                      }`}>
+                        {item.icon}
+                      </div>
+
+                      {/* Content card */}
+                      <div className={`flex-1 mb-1 px-4 py-3 rounded-xl transition-all duration-300 ${
+                        item.active
+                          ? 'bg-[#EFF6FF] border border-[#2563EB]/20'
+                          : 'bg-transparent group-hover:bg-[#F2F1EC]'
+                      }`}>
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <span className={`text-[10px] font-bold tracking-widest uppercase ${item.active ? 'text-[#2563EB]' : 'text-[#AEACA6]'}`}>
+                            Step {item.step}
+                          </span>
+                        </div>
+                        <p className="text-[13px] font-bold text-[#1A1A1A] leading-snug">{item.title}</p>
+                        <p className="text-[12px] text-[#737373] leading-relaxed mt-0.5">{item.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </Reveal>
 
           {/* Right — form */}

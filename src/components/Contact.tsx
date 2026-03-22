@@ -9,6 +9,8 @@ import Reveal from "./Reveal";
 type FormData = {
   name: string;
   email: string;
+  websiteType: string;
+  websiteTypeCustom: string;
   budget: string;
   launchDate: string;
   message: string;
@@ -27,6 +29,7 @@ export default function Contact() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [launchOption, setLaunchOption] = useState<string>('');
   const [customDate, setCustomDate] = useState('');
+  const [websiteTypeValue, setWebsiteTypeValue] = useState('');
 
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormData>();
 
@@ -53,6 +56,7 @@ export default function Contact() {
       reset();
       setLaunchOption('');
       setCustomDate('');
+      setWebsiteTypeValue('');
     } catch {
       setStatus("error");
     }
@@ -210,6 +214,40 @@ export default function Contact() {
                   <input type="email" placeholder="jane@example.com" className={inputClass(!!errors.email)}
                     {...register("email", { required: "Email is required", pattern: { value: /^\S+@\S+$/i, message: "Invalid email" } })} />
                   {errors.email && <p className="text-red-500 text-[12px] mt-1">{errors.email.message}</p>}
+                </div>
+
+                {/* Type of Website */}
+                <div>
+                  <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Type of Website</label>
+                  <select
+                    className={inputClass(!!errors.websiteType)}
+                    {...register("websiteType", { required: "Please select a website type" })}
+                    onChange={(e) => { setWebsiteTypeValue(e.target.value); }}
+                  >
+                    <option value="">Select a type…</option>
+                    <option value="Business / Brochure Site">Business / Brochure Site</option>
+                    <option value="E-Commerce Store">E-Commerce Store</option>
+                    <option value="Portfolio / Personal Brand">Portfolio / Personal Brand</option>
+                    <option value="Restaurant / Food & Beverage">Restaurant / Food & Beverage</option>
+                    <option value="Real Estate">Real Estate</option>
+                    <option value="Health, Wellness & Fitness">Health, Wellness & Fitness</option>
+                    <option value="Blog / Content Site">Blog / Content Site</option>
+                    <option value="Landing Page">Landing Page</option>
+                    <option value="Non-Profit / Community">Non-Profit / Community</option>
+                    <option value="custom">Other — I&apos;ll describe it below</option>
+                  </select>
+                  {errors.websiteType && <p className="text-red-500 text-[12px] mt-1">{errors.websiteType.message}</p>}
+                  {websiteTypeValue === 'custom' && (
+                    <input
+                      type="text"
+                      placeholder="Describe your website type…"
+                      className={`${inputClass(!!errors.websiteTypeCustom)} mt-2`}
+                      {...register("websiteTypeCustom", {
+                        validate: (val) => websiteTypeValue !== 'custom' || !!val || 'Please describe your website type',
+                      })}
+                    />
+                  )}
+                  {errors.websiteTypeCustom && <p className="text-red-500 text-[12px] mt-1">{errors.websiteTypeCustom.message}</p>}
                 </div>
 
                 {/* Budget */}

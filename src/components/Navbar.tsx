@@ -58,19 +58,19 @@ export default function Navbar() {
               href={link.href}
               className={`text-[13px] tracking-wide font-medium transition-all relative ${
                 activeSection === link.id
-                  ? 'text-[#FF5733]'
+                  ? 'text-[#2563EB]'
                   : scrolled ? "text-[#737373] hover:text-[#1A1A1A]" : "text-white/70 hover:text-white"
               }`}
             >
               {link.label}
               {activeSection === link.id && (
-                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#FF5733] rounded-full" />
+                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#2563EB] rounded-full" />
               )}
             </a>
           ))}
           <a
             href="#contact"
-            className="text-[13px] font-semibold bg-[#FF5733] text-white px-5 py-2.5 rounded-full hover:bg-[#E64A2A] transition-all hover:scale-[1.04] active:scale-[0.97]"
+            className="text-[13px] font-semibold bg-[#2563EB] text-white px-5 py-2.5 rounded-full hover:bg-[#1D4ED8] transition-all hover:scale-[1.04] active:scale-[0.97]"
           >
             Let&apos;s Talk
           </a>
@@ -78,7 +78,7 @@ export default function Navbar() {
 
         <a
           href="#contact"
-          className="md:hidden text-[12px] font-semibold bg-[#FF5733] text-white px-4 py-2 rounded-full hover:bg-[#E64A2A] transition-colors"
+          className="md:hidden text-[12px] font-semibold bg-[#2563EB] text-white px-4 py-2 rounded-full hover:bg-[#1D4ED8] transition-colors"
         >
           Talk
         </a>

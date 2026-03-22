@@ -11,7 +11,6 @@ export default function Hero() {
   const [wordIndex, setWordIndex] = useState(0);
   const [fade, setFade] = useState(true);
 
-  // Cycle through words
   useEffect(() => {
     const interval = setInterval(() => {
       setFade(false);
@@ -23,10 +22,8 @@ export default function Hero() {
     return () => clearInterval(interval);
   }, []);
 
-  // Entrance
   useEffect(() => { setLoaded(true); }, []);
 
-  // Particle canvas
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -41,21 +38,20 @@ export default function Hero() {
     window.addEventListener('resize', resize);
 
     type Particle = { x: number; y: number; r: number; vx: number; vy: number; opacity: number; color: string };
-    const colors = ['rgba(255,87,51,', 'rgba(99,102,241,', 'rgba(255,255,255,'];
+    const colors = ['rgba(37,99,235,', 'rgba(99,102,241,', 'rgba(147,197,253,'];
     const particles: Particle[] = Array.from({ length: 55 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       r: Math.random() * 2.5 + 0.5,
       vx: (Math.random() - 0.5) * 0.25,
       vy: (Math.random() - 0.5) * 0.25,
-      opacity: Math.random() * 0.4 + 0.05,
+      opacity: Math.random() * 0.45 + 0.05,
       color: colors[Math.floor(Math.random() * colors.length)],
     }));
 
     let animId: number;
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // Draw connecting lines
       particles.forEach((p, i) => {
         particles.slice(i + 1).forEach(q => {
           const dist = Math.hypot(p.x - q.x, p.y - q.y);
@@ -63,13 +59,12 @@ export default function Hero() {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = `rgba(255,255,255,${(1 - dist / 120) * 0.04})`;
+            ctx.strokeStyle = `rgba(147,197,253,${(1 - dist / 120) * 0.06})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
         });
       });
-      // Draw particles
       particles.forEach(p => {
         p.x += p.vx;
         p.y += p.vy;
@@ -83,44 +78,33 @@ export default function Hero() {
       animId = requestAnimationFrame(draw);
     };
     draw();
-
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener('resize', resize);
-    };
+    return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize); };
   }, []);
 
   return (
-    <section className="relative min-h-screen bg-[#111111] flex flex-col justify-center overflow-hidden">
-      {/* Particle canvas */}
+    <section
+      className="relative min-h-screen flex flex-col justify-center overflow-hidden"
+      style={{ background: 'linear-gradient(135deg, #06091F 0%, #0D1B45 45%, #081229 100%)' }}
+    >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
       {/* Gradient orbs */}
-      <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full blur-[130px] opacity-[0.12] pointer-events-none" style={{ background: '#FF5733' }} />
-      <div className="absolute bottom-1/4 left-1/5 w-[400px] h-[400px] rounded-full blur-[110px] opacity-[0.08] pointer-events-none" style={{ background: '#6366F1' }} />
+      <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full blur-[130px] opacity-[0.15] pointer-events-none" style={{ background: '#2563EB' }} />
+      <div className="absolute bottom-1/4 left-1/5 w-[400px] h-[400px] rounded-full blur-[110px] opacity-[0.10] pointer-events-none" style={{ background: '#6366F1' }} />
 
-      {/* Content */}
       <div className="relative max-w-7xl mx-auto px-6 md:px-12 pt-28 pb-16 w-full">
-        {/* Availability pill */}
-        <div
-          className={`inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.08] rounded-full px-4 py-1.5 mb-8 transition-all duration-700 ${
-            loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <span className="w-1.5 h-1.5 rounded-full bg-[#FF5733] animate-pulse" />
+        {/* Pill badge */}
+        <div className={`inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.08] rounded-full px-4 py-1.5 mb-8 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <span className="w-1.5 h-1.5 rounded-full bg-[#60A5FA] animate-pulse" />
           <span className="text-white/50 text-[12px] tracking-wide font-medium">Available for new projects — 2026</span>
         </div>
 
-        {/* Headline with cycling word */}
-        <h1
-          className={`text-[clamp(42px,7vw,88px)] font-black text-white leading-[1.0] tracking-tight mb-8 transition-all duration-700 delay-100 ${
-            loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-          }`}
-        >
+        {/* Headline */}
+        <h1 className={`text-[clamp(42px,7vw,88px)] font-black text-white leading-[1.0] tracking-tight mb-8 transition-all duration-700 delay-100 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
           Websites that
           <br />
           <span
-            className="text-[#FF5733] inline-block"
+            className="text-[#60A5FA] inline-block"
             style={{
               opacity: fade ? 1 : 0,
               transform: fade ? 'translateY(0)' : 'translateY(-12px)',
@@ -133,44 +117,24 @@ export default function Hero() {
           your business.
         </h1>
 
-        {/* Sub */}
-        <p
-          className={`text-white/45 text-[17px] leading-relaxed max-w-lg mb-10 transition-all duration-700 delay-200 ${
-            loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
+        <p className={`text-white/45 text-[17px] leading-relaxed max-w-lg mb-10 transition-all duration-700 delay-200 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           I design and build fast, beautiful websites that convert visitors into customers — from brochure sites to full e-commerce stores.
         </p>
 
-        {/* CTAs */}
-        <div
-          className={`flex flex-wrap gap-4 mb-20 transition-all duration-700 delay-300 ${
-            loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <a
-            href="#contact"
-            className="group inline-flex items-center gap-2 bg-[#FF5733] text-white font-semibold px-7 py-4 rounded-full hover:bg-[#E64A2A] transition-all text-[15px] hover:scale-[1.03] active:scale-[0.97]"
-          >
+        <div className={`flex flex-wrap gap-4 mb-20 transition-all duration-700 delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <a href="#contact" className="group inline-flex items-center gap-2 bg-[#2563EB] text-white font-semibold px-7 py-4 rounded-full hover:bg-[#1D4ED8] transition-all text-[15px] hover:scale-[1.03] active:scale-[0.97]">
             Get a free quote
             <svg className="group-hover:translate-x-1 transition-transform" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
           </a>
-          <a
-            href="#portfolio"
-            className="inline-flex items-center gap-2 text-white/60 font-semibold px-7 py-4 rounded-full border border-white/10 hover:border-white/30 hover:text-white transition-all text-[15px] hover:scale-[1.03] active:scale-[0.97]"
-          >
+          <a href="#portfolio" className="inline-flex items-center gap-2 text-white/60 font-semibold px-7 py-4 rounded-full border border-white/10 hover:border-white/30 hover:text-white transition-all text-[15px] hover:scale-[1.03] active:scale-[0.97]">
             See my work
           </a>
         </div>
 
-        {/* Animated stats */}
-        <div
-          className={`flex flex-wrap gap-12 pt-8 border-t border-white/[0.08] transition-all duration-700 delay-500 ${
-            loaded ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
+        {/* Stats */}
+        <div className={`flex flex-wrap gap-12 pt-8 border-t border-white/[0.08] transition-all duration-700 delay-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
           {[
             { target: 40, suffix: '+', label: 'Sites Launched' },
             { target: 98, suffix: '%', label: 'Client Satisfaction' },
@@ -190,19 +154,10 @@ export default function Hero() {
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/20">
         <span className="text-[10px] tracking-[0.3em] uppercase font-medium">Scroll</span>
         <div className="relative h-12 w-px bg-white/10 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#FF5733] to-transparent animate-scroll-line" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#60A5FA] to-transparent" style={{ animation: 'scrollLine 1.8s ease-in-out infinite' }} />
         </div>
       </div>
-
-      <style>{`
-        @keyframes scroll-line {
-          0% { transform: translateY(-100%); }
-          100% { transform: translateY(200%); }
-        }
-        .animate-scroll-line {
-          animation: scroll-line 1.8s ease-in-out infinite;
-        }
-      `}</style>
+      <style>{`@keyframes scrollLine { 0%{transform:translateY(-100%)} 100%{transform:translateY(200%)} }`}</style>
     </section>
   );
 }

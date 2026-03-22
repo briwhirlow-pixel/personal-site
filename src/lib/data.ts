@@ -24,8 +24,7 @@ export const services: ServiceTier[] = [
   {
     name: "Starter",
     price: "Starting at $500",
-    description:
-      "Perfect for small businesses who need a clean, professional online presence — fast.",
+    description: "Perfect for small businesses who need a clean, professional online presence — fast.",
     features: [
       "Up to 5 pages",
       "Mobile-responsive design",
@@ -39,8 +38,7 @@ export const services: ServiceTier[] = [
   {
     name: "Professional",
     price: "Starting at $1,200",
-    description:
-      "For businesses ready to stand out. Custom design, more pages, and the tools to manage your content.",
+    description: "For businesses ready to stand out. Custom design, more pages, and the tools to manage your content.",
     features: [
       "Up to 10 pages",
       "Custom design system",
@@ -55,8 +53,7 @@ export const services: ServiceTier[] = [
   {
     name: "Custom",
     price: "Let's talk",
-    description:
-      "E-commerce, web apps, ongoing retainers — if you have a bigger vision, I can build it.",
+    description: "E-commerce, web apps, ongoing retainers — if you have a bigger vision, I can build it.",
     features: [
       "E-commerce stores",
       "Custom web applications",
@@ -69,63 +66,63 @@ export const services: ServiceTier[] = [
   },
 ];
 
-export type Project = {
+export type WebsiteType = {
   name: string;
-  domain: string;
-  category: string;
+  tagline: string;
   description: string;
+  includes: string[];
   mockupKey: string;
-  url: string;
+  emoji: string;
 };
 
-export const projects: Project[] = [
+export const websiteTypes: WebsiteType[] = [
   {
-    name: "Oakwood Real Estate",
-    domain: "oakwoodrealty.com",
-    category: "Real Estate · Lead Gen",
-    description: "Luxury property listings with immersive photo galleries, mortgage calculator, and a lead capture funnel that tripled inquiries.",
-    mockupKey: "oakwood",
-    url: "#",
+    name: "E-Commerce Store",
+    tagline: "Sell online with confidence",
+    description: "Beautiful online stores built to convert browsers into buyers — seamless checkout, product pages, and inventory management.",
+    includes: ["Product catalog & collections", "Secure payment processing", "Mobile-first checkout", "Order tracking & confirmations"],
+    mockupKey: "ecommerce",
+    emoji: "🛍️",
   },
   {
-    name: "Luma Skincare",
-    domain: "lumaskincare.co",
-    category: "Beauty · E-commerce",
-    description: "A clean, editorial e-commerce store for a sustainable beauty brand — product pages, subscriptions, and a seamless checkout.",
-    mockupKey: "luma",
-    url: "#",
+    name: "Portfolio & Personal Brand",
+    tagline: "Make a lasting first impression",
+    description: "A polished, image-forward site to showcase your work and attract the clients or opportunities you actually want.",
+    includes: ["Full-screen project galleries", "About & services pages", "Client inquiry form", "Blog or case study support"],
+    mockupKey: "portfolio",
+    emoji: "✦",
   },
   {
-    name: "Catalyst Consulting",
-    domain: "catalystco.io",
-    category: "B2B · Lead Generation",
-    description: "High-converting landing pages and a case study hub for a strategy consulting firm, with integrated CRM and calendar booking.",
-    mockupKey: "catalyst",
-    url: "#",
+    name: "Restaurant & Hospitality",
+    tagline: "Fill tables and build loyalty",
+    description: "Warm, story-driven sites that showcase your menu, ambiance, and make it easy for guests to book a table or order online.",
+    includes: ["Menu & specials pages", "Reservation integration", "Location & hours", "Online ordering ready"],
+    mockupKey: "restaurant",
+    emoji: "🍽️",
   },
   {
-    name: "Nomad Coffee Co.",
-    domain: "nomadcoffee.com",
-    category: "Hospitality · Brand Site",
-    description: "A warm, story-driven site for a specialty coffee roaster — online ordering, roastery locations, and a coffee subscription box.",
-    mockupKey: "nomad",
-    url: "#",
+    name: "Business & Services",
+    tagline: "Convert visitors into clients",
+    description: "Professional lead-generation sites for consultants, agencies, and service businesses — built to build trust and capture inquiries.",
+    includes: ["Service & pricing pages", "Lead capture forms", "Testimonials & case studies", "Calendar booking integration"],
+    mockupKey: "business",
+    emoji: "💼",
   },
   {
-    name: "Atlas Fitness",
-    domain: "atlasfitness.app",
-    category: "Fitness · Membership",
-    description: "A dark, energetic site for a boutique gym with class scheduling, trainer profiles, and integrated membership sign-up.",
-    mockupKey: "atlas",
-    url: "#",
+    name: "Real Estate & Property",
+    tagline: "Showcase listings and capture leads",
+    description: "Clean, high-converting property sites with immersive photo galleries, search filters, and built-in lead capture.",
+    includes: ["Property listing pages", "Search & filter functionality", "Agent bio & contact", "Virtual tour integration"],
+    mockupKey: "realestate",
+    emoji: "🏡",
   },
   {
-    name: "Horizon Architecture",
-    domain: "horizonarch.studio",
-    category: "Architecture · Portfolio",
-    description: "A minimal, image-forward portfolio for an award-winning architecture studio with full-screen project galleries.",
-    mockupKey: "horizon",
-    url: "#",
+    name: "Health, Wellness & Fitness",
+    tagline: "Grow your practice or studio",
+    description: "Fresh, professional sites for gyms, studios, therapists, and wellness brands — with class schedules, booking, and membership flows.",
+    includes: ["Class schedule & booking", "Membership sign-up", "Trainer & practitioner profiles", "Blog & resources"],
+    mockupKey: "health",
+    emoji: "💪",
   },
 ];
 
@@ -136,4 +133,11 @@ export const budgetOptions = [
   "$2,500 – $5,000",
   "$5,000+",
   "Not sure yet",
+] as const;
+
+export const launchOptions = [
+  { label: "2 Weeks", value: "2weeks", weeks: 2 },
+  { label: "1 Month", value: "1month", weeks: 4 },
+  { label: "3 Months", value: "3months", weeks: 13 },
+  { label: "Custom Date", value: "custom", weeks: 0 },
 ] as const;

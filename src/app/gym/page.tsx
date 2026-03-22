@@ -153,8 +153,11 @@ export default function GymPage() {
   const [builderSelectedExercises, setBuilderSelectedExercises] = useState<string[]>([]);
   const [exerciseSetCounts, setExerciseSetCounts] = useState<Map<string, number>>(new Map());
   const [exerciseImages, setExerciseImages] = useState<Map<string, string | null>>(new Map());
+  // Use a ref to track in-flight/completed fetches — avoids stale-closure deduplication issues
+  const fetchedExercises = useRef<Set<string>>(new Set());
   const fetchExerciseImage = useCallback(async (exerciseName: string) => {
-    if (exerciseImages.has(exerciseName)) return;
+    if (fetchedExercises.current.has(exerciseName)) return;
+    fetchedExercises.current.add(exerciseName);
     try {
       const res = await fetch(`/api/gym/exercise-image?name=${encodeURIComponent(exerciseName)}`);
       const data = await res.json();
@@ -162,7 +165,6 @@ export default function GymPage() {
     } catch {
       setExerciseImages(prev => new Map(prev).set(exerciseName, null));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // History state

@@ -129,7 +129,7 @@ export default function Hero() {
             </svg>
           </a>
           <a href="#portfolio" className="inline-flex items-center gap-2 text-white/60 font-semibold px-7 py-4 rounded-full border border-white/10 hover:border-white/30 hover:text-white transition-all text-[15px] hover:scale-[1.03] active:scale-[0.97]">
-            See my work
+            See Website Examples I&apos;ve Built
           </a>
         </div>
 
@@ -137,7 +137,7 @@ export default function Hero() {
         <div className={`flex flex-wrap gap-12 pt-8 border-t border-white/[0.08] transition-all duration-700 delay-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
           {[
             { target: 40, suffix: '+', label: 'Sites Launched' },
-            { target: 98, suffix: '%', label: 'Client Satisfaction' },
+            { target: 100, suffix: '%', label: 'Client Satisfaction Guaranteed' },
             { target: 3, suffix: '×', label: 'Avg. Lead Increase' },
           ].map((stat) => (
             <div key={stat.label}>

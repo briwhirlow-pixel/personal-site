@@ -36,22 +36,19 @@ export default function About() {
                   <p className="text-white/50 text-sm mt-0.5">Web Designer & Developer</p>
                 </div>
 
-                {/* Floating badges — all inside the photo */}
-                <div className="absolute top-5 right-5 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 text-center">
-                  <p className="text-white font-black text-2xl leading-none">5+</p>
-                  <p className="text-white/50 text-[10px] uppercase tracking-widest mt-1 font-medium">Years Exp.</p>
-                </div>
-                <div className="absolute top-5 left-5 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 text-center">
-                  <p className="text-white font-black text-2xl leading-none">40+</p>
-                  <p className="text-white/50 text-[10px] uppercase tracking-widest mt-1 font-medium">Sites Built</p>
-                </div>
-                <div className="absolute top-[38%] right-5 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 text-center">
-                  <p className="text-white font-black text-2xl leading-none">100%</p>
-                  <p className="text-white/50 text-[10px] uppercase tracking-widest mt-1 font-medium">Client Satisfaction</p>
-                </div>
-                <div className="absolute top-[60%] left-5 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 text-center">
-                  <p className="text-white font-black text-2xl leading-none">3×</p>
-                  <p className="text-white/50 text-[10px] uppercase tracking-widest mt-1 font-medium">Avg. Traffic Growth</p>
+                {/* Floating badges — stacked under BW initials */}
+                <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex gap-3 w-[calc(100%-40px)]">
+                  {[
+                    { value: "40+", label: "Sites Built" },
+                    { value: "5+", label: "Years Exp." },
+                    { value: "100%", label: "Satisfaction" },
+                    { value: "3×", label: "Traffic Growth" },
+                  ].map((badge) => (
+                    <div key={badge.label} className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl py-3 text-center">
+                      <p className="text-white font-black text-xl leading-none">{badge.value}</p>
+                      <p className="text-white/50 text-[9px] uppercase tracking-widest mt-1 font-medium">{badge.label}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -73,10 +70,7 @@ export default function About() {
                 Hey — I&apos;m Brian. I&apos;m a freelance web designer and developer with over 5 years of experience helping businesses of all sizes build their online presence.
               </p>
               <p>
-                I started out as a self-taught developer and grew into design, realizing that the best websites aren&apos;t just technically solid — they&apos;re also <span className="text-[#1A1A1A] font-semibold">visually compelling and strategically built to convert</span>. That combination is what I bring to every project.
-              </p>
-              <p>
-                When I&apos;m not building websites, I&apos;m staying on top of the latest in design and tech — so your site is always built with modern best practices.
+                I started out as a self-taught developer and grew into design, realizing that the best websites aren&apos;t just technically solid — they&apos;re also <span className="text-[#1A1A1A] font-semibold">visually compelling and strategically built to convert</span>. That combination is what I bring to every project. I&apos;m constantly staying on top of the latest in design and tech so your site is always built with modern best practices.
               </p>
             </div>
 

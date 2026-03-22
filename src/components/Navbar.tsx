@@ -21,14 +21,16 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-white border-b border-zinc-200" : "bg-transparent"
+        scrolled
+          ? "bg-[#FAFAF7]/95 backdrop-blur-md border-b border-[#E5E4DF]"
+          : "bg-transparent"
       }`}
     >
       <nav className="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
         <a
           href="#"
           className={`font-bold text-[15px] tracking-widest uppercase transition-colors ${
-            scrolled ? "text-black" : "text-white"
+            scrolled ? "text-[#1A1A1A]" : "text-white"
           }`}
         >
           {siteConfig.name}
@@ -39,8 +41,8 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className={`text-[13px] tracking-widest uppercase font-medium transition-colors hover:opacity-60 ${
-                scrolled ? "text-black" : "text-white"
+              className={`text-[13px] tracking-wide font-medium transition-colors hover:text-[#FF5733] ${
+                scrolled ? "text-[#737373]" : "text-white/70"
               }`}
             >
               {link.label}
@@ -48,24 +50,15 @@ export default function Navbar() {
           ))}
           <a
             href="#contact"
-            className={`text-[13px] tracking-widest uppercase font-medium border px-5 py-2.5 transition-all hover:opacity-70 ${
-              scrolled
-                ? "border-black text-black hover:bg-black hover:text-white"
-                : "border-white text-white hover:bg-white hover:text-black"
-            }`}
+            className="text-[13px] font-semibold bg-[#FF5733] text-white px-5 py-2.5 rounded-full hover:bg-[#E64A2A] transition-colors"
           >
             Let&apos;s Talk
           </a>
         </div>
 
-        {/* Mobile CTA */}
         <a
           href="#contact"
-          className={`md:hidden text-[12px] tracking-widest uppercase font-medium border px-4 py-2 transition-all ${
-            scrolled
-              ? "border-black text-black"
-              : "border-white text-white"
-          }`}
+          className="md:hidden text-[12px] font-semibold bg-[#FF5733] text-white px-4 py-2 rounded-full hover:bg-[#E64A2A] transition-colors"
         >
           Talk
         </a>

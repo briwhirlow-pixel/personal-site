@@ -15,12 +15,7 @@ type FormData = {
 export default function Contact() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FormData>();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
     setStatus("loading");
@@ -38,49 +33,49 @@ export default function Contact() {
     }
   };
 
-  const inputClass = (hasError?: boolean) =>
-    `w-full bg-transparent border-b ${hasError ? "border-red-500" : "border-zinc-300"} px-0 py-3 text-[15px] text-black placeholder-zinc-400 focus:outline-none focus:border-black transition-colors`;
-
   return (
-    <section id="contact" className="bg-white py-32">
+    <section id="contact" className="bg-[#FAFAF7] py-28">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Header */}
-        <div className="mb-20 pb-8 border-b border-zinc-200">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-zinc-400 font-medium mb-4">
-            Get in touch
+
+        {/* Section header with coral bg strip */}
+        <div className="bg-[#FF5733] rounded-2xl px-8 md:px-12 py-10 mb-16 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div>
+            <p className="text-white/60 text-[12px] font-semibold tracking-widest uppercase mb-2">Get in touch</p>
+            <h2 className="text-[clamp(28px,4vw,48px)] font-black text-white leading-tight tracking-tight">
+              Let&apos;s build something great.
+            </h2>
+          </div>
+          <p className="text-white/70 text-[15px] leading-relaxed max-w-xs">
+            Fill out the form below and I&apos;ll get back to you within 1–2 business days.
           </p>
-          <h2 className="text-[clamp(36px,5vw,60px)] font-black text-black leading-tight tracking-tight">
-            Let&apos;s build
-            <br />
-            something great.
-          </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-20 items-start">
+        <div className="grid md:grid-cols-2 gap-16 items-start">
           {/* Left */}
           <div>
-            <p className="text-zinc-500 text-[15px] leading-relaxed mb-12">
-              Have a project in mind? Fill out the form and I&apos;ll get back to you within 1–2 business days. Or reach out directly below.
+            <p className="text-[#737373] text-[15px] leading-relaxed mb-10">
+              Have a project in mind? Tell me about it. Whether you need a full custom build or just want to refresh an existing site, I&apos;m here to help.
             </p>
 
-            <div className="space-y-6">
-              <a
-                href={`mailto:${siteConfig.email}`}
-                className="flex items-center gap-4 group"
-              >
-                <div className="w-10 h-10 border border-zinc-200 flex items-center justify-center group-hover:border-black transition-colors">
-                  <Mail size={15} className="text-zinc-400 group-hover:text-black transition-colors" />
+            <div className="space-y-4">
+              <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-4 group p-4 rounded-xl hover:bg-[#F2F1EC] transition-colors">
+                <div className="w-10 h-10 rounded-full bg-[#FF5733]/10 flex items-center justify-center group-hover:bg-[#FF5733] transition-colors flex-shrink-0">
+                  <Mail size={16} className="text-[#FF5733] group-hover:text-white transition-colors" />
                 </div>
-                <span className="text-[14px] text-zinc-500 group-hover:text-black transition-colors">{siteConfig.email}</span>
+                <div>
+                  <p className="text-[11px] text-[#AEACA6] uppercase tracking-wide font-medium">Email</p>
+                  <p className="text-[#1A1A1A] text-[14px] font-medium">{siteConfig.email}</p>
+                </div>
               </a>
-              <a
-                href={siteConfig.calendlyUrl}
-                className="flex items-center gap-4 group"
-              >
-                <div className="w-10 h-10 border border-zinc-200 flex items-center justify-center group-hover:border-black transition-colors">
-                  <CalendarDays size={15} className="text-zinc-400 group-hover:text-black transition-colors" />
+
+              <a href={siteConfig.calendlyUrl} className="flex items-center gap-4 group p-4 rounded-xl hover:bg-[#F2F1EC] transition-colors">
+                <div className="w-10 h-10 rounded-full bg-[#FF5733]/10 flex items-center justify-center group-hover:bg-[#FF5733] transition-colors flex-shrink-0">
+                  <CalendarDays size={16} className="text-[#FF5733] group-hover:text-white transition-colors" />
                 </div>
-                <span className="text-[14px] text-zinc-500 group-hover:text-black transition-colors">Book a free 30-min discovery call</span>
+                <div>
+                  <p className="text-[11px] text-[#AEACA6] uppercase tracking-wide font-medium">Discovery Call</p>
+                  <p className="text-[#1A1A1A] text-[14px] font-medium">Book a free 30-min call</p>
+                </div>
               </a>
             </div>
           </div>
@@ -88,60 +83,51 @@ export default function Contact() {
           {/* Right — form */}
           <div>
             {status === "success" ? (
-              <div className="border border-zinc-200 p-12 text-center">
-                <p className="text-4xl mb-4 font-black">✓</p>
-                <h3 className="text-lg font-black text-black tracking-tight mb-2">Message received!</h3>
-                <p className="text-zinc-500 text-[14px]">
-                  Thanks for reaching out. I&apos;ll be in touch within 1–2 business days.
-                </p>
+              <div className="bg-[#F2F1EC] rounded-2xl p-10 text-center">
+                <div className="w-14 h-14 bg-[#FF5733] rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg width="22" height="22" fill="none" stroke="white" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-black text-[#1A1A1A] mb-2">Message received!</h3>
+                <p className="text-[#737373] text-[14px]">I&apos;ll get back to you within 1–2 business days.</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-                <div>
-                  <label className="block text-[11px] tracking-widest uppercase text-zinc-400 font-medium mb-3">Name</label>
-                  <input
-                    type="text"
-                    placeholder="Jane Smith"
-                    className={inputClass(!!errors.name)}
-                    {...register("name", { required: "Name is required" })}
-                  />
-                  {errors.name && <p className="text-red-500 text-[12px] mt-1">{errors.name.message}</p>}
-                </div>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                {[
+                  { id: "name", label: "Your Name", type: "text", placeholder: "Jane Smith", reg: register("name", { required: "Name is required" }), error: errors.name },
+                  { id: "email", label: "Email Address", type: "email", placeholder: "jane@example.com", reg: register("email", { required: "Email is required", pattern: { value: /^\S+@\S+$/i, message: "Invalid email" } }), error: errors.email },
+                ].map((field) => (
+                  <div key={field.id}>
+                    <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">{field.label}</label>
+                    <input
+                      type={field.type}
+                      placeholder={field.placeholder}
+                      className={`w-full bg-white border rounded-xl px-4 py-3.5 text-[14px] text-[#1A1A1A] placeholder-[#CECCC6] focus:outline-none focus:ring-2 focus:ring-[#FF5733] focus:border-transparent transition ${field.error ? "border-red-400" : "border-[#E5E4DF]"}`}
+                      {...field.reg}
+                    />
+                    {field.error && <p className="text-red-500 text-[12px] mt-1">{field.error.message}</p>}
+                  </div>
+                ))}
 
                 <div>
-                  <label className="block text-[11px] tracking-widest uppercase text-zinc-400 font-medium mb-3">Email</label>
-                  <input
-                    type="email"
-                    placeholder="jane@example.com"
-                    className={inputClass(!!errors.email)}
-                    {...register("email", {
-                      required: "Email is required",
-                      pattern: { value: /^\S+@\S+$/i, message: "Invalid email" },
-                    })}
-                  />
-                  {errors.email && <p className="text-red-500 text-[12px] mt-1">{errors.email.message}</p>}
-                </div>
-
-                <div>
-                  <label className="block text-[11px] tracking-widest uppercase text-zinc-400 font-medium mb-3">Budget range</label>
+                  <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Budget Range</label>
                   <select
-                    className={`w-full bg-transparent border-b ${errors.budget ? "border-red-500" : "border-zinc-300"} px-0 py-3 text-[15px] text-black focus:outline-none focus:border-black transition-colors`}
-                    {...register("budget", { required: "Please select a budget range" })}
+                    className={`w-full bg-white border rounded-xl px-4 py-3.5 text-[14px] text-[#1A1A1A] focus:outline-none focus:ring-2 focus:ring-[#FF5733] focus:border-transparent transition ${errors.budget ? "border-red-400" : "border-[#E5E4DF]"}`}
+                    {...register("budget", { required: "Please select a budget" })}
                   >
                     <option value="">Select a range…</option>
-                    {budgetOptions.map((opt) => (
-                      <option key={opt} value={opt}>{opt}</option>
-                    ))}
+                    {budgetOptions.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
                   </select>
                   {errors.budget && <p className="text-red-500 text-[12px] mt-1">{errors.budget.message}</p>}
                 </div>
 
                 <div>
-                  <label className="block text-[11px] tracking-widest uppercase text-zinc-400 font-medium mb-3">Project details</label>
+                  <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Tell Me About Your Project</label>
                   <textarea
                     rows={4}
                     placeholder="What do you need built? What's the goal?"
-                    className={`w-full bg-transparent border-b ${errors.message ? "border-red-500" : "border-zinc-300"} px-0 py-3 text-[15px] text-black placeholder-zinc-400 focus:outline-none focus:border-black transition-colors resize-none`}
+                    className={`w-full bg-white border rounded-xl px-4 py-3.5 text-[14px] text-[#1A1A1A] placeholder-[#CECCC6] focus:outline-none focus:ring-2 focus:ring-[#FF5733] focus:border-transparent transition resize-none ${errors.message ? "border-red-400" : "border-[#E5E4DF]"}`}
                     {...register("message", { required: "Please describe your project" })}
                   />
                   {errors.message && <p className="text-red-500 text-[12px] mt-1">{errors.message.message}</p>}
@@ -149,17 +135,16 @@ export default function Contact() {
 
                 {status === "error" && (
                   <p className="text-red-500 text-[13px]">
-                    Something went wrong. Email me at{" "}
-                    <a href={`mailto:${siteConfig.email}`} className="underline">{siteConfig.email}</a>.
+                    Something went wrong. Email me at <a href={`mailto:${siteConfig.email}`} className="underline">{siteConfig.email}</a>.
                   </p>
                 )}
 
                 <button
                   type="submit"
                   disabled={status === "loading"}
-                  className="text-[12px] tracking-widest uppercase font-semibold bg-black text-white px-8 py-4 hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="w-full bg-[#FF5733] text-white font-bold py-4 px-6 rounded-xl hover:bg-[#E64A2A] disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-[14px] tracking-wide"
                 >
-                  {status === "loading" ? "Sending…" : "Send Message"}
+                  {status === "loading" ? "Sending…" : "Send Message →"}
                 </button>
               </form>
             )}

@@ -3,10 +3,10 @@ export const siteConfig = {
   tagline: "Web Designer & Developer",
   description:
     "I design and build fast, beautiful websites that help businesses grow. From simple brochure sites to full e-commerce stores — I handle it all.",
-  email: "brian@brianwhirlow.com", // TODO: update with real email
-  calendlyUrl: "#", // TODO: add Calendly link
+  email: "brian@brianwhirlow.com",
+  calendlyUrl: "#",
   social: {
-    github: "#", // TODO: add real links
+    github: "#",
     linkedin: "#",
   },
 };
@@ -25,7 +25,7 @@ export const services: ServiceTier[] = [
     name: "Starter",
     price: "Starting at $500",
     description:
-      "Perfect for small businesses or individuals who need a clean, professional online presence fast.",
+      "Perfect for small businesses who need a clean, professional online presence — fast.",
     features: [
       "Up to 5 pages",
       "Mobile-responsive design",
@@ -43,10 +43,10 @@ export const services: ServiceTier[] = [
       "For businesses ready to stand out. Custom design, more pages, and the tools to manage your content.",
     features: [
       "Up to 10 pages",
-      "Custom design",
+      "Custom design system",
       "CMS integration",
       "SEO optimization",
-      "Google Analytics setup",
+      "Google Analytics",
       "3 rounds of revisions",
     ],
     cta: "Get started",
@@ -56,10 +56,10 @@ export const services: ServiceTier[] = [
     name: "Custom",
     price: "Let's talk",
     description:
-      "E-commerce, web applications, ongoing retainers — if you have a bigger vision, I can build it.",
+      "E-commerce, web apps, ongoing retainers — if you have a bigger vision, I can build it.",
     features: [
       "E-commerce stores",
-      "Custom web apps",
+      "Custom web applications",
       "API integrations",
       "Ongoing maintenance",
       "Priority support",
@@ -71,35 +71,60 @@ export const services: ServiceTier[] = [
 
 export type Project = {
   name: string;
+  domain: string;
   category: string;
   description: string;
-  imageAlt: string;
+  mockupKey: string;
   url: string;
 };
 
 export const projects: Project[] = [
   {
-    name: "Maple & Co.",
-    category: "Restaurant · Brochure Site",
-    description:
-      "A warm, inviting site for a local restaurant featuring their menu, story, and online reservation form.",
-    imageAlt: "Maple & Co. restaurant website screenshot",
-    url: "#", // TODO: replace with real project URL
-  },
-  {
-    name: "Studio Vera",
-    category: "Photography · Portfolio",
-    description:
-      "A minimal, image-forward portfolio for a professional photographer with a full-screen gallery.",
-    imageAlt: "Studio Vera photography portfolio screenshot",
+    name: "Oakwood Real Estate",
+    domain: "oakwoodrealty.com",
+    category: "Real Estate · Lead Gen",
+    description: "Luxury property listings with immersive photo galleries, mortgage calculator, and a lead capture funnel that tripled inquiries.",
+    mockupKey: "oakwood",
     url: "#",
   },
   {
-    name: "GreenLeaf Supply",
-    category: "E-commerce · Online Store",
-    description:
-      "A clean e-commerce store for a sustainable goods brand, with product catalog and checkout.",
-    imageAlt: "GreenLeaf Supply e-commerce website screenshot",
+    name: "Luma Skincare",
+    domain: "lumaskincare.co",
+    category: "Beauty · E-commerce",
+    description: "A clean, editorial e-commerce store for a sustainable beauty brand — product pages, subscriptions, and a seamless checkout.",
+    mockupKey: "luma",
+    url: "#",
+  },
+  {
+    name: "Catalyst Consulting",
+    domain: "catalystco.io",
+    category: "B2B · Lead Generation",
+    description: "High-converting landing pages and a case study hub for a strategy consulting firm, with integrated CRM and calendar booking.",
+    mockupKey: "catalyst",
+    url: "#",
+  },
+  {
+    name: "Nomad Coffee Co.",
+    domain: "nomadcoffee.com",
+    category: "Hospitality · Brand Site",
+    description: "A warm, story-driven site for a specialty coffee roaster — online ordering, roastery locations, and a coffee subscription box.",
+    mockupKey: "nomad",
+    url: "#",
+  },
+  {
+    name: "Atlas Fitness",
+    domain: "atlasfitness.app",
+    category: "Fitness · Membership",
+    description: "A dark, energetic site for a boutique gym with class scheduling, trainer profiles, and integrated membership sign-up.",
+    mockupKey: "atlas",
+    url: "#",
+  },
+  {
+    name: "Horizon Architecture",
+    domain: "horizonarch.studio",
+    category: "Architecture · Portfolio",
+    description: "A minimal, image-forward portfolio for an award-winning architecture studio with full-screen project galleries.",
+    mockupKey: "horizon",
     url: "#",
   },
 ];

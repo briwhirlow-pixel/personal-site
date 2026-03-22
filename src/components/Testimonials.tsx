@@ -117,7 +117,7 @@ export default function Testimonials() {
               <span className="text-[#1A1A1A] text-[14px] font-bold">5.0 average rating</span>
             </div>
             <div className="hidden sm:block w-px h-5 bg-[#E5E4DF]" />
-            <p className="text-[#737373] text-[14px]">100% Client Satisfaction Guaranteed across 40+ projects</p>
+            <p className="text-[#737373] text-[14px]">72hr average first draft delivery — every project</p>
             <div className="hidden sm:block w-px h-5 bg-[#E5E4DF]" />
             <p className="text-[#737373] text-[14px]">No project too small or too ambitious</p>
           </div>

@@ -8,7 +8,7 @@ const skills = [
 
 const highlights = [
   { value: "5+", label: "Years of Experience" },
-  { value: "40+", label: "Sites Launched" },
+  { value: "72hr", label: "Avg. First Draft" },
   { value: "15+", label: "Industries Served" },
 ];
 
@@ -39,7 +39,7 @@ export default function About() {
                 {/* Floating badges — stacked under BW initials */}
                 <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex gap-3 w-[calc(100%-40px)]">
                   {[
-                    { value: "40+", label: "Sites Built" },
+                    { value: "72hr", label: "First Draft" },
                     { value: "5+", label: "Years Exp." },
                     { value: "100%", label: "Satisfaction" },
                     { value: "3×", label: "Traffic Growth" },

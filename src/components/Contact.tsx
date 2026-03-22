@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Mail, CalendarDays } from "lucide-react";
 import { budgetOptions, siteConfig } from "@/lib/data";
+import Reveal from "./Reveal";
 
 type FormData = {
   name: string;
@@ -38,21 +39,23 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto px-6 md:px-12">
 
         {/* Section header with coral bg strip */}
-        <div className="bg-[#FF5733] rounded-2xl px-8 md:px-12 py-10 mb-16 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-          <div>
-            <p className="text-white/60 text-[12px] font-semibold tracking-widest uppercase mb-2">Get in touch</p>
-            <h2 className="text-[clamp(28px,4vw,48px)] font-black text-white leading-tight tracking-tight">
-              Let&apos;s build something great.
-            </h2>
+        <Reveal>
+          <div className="bg-[#FF5733] rounded-2xl px-8 md:px-12 py-10 mb-16 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+              <p className="text-white/60 text-[12px] font-semibold tracking-widest uppercase mb-2">Get in touch</p>
+              <h2 className="text-[clamp(28px,4vw,48px)] font-black text-white leading-tight tracking-tight">
+                Let&apos;s build something great.
+              </h2>
+            </div>
+            <p className="text-white/70 text-[15px] leading-relaxed max-w-xs">
+              Fill out the form below and I&apos;ll get back to you within 1–2 business days.
+            </p>
           </div>
-          <p className="text-white/70 text-[15px] leading-relaxed max-w-xs">
-            Fill out the form below and I&apos;ll get back to you within 1–2 business days.
-          </p>
-        </div>
+        </Reveal>
 
         <div className="grid md:grid-cols-2 gap-16 items-start">
           {/* Left */}
-          <div>
+          <Reveal delay={100}>
             <p className="text-[#737373] text-[15px] leading-relaxed mb-10">
               Have a project in mind? Tell me about it. Whether you need a full custom build or just want to refresh an existing site, I&apos;m here to help.
             </p>
@@ -78,10 +81,10 @@ export default function Contact() {
                 </div>
               </a>
             </div>
-          </div>
+          </Reveal>
 
           {/* Right — form */}
-          <div>
+          <Reveal delay={200}>
             {status === "success" ? (
               <div className="bg-[#F2F1EC] rounded-2xl p-10 text-center">
                 <div className="w-14 h-14 bg-[#FF5733] rounded-full flex items-center justify-center mx-auto mb-4">
@@ -148,7 +151,7 @@ export default function Contact() {
                 </button>
               </form>
             )}
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

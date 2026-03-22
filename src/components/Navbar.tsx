@@ -4,18 +4,33 @@ import { useEffect, useState } from "react";
 import { siteConfig } from "@/lib/data";
 
 const navLinks = [
-  { label: "Services", href: "#services" },
-  { label: "Work", href: "#portfolio" },
-  { label: "Contact", href: "#contact" },
+  { label: "Services", href: "#services", id: "services" },
+  { label: "Work", href: "#portfolio", id: "portfolio" },
+  { label: "Contact", href: "#contact", id: "contact" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const observers = navLinks.map(link => {
+      const el = document.getElementById(link.id);
+      if (!el) return null;
+      const observer = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveSection(link.id); },
+        { threshold: 0.3 }
+      );
+      observer.observe(el);
+      return observer;
+    });
+    return () => observers.forEach(o => o?.disconnect());
   }, []);
 
   return (
@@ -41,16 +56,21 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className={`text-[13px] tracking-wide font-medium transition-colors hover:text-[#FF5733] ${
-                scrolled ? "text-[#737373]" : "text-white/70"
+              className={`text-[13px] tracking-wide font-medium transition-all relative ${
+                activeSection === link.id
+                  ? 'text-[#FF5733]'
+                  : scrolled ? "text-[#737373] hover:text-[#1A1A1A]" : "text-white/70 hover:text-white"
               }`}
             >
               {link.label}
+              {activeSection === link.id && (
+                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#FF5733] rounded-full" />
+              )}
             </a>
           ))}
           <a
             href="#contact"
-            className="text-[13px] font-semibold bg-[#FF5733] text-white px-5 py-2.5 rounded-full hover:bg-[#E64A2A] transition-colors"
+            className="text-[13px] font-semibold bg-[#FF5733] text-white px-5 py-2.5 rounded-full hover:bg-[#E64A2A] transition-all hover:scale-[1.04] active:scale-[0.97]"
           >
             Let&apos;s Talk
           </a>

@@ -3,53 +3,55 @@ import { ArrowUpRight } from "lucide-react";
 
 export default function Portfolio() {
   return (
-    <section id="portfolio" className="py-24 bg-zinc-50">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <p className="text-indigo-600 font-medium text-sm uppercase tracking-widest mb-3">
-            Portfolio
-          </p>
-          <h2 className="text-4xl font-bold text-zinc-900 tracking-tight mb-4">
-            Recent work
-          </h2>
-          <p className="text-zinc-500 text-lg max-w-xl mx-auto">
-            A selection of projects I&apos;ve designed and built. More available
-            on request.
+    <section id="portfolio" className="bg-black py-32">
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-20 pb-8 border-b border-white/10">
+          <div>
+            <p className="text-[11px] tracking-[0.3em] uppercase text-white/30 font-medium mb-4">
+              Selected Work
+            </p>
+            <h2 className="text-[clamp(36px,5vw,60px)] font-black text-white leading-tight tracking-tight">
+              Recent
+              <br />
+              projects.
+            </h2>
+          </div>
+          <p className="text-white/40 text-[15px] leading-relaxed max-w-xs md:text-right">
+            A selection of sites I&apos;ve designed and built. More available on request.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        {/* Project grid */}
+        <div className="grid md:grid-cols-3 gap-px bg-white/[0.06]">
           {projects.map((project) => (
-            <div
+            <a
               key={project.name}
-              className="group bg-white rounded-2xl border border-zinc-200 overflow-hidden hover:shadow-md hover:border-zinc-300 transition-all"
+              href={project.url}
+              className="group bg-black block overflow-hidden relative"
             >
-              {/* Placeholder thumbnail */}
-              <div className="aspect-video bg-gradient-to-br from-zinc-100 to-zinc-200 flex items-center justify-center">
-                <span className="text-zinc-400 text-sm font-medium">
-                  {project.imageAlt}
-                </span>
+              {/* Thumbnail */}
+              <div className="aspect-[4/3] bg-zinc-900 overflow-hidden">
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-zinc-800 to-zinc-900 group-hover:from-zinc-700 group-hover:to-zinc-800 transition-all duration-500">
+                  <span className="text-white/20 text-sm font-medium tracking-wide">{project.imageAlt}</span>
+                </div>
               </div>
 
-              <div className="p-6">
-                <span className="text-xs font-medium text-indigo-600 uppercase tracking-wider">
-                  {project.category}
-                </span>
-                <h3 className="text-lg font-bold text-zinc-900 mt-1 mb-2">
-                  {project.name}
-                </h3>
-                <p className="text-zinc-500 text-sm leading-relaxed mb-4">
-                  {project.description}
-                </p>
-                <a
-                  href={project.url}
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors"
-                >
-                  View project
-                  <ArrowUpRight size={14} />
-                </a>
+              {/* Info */}
+              <div className="p-6 flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-[10px] tracking-widest uppercase text-white/30 font-medium mb-1">
+                    {project.category}
+                  </p>
+                  <h3 className="text-lg font-black text-white tracking-tight">{project.name}</h3>
+                  <p className="text-white/40 text-[13px] leading-relaxed mt-2">{project.description}</p>
+                </div>
+                <ArrowUpRight
+                  size={18}
+                  className="text-white/30 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 mt-1"
+                />
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>

@@ -1,68 +1,67 @@
 import { services } from "@/lib/data";
 import { Check } from "lucide-react";
-import { clsx } from "clsx";
 
 export default function Services() {
   return (
-    <section id="services" className="py-24 bg-white">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <p className="text-indigo-600 font-medium text-sm uppercase tracking-widest mb-3">
-            Services & Pricing
-          </p>
-          <h2 className="text-4xl font-bold text-zinc-900 tracking-tight mb-4">
-            Simple, transparent pricing
-          </h2>
-          <p className="text-zinc-500 text-lg max-w-xl mx-auto">
-            No hidden fees. Pick the package that fits your needs, or reach out
-            for a custom quote.
+    <section id="services" className="bg-white py-32">
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
+        {/* Section header */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-20 pb-8 border-b border-zinc-200">
+          <div>
+            <p className="text-[11px] tracking-[0.3em] uppercase text-zinc-400 font-medium mb-4">
+              Services & Pricing
+            </p>
+            <h2 className="text-[clamp(36px,5vw,60px)] font-black text-black leading-tight tracking-tight">
+              Simple,
+              <br />
+              transparent pricing.
+            </h2>
+          </div>
+          <p className="text-zinc-500 text-[15px] leading-relaxed max-w-xs md:text-right">
+            No hidden fees. Pick the package that fits, or reach out for something custom.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {services.map((tier) => (
+        {/* Pricing tiers — horizontal list style */}
+        <div className="divide-y divide-zinc-100">
+          {services.map((tier, i) => (
             <div
               key={tier.name}
-              className={clsx(
-                "rounded-2xl border p-8 flex flex-col",
-                tier.highlighted
-                  ? "border-indigo-600 shadow-lg shadow-indigo-100 bg-indigo-50"
-                  : "border-zinc-200 bg-white"
-              )}
+              className="grid md:grid-cols-[1fr_1fr_1fr_auto] gap-8 items-start py-10 group"
             >
-              {tier.highlighted && (
-                <span className="text-xs font-semibold text-indigo-600 uppercase tracking-widest mb-4">
-                  Most popular
-                </span>
-              )}
-              <h3 className="text-xl font-bold text-zinc-900 mb-1">
-                {tier.name}
-              </h3>
-              <p className="text-2xl font-bold text-indigo-600 mb-4">
-                {tier.price}
-              </p>
-              <p className="text-zinc-500 text-sm mb-6 leading-relaxed">
-                {tier.description}
-              </p>
-              <ul className="space-y-3 mb-8 flex-1">
+              {/* Name + price */}
+              <div>
+                <div className="flex items-center gap-3 mb-1">
+                  <span className="text-[11px] tracking-widest text-zinc-300 font-medium">
+                    0{i + 1}
+                  </span>
+                  <h3 className="text-xl font-black text-black tracking-tight">{tier.name}</h3>
+                  {tier.highlighted && (
+                    <span className="text-[10px] tracking-widest uppercase bg-black text-white px-2 py-0.5 font-semibold">
+                      Popular
+                    </span>
+                  )}
+                </div>
+                <p className="text-2xl font-black text-black mt-2">{tier.price}</p>
+              </div>
+
+              {/* Description */}
+              <p className="text-zinc-500 text-[14px] leading-relaxed">{tier.description}</p>
+
+              {/* Features */}
+              <ul className="space-y-2">
                 {tier.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3 text-sm">
-                    <Check
-                      size={16}
-                      className="text-indigo-600 mt-0.5 shrink-0"
-                    />
-                    <span className="text-zinc-700">{feature}</span>
+                  <li key={feature} className="flex items-start gap-2 text-[13px] text-zinc-600">
+                    <Check size={13} className="text-black mt-0.5 shrink-0" />
+                    {feature}
                   </li>
                 ))}
               </ul>
+
+              {/* CTA */}
               <a
                 href="#contact"
-                className={clsx(
-                  "block text-center py-3 px-6 rounded-lg font-medium text-sm transition-colors",
-                  tier.highlighted
-                    ? "bg-indigo-600 text-white hover:bg-indigo-700"
-                    : "border border-zinc-300 text-zinc-800 hover:border-indigo-600 hover:text-indigo-600"
-                )}
+                className="text-[11px] tracking-widest uppercase font-semibold border border-black text-black px-6 py-3 hover:bg-black hover:text-white transition-all whitespace-nowrap self-start"
               >
                 {tier.cta}
               </a>

@@ -1,9 +1,8 @@
 import { siteConfig } from "@/lib/data";
-import { Github, Linkedin } from "lucide-react";
 
 const footerLinks = [
   { label: "Services", href: "#services" },
-  { label: "Portfolio", href: "#portfolio" },
+  { label: "Work", href: "#portfolio" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -11,52 +10,39 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-zinc-200 bg-white py-12">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <a
-              href="#"
-              className="text-zinc-900 font-semibold text-lg tracking-tight hover:text-indigo-600 transition-colors"
-            >
-              {siteConfig.name}
-            </a>
-            <p className="text-zinc-400 text-sm mt-1">{siteConfig.tagline}</p>
-          </div>
+    <footer className="bg-black border-t border-white/10">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 py-16">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8 mb-12 pb-12 border-b border-white/10">
+          <a href="#" className="font-black text-[13px] tracking-[0.3em] uppercase text-white">
+            {siteConfig.name}
+          </a>
 
-          <nav className="flex gap-6">
+          <nav className="flex gap-8">
             {footerLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm text-zinc-500 hover:text-zinc-900 transition-colors"
+                className="text-[11px] tracking-widest uppercase font-medium text-white/40 hover:text-white transition-colors"
               >
                 {link.label}
               </a>
             ))}
           </nav>
 
-          <div className="flex items-center gap-4">
-            <a
-              href={siteConfig.social.github}
-              aria-label="GitHub"
-              className="text-zinc-400 hover:text-zinc-900 transition-colors"
-            >
-              <Github size={18} />
-            </a>
-            <a
-              href={siteConfig.social.linkedin}
-              aria-label="LinkedIn"
-              className="text-zinc-400 hover:text-zinc-900 transition-colors"
-            >
-              <Linkedin size={18} />
-            </a>
-          </div>
+          <a
+            href="#contact"
+            className="text-[11px] tracking-widest uppercase font-semibold border border-white/20 text-white/60 px-5 py-2.5 hover:border-white hover:text-white transition-all self-start"
+          >
+            Start a project
+          </a>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-zinc-100 text-center">
-          <p className="text-zinc-400 text-sm">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <p className="text-white/20 text-[12px] tracking-wide">
             © {year} {siteConfig.name}. All rights reserved.
+          </p>
+          <p className="text-white/20 text-[12px] tracking-wide">
+            {siteConfig.tagline}
           </p>
         </div>
       </div>

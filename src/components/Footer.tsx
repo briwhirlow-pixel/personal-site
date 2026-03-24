@@ -2,10 +2,11 @@ import { siteConfig } from "@/lib/data";
 import { Github, Linkedin } from "lucide-react";
 
 const footerLinks = [
-  { label: "Services", href: "#services" },
-  { label: "How It Works", href: "#portfolio" },
-  { label: "Website Types", href: "#portfolio" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/about" },
+  { label: "Services", href: "/services" },
+  { label: "Work", href: "/work" },
+  { label: "Reviews", href: "/reviews" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Footer() {
@@ -15,7 +16,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 md:px-12 pt-16 pb-10">
         <div className="grid md:grid-cols-3 gap-10 mb-14 pb-14 border-b border-white/[0.08]">
           <div>
-            <a href="#" className="font-black text-white text-[16px] tracking-widest uppercase">
+            <a href="/" className="font-black text-white text-[16px] tracking-widest uppercase">
               {siteConfig.name}
             </a>
             <p className="text-white/30 text-[13px] mt-2 leading-relaxed">
@@ -37,7 +38,7 @@ export default function Footer() {
             <p className="text-white/40 text-[13px] leading-relaxed mb-5">
               Ready to work together? I&apos;d love to hear about your project.
             </p>
-            <a href="#contact" className="inline-flex items-center gap-2 bg-[#2563EB] text-white font-semibold px-5 py-2.5 rounded-full hover:bg-[#1D4ED8] transition-colors text-[13px]">
+            <a href="/contact" className="inline-flex items-center gap-2 bg-[#2563EB] text-white font-semibold px-5 py-2.5 rounded-full hover:bg-[#1D4ED8] transition-colors text-[13px]">
               Get in touch
               <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3"/>

@@ -18,7 +18,7 @@ export default function FloatingCTA() {
     <>
       {/* Floating Get a Quote button */}
       <a
-        href="#contact"
+        href="/contact"
         className={`fixed bottom-6 right-6 z-40 flex items-center gap-2 bg-[#2563EB] text-white font-semibold px-5 py-3.5 rounded-full shadow-[0_8px_32px_rgba(37,99,235,0.35)] hover:bg-[#1D4ED8] hover:scale-[1.05] active:scale-[0.97] transition-all duration-300 text-[13px] ${
           visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0 pointer-events-none"
         }`}

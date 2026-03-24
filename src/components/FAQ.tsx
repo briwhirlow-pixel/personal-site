@@ -81,7 +81,7 @@ export default function FAQ() {
         <Reveal delay={200}>
           <p className="text-center text-[#AEACA6] text-[13px] mt-10">
             Still have questions?{" "}
-            <a href="#contact" className="text-[#2563EB] font-semibold hover:underline">
+            <a href="/contact" className="text-[#2563EB] font-semibold hover:underline">
               Send me a message →
             </a>
           </p>

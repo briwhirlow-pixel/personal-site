@@ -96,7 +96,7 @@ export default function Portfolio() {
                         </li>
                       ))}
                     </ul>
-                    <a href="#contact" className="mt-4 block text-center py-2.5 px-4 rounded-full border border-[#E5E4DF] text-[12px] font-semibold text-[#737373] hover:bg-[#2563EB] hover:text-white hover:border-[#2563EB] transition-all">
+                    <a href="/contact" className="mt-4 block text-center py-2.5 px-4 rounded-full border border-[#E5E4DF] text-[12px] font-semibold text-[#737373] hover:bg-[#2563EB] hover:text-white hover:border-[#2563EB] transition-all">
                       Get a quote →
                     </a>
                   </div>

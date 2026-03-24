@@ -55,7 +55,7 @@ export default function Process() {
 
         <Reveal delay={300} className="text-center mt-12">
           <a
-            href="#contact"
+            href="/contact"
             className="inline-flex items-center gap-2 bg-[#2563EB] text-white font-semibold px-8 py-4 rounded-full hover:bg-[#1D4ED8] transition-all hover:scale-[1.03] active:scale-[0.97] text-[15px]"
           >
             Start with a free call

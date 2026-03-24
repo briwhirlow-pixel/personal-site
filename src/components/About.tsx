@@ -91,7 +91,7 @@ export default function About() {
 
             <div className="flex flex-wrap gap-3">
               <a
-                href="#contact"
+                href="/contact"
                 className="inline-flex items-center gap-2 bg-[#2563EB] text-white font-semibold px-6 py-3.5 rounded-full hover:bg-[#1D4ED8] transition-all hover:scale-[1.03] active:scale-[0.97] text-[14px]"
               >
                 Work with me
@@ -100,7 +100,7 @@ export default function About() {
                 </svg>
               </a>
               <a
-                href="#services"
+                href="/services"
                 className="inline-flex items-center gap-2 text-[#737373] font-semibold px-6 py-3.5 rounded-full border border-[#E5E4DF] hover:border-[#2563EB]/40 hover:text-[#2563EB] transition-all text-[14px]"
               >
                 View services

@@ -66,7 +66,7 @@ export default function Services() {
                     </li>
                   ))}
                 </ul>
-                <a href="#contact" className={`block text-center py-3.5 px-6 rounded-full font-semibold text-[14px] transition-all hover:scale-[1.02] active:scale-[0.98] ${
+                <a href="/contact" className={`block text-center py-3.5 px-6 rounded-full font-semibold text-[14px] transition-all hover:scale-[1.02] active:scale-[0.98] ${
                   tier.highlighted
                     ? "bg-[#2563EB] text-white hover:bg-[#1D4ED8]"
                     : "bg-[#F2F1EC] text-[#1A1A1A] hover:bg-[#2563EB] hover:text-white"

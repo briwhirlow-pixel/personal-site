@@ -402,10 +402,19 @@ export default function AdminPage() {
             <p className="text-white/30 text-[11px] mt-0.5">CRM Dashboard</p>
           </div>
         </div>
-        <button onClick={() => { localStorage.removeItem("admin_token"); setToken(null); }}
-          className="text-white/30 hover:text-white text-[13px] transition">
-          Sign out
-        </button>
+        <div className="flex items-center gap-4">
+          <button onClick={() => fetchData(token)}
+            className="flex items-center gap-1.5 text-white/30 hover:text-white text-[13px] transition">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+            Refresh
+          </button>
+          <button onClick={() => { localStorage.removeItem("admin_token"); setToken(null); }}
+            className="text-white/30 hover:text-white text-[13px] transition">
+            Sign out
+          </button>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8">

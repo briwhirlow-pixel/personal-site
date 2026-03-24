@@ -6,7 +6,9 @@ import { getSupabaseClient } from "@/lib/supabase";
 const schema = z.object({
   name: z.string().min(1),
   email: z.string().email(),
+  websiteType: z.string().optional(),
   budget: z.string().min(1),
+  launchDate: z.string().optional(),
   message: z.string().min(1),
 });
 
@@ -19,19 +21,26 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { name, email, budget, message } = parsed.data;
+    const { name, email, websiteType, budget, launchDate, message } = parsed.data;
 
-    // Save to Supabase
+    // Save to leads table
     const { error: dbError } = await getSupabaseClient()
-      .from("contact_submissions")
-      .insert({ name, email, budget, message });
+      .from("leads")
+      .insert({
+        name,
+        email,
+        website_type: websiteType || null,
+        budget,
+        launch_date: launchDate || null,
+        message,
+        status: "new",
+      });
 
     if (dbError) {
       console.error("Supabase insert error:", dbError);
-      // Don't fail the request — still attempt to send email
     }
 
-    // Send email via Gmail SMTP
+    // Send email notification
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -41,17 +50,22 @@ export async function POST(request: Request) {
     });
 
     await transporter.sendMail({
-      from: `"Contact Form" <${process.env.GMAIL_USER}>`,
+      from: `"byBrian Contact Form" <${process.env.GMAIL_USER}>`,
       to: process.env.GMAIL_USER,
       replyTo: email,
-      subject: `New inquiry from ${name}`,
+      subject: `New lead: ${name} — ${websiteType || budget}`,
       text: [
         `Name: ${name}`,
         `Email: ${email}`,
+        `Website Type: ${websiteType || "Not specified"}`,
         `Budget: ${budget}`,
+        `Launch Date: ${launchDate || "Not specified"}`,
         "",
         "Message:",
         message,
+        "",
+        "---",
+        "View in admin: https://your-site.vercel.app/admin",
       ].join("\n"),
     });
 

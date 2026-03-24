@@ -59,6 +59,16 @@ CREATE OR REPLACE TRIGGER projects_updated_at
   BEFORE UPDATE ON projects
   FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
--- Disable RLS for server-side access (your API uses the service role key)
-ALTER TABLE leads DISABLE ROW LEVEL SECURITY;
-ALTER TABLE projects DISABLE ROW LEVEL SECURITY;
+-- Enable RLS on both tables
+ALTER TABLE leads ENABLE ROW LEVEL SECURITY;
+ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
+
+-- Contact form: anyone (anon key) can INSERT a new lead
+CREATE POLICY "Public can insert leads"
+  ON leads FOR INSERT TO anon
+  WITH CHECK (true);
+
+-- Everything else (SELECT, UPDATE, DELETE) is blocked for the anon key.
+-- Admin API routes use the service role key (SUPABASE_SERVICE_ROLE_KEY)
+-- which bypasses RLS entirely — so the dashboard still works.
+-- The anon key (NEXT_PUBLIC_SUPABASE_ANON_KEY) is safe to be public.

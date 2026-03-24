@@ -351,8 +351,10 @@ export default function AdminPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [tab, setTab] = useState<"pipeline" | "projects">("pipeline");
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
-  const [convertLead, setConvertLead] = useState<Lead | null>(null);
+  const [showNewProject, setShowNewProject] = useState(false);
+  const [newProjectLead, setNewProjectLead] = useState<Lead | null>(null);
   const [loading, setLoading] = useState(false);
+  const [fetchError, setFetchError] = useState("");
 
   // Check for saved token on mount
   useEffect(() => {
@@ -367,8 +369,15 @@ export default function AdminPage() {
       fetch("/api/admin/projects", { headers: { Authorization: `Bearer ${t}` } }),
     ]);
     if (leadsRes.status === 401) { localStorage.removeItem("admin_token"); setToken(null); return; }
-    setLeads(await leadsRes.json());
-    setProjects(await projRes.json());
+    try {
+      const leadsData = await leadsRes.json();
+      const projData = await projRes.json();
+      setLeads(Array.isArray(leadsData) ? leadsData : []);
+      setProjects(Array.isArray(projData) ? projData : []);
+      if (!Array.isArray(leadsData)) setFetchError("DB tables not set up yet — run supabase/schema.sql in your Supabase SQL editor.");
+    } catch {
+      setFetchError("Failed to load data. Check your Supabase connection.");
+    }
     setLoading(false);
   }, []);
 
@@ -400,6 +409,13 @@ export default function AdminPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* DB error banner */}
+        {fetchError && (
+          <div className="mb-6 bg-yellow-500/10 border border-yellow-500/30 rounded-xl px-5 py-4 text-yellow-300 text-[13px]">
+            ⚠️ {fetchError}
+          </div>
+        )}
+
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[
@@ -465,7 +481,7 @@ export default function AdminPage() {
           <div>
             <div className="flex items-center justify-between mb-4">
               <p className="text-white/40 text-[13px]">{projects.length} project{projects.length !== 1 ? "s" : ""}</p>
-              <button onClick={() => setConvertLead(null)}
+              <button onClick={() => { setNewProjectLead(null); setShowNewProject(true); }}
                 className="flex items-center gap-2 bg-[#2563EB] text-white text-[13px] font-semibold px-4 py-2.5 rounded-xl hover:bg-[#1D4ED8] transition">
                 + New Project
               </button>
@@ -541,19 +557,19 @@ export default function AdminPage() {
             setLeads(ls => ls.map(l => l.id === updated.id ? updated : l));
             setSelectedLead(updated);
           }}
-          onConvert={lead => { setConvertLead(lead); setSelectedLead(null); }}
+          onConvert={lead => { setNewProjectLead(lead); setShowNewProject(true); setSelectedLead(null); }}
         />
       )}
 
       {/* New project modal */}
-      {convertLead !== undefined && tab === "projects" && (
+      {showNewProject && (
         <NewProjectModal
-          lead={convertLead}
+          lead={newProjectLead}
           token={token}
-          onClose={() => setConvertLead(undefined as unknown as Lead | null)}
+          onClose={() => setShowNewProject(false)}
           onCreated={p => {
             setProjects(ps => [p, ...ps]);
-            setConvertLead(undefined as unknown as Lead | null);
+            setShowNewProject(false);
           }}
         />
       )}

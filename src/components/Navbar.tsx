@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { siteConfig } from "@/lib/data";
+import Logo from "./Logo";
 
 const navLinks = [
   { label: "About", href: "/about" },
@@ -44,13 +45,8 @@ export default function Navbar() {
       <div className="absolute bottom-0 left-0 h-[2px] bg-[#2563EB] transition-all duration-100 ease-out" style={{ width: `${progress}%` }} />
 
       <nav className="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
-        <Link
-          href="/"
-          className={`font-bold text-[15px] tracking-widest uppercase transition-colors ${
-            scrolled || !isHome ? "text-[#1A1A1A]" : "text-white"
-          }`}
-        >
-          {siteConfig.name}
+        <Link href="/" className="flex items-center">
+          <Logo light={!scrolled && isHome} />
         </Link>
 
         <div className="hidden md:flex items-center gap-10">

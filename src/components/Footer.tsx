@@ -1,5 +1,6 @@
 import { siteConfig } from "@/lib/data";
 import { Github, Linkedin } from "lucide-react";
+import Logo from "./Logo";
 
 const footerLinks = [
   { label: "About", href: "/about" },
@@ -16,8 +17,8 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 md:px-12 pt-16 pb-10">
         <div className="grid md:grid-cols-3 gap-10 mb-14 pb-14 border-b border-white/[0.08]">
           <div>
-            <a href="/" className="font-black text-white text-[16px] tracking-widest uppercase">
-              {siteConfig.name}
+            <a href="/">
+              <Logo light />
             </a>
             <p className="text-white/30 text-[13px] mt-2 leading-relaxed">
               {siteConfig.tagline}<br />Based remotely · Available worldwide.

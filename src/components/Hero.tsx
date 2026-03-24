@@ -150,14 +150,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/20">
-        <span className="text-[10px] tracking-[0.3em] uppercase font-medium">Scroll</span>
-        <div className="relative h-12 w-px bg-white/10 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#60A5FA] to-transparent" style={{ animation: 'scrollLine 1.8s ease-in-out infinite' }} />
-        </div>
-      </div>
-      <style>{`@keyframes scrollLine { 0%{transform:translateY(-100%)} 100%{transform:translateY(200%)} }`}</style>
     </section>
   );
 }

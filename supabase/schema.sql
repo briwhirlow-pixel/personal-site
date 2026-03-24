@@ -64,6 +64,7 @@ ALTER TABLE leads ENABLE ROW LEVEL SECURITY;
 ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
 
 -- Contact form: anyone (anon key) can INSERT a new lead
+DROP POLICY IF EXISTS "Public can insert leads" ON leads;
 CREATE POLICY "Public can insert leads"
   ON leads FOR INSERT TO anon
   WITH CHECK (true);

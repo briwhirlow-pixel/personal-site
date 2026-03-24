@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { z } from "zod";
-import { getSupabaseClient } from "@/lib/supabase";
+import { getSupabaseAdmin } from "@/lib/supabase";
 
 const schema = z.object({
   name: z.string().min(1),
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     const { name, email, websiteType, budget, launchDate, message } = parsed.data;
 
     // Save to leads table
-    const { error: dbError } = await getSupabaseClient()
+    const { error: dbError } = await getSupabaseAdmin()
       .from("leads")
       .insert({
         name,

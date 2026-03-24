@@ -11,7 +11,6 @@ const navLinks = [
   { label: "Services", href: "/services" },
   { label: "Reviews", href: "/reviews" },
   { label: "Work", href: "/work" },
-  { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
@@ -75,7 +74,7 @@ export default function Navbar() {
             href="/contact"
             className="text-[13px] font-semibold bg-[#2563EB] text-white px-5 py-2.5 rounded-full hover:bg-[#1D4ED8] transition-all hover:scale-[1.04] active:scale-[0.97]"
           >
-            Let&apos;s Talk
+            Contact
           </Link>
         </div>
 

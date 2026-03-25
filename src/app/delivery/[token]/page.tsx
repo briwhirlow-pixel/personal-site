@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { use, useState } from "react";
 import Logo from "@/components/Logo";
 
 type DeliveryData = {
@@ -31,7 +31,8 @@ function DownloadIcon() {
   );
 }
 
-export default function DeliveryPage({ params }: { params: { token: string } }) {
+export default function DeliveryPage({ params }: { params: Promise<{ token: string }> }) {
+  const { token } = use(params);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -43,7 +44,7 @@ export default function DeliveryPage({ params }: { params: { token: string } }) 
     setError("");
     setLoading(true);
     try {
-      const res = await fetch(`/api/delivery/${params.token}`, {
+      const res = await fetch(`/api/delivery/${token}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),
@@ -62,7 +63,7 @@ export default function DeliveryPage({ params }: { params: { token: string } }) 
     if (!data?.driveLink) return;
     setDownloaded(true);
     window.open(data.driveLink, "_blank");
-    await fetch(`/api/delivery/${params.token}`, { method: "PATCH" });
+    await fetch(`/api/delivery/${token}`, { method: "PATCH" });
   };
 
   const annualPrice = data ? (data.monthlyRate * 10).toFixed(0) : "490";

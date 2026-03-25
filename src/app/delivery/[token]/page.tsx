@@ -38,6 +38,8 @@ export default function DeliveryPage({ params }: { params: Promise<{ token: stri
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<DeliveryData | null>(null);
   const [downloaded, setDownloaded] = useState(false);
+  const [hostingRequested, setHostingRequested] = useState(false);
+  const [hostingLoading, setHostingLoading] = useState(false);
 
   const handleUnlock = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,6 +59,17 @@ export default function DeliveryPage({ params }: { params: Promise<{ token: stri
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleHostingRequest = async () => {
+    setHostingLoading(true);
+    await fetch(`/api/delivery/${token}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ requestHosting: true }),
+    });
+    setHostingRequested(true);
+    setHostingLoading(false);
   };
 
   const handleDownload = async () => {
@@ -201,12 +214,20 @@ export default function DeliveryPage({ params }: { params: Promise<{ token: stri
                 </div>
               </div>
               <p className="text-white/30 text-[11px] mb-4">Includes: Hosting · SSL · Uptime monitoring · 1hr edits/month</p>
-              <a
-                href="mailto:brianwhirlowbusiness@gmail.com?subject=Managed Hosting Inquiry"
-                className="flex items-center justify-center gap-2 bg-white text-[#1A1A1A] font-bold py-3 rounded-xl hover:bg-white/90 transition text-[14px]"
-              >
-                Stay on managed hosting →
-              </a>
+              {hostingRequested ? (
+                <div className="bg-green-500/10 border border-green-500/20 rounded-xl px-5 py-4 text-center">
+                  <p className="text-green-400 font-bold text-[14px] mb-0.5">Request sent!</p>
+                  <p className="text-white/40 text-[13px]">Brian will be in touch shortly to get you set up.</p>
+                </div>
+              ) : (
+                <button
+                  onClick={handleHostingRequest}
+                  disabled={hostingLoading}
+                  className="w-full flex items-center justify-center gap-2 bg-white text-[#1A1A1A] font-bold py-3 rounded-xl hover:bg-white/90 disabled:opacity-50 transition text-[14px]"
+                >
+                  {hostingLoading ? "Sending…" : "Stay on managed hosting →"}
+                </button>
+              )}
             </div>
 
             {/* Footer note */}

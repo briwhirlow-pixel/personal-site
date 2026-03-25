@@ -43,14 +43,20 @@ export async function POST(request: Request, { params }: { params: Promise<{ tok
   }
 }
 
-// Mark files as downloaded
 export async function PATCH(request: Request, { params }: { params: Promise<{ token: string }> }) {
   try {
     const { token } = await params;
+    const body = await request.json().catch(() => ({}));
+
+    const update = body.requestHosting
+      ? { delivery_type: "managed", hosting_status: "active" }
+      : { files_downloaded: true };
+
     await getSupabaseAdmin()
       .from("projects")
-      .update({ files_downloaded: true })
+      .update(update)
       .eq("delivery_token", token);
+
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Server error." }, { status: 500 });

@@ -52,6 +52,7 @@ export default function Footer() {
           <div className="flex items-center gap-5">
             <a href={siteConfig.social.github} aria-label="GitHub" className="text-white/25 hover:text-white transition-colors"><Github size={16} /></a>
             <a href={siteConfig.social.linkedin} aria-label="LinkedIn" className="text-white/25 hover:text-white transition-colors"><Linkedin size={16} /></a>
+            <a href="/admin" className="text-white/15 hover:text-white/40 transition-colors text-[11px] tracking-widest uppercase font-semibold">Admin</a>
           </div>
         </div>
       </div>

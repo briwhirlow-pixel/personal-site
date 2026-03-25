@@ -49,7 +49,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ to
     const body = await request.json().catch(() => ({}));
 
     const update = body.requestHosting
-      ? { delivery_type: "managed", hosting_status: "active" }
+      ? { hosting_requested: true }
       : { files_downloaded: true };
 
     await getSupabaseAdmin()

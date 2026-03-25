@@ -49,6 +49,7 @@ interface Project {
   files_uploaded: boolean;
   page_sent: boolean;
   client_credentials: string | null;
+  hosting_requested: boolean;
 }
 
 // ─── Config ──────────────────────────────────────────────────────────────────
@@ -175,7 +176,25 @@ function ProjectCard({ p, token, onStatusChange, onUpdate }: {
   };
 
   return (
-    <div className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl overflow-hidden">
+    <div className={`bg-[#1A1D27] rounded-2xl overflow-hidden ${p.hosting_requested ? "border-2 border-amber-400/60" : "border border-[#2A2D3A]"}`}>
+      {/* Hosting request banner */}
+      {p.hosting_requested && (
+        <div className="bg-amber-400/10 border-b border-amber-400/30 px-5 py-3 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="text-lg">🔔</span>
+            <div>
+              <p className="text-amber-300 font-bold text-[13px]">Client requested managed hosting</p>
+              <p className="text-amber-300/60 text-[12px]">{p.client_name || p.client_email} opted in — reach out to confirm billing details.</p>
+            </div>
+          </div>
+          <button
+            onClick={() => toggleCheck("hosting_requested", false)}
+            className="text-amber-300/50 hover:text-amber-300 text-[11px] font-semibold uppercase tracking-widest transition flex-shrink-0"
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
       {/* Row */}
       <div className="p-5 flex items-center gap-5">
         <div className="flex-1 min-w-0">

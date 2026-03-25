@@ -66,11 +66,11 @@ export default function Contact() {
     `w-full bg-white border ${hasError ? 'border-red-400' : 'border-[#E5E4DF]'} rounded-xl px-4 py-3.5 text-[14px] text-[#1A1A1A] placeholder-[#CECCC6] focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition`;
 
   return (
-    <section id="contact" className="bg-[#FAFAF7] py-28">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+    <section id="contact" className="bg-[#FAFAF7] py-16 sm:py-28">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-12">
         {/* Header banner */}
         <Reveal>
-          <div className="bg-[#2563EB] rounded-2xl px-8 md:px-12 py-10 mb-16 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div className="bg-[#2563EB] rounded-2xl px-5 sm:px-8 md:px-12 py-8 sm:py-10 mb-10 sm:mb-16 flex flex-col md:flex-row md:items-center md:justify-between gap-4 sm:gap-6">
             <div>
               <p className="text-white/60 text-[12px] font-semibold tracking-widest uppercase mb-2">Get In Touch</p>
               <h2 className="text-[clamp(28px,4vw,48px)] font-black text-white leading-tight tracking-tight">
@@ -83,7 +83,7 @@ export default function Contact() {
           </div>
         </Reveal>
 
-        <div className="grid md:grid-cols-2 gap-16 items-start">
+        <div className="grid md:grid-cols-2 gap-10 sm:gap-16 items-start">
           {/* Left */}
           <Reveal delay={100}>
             <p className="text-[#737373] text-[15px] leading-relaxed mb-10">
@@ -264,26 +264,26 @@ export default function Contact() {
                 <div>
                   <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-3">Expected Launch Date</label>
                   <input type="hidden" {...register("launchDate")} />
-                  <div className="grid grid-cols-2 gap-2 mb-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
                     {[
                       { label: '2 Weeks', value: '2weeks' },
                       { label: '1 Month', value: '1month' },
                       { label: '3 Months', value: '3months' },
-                      { label: 'Custom Date', value: 'custom' },
+                      { label: 'Custom', value: 'custom' },
                     ].map((opt) => (
                       <button
                         key={opt.value}
                         type="button"
                         onClick={() => selectLaunch(opt.value)}
-                        className={`py-3 px-4 rounded-xl border text-left transition-all ${
+                        className={`py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl border text-left transition-all ${
                           launchOption === opt.value
                             ? 'border-[#2563EB] bg-[#EFF6FF] text-[#2563EB]'
                             : 'border-[#E5E4DF] text-[#737373] hover:border-[#2563EB]/40 bg-white'
                         }`}
                       >
-                        <span className="block text-[13px] font-semibold">{opt.label}</span>
+                        <span className="block text-[12px] sm:text-[13px] font-semibold">{opt.label}</span>
                         {launchOption === opt.value && opt.value !== 'custom' && (
-                          <span className="block text-[11px] mt-0.5 opacity-70">{getDateFromOption(opt.value)}</span>
+                          <span className="block text-[10px] sm:text-[11px] mt-0.5 opacity-70">{getDateFromOption(opt.value)}</span>
                         )}
                       </button>
                     ))}

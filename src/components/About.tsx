@@ -37,16 +37,16 @@ export default function About() {
                 </div>
 
                 {/* Floating badges — stacked under BW initials */}
-                <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex gap-3 w-[calc(100%-40px)]">
+                <div className="absolute bottom-16 sm:bottom-20 left-1/2 -translate-x-1/2 grid grid-cols-2 sm:flex gap-2 sm:gap-3 w-[calc(100%-32px)] sm:w-[calc(100%-40px)]">
                   {[
                     { value: "72hr", label: "First Draft" },
                     { value: "5+", label: "Years Exp." },
                     { value: "100%", label: "Satisfaction" },
-                    { value: "3×", label: "Traffic Growth" },
+                    { value: "3×", label: "Traffic" },
                   ].map((badge) => (
-                    <div key={badge.label} className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl py-3 text-center">
-                      <p className="text-white font-black text-xl leading-none">{badge.value}</p>
-                      <p className="text-white/50 text-[9px] uppercase tracking-widest mt-1 font-medium">{badge.label}</p>
+                    <div key={badge.label} className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 text-center">
+                      <p className="text-white font-black text-base sm:text-xl leading-none">{badge.value}</p>
+                      <p className="text-white/50 text-[8px] sm:text-[9px] uppercase tracking-widest mt-1 font-medium">{badge.label}</p>
                     </div>
                   ))}
                 </div>

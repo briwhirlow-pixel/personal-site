@@ -4,8 +4,8 @@ import Reveal from "./Reveal";
 export default function Services() {
   return (
     <section id="services" className="bg-[#FAFAF7] py-28">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <Reveal className="max-w-2xl mb-16">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-12">
+        <Reveal className="max-w-2xl mb-10 sm:mb-16">
           <p className="text-[#2563EB] text-[12px] font-semibold tracking-widest uppercase mb-4">
             Services & Pricing
           </p>
@@ -17,7 +17,7 @@ export default function Services() {
           </p>
         </Reveal>
 
-        <Reveal delay={100} className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+        <Reveal delay={100} className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-10 sm:mb-16">
           {[
             { icon: '⚡', label: 'Fast Delivery', sub: '2–4 week turnaround' },
             { icon: '📱', label: 'Fully Responsive', sub: 'Every screen size' },
@@ -32,7 +32,7 @@ export default function Services() {
           ))}
         </Reveal>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6">
           {services.map((tier, i) => (
             <Reveal key={tier.name} delay={i * 120} direction="up">
               <div className={`relative rounded-2xl p-8 flex flex-col h-full transition-all duration-300 hover:-translate-y-1 ${

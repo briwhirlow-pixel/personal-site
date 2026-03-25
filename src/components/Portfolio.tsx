@@ -65,7 +65,7 @@ export default function Portfolio() {
           </p>
         </Reveal>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {websiteTypes.map((type: WebsiteType, i: number) => (
             <Reveal key={type.name} delay={i * 80} direction="up">
               <TiltCard className="h-full">

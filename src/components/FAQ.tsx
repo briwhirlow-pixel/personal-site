@@ -58,10 +58,10 @@ export default function FAQ() {
                 }`}
               >
                 <button
-                  className="w-full flex items-center justify-between px-6 py-5 text-left gap-4"
+                  className="w-full flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 text-left gap-3 sm:gap-4"
                   onClick={() => setOpen(open === i ? null : i)}
                 >
-                  <span className="text-[15px] font-bold text-[#1A1A1A] leading-snug">{faq.q}</span>
+                  <span className="text-[13px] sm:text-[15px] font-bold text-[#1A1A1A] leading-snug">{faq.q}</span>
                   <span className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center border transition-all duration-300 ${
                     open === i ? "bg-[#2563EB] border-[#2563EB] rotate-45" : "border-[#E5E4DF] text-[#737373]"
                   }`}>
@@ -71,7 +71,7 @@ export default function FAQ() {
                   </span>
                 </button>
                 <div className={`transition-all duration-300 ease-in-out overflow-hidden ${open === i ? "max-h-48" : "max-h-0"}`}>
-                  <p className="px-6 pb-5 text-[#737373] text-[14px] leading-relaxed">{faq.a}</p>
+                  <p className="px-4 sm:px-6 pb-4 sm:pb-5 text-[#737373] text-[13px] sm:text-[14px] leading-relaxed">{faq.a}</p>
                 </div>
               </div>
             </Reveal>

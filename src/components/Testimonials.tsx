@@ -59,7 +59,7 @@ export default function Testimonials() {
           </div>
         </Reveal>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6">
           {reviews.map((review, i) => (
             <Reveal key={review.name} delay={i * 100}>
               <div className="group relative bg-[#FAFAF7] border border-[#E5E4DF] rounded-2xl p-7 flex flex-col h-full hover:border-[#2563EB]/30 hover:shadow-[0_8px_40px_rgba(37,99,235,0.08)] transition-all duration-300">
@@ -105,7 +105,7 @@ export default function Testimonials() {
 
         {/* Bottom trust bar */}
         <Reveal delay={300}>
-          <div className="mt-14 flex flex-col sm:flex-row items-center justify-center gap-8 text-center">
+          <div className="mt-10 sm:mt-14 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-center">
             <div className="flex items-center gap-2">
               <div className="flex gap-0.5">
                 {Array.from({ length: 5 }).map((_, i) => (

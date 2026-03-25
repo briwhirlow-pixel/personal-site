@@ -92,15 +92,15 @@ export default function Hero() {
       <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full blur-[130px] opacity-[0.15] pointer-events-none" style={{ background: '#2563EB' }} />
       <div className="absolute bottom-1/4 left-1/5 w-[400px] h-[400px] rounded-full blur-[110px] opacity-[0.10] pointer-events-none" style={{ background: '#6366F1' }} />
 
-      <div className="relative max-w-7xl mx-auto px-6 md:px-12 pt-28 pb-16 w-full">
+      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 md:px-12 pt-24 sm:pt-28 pb-14 sm:pb-16 w-full">
         {/* Pill badge */}
-        <div className={`inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.08] rounded-full px-4 py-1.5 mb-8 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        <div className={`inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.08] rounded-full px-3 sm:px-4 py-1.5 mb-6 sm:mb-8 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <span className="w-1.5 h-1.5 rounded-full bg-[#60A5FA] animate-pulse" />
-          <span className="text-white/50 text-[12px] tracking-wide font-medium">Available for new projects — 2026</span>
+          <span className="text-white/50 text-[11px] sm:text-[12px] tracking-wide font-medium">Available for new projects — 2026</span>
         </div>
 
         {/* Headline */}
-        <h1 className={`text-[clamp(42px,7vw,88px)] font-black text-white leading-[1.0] tracking-tight mb-8 transition-all duration-700 delay-100 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+        <h1 className={`text-[clamp(36px,8vw,88px)] font-black text-white leading-[1.05] tracking-tight mb-6 sm:mb-8 transition-all duration-700 delay-100 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
           Websites that
           <br />
           <span
@@ -117,34 +117,34 @@ export default function Hero() {
           your business.
         </h1>
 
-        <p className={`text-white/45 text-[17px] leading-relaxed max-w-lg mb-10 transition-all duration-700 delay-200 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        <p className={`text-white/45 text-[15px] sm:text-[17px] leading-relaxed max-w-sm sm:max-w-lg mb-8 sm:mb-10 transition-all duration-700 delay-200 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           I design and build fast, beautiful websites that convert visitors into customers — from brochure sites to full e-commerce stores.
         </p>
 
-        <div className={`flex flex-wrap gap-4 mb-20 transition-all duration-700 delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <a href="/contact" className="group inline-flex items-center gap-2 bg-[#2563EB] text-white font-semibold px-7 py-4 rounded-full hover:bg-[#1D4ED8] transition-all text-[15px] hover:scale-[1.03] active:scale-[0.97]">
+        <div className={`flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mb-14 sm:mb-20 transition-all duration-700 delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <a href="/contact" className="group inline-flex items-center justify-center gap-2 bg-[#2563EB] text-white font-semibold px-6 sm:px-7 py-3.5 sm:py-4 rounded-full hover:bg-[#1D4ED8] transition-all text-[14px] sm:text-[15px] hover:scale-[1.03] active:scale-[0.97]">
             Get a free quote
             <svg className="group-hover:translate-x-1 transition-transform" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
           </a>
-          <a href="/work" className="inline-flex items-center gap-2 text-white/60 font-semibold px-7 py-4 rounded-full border border-white/10 hover:border-white/30 hover:text-white transition-all text-[15px] hover:scale-[1.03] active:scale-[0.97]">
-            See Website Examples I&apos;ve Built
+          <a href="/work" className="inline-flex items-center justify-center gap-2 text-white/60 font-semibold px-6 sm:px-7 py-3.5 sm:py-4 rounded-full border border-white/10 hover:border-white/30 hover:text-white transition-all text-[14px] sm:text-[15px] hover:scale-[1.03] active:scale-[0.97]">
+            See Examples I&apos;ve Built
           </a>
         </div>
 
         {/* Stats */}
-        <div className={`flex flex-wrap gap-12 pt-8 border-t border-white/[0.08] transition-all duration-700 delay-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`grid grid-cols-3 sm:flex sm:flex-wrap gap-6 sm:gap-12 pt-6 sm:pt-8 border-t border-white/[0.08] transition-all duration-700 delay-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
           {[
-            { target: 72, suffix: 'hr', label: 'Avg. First Draft Delivery' },
-            { target: 100, suffix: '%', label: 'Client Satisfaction Guaranteed' },
-            { target: 3, suffix: '×', label: 'Avg. Lead Increase' },
+            { target: 72, suffix: 'hr', label: 'First Draft' },
+            { target: 100, suffix: '%', label: 'Satisfaction' },
+            { target: 3, suffix: '×', label: 'Lead Increase' },
           ].map((stat) => (
             <div key={stat.label}>
-              <p className="text-[36px] font-black text-white leading-none tabular-nums">
+              <p className="text-[28px] sm:text-[36px] font-black text-white leading-none tabular-nums">
                 <AnimatedCounter target={stat.target} suffix={stat.suffix} />
               </p>
-              <p className="text-white/35 text-[13px] mt-1.5 font-medium">{stat.label}</p>
+              <p className="text-white/35 text-[11px] sm:text-[13px] mt-1 sm:mt-1.5 font-medium">{stat.label}</p>
             </div>
           ))}
         </div>

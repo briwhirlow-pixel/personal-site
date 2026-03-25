@@ -34,6 +34,21 @@ interface Project {
   site_url: string | null;
   notes: string;
   created_at: string;
+  // Delivery fields
+  delivery_type: "managed" | "handoff" | null;
+  monthly_rate: number | null;
+  billing_start: string | null;
+  next_billing_date: string | null;
+  hosting_status: "active" | "overdue" | "cancelled" | null;
+  drive_link: string | null;
+  delivery_token: string | null;
+  delivery_password: string | null;
+  delivery_sent_at: string | null;
+  delivery_expires_at: string | null;
+  files_downloaded: boolean;
+  files_uploaded: boolean;
+  page_sent: boolean;
+  client_credentials: string | null;
 }
 
 // ─── Config ──────────────────────────────────────────────────────────────────
@@ -85,6 +100,251 @@ function ProjectBadge({ status }: { status: ProjectStatus }) {
       style={{ color: s.color, background: s.color + "22" }}>
       {s.label}
     </span>
+  );
+}
+
+// ─── Project Card with Delivery ───────────────────────────────────────────────
+
+function CopyButton({ value }: { value: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button onClick={() => { navigator.clipboard.writeText(value); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
+      className="text-[11px] px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-white/40 hover:text-white transition font-mono">
+      {copied ? "✓ Copied" : "Copy"}
+    </button>
+  );
+}
+
+function ProjectCard({ p, token, onStatusChange, onUpdate }: {
+  p: Project; token: string;
+  onStatusChange: (id: string, status: ProjectStatus) => void;
+  onUpdate: (p: Project) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [driveLink, setDriveLink] = useState(p.drive_link || "");
+  const [credentials, setCredentials] = useState(p.client_credentials || "");
+  const [monthlyRate, setMonthlyRate] = useState(p.monthly_rate || 49);
+  const [billingStart, setBillingStart] = useState(p.billing_start || "");
+
+  const deliveryUrl = p.delivery_token ? `${typeof window !== "undefined" ? window.location.origin : ""}/delivery/${p.delivery_token}` : null;
+  const daysLeft = p.delivery_expires_at
+    ? Math.max(0, Math.ceil((new Date(p.delivery_expires_at).getTime() - Date.now()) / 86400000))
+    : null;
+
+  const generateDelivery = async () => {
+    setGenerating(true);
+    const res = await fetch(`/api/admin/projects/${p.id}/delivery`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ driveLink, credentials }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      onUpdate({ ...p, delivery_token: data.token, delivery_password: data.password, delivery_expires_at: data.expiresAt, drive_link: driveLink, client_credentials: credentials, page_sent: true, files_uploaded: !!driveLink });
+    }
+    setGenerating(false);
+  };
+
+  const saveHosting = async () => {
+    const nextBilling = billingStart ? new Date(new Date(billingStart).setMonth(new Date(billingStart).getMonth() + 1)).toISOString().split("T")[0] : null;
+    const res = await fetch(`/api/admin/projects/${p.id}/delivery`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ delivery_type: "managed", monthly_rate: monthlyRate, billing_start: billingStart || null, next_billing_date: nextBilling }),
+    });
+    if (res.ok) onUpdate({ ...p, delivery_type: "managed", monthly_rate: monthlyRate, billing_start: billingStart, next_billing_date: nextBilling });
+  };
+
+  const setHandoff = async () => {
+    const res = await fetch(`/api/admin/projects/${p.id}/delivery`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ delivery_type: "handoff" }),
+    });
+    if (res.ok) onUpdate({ ...p, delivery_type: "handoff" });
+  };
+
+  const toggleCheck = async (field: string, val: boolean) => {
+    const res = await fetch(`/api/admin/projects/${p.id}/delivery`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ [field]: val }),
+    });
+    if (res.ok) onUpdate({ ...p, [field]: val } as Project);
+  };
+
+  return (
+    <div className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl overflow-hidden">
+      {/* Row */}
+      <div className="p-5 flex items-center gap-5">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-3 mb-1">
+            <p className="text-white font-bold text-[15px] truncate">{p.name}</p>
+            <ProjectBadge status={p.status} />
+            {p.delivery_type === "managed" && (
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-500/15 text-green-400">HOSTED</span>
+            )}
+            {p.delivery_type === "handoff" && (
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/5 text-white/30">HANDED OFF</span>
+            )}
+          </div>
+          <p className="text-white/40 text-[13px] truncate">{p.client_email}</p>
+        </div>
+        <div className="hidden md:flex items-center gap-6 text-right flex-shrink-0">
+          {p.agreed_budget && (
+            <div>
+              <p className="text-white/20 text-[10px] uppercase tracking-widest mb-0.5">Budget</p>
+              <p className="text-white text-[14px] font-semibold">{p.agreed_budget}</p>
+            </div>
+          )}
+          {p.delivery_type === "managed" && p.monthly_rate && (
+            <div>
+              <p className="text-white/20 text-[10px] uppercase tracking-widest mb-0.5">MRR</p>
+              <p className="text-green-400 text-[14px] font-semibold">${p.monthly_rate}/mo</p>
+            </div>
+          )}
+          {daysLeft !== null && p.delivery_type === "handoff" && (
+            <div>
+              <p className="text-white/20 text-[10px] uppercase tracking-widest mb-0.5">Expires</p>
+              <p className={`text-[14px] font-semibold ${daysLeft <= 7 ? "text-red-400" : "text-amber-400"}`}>{daysLeft}d left</p>
+            </div>
+          )}
+        </div>
+        <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="flex gap-2">
+            {PROJECT_STATUSES.map(s => (
+              <button key={s.key} title={s.label} onClick={() => onStatusChange(p.id, s.key)}
+                className="w-7 h-7 rounded-full border-2 transition hover:scale-110"
+                style={{ borderColor: s.color, background: p.status === s.key ? s.color : "transparent" }} />
+            ))}
+          </div>
+          <button onClick={() => setOpen(o => !o)}
+            className="text-[11px] px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition">
+            {open ? "▲ Close" : "📦 Delivery"}
+          </button>
+        </div>
+      </div>
+
+      {/* Delivery panel */}
+      {open && (
+        <div className="border-t border-[#2A2D3A] p-5 space-y-5">
+
+          {/* Type toggle */}
+          <div>
+            <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold mb-3">Delivery Type</p>
+            <div className="flex gap-2">
+              <button onClick={setHandoff}
+                className={`px-4 py-2 rounded-xl text-[13px] font-semibold transition border ${p.delivery_type === "handoff" ? "bg-white/10 border-white/30 text-white" : "border-[#2A2D3A] text-white/30 hover:text-white"}`}>
+                📁 File Handoff
+              </button>
+              <button onClick={() => onUpdate({ ...p, delivery_type: "managed" })}
+                className={`px-4 py-2 rounded-xl text-[13px] font-semibold transition border ${p.delivery_type === "managed" ? "bg-green-500/15 border-green-500/30 text-green-400" : "border-[#2A2D3A] text-white/30 hover:text-white"}`}>
+                🌐 Managed Hosting
+              </button>
+            </div>
+          </div>
+
+          {/* Handoff section */}
+          {p.delivery_type !== "managed" && (
+            <div className="space-y-4">
+              <div>
+                <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold mb-2">Google Drive Link</p>
+                <input value={driveLink} onChange={e => setDriveLink(e.target.value)}
+                  placeholder="https://drive.google.com/..."
+                  className="w-full bg-[#0F1117] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white text-[13px] placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition" />
+              </div>
+              <div>
+                <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold mb-2">Client Credentials / Notes</p>
+                <textarea value={credentials} onChange={e => setCredentials(e.target.value)} rows={3}
+                  placeholder="Hosting provider, login details, domain info..."
+                  className="w-full bg-[#0F1117] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white text-[13px] placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition resize-none font-mono" />
+              </div>
+
+              {p.delivery_token ? (
+                <div className="bg-[#0F1117] border border-[#2A2D3A] rounded-xl p-4 space-y-3">
+                  <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold">Delivery Credentials — Send These to Client</p>
+                  <div className="flex items-center justify-between gap-3 bg-black/20 rounded-lg px-3 py-2">
+                    <div className="min-w-0">
+                      <p className="text-white/30 text-[10px] mb-0.5">Delivery URL</p>
+                      <p className="text-[#60A5FA] text-[12px] font-mono truncate">{deliveryUrl}</p>
+                    </div>
+                    <CopyButton value={deliveryUrl || ""} />
+                  </div>
+                  <div className="flex items-center justify-between gap-3 bg-black/20 rounded-lg px-3 py-2">
+                    <div>
+                      <p className="text-white/30 text-[10px] mb-0.5">Password</p>
+                      <p className="text-white font-mono text-[15px] font-bold tracking-widest">{p.delivery_password}</p>
+                    </div>
+                    <CopyButton value={p.delivery_password || ""} />
+                  </div>
+                  {daysLeft !== null && (
+                    <p className={`text-[11px] ${daysLeft <= 7 ? "text-red-400" : "text-amber-400/70"}`}>
+                      ⏳ Files expire in {daysLeft} day{daysLeft !== 1 ? "s" : ""} — {new Date(p.delivery_expires_at!).toLocaleDateString("en-US", { month: "long", day: "numeric" })}
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <button onClick={generateDelivery} disabled={generating}
+                  className="w-full py-3 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-[13px] transition disabled:opacity-50">
+                  {generating ? "Generating…" : "🔑 Generate Delivery Page + Password"}
+                </button>
+              )}
+
+              {/* Checklist */}
+              {p.delivery_token && (
+                <div className="space-y-2">
+                  <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold">Handoff Checklist</p>
+                  {[
+                    { label: "Files uploaded to Drive", field: "files_uploaded", checked: p.files_uploaded },
+                    { label: "Delivery page sent to client", field: "page_sent", checked: p.page_sent },
+                    { label: "Client downloaded files", field: "files_downloaded", checked: p.files_downloaded },
+                  ].map(item => (
+                    <label key={item.field} className="flex items-center gap-3 cursor-pointer group">
+                      <button onClick={() => toggleCheck(item.field, !item.checked)}
+                        className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition flex-shrink-0 ${item.checked ? "bg-green-500 border-green-500" : "border-[#3A3D4A] group-hover:border-white/30"}`}>
+                        {item.checked && <svg width="10" height="10" fill="none" stroke="white" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/></svg>}
+                      </button>
+                      <span className={`text-[13px] ${item.checked ? "text-white/50 line-through" : "text-white/70"}`}>{item.label}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Managed hosting section */}
+          {p.delivery_type === "managed" && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold mb-2">Monthly Rate ($)</p>
+                  <input type="number" value={monthlyRate} onChange={e => setMonthlyRate(Number(e.target.value))}
+                    className="w-full bg-[#0F1117] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white text-[13px] focus:outline-none focus:border-[#2563EB]/50 transition" />
+                </div>
+                <div>
+                  <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold mb-2">Billing Start</p>
+                  <input type="date" value={billingStart} onChange={e => setBillingStart(e.target.value)}
+                    className="w-full bg-[#0F1117] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white text-[13px] focus:outline-none focus:border-[#2563EB]/50 transition" />
+                </div>
+              </div>
+              {p.next_billing_date && (
+                <p className="text-green-400/60 text-[12px]">Next billing: {new Date(p.next_billing_date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
+              )}
+              <div className="flex gap-3">
+                <button onClick={saveHosting} className="flex-1 py-2.5 rounded-xl bg-green-500/15 hover:bg-green-500/25 text-green-400 font-bold text-[13px] transition border border-green-500/20">
+                  Save Hosting Plan
+                </button>
+                <div className="bg-[#0F1117] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-center">
+                  <p className="text-white/20 text-[10px]">Annual</p>
+                  <p className="text-white font-bold text-[13px]">${(monthlyRate * 10).toFixed(0)}/yr</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -488,6 +748,32 @@ export default function AdminPage() {
         {/* Projects view */}
         {tab === "projects" && (
           <div>
+            {/* Hosting overview strip */}
+            {projects.length > 0 && (() => {
+              const managed = projects.filter(p => p.delivery_type === "managed" && p.hosting_status === "active");
+              const mrr = managed.reduce((sum, p) => sum + (p.monthly_rate || 49), 0);
+              const expiring = projects.filter(p => {
+                if (!p.delivery_expires_at) return false;
+                const days = Math.ceil((new Date(p.delivery_expires_at).getTime() - Date.now()) / 86400000);
+                return days >= 0 && days <= 7;
+              });
+              return (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+                  {[
+                    { label: "Managed Clients", value: managed.length, color: "#34D399" },
+                    { label: "Monthly Recurring", value: `$${mrr}/mo`, color: "#60A5FA" },
+                    { label: "Annual Value", value: `$${mrr * 12}/yr`, color: "#A78BFA" },
+                    { label: "Expiring Soon", value: expiring.length, color: expiring.length > 0 ? "#FB923C" : "#9CA3AF" },
+                  ].map(s => (
+                    <div key={s.label} className="bg-[#1A1D27] border border-[#2A2D3A] rounded-xl p-4">
+                      <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold mb-1">{s.label}</p>
+                      <p className="font-black text-xl" style={{ color: s.color }}>{s.value}</p>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
+
             <div className="flex items-center justify-between mb-4">
               <p className="text-white/40 text-[13px]">{projects.length} project{projects.length !== 1 ? "s" : ""}</p>
               <button onClick={() => { setNewProjectLead(null); setShowNewProject(true); }}
@@ -504,51 +790,20 @@ export default function AdminPage() {
             ) : (
               <div className="space-y-3">
                 {projects.map(p => (
-                  <div key={p.id} className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl p-5 flex items-center gap-5">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-3 mb-1">
-                        <p className="text-white font-bold text-[15px] truncate">{p.name}</p>
-                        <ProjectBadge status={p.status} />
-                      </div>
-                      <p className="text-white/40 text-[13px] truncate">{p.client_email}</p>
-                    </div>
-                    <div className="hidden md:flex items-center gap-6 text-right flex-shrink-0">
-                      {p.agreed_budget && (
-                        <div>
-                          <p className="text-white/20 text-[10px] uppercase tracking-widest mb-0.5">Budget</p>
-                          <p className="text-white text-[14px] font-semibold">{p.agreed_budget}</p>
-                        </div>
-                      )}
-                      {p.deadline && (
-                        <div>
-                          <p className="text-white/20 text-[10px] uppercase tracking-widest mb-0.5">Deadline</p>
-                          <p className="text-white text-[14px] font-semibold">{new Date(p.deadline).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</p>
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex gap-2 flex-shrink-0">
-                      {PROJECT_STATUSES.map(s => (
-                        <button key={s.key} title={s.label}
-                          onClick={async () => {
-                            const res = await fetch(`/api/admin/projects/${p.id}`, {
-                              method: "PATCH",
-                              headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-                              body: JSON.stringify({ status: s.key }),
-                            });
-                            if (res.ok) {
-                              const updated = await res.json();
-                              setProjects(ps => ps.map(x => x.id === p.id ? updated : x));
-                            }
-                          }}
-                          className="w-7 h-7 rounded-full border-2 transition hover:scale-110"
-                          style={{
-                            borderColor: s.color,
-                            background: p.status === s.key ? s.color : "transparent",
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </div>
+                  <ProjectCard key={p.id} p={p} token={token}
+                    onStatusChange={async (id, status) => {
+                      const res = await fetch(`/api/admin/projects/${id}`, {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+                        body: JSON.stringify({ status }),
+                      });
+                      if (res.ok) {
+                        const updated = await res.json();
+                        setProjects(ps => ps.map(x => x.id === id ? { ...x, ...updated } : x));
+                      }
+                    }}
+                    onUpdate={updated => setProjects(ps => ps.map(x => x.id === updated.id ? updated : x))}
+                  />
                 ))}
               </div>
             )}

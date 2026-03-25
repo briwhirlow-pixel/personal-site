@@ -10,13 +10,23 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: `${siteConfig.name} — Web Designer & Developer`,
+  metadataBase: new URL("https://builtbybwhirl.com"),
+  title: {
+    default: `byBrian — Web Designer & Developer`,
+    template: `%s | byBrian`,
+  },
   description: siteConfig.description,
-  // metadataBase: new URL("https://brianwhirlow.com"),
   openGraph: {
-    title: `${siteConfig.name} — Web Designer & Developer`,
+    title: `byBrian — Web Designer & Developer`,
     description: siteConfig.description,
+    url: "https://builtbybwhirl.com",
+    siteName: "byBrian",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `byBrian — Web Designer & Developer`,
+    description: siteConfig.description,
   },
 };
 

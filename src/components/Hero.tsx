@@ -30,6 +30,9 @@ export default function Hero() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Respect user's motion preference
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     const resize = () => {
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
@@ -37,9 +40,13 @@ export default function Hero() {
     resize();
     window.addEventListener('resize', resize);
 
+    // Fewer particles on mobile for performance
+    const isMobile = window.innerWidth < 768;
+    const particleCount = isMobile ? 25 : 55;
+
     type Particle = { x: number; y: number; r: number; vx: number; vy: number; opacity: number; color: string };
     const colors = ['rgba(37,99,235,', 'rgba(99,102,241,', 'rgba(147,197,253,'];
-    const particles: Particle[] = Array.from({ length: 55 }, () => ({
+    const particles: Particle[] = Array.from({ length: particleCount }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       r: Math.random() * 2.5 + 0.5,

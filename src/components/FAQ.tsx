@@ -74,7 +74,7 @@ export default function FAQ() {
                     </svg>
                   </span>
                 </button>
-                <div className={`transition-all duration-300 ease-in-out overflow-hidden ${open === i ? "max-h-48" : "max-h-0"}`}>
+                <div className={`transition-all duration-300 ease-in-out overflow-hidden ${open === i ? "max-h-96" : "max-h-0"}`}>
                   <p className="px-4 sm:px-6 pb-4 sm:pb-5 text-[#737373] text-[13px] sm:text-[14px] leading-relaxed">{faq.a}</p>
                 </div>
               </div>

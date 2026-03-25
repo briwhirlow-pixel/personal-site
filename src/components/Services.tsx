@@ -77,6 +77,50 @@ export default function Services() {
             </Reveal>
           ))}
         </div>
+
+        {/* After launch strip */}
+        <Reveal delay={200} className="mt-8 sm:mt-10">
+          <div className="border border-[#E5E4DF] rounded-2xl overflow-hidden">
+            <div className="px-6 py-4 border-b border-[#E5E4DF] bg-white">
+              <p className="text-[11px] font-semibold uppercase tracking-widest text-[#737373]">After launch — your choice</p>
+            </div>
+            <div className="grid sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-[#E5E4DF] bg-white">
+              {/* File Handoff */}
+              <div className="p-6 flex gap-4 items-start">
+                <div className="w-10 h-10 rounded-xl bg-[#F2F1EC] flex items-center justify-center flex-shrink-0 text-lg">📁</div>
+                <div>
+                  <p className="font-black text-[#1A1A1A] text-[15px] mb-1">Take your files</p>
+                  <p className="text-[#737373] text-[13px] leading-relaxed mb-3">
+                    Get the full source code delivered via Google Drive. Host it anywhere — Vercel, Netlify, your own server. You own it completely.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {["Full source code", "Host anywhere", "One-time cost"].map(tag => (
+                      <span key={tag} className="text-[11px] font-semibold bg-[#F2F1EC] text-[#4A4A4A] px-2.5 py-1 rounded-full">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              {/* Managed Hosting */}
+              <div className="p-6 flex gap-4 items-start">
+                <div className="w-10 h-10 rounded-xl bg-[#2563EB]/10 flex items-center justify-center flex-shrink-0 text-lg">🌐</div>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <p className="font-black text-[#1A1A1A] text-[15px]">Managed hosting</p>
+                    <span className="text-[10px] font-bold bg-[#2563EB] text-white px-2 py-0.5 rounded-full">$49/mo</span>
+                  </div>
+                  <p className="text-[#737373] text-[13px] leading-relaxed mb-3">
+                    We handle hosting, SSL, uptime, and deployments. Includes 1 hour of free edits every month. Pay yearly and get 2 months free.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {["Hosting + SSL", "1hr edits/mo", "$490/yr saves $98"].map(tag => (
+                      <span key={tag} className="text-[11px] font-semibold bg-[#2563EB]/8 text-[#2563EB] px-2.5 py-1 rounded-full">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

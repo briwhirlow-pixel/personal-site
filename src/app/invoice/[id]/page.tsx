@@ -28,9 +28,28 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
 
   return (
     <>
-      <style>{`@media print { .no-print { display: none !important; } body { background: white; } }`}</style>
-      <div className="min-h-screen bg-[#FAFAF7] py-12 px-5">
-        <div className="max-w-3xl mx-auto">
+      <style>{`
+        @media print {
+          .no-print { display: none !important; }
+          body { background: white !important; margin: 0; }
+          .invoice-card {
+            border: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            max-width: 100% !important;
+          }
+          .invoice-wrap {
+            padding: 0 !important;
+            background: white !important;
+            min-height: unset !important;
+          }
+          .invoice-outer {
+            padding: 0 !important;
+          }
+        }
+      `}</style>
+      <div className="invoice-wrap min-h-screen bg-[#FAFAF7] py-12 px-5">
+        <div className="invoice-outer max-w-3xl mx-auto">
 
           {/* Toolbar */}
           <div className="no-print flex items-center justify-between mb-8">
@@ -39,7 +58,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
           </div>
 
           {/* Invoice card */}
-          <div className="bg-white border border-[#E5E4DF] rounded-2xl overflow-hidden">
+          <div className="invoice-card bg-white border border-[#E5E4DF] rounded-2xl overflow-hidden">
 
             {/* Header */}
             <div className="px-8 py-8 flex items-start justify-between gap-6 border-b border-[#E5E4DF]">

@@ -7,7 +7,7 @@ import FloatingCTA from "./FloatingCTA";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAdmin = pathname.startsWith("/admin");
+  const isAdmin = pathname.startsWith("/admin") || pathname.startsWith("/invoice") || pathname.startsWith("/delivery");
   return (
     <>
       {!isAdmin && <Navbar />}

@@ -39,6 +39,7 @@ export async function POST(request: Request) {
       payment_instructions: body.payment_instructions || "",
       due_date: body.due_date || null,
       status: "draft",
+    project_id: body.project_id || null,
     })
     .select()
     .single();

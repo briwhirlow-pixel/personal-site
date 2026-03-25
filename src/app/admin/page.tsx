@@ -116,13 +116,19 @@ function CopyButton({ value }: { value: string }) {
   );
 }
 
-function ProjectCard({ p, token, onStatusChange, onUpdate }: {
+function ProjectCard({ p, token, invoices, onStatusChange, onUpdate, onInvoiceCreated }: {
   p: Project; token: string;
+  invoices: Invoice[];
   onStatusChange: (id: string, status: ProjectStatus) => void;
   onUpdate: (p: Project) => void;
+  onInvoiceCreated: (inv: Invoice) => void;
 }) {
   const [open, setOpen] = useState(false);
   const [generating, setGenerating] = useState(false);
+  const [showInvoiceModal, setShowInvoiceModal] = useState(false);
+  const projectInvoices = invoices.filter(i => i.project_id === p.id);
+  const fmt = (n: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
+  const invoiceTotal = (inv: Invoice) => inv.line_items.reduce((s, i) => s + i.quantity * i.rate, 0);
   const [driveLink, setDriveLink] = useState(p.drive_link || "");
   const [credentials, setCredentials] = useState(p.client_credentials || "");
   const [monthlyRate, setMonthlyRate] = useState(p.monthly_rate || 49);
@@ -361,7 +367,50 @@ function ProjectCard({ p, token, onStatusChange, onUpdate }: {
               </div>
             </div>
           )}
+          {/* Invoices section */}
+          <div className="border-t border-[#2A2D3A] pt-5 space-y-3">
+            <div className="flex items-center justify-between">
+              <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold">Invoices</p>
+              <button onClick={() => setShowInvoiceModal(true)}
+                className="flex items-center gap-1.5 text-[#60A5FA] text-[12px] font-semibold hover:text-white transition">
+                + Generate Invoice
+              </button>
+            </div>
+            {projectInvoices.length === 0 ? (
+              <p className="text-white/20 text-[12px]">No invoices yet for this project.</p>
+            ) : (
+              <div className="space-y-2">
+                {projectInvoices.map(inv => {
+                  const statusColor = inv.status === "paid" ? "text-green-400" : inv.status === "sent" ? "text-blue-400" : "text-white/30";
+                  return (
+                    <div key={inv.id} className="flex items-center justify-between bg-black/20 rounded-xl px-4 py-2.5">
+                      <div>
+                        <p className="text-white text-[13px] font-semibold">{inv.invoice_number}</p>
+                        <p className={`text-[11px] uppercase tracking-widest font-bold ${statusColor}`}>{inv.status}</p>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <p className="text-white font-bold text-[14px]">{fmt(invoiceTotal(inv))}</p>
+                        <a href={`/invoice/${inv.id}`} target="_blank" rel="noopener noreferrer"
+                          className="text-[11px] font-semibold text-[#60A5FA] hover:text-white transition px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10">
+                          View →
+                        </a>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
+      )}
+
+      {showInvoiceModal && (
+        <NewInvoiceModal
+          token={token}
+          prefill={{ client_name: p.client_name || "", client_email: p.client_email || "", project_name: p.name, project_id: p.id }}
+          onClose={() => setShowInvoiceModal(false)}
+          onCreated={inv => { onInvoiceCreated(inv); setShowInvoiceModal(false); }}
+        />
       )}
     </div>
   );
@@ -629,8 +678,7 @@ export default function AdminPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [tab, setTab] = useState<"pipeline" | "projects" | "invoices">("pipeline");
-  const [showNewInvoice, setShowNewInvoice] = useState(false);
+  const [tab, setTab] = useState<"pipeline" | "projects">("pipeline");
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [showNewProject, setShowNewProject] = useState(false);
   const [newProjectLead, setNewProjectLead] = useState<Lead | null>(null);
@@ -730,12 +778,12 @@ export default function AdminPage() {
 
         {/* Tabs */}
         <div className="flex gap-1 mb-6 bg-[#1A1D27] rounded-xl p-1 w-fit border border-[#2A2D3A]">
-          {(["pipeline", "projects", "invoices"] as const).map(t => (
+          {(["pipeline", "projects"] as const).map(t => (
             <button key={t} onClick={() => setTab(t)}
               className={`px-5 py-2 rounded-lg text-[13px] font-semibold transition capitalize ${
                 tab === t ? "bg-[#2563EB] text-white" : "text-white/40 hover:text-white"
               }`}>
-              {t === "pipeline" ? `Pipeline (${leads.length})` : t === "projects" ? `Projects (${projects.length})` : `Invoices (${invoices.length})`}
+              {t === "pipeline" ? `Pipeline (${leads.length})` : `Projects (${projects.length})`}
             </button>
           ))}
         </div>
@@ -767,17 +815,6 @@ export default function AdminPage() {
               );
             })}
           </div>
-        )}
-
-        {/* Invoices view */}
-        {tab === "invoices" && (
-          <InvoicesTab
-            invoices={invoices}
-            token={token}
-            onUpdate={inv => setInvoices(ivs => ivs.map(i => i.id === inv.id ? inv : i))}
-            onDelete={id => setInvoices(ivs => ivs.filter(i => i.id !== id))}
-            onNew={() => setShowNewInvoice(true)}
-          />
         )}
 
         {/* Projects view */}
@@ -825,7 +862,8 @@ export default function AdminPage() {
             ) : (
               <div className="space-y-3">
                 {projects.map(p => (
-                  <ProjectCard key={p.id} p={p} token={token}
+                  <ProjectCard key={p.id} p={p} token={token} invoices={invoices}
+                    onInvoiceCreated={inv => setInvoices(ivs => [inv, ...ivs])}
                     onStatusChange={async (id, status) => {
                       const res = await fetch(`/api/admin/projects/${id}`, {
                         method: "PATCH",
@@ -873,17 +911,6 @@ export default function AdminPage() {
         />
       )}
 
-      {/* New invoice modal */}
-      {showNewInvoice && (
-        <NewInvoiceModal
-          token={token}
-          onClose={() => setShowNewInvoice(false)}
-          onCreated={inv => {
-            setInvoices(ivs => [inv, ...ivs]);
-            setShowNewInvoice(false);
-          }}
-        />
-      )}
     </div>
   );
 }
@@ -911,6 +938,7 @@ interface Invoice {
   status: InvoiceStatus;
   created_at: string;
   paid_at: string | null;
+  project_id: string | null;
 }
 
 // ─── Invoices Tab ──────────────────────────────────────────────────────────────
@@ -1051,13 +1079,17 @@ function InvoicesTab({ invoices, token, onUpdate, onDelete, onNew }: {
 
 const DEFAULT_PAYMENT = `Zelle: brianwhirlowbusiness@gmail.com\nPayPal: paypal.me/brianwhirlow`;
 
-function NewInvoiceModal({ token, onClose, onCreated }: {
+function NewInvoiceModal({ token, prefill, onClose, onCreated }: {
   token: string;
+  prefill?: { client_name: string; client_email: string; project_name: string; project_id: string };
   onClose: () => void;
   onCreated: (inv: Invoice) => void;
 }) {
   const [form, setForm] = useState({
-    client_name: "", client_email: "", project_name: "", due_date: "", notes: "",
+    client_name: prefill?.client_name || "",
+    client_email: prefill?.client_email || "",
+    project_name: prefill?.project_name || "",
+    due_date: "", notes: "",
     payment_instructions: DEFAULT_PAYMENT,
   });
   const [lineItems, setLineItems] = useState<LineItem[]>([{ description: "", quantity: 1, rate: 0 }]);
@@ -1075,7 +1107,7 @@ function NewInvoiceModal({ token, onClose, onCreated }: {
     const res = await fetch("/api/admin/invoices", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ ...form, line_items: lineItems }),
+      body: JSON.stringify({ ...form, line_items: lineItems, project_id: prefill?.project_id || null }),
     });
     if (!res.ok) { setSaving(false); return; }
     const inv = await res.json();

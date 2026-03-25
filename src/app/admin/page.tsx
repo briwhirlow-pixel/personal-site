@@ -1077,7 +1077,7 @@ function InvoicesTab({ invoices, token, onUpdate, onDelete, onNew }: {
 
 // ─── New Invoice Modal ─────────────────────────────────────────────────────────
 
-const DEFAULT_PAYMENT = `Zelle: brianwhirlowbusiness@gmail.com\nVenmo: @brianwhirlow\nPayPal: paypal.me/brianwhirlow`;
+const DEFAULT_PAYMENT = `Zelle: \nVenmo: \nPayPal: `;
 
 function NewInvoiceModal({ token, prefill, onClose, onCreated }: {
   token: string;

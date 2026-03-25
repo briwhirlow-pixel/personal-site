@@ -78,6 +78,21 @@ export default function Services() {
           ))}
         </div>
 
+        {/* Payment terms */}
+        <Reveal delay={160} className="mt-6 sm:mt-8">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-8 bg-white border border-[#E5E4DF] rounded-2xl px-6 py-4">
+            <p className="text-[#737373] text-[13px]">
+              <span className="font-bold text-[#1A1A1A]">Payment terms:</span> 50% deposit to start · 50% on delivery
+            </p>
+            <span className="hidden sm:block w-px h-4 bg-[#E5E4DF]" />
+            <p className="text-[#737373] text-[13px]">
+              <span className="font-bold text-[#1A1A1A]">Larger projects:</span> ⅓ / ⅓ / ⅓ milestone splits available
+            </p>
+            <span className="hidden sm:block w-px h-4 bg-[#E5E4DF]" />
+            <p className="text-[#737373] text-[13px]">No work begins without a deposit.</p>
+          </div>
+        </Reveal>
+
         {/* After launch strip */}
         <Reveal delay={200} className="mt-8 sm:mt-10">
           <div className="border border-[#E5E4DF] rounded-2xl overflow-hidden">

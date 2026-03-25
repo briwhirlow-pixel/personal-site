@@ -25,6 +25,10 @@ const faqs = [
     a: "Every site I build is fully responsive — tested across phones, tablets, and desktops before it ever goes live. Mobile-first is the default, not an afterthought.",
   },
   {
+    q: "How does payment work?",
+    a: "50% upfront to secure your project slot, 50% on delivery before files are handed over. For larger projects I offer a 3-payment split: 33% to start, 33% at design approval, 33% on launch. No work begins until the deposit is received.",
+  },
+  {
     q: "Do you offer ongoing maintenance?",
     a: "Yes. Once your site launches I offer monthly maintenance packages that cover updates, security checks, performance monitoring, and content changes. Ask me about it during the discovery call.",
   },

@@ -1,7 +1,8 @@
 const tools = [
-  "Next.js", "React", "TypeScript", "Tailwind CSS", "Shopify",
-  "Figma", "Node.js", "Supabase", "Vercel", "Framer",
-  "WordPress", "SEO", "E-Commerce", "CMS", "Stripe",
+  "Fast Loading", "Mobile Friendly", "Ranks on Google", "Easy to Update",
+  "Secure", "Custom Design", "No Monthly Fees", "Fully Responsive",
+  "Built to Convert", "Clean Code", "SEO Optimized", "Looks Great on Any Device",
+  "Launched Fast", "You Own It", "No Templates",
 ];
 
 export default function LogoMarquee() {

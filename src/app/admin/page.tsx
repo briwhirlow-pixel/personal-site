@@ -628,7 +628,9 @@ export default function AdminPage() {
   const [token, setToken] = useState<string | null>(null);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
-  const [tab, setTab] = useState<"pipeline" | "projects">("pipeline");
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [tab, setTab] = useState<"pipeline" | "projects" | "invoices">("pipeline");
+  const [showNewInvoice, setShowNewInvoice] = useState(false);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [showNewProject, setShowNewProject] = useState(false);
   const [newProjectLead, setNewProjectLead] = useState<Lead | null>(null);
@@ -643,16 +645,19 @@ export default function AdminPage() {
 
   const fetchData = useCallback(async (t: string) => {
     setLoading(true);
-    const [leadsRes, projRes] = await Promise.all([
+    const [leadsRes, projRes, invRes] = await Promise.all([
       fetch("/api/admin/leads", { headers: { Authorization: `Bearer ${t}` } }),
       fetch("/api/admin/projects", { headers: { Authorization: `Bearer ${t}` } }),
+      fetch("/api/admin/invoices", { headers: { Authorization: `Bearer ${t}` } }),
     ]);
     if (leadsRes.status === 401) { localStorage.removeItem("admin_token"); setToken(null); return; }
     try {
       const leadsData = await leadsRes.json();
       const projData = await projRes.json();
+      const invData = await invRes.json();
       setLeads(Array.isArray(leadsData) ? leadsData : []);
       setProjects(Array.isArray(projData) ? projData : []);
+      setInvoices(Array.isArray(invData) ? invData : []);
       if (!Array.isArray(leadsData)) setFetchError("DB tables not set up yet — run supabase/schema.sql in your Supabase SQL editor.");
     } catch {
       setFetchError("Failed to load data. Check your Supabase connection.");
@@ -725,12 +730,12 @@ export default function AdminPage() {
 
         {/* Tabs */}
         <div className="flex gap-1 mb-6 bg-[#1A1D27] rounded-xl p-1 w-fit border border-[#2A2D3A]">
-          {(["pipeline", "projects"] as const).map(t => (
+          {(["pipeline", "projects", "invoices"] as const).map(t => (
             <button key={t} onClick={() => setTab(t)}
               className={`px-5 py-2 rounded-lg text-[13px] font-semibold transition capitalize ${
                 tab === t ? "bg-[#2563EB] text-white" : "text-white/40 hover:text-white"
               }`}>
-              {t === "pipeline" ? `Pipeline (${leads.length})` : `Projects (${projects.length})`}
+              {t === "pipeline" ? `Pipeline (${leads.length})` : t === "projects" ? `Projects (${projects.length})` : `Invoices (${invoices.length})`}
             </button>
           ))}
         </div>
@@ -762,6 +767,17 @@ export default function AdminPage() {
               );
             })}
           </div>
+        )}
+
+        {/* Invoices view */}
+        {tab === "invoices" && (
+          <InvoicesTab
+            invoices={invoices}
+            token={token}
+            onUpdate={inv => setInvoices(ivs => ivs.map(i => i.id === inv.id ? inv : i))}
+            onDelete={id => setInvoices(ivs => ivs.filter(i => i.id !== id))}
+            onNew={() => setShowNewInvoice(true)}
+          />
         )}
 
         {/* Projects view */}
@@ -856,6 +872,320 @@ export default function AdminPage() {
           }}
         />
       )}
+
+      {/* New invoice modal */}
+      {showNewInvoice && (
+        <NewInvoiceModal
+          token={token}
+          onClose={() => setShowNewInvoice(false)}
+          onCreated={inv => {
+            setInvoices(ivs => [inv, ...ivs]);
+            setShowNewInvoice(false);
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+// ─── Invoice Types ─────────────────────────────────────────────────────────────
+
+type InvoiceStatus = "draft" | "sent" | "paid";
+
+interface LineItem {
+  description: string;
+  quantity: number;
+  rate: number;
+}
+
+interface Invoice {
+  id: string;
+  invoice_number: string;
+  client_name: string;
+  client_email: string;
+  project_name: string;
+  line_items: LineItem[];
+  notes: string;
+  payment_instructions: string;
+  due_date: string | null;
+  status: InvoiceStatus;
+  created_at: string;
+  paid_at: string | null;
+}
+
+// ─── Invoices Tab ──────────────────────────────────────────────────────────────
+
+function InvoicesTab({ invoices, token, onUpdate, onDelete, onNew }: {
+  invoices: Invoice[];
+  token: string;
+  onUpdate: (inv: Invoice) => void;
+  onDelete: (id: string) => void;
+  onNew: () => void;
+}) {
+  const fmt = (n: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
+  const total = (inv: Invoice) => inv.line_items.reduce((s, i) => s + i.quantity * i.rate, 0);
+
+  const unpaidTotal = invoices
+    .filter(i => i.status !== "paid")
+    .reduce((s, i) => s + total(i), 0);
+
+  const markPaid = async (inv: Invoice) => {
+    const res = await fetch(`/api/admin/invoices/${inv.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ status: "paid" }),
+    });
+    if (res.ok) onUpdate({ ...inv, status: "paid", paid_at: new Date().toISOString() });
+  };
+
+  const sendInvoice = async (inv: Invoice) => {
+    const res = await fetch(`/api/admin/invoices/${inv.id}/send`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (res.ok) onUpdate({ ...inv, status: "sent" });
+    else alert("Failed to send invoice. Check your email config.");
+  };
+
+  const deleteInvoice = async (inv: Invoice) => {
+    if (!window.confirm(`Delete ${inv.invoice_number}? This cannot be undone.`)) return;
+    const res = await fetch(`/api/admin/invoices/${inv.id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (res.ok) onDelete(inv.id);
+  };
+
+  const statusBadge = (s: InvoiceStatus) => {
+    if (s === "paid") return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-500/15 text-green-400">PAID</span>;
+    if (s === "sent") return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/15 text-blue-400">SENT</span>;
+    return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/5 text-white/30">DRAFT</span>;
+  };
+
+  return (
+    <div>
+      {/* Summary strip */}
+      <div className="grid grid-cols-3 gap-3 mb-5">
+        {[
+          { label: "Total Invoices", value: invoices.length, color: "#60A5FA" },
+          { label: "Outstanding", value: fmt(unpaidTotal), color: "#FB923C" },
+          { label: "Paid", value: invoices.filter(i => i.status === "paid").length, color: "#34D399" },
+        ].map(s => (
+          <div key={s.label} className="bg-[#1A1D27] border border-[#2A2D3A] rounded-xl p-4">
+            <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold mb-1">{s.label}</p>
+            <p className="font-black text-xl" style={{ color: s.color }}>{s.value}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-between mb-4">
+        <p className="text-white/40 text-[13px]">{invoices.length} invoice{invoices.length !== 1 ? "s" : ""}</p>
+        <button onClick={onNew}
+          className="flex items-center gap-2 bg-[#2563EB] text-white text-[13px] font-semibold px-4 py-2.5 rounded-xl hover:bg-[#1D4ED8] transition">
+          + New Invoice
+        </button>
+      </div>
+
+      {invoices.length === 0 ? (
+        <div className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl p-12 text-center">
+          <p className="text-white/20 text-[15px]">No invoices yet.</p>
+          <p className="text-white/10 text-[13px] mt-1">Create your first invoice to send to a client.</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {invoices.map(inv => (
+            <div key={inv.id} className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl p-5">
+              <div className="flex items-center gap-4">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2.5 mb-1">
+                    <p className="text-white font-bold text-[15px]">{inv.invoice_number}</p>
+                    {statusBadge(inv.status)}
+                  </div>
+                  <p className="text-white/50 text-[13px] truncate">{inv.client_name} · {inv.project_name}</p>
+                  {inv.due_date && (
+                    <p className="text-white/25 text-[11px] mt-0.5">
+                      Due {new Date(inv.due_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                    </p>
+                  )}
+                </div>
+                <div className="text-right flex-shrink-0">
+                  <p className="text-white font-black text-xl">{fmt(total(inv))}</p>
+                  {inv.paid_at && <p className="text-green-400/60 text-[11px] mt-0.5">Paid {new Date(inv.paid_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</p>}
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <a href={`/invoice/${inv.id}`} target="_blank" rel="noopener noreferrer"
+                    className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white/40 hover:text-white transition" title="View invoice">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                  {inv.status !== "paid" && (
+                    <button onClick={() => sendInvoice(inv)}
+                      className="px-3 py-1.5 rounded-lg bg-[#2563EB]/20 hover:bg-[#2563EB]/40 text-[#60A5FA] text-[12px] font-semibold transition">
+                      {inv.status === "sent" ? "Resend" : "Send"}
+                    </button>
+                  )}
+                  {inv.status === "sent" && (
+                    <button onClick={() => markPaid(inv)}
+                      className="px-3 py-1.5 rounded-lg bg-green-500/15 hover:bg-green-500/25 text-green-400 text-[12px] font-semibold transition">
+                      Mark Paid
+                    </button>
+                  )}
+                  <button onClick={() => deleteInvoice(inv)}
+                    className="p-2 rounded-lg bg-white/5 hover:bg-red-500/20 text-white/20 hover:text-red-400 transition">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── New Invoice Modal ─────────────────────────────────────────────────────────
+
+const DEFAULT_PAYMENT = `Zelle: brianwhirlowbusiness@gmail.com\nPayPal: paypal.me/brianwhirlow`;
+
+function NewInvoiceModal({ token, onClose, onCreated }: {
+  token: string;
+  onClose: () => void;
+  onCreated: (inv: Invoice) => void;
+}) {
+  const [form, setForm] = useState({
+    client_name: "", client_email: "", project_name: "", due_date: "", notes: "",
+    payment_instructions: DEFAULT_PAYMENT,
+  });
+  const [lineItems, setLineItems] = useState<LineItem[]>([{ description: "", quantity: 1, rate: 0 }]);
+  const [saving, setSaving] = useState(false);
+
+  const fmt = (n: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
+  const subtotal = lineItems.reduce((s, i) => s + i.quantity * i.rate, 0);
+
+  const updateItem = (i: number, field: keyof LineItem, value: string | number) => {
+    setLineItems(items => items.map((item, idx) => idx === i ? { ...item, [field]: value } : item));
+  };
+
+  const handleSave = async (andSend = false) => {
+    setSaving(true);
+    const res = await fetch("/api/admin/invoices", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ ...form, line_items: lineItems }),
+    });
+    if (!res.ok) { setSaving(false); return; }
+    const inv = await res.json();
+    if (andSend) {
+      await fetch(`/api/admin/invoices/${inv.id}/send`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      inv.status = "sent";
+    }
+    onCreated(inv);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/70 backdrop-blur-sm overflow-y-auto py-8 px-4">
+      <div className="bg-[#0F1117] border border-[#2A2D3A] rounded-2xl w-full max-w-2xl">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-[#2A2D3A]">
+          <p className="text-white font-bold text-[16px]">New Invoice</p>
+          <button onClick={onClose} className="text-white/30 hover:text-white transition text-xl leading-none">×</button>
+        </div>
+
+        <div className="p-6 space-y-5">
+          {/* Client info */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="text-white/30 text-[11px] uppercase tracking-widest font-semibold block mb-1.5">Client Name</label>
+              <input value={form.client_name} onChange={e => setForm(f => ({ ...f, client_name: e.target.value }))}
+                className="w-full bg-[#1A1D27] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white text-[13px] focus:outline-none focus:border-[#2563EB]/50 transition" />
+            </div>
+            <div>
+              <label className="text-white/30 text-[11px] uppercase tracking-widest font-semibold block mb-1.5">Client Email</label>
+              <input type="email" value={form.client_email} onChange={e => setForm(f => ({ ...f, client_email: e.target.value }))}
+                className="w-full bg-[#1A1D27] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white text-[13px] focus:outline-none focus:border-[#2563EB]/50 transition" />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="text-white/30 text-[11px] uppercase tracking-widest font-semibold block mb-1.5">Project Name</label>
+              <input value={form.project_name} onChange={e => setForm(f => ({ ...f, project_name: e.target.value }))}
+                className="w-full bg-[#1A1D27] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white text-[13px] focus:outline-none focus:border-[#2563EB]/50 transition" />
+            </div>
+            <div>
+              <label className="text-white/30 text-[11px] uppercase tracking-widest font-semibold block mb-1.5">Due Date</label>
+              <input type="date" value={form.due_date} onChange={e => setForm(f => ({ ...f, due_date: e.target.value }))}
+                className="w-full bg-[#1A1D27] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white text-[13px] focus:outline-none focus:border-[#2563EB]/50 transition" />
+            </div>
+          </div>
+
+          {/* Line items */}
+          <div>
+            <label className="text-white/30 text-[11px] uppercase tracking-widest font-semibold block mb-2">Line Items</label>
+            <div className="bg-[#1A1D27] border border-[#2A2D3A] rounded-xl overflow-hidden">
+              <div className="grid grid-cols-[1fr_64px_96px_96px_32px] gap-0 px-4 py-2 border-b border-[#2A2D3A]">
+                {["Description", "Qty", "Rate", "Amount", ""].map(h => (
+                  <p key={h} className="text-white/20 text-[10px] uppercase tracking-widest font-semibold">{h}</p>
+                ))}
+              </div>
+              {lineItems.map((item, i) => (
+                <div key={i} className="grid grid-cols-[1fr_64px_96px_96px_32px] gap-0 px-4 py-2.5 border-b border-[#2A2D3A] last:border-0 items-center">
+                  <input value={item.description} onChange={e => updateItem(i, "description", e.target.value)}
+                    placeholder="Description"
+                    className="bg-transparent text-white text-[13px] focus:outline-none pr-3 placeholder-white/20" />
+                  <input type="number" min="1" value={item.quantity} onChange={e => updateItem(i, "quantity", parseFloat(e.target.value) || 0)}
+                    className="bg-transparent text-white text-[13px] focus:outline-none w-full text-center" />
+                  <input type="number" min="0" step="0.01" value={item.rate} onChange={e => updateItem(i, "rate", parseFloat(e.target.value) || 0)}
+                    className="bg-transparent text-white text-[13px] focus:outline-none w-full text-right pr-2" />
+                  <p className="text-white/60 text-[13px] text-right">{fmt(item.quantity * item.rate)}</p>
+                  <button onClick={() => setLineItems(items => items.filter((_, idx) => idx !== i))}
+                    className="text-white/20 hover:text-red-400 transition text-center" disabled={lineItems.length === 1}>×</button>
+                </div>
+              ))}
+              <div className="px-4 py-3 flex items-center justify-between border-t border-[#2A2D3A]">
+                <button onClick={() => setLineItems(items => [...items, { description: "", quantity: 1, rate: 0 }])}
+                  className="text-[#60A5FA] text-[12px] font-semibold hover:text-white transition">+ Add item</button>
+                <p className="text-white font-black text-[15px]">Total: {fmt(subtotal)}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Payment instructions */}
+          <div>
+            <label className="text-white/30 text-[11px] uppercase tracking-widest font-semibold block mb-1.5">Payment Instructions</label>
+            <textarea rows={3} value={form.payment_instructions} onChange={e => setForm(f => ({ ...f, payment_instructions: e.target.value }))}
+              className="w-full bg-[#1A1D27] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white text-[13px] focus:outline-none focus:border-[#2563EB]/50 transition resize-none font-mono" />
+          </div>
+
+          {/* Notes */}
+          <div>
+            <label className="text-white/30 text-[11px] uppercase tracking-widest font-semibold block mb-1.5">Notes (optional)</label>
+            <textarea rows={2} value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
+              placeholder="Payment terms, thank you note, etc."
+              className="w-full bg-[#1A1D27] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white text-[13px] placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition resize-none" />
+          </div>
+        </div>
+
+        <div className="px-6 pb-6 flex gap-3">
+          <button onClick={onClose}
+            className="flex-1 border border-[#2A2D3A] text-white/50 font-semibold py-3 rounded-xl hover:text-white hover:border-white/20 transition text-[14px]">
+            Cancel
+          </button>
+          <button onClick={() => handleSave(false)} disabled={saving}
+            className="flex-1 border border-[#2563EB]/40 text-[#60A5FA] font-semibold py-3 rounded-xl hover:bg-[#2563EB]/10 transition disabled:opacity-50 text-[14px]">
+            Save Draft
+          </button>
+          <button onClick={() => handleSave(true)} disabled={saving}
+            className="flex-1 bg-[#2563EB] text-white font-semibold py-3 rounded-xl hover:bg-[#1D4ED8] transition disabled:opacity-50 text-[14px]">
+            {saving ? "Sending…" : "Send to Client"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

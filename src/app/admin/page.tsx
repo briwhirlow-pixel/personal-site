@@ -678,7 +678,7 @@ export default function AdminPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [tab, setTab] = useState<"pipeline" | "projects">("pipeline");
+  const [tab, setTab] = useState<"pipeline" | "projects" | "playbook">("pipeline");
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [showNewProject, setShowNewProject] = useState(false);
   const [newProjectLead, setNewProjectLead] = useState<Lead | null>(null);
@@ -778,12 +778,12 @@ export default function AdminPage() {
 
         {/* Tabs */}
         <div className="flex gap-1 mb-6 bg-[#1A1D27] rounded-xl p-1 w-fit border border-[#2A2D3A]">
-          {(["pipeline", "projects"] as const).map(t => (
+          {(["pipeline", "projects", "playbook"] as const).map(t => (
             <button key={t} onClick={() => setTab(t)}
               className={`px-5 py-2 rounded-lg text-[13px] font-semibold transition capitalize ${
                 tab === t ? "bg-[#2563EB] text-white" : "text-white/40 hover:text-white"
               }`}>
-              {t === "pipeline" ? `Pipeline (${leads.length})` : `Projects (${projects.length})`}
+              {t === "pipeline" ? `Pipeline (${leads.length})` : t === "projects" ? `Projects (${projects.length})` : "📋 Playbook"}
             </button>
           ))}
         </div>
@@ -816,6 +816,9 @@ export default function AdminPage() {
             })}
           </div>
         )}
+
+        {/* Playbook view */}
+        {tab === "playbook" && <Playbook />}
 
         {/* Projects view */}
         {tab === "projects" && (
@@ -1216,6 +1219,225 @@ function NewInvoiceModal({ token, prefill, onClose, onCreated }: {
             className="flex-1 bg-[#2563EB] text-white font-semibold py-3 rounded-xl hover:bg-[#1D4ED8] transition disabled:opacity-50 text-[14px]">
             {saving ? "Sending…" : "Send to Client"}
           </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Playbook ──────────────────────────────────────────────────────────────────
+
+const PHASES = [
+  {
+    number: "01",
+    title: "Lead Comes In",
+    color: "#60A5FA",
+    bg: "rgba(96,165,250,0.08)",
+    border: "rgba(96,165,250,0.2)",
+    icon: "📥",
+    summary: "A potential client submits the contact form on the website.",
+    steps: [
+      { label: "Contact form submitted", detail: "Client fills out name, email, project type, budget, and message via the website contact form." },
+      { label: "Lead saved to pipeline", detail: "Automatically stored in the database and appears as a 'New' lead in the Pipeline tab." },
+      { label: "Email notification sent", detail: "You receive an immediate email notification so you can follow up fast." },
+    ],
+    tools: ["Contact Form", "Pipeline Tab", "Email Alert"],
+    rule: "Respond within 24 hours. Speed signals professionalism.",
+  },
+  {
+    number: "02",
+    title: "Qualification & Discovery",
+    color: "#A78BFA",
+    bg: "rgba(167,139,250,0.08)",
+    border: "rgba(167,139,250,0.2)",
+    icon: "🔍",
+    summary: "Determine if this is a good fit, understand the project, and scope the work.",
+    steps: [
+      { label: "Move lead to 'Contacted'", detail: "Update the lead status in the pipeline to track your follow-up progress." },
+      { label: "Discovery call or email exchange", detail: "Learn what they need: type of site, number of pages, features, timeline, and budget. Ask about their business goals." },
+      { label: "Assess fit", detail: "Is the budget realistic? Is the scope clear? Do you have the skills? If not a fit, mark as Lost and move on." },
+      { label: "Move lead to 'Proposal Sent'", detail: "Once you've agreed on scope verbally, send a written proposal by email outlining deliverables, timeline, and price." },
+    ],
+    tools: ["Pipeline Tab", "Lead Notes", "Email"],
+    rule: "Never start work without a clear scope and a signed-off proposal.",
+  },
+  {
+    number: "03",
+    title: "Deposit & Kickoff",
+    color: "#34D399",
+    bg: "rgba(52,211,153,0.08)",
+    border: "rgba(52,211,153,0.2)",
+    icon: "💰",
+    summary: "Client agrees, pays the deposit, and the project officially begins.",
+    steps: [
+      { label: "Client accepts proposal", detail: "Verbal or written confirmation that they want to proceed." },
+      { label: "Send deposit invoice (50%)", detail: "Generate an invoice from the project card for 50% of the agreed amount. Send via Zelle, Venmo, or PayPal." },
+      { label: "Deposit received", detail: "Do not start any design or development work until the deposit clears. This is non-negotiable." },
+      { label: "Convert lead to project", detail: "Mark the lead as Won in the pipeline, then create a new Project card. Set the agreed budget, deadline, and start date." },
+      { label: "Project status → Discovery", detail: "Begin gathering all assets: logo files, brand colors, copy, photos, login credentials for any existing platforms." },
+    ],
+    tools: ["Invoice Builder", "Projects Tab", "Zelle / Venmo / PayPal"],
+    rule: "50% upfront, always. No exceptions. This filters serious clients from time-wasters.",
+  },
+  {
+    number: "04",
+    title: "Build",
+    color: "#FB923C",
+    bg: "rgba(251,146,60,0.08)",
+    border: "rgba(251,146,60,0.2)",
+    icon: "🛠️",
+    summary: "Design and develop the website. First draft delivered within 72 hours.",
+    steps: [
+      { label: "Project status → Building", detail: "Update the project card to 'Building' so you can track active work." },
+      { label: "First draft in 72 hours", detail: "Deliver an initial version of the site within 72 hours of kickoff. It doesn't have to be perfect — it needs to be tangible." },
+      { label: "Revision cycles", detail: "Share a staging URL or screen recordings. Collect feedback. Iterate. No revision cap — keep going until the client is happy." },
+      { label: "Project status → Review", detail: "Once you believe the site is ready, move to Review and ask for final client sign-off." },
+      { label: "Final approval", detail: "Client explicitly approves the final design in writing (email is fine). This protects you from scope creep after delivery." },
+    ],
+    tools: ["Next.js", "Tailwind CSS", "Vercel Preview", "Projects Tab"],
+    rule: "Keep the client updated every 2–3 days even if just to say 'still on track'. Silence creates anxiety.",
+  },
+  {
+    number: "05",
+    title: "Final Invoice & Delivery",
+    color: "#F472B6",
+    bg: "rgba(244,114,182,0.08)",
+    border: "rgba(244,114,182,0.2)",
+    icon: "📦",
+    summary: "Collect final payment, then hand over everything the client needs.",
+    steps: [
+      { label: "Send final invoice (50%)", detail: "Generate the second invoice for the remaining 50% of the project fee. Send it and wait for payment before delivering anything." },
+      { label: "Final payment received", detail: "Once the balance is cleared, proceed with delivery. Mark the invoice as Paid." },
+      { label: "Choose delivery type", detail: "File Handoff: upload the full source code to Google Drive. Managed Hosting: you deploy and maintain the site on Vercel." },
+      { label: "Generate delivery page", detail: "In the project card, generate a password-protected delivery page. The client gets a unique URL and password to access their files." },
+      { label: "Send delivery link to client", detail: "Email the client their delivery URL and password. The page shows their download link, credentials, and hosting options." },
+      { label: "Mark files as downloaded", detail: "Once the client downloads, the system tracks it automatically via the delivery portal." },
+    ],
+    tools: ["Invoice Builder", "Delivery Portal", "Google Drive"],
+    rule: "Files are stored for 30 days only. Make sure the client downloads and backs up before expiry.",
+  },
+  {
+    number: "06",
+    title: "Post-Launch",
+    color: "#FBBF24",
+    bg: "rgba(251,191,36,0.08)",
+    border: "rgba(251,191,36,0.2)",
+    icon: "🚀",
+    summary: "Site is live. Keep the relationship warm and generate recurring revenue.",
+    steps: [
+      { label: "Project status → Launched", detail: "Mark the project as Launched in the admin panel. Job done." },
+      { label: "Managed hosting upsell", detail: "If the client opted into managed hosting via the delivery page, you'll see an amber notification in their project card. Follow up to confirm billing and set up payment." },
+      { label: "Billing start date set", detail: "In the project card, set the monthly rate, billing start date, and next billing date. Charge monthly via Zelle, Venmo, or PayPal." },
+      { label: "1 hour edits per month", detail: "Managed clients get 1 hour of free edits every month included. Track your time. Anything over 1 hour is billed at your hourly rate." },
+      { label: "Ask for a review", detail: "After a week or two, follow up and ask the client to leave a review. This is the most important thing you can do for future sales." },
+    ],
+    tools: ["Projects Tab", "Delivery Portal", "Monthly Billing"],
+    rule: "A happy client is your best marketing. Ask for referrals and testimonials every time.",
+  },
+];
+
+function Playbook() {
+  return (
+    <div className="space-y-6 pb-12">
+      {/* Header */}
+      <div className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl p-6">
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-[#2563EB]/20 border border-[#2563EB]/30 flex items-center justify-center text-2xl flex-shrink-0">📋</div>
+          <div>
+            <h2 className="text-white font-black text-xl mb-1">byBrian — Business Playbook</h2>
+            <p className="text-white/40 text-[14px] leading-relaxed">
+              The complete end-to-end process for running this freelance web design business — from the first inquiry to a live site and recurring revenue. Follow this every time, for every client.
+            </p>
+          </div>
+        </div>
+
+        {/* Phase overview strip */}
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mt-6">
+          {PHASES.map(p => (
+            <div key={p.number} className="rounded-xl p-3 text-center" style={{ background: p.bg, border: `1px solid ${p.border}` }}>
+              <p className="text-lg mb-1">{p.icon}</p>
+              <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: p.color }}>{p.number}</p>
+              <p className="text-white/60 text-[11px] font-semibold mt-0.5 leading-tight">{p.title}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Phase cards */}
+      {PHASES.map((phase, pi) => (
+        <div key={phase.number} className="bg-[#1A1D27] border rounded-2xl overflow-hidden" style={{ borderColor: phase.border }}>
+          {/* Phase header */}
+          <div className="px-6 py-5 border-b flex items-center gap-4" style={{ borderColor: phase.border, background: phase.bg }}>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0" style={{ background: phase.bg, border: `1px solid ${phase.border}` }}>
+              {phase.icon}
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="text-[11px] font-black uppercase tracking-widest" style={{ color: phase.color }}>Phase {phase.number}</span>
+                {pi < PHASES.length - 1 && <span className="text-white/20 text-[11px]">→</span>}
+              </div>
+              <h3 className="text-white font-black text-lg">{phase.title}</h3>
+            </div>
+            <p className="text-white/40 text-[13px] leading-relaxed max-w-xs hidden md:block">{phase.summary}</p>
+          </div>
+
+          <div className="p-6 grid md:grid-cols-[1fr_220px] gap-6">
+            {/* Steps */}
+            <div className="space-y-3">
+              {phase.steps.map((step, si) => (
+                <div key={si} className="flex gap-4">
+                  <div className="flex-shrink-0 flex flex-col items-center">
+                    <div className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-black" style={{ background: phase.bg, border: `1px solid ${phase.border}`, color: phase.color }}>
+                      {si + 1}
+                    </div>
+                    {si < phase.steps.length - 1 && <div className="w-px flex-1 mt-2 mb-0" style={{ background: phase.border }} />}
+                  </div>
+                  <div className="pb-3">
+                    <p className="text-white font-bold text-[13px] mb-0.5">{step.label}</p>
+                    <p className="text-white/40 text-[12px] leading-relaxed">{step.detail}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Sidebar */}
+            <div className="space-y-4">
+              {/* Tools used */}
+              <div className="bg-black/20 rounded-xl p-4">
+                <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold mb-3">Tools Used</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {phase.tools.map(t => (
+                    <span key={t} className="text-[11px] font-semibold px-2.5 py-1 rounded-full" style={{ background: phase.bg, border: `1px solid ${phase.border}`, color: phase.color }}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              {/* Golden rule */}
+              <div className="rounded-xl p-4" style={{ background: phase.bg, border: `1px solid ${phase.border}` }}>
+                <p className="text-[10px] uppercase tracking-widest font-semibold mb-2" style={{ color: phase.color }}>Golden Rule</p>
+                <p className="text-white/70 text-[12px] leading-relaxed italic">&ldquo;{phase.rule}&rdquo;</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {/* Revenue model */}
+      <div className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl p-6">
+        <p className="text-white/30 text-[11px] uppercase tracking-widest font-semibold mb-5">Revenue Model</p>
+        <div className="grid md:grid-cols-3 gap-4">
+          {[
+            { icon: "🔨", label: "Project Fee", desc: "One-time payment for building the site. 50% upfront, 50% on delivery. Ranges from $500 (landing page) to $5,000+ (custom app).", color: "#60A5FA" },
+            { icon: "🌐", label: "Managed Hosting", desc: "$49/month or $490/year (2 months free). Covers hosting, SSL, uptime monitoring, and 1 hour of edits per month.", color: "#34D399" },
+            { icon: "⚡", label: "Ad-hoc Edits", desc: "Any work beyond the 1hr monthly inclusion is billed at your hourly rate. Small jobs, copy changes, new pages, integrations.", color: "#FBBF24" },
+          ].map(r => (
+            <div key={r.label} className="bg-black/20 rounded-xl p-5">
+              <div className="text-2xl mb-3">{r.icon}</div>
+              <p className="text-white font-bold text-[14px] mb-1">{r.label}</p>
+              <p className="text-white/40 text-[12px] leading-relaxed">{r.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

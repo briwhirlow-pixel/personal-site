@@ -17,19 +17,24 @@ export default function Services() {
           </p>
         </Reveal>
 
-        <Reveal delay={100} className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-10 sm:mb-16">
-          {[
-            { icon: '⚡', label: 'Fast Turnaround', sub: '2–4 week delivery' },
-            { icon: '📱', label: 'Mobile-First', sub: 'Looks great on every screen' },
-            { icon: '🔍', label: 'SEO Ready', sub: 'Built to be found on Google' },
-            { icon: '📁', label: 'You Own It', sub: 'Full code handoff, no lock-in' },
-          ].map((f) => (
-            <div key={f.label} className="bg-white rounded-xl p-4 border border-[#E5E4DF] hover:border-[#2563EB]/30 hover:shadow-md transition-all cursor-default">
-              <div className="text-2xl mb-2">{f.icon}</div>
-              <p className="text-[13px] font-bold text-[#1A1A1A]">{f.label}</p>
-              <p className="text-[12px] text-[#737373] mt-0.5">{f.sub}</p>
+        <Reveal delay={100} className="mb-10 sm:mb-16">
+          {/* Horizontal scroll on mobile, 4-col grid on desktop */}
+          <div className="-mx-5 sm:mx-0 overflow-x-auto sm:overflow-visible">
+            <div className="flex sm:grid sm:grid-cols-4 gap-3 sm:gap-4 px-5 sm:px-0 pb-1 sm:pb-0">
+              {[
+                { icon: '⚡', label: 'Fast Turnaround', sub: '2–4 week delivery' },
+                { icon: '📱', label: 'Mobile-First', sub: 'Looks great on every screen' },
+                { icon: '🔍', label: 'SEO Ready', sub: 'Built to be found on Google' },
+                { icon: '📁', label: 'You Own It', sub: 'Full code handoff, no lock-in' },
+              ].map((f) => (
+                <div key={f.label} className="flex-shrink-0 w-[calc(50vw-28px)] sm:w-auto bg-white rounded-xl p-4 border border-[#E5E4DF] hover:border-[#2563EB]/30 hover:shadow-md transition-all cursor-default">
+                  <div className="text-2xl mb-2">{f.icon}</div>
+                  <p className="text-[13px] font-bold text-[#1A1A1A]">{f.label}</p>
+                  <p className="text-[12px] text-[#737373] mt-0.5">{f.sub}</p>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </Reveal>
 
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6">

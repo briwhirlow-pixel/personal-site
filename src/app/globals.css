@@ -67,4 +67,9 @@ html {
   body {
     @apply bg-white text-zinc-900 antialiased;
   }
+
+  /* Eliminate 300ms tap delay on mobile */
+  a, button {
+    touch-action: manipulation;
+  }
 }

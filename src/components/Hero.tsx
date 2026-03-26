@@ -41,7 +41,7 @@ export default function Hero() {
     window.addEventListener('resize', resize);
 
     const isMobile = window.innerWidth < 768;
-    const particleCount = isMobile ? 25 : 55;
+    const particleCount = isMobile ? 20 : 55;
 
     type Particle = { x: number; y: number; r: number; vx: number; vy: number; opacity: number; color: string };
     const colors = ['rgba(37,99,235,', 'rgba(99,102,241,', 'rgba(147,197,253,'];
@@ -58,19 +58,22 @@ export default function Hero() {
     let animId: number;
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach((p, i) => {
-        particles.slice(i + 1).forEach(q => {
-          const dist = Math.hypot(p.x - q.x, p.y - q.y);
-          if (dist < 120) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = `rgba(147,197,253,${(1 - dist / 120) * 0.06})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
+      // Skip O(n²) line drawing on mobile — too GPU-heavy
+      if (!isMobile) {
+        particles.forEach((p, i) => {
+          particles.slice(i + 1).forEach(q => {
+            const dist = Math.hypot(p.x - q.x, p.y - q.y);
+            if (dist < 120) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(q.x, q.y);
+              ctx.strokeStyle = `rgba(147,197,253,${(1 - dist / 120) * 0.06})`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+          });
         });
-      });
+      }
       particles.forEach(p => {
         p.x += p.vx;
         p.y += p.vy;
@@ -106,18 +109,18 @@ export default function Hero() {
       />
 
 
-      <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full blur-[130px] opacity-[0.15] pointer-events-none" style={{ background: '#2563EB' }} />
-      <div className="absolute bottom-1/4 left-1/5 w-[400px] h-[400px] rounded-full blur-[110px] opacity-[0.10] pointer-events-none" style={{ background: '#6366F1' }} />
+      <div className="hidden sm:block absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full blur-[130px] opacity-[0.15] pointer-events-none" style={{ background: '#2563EB' }} />
+      <div className="hidden sm:block absolute bottom-1/4 left-1/5 w-[400px] h-[400px] rounded-full blur-[110px] opacity-[0.10] pointer-events-none" style={{ background: '#6366F1' }} />
 
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8 md:px-12 pt-24 sm:pt-28 pb-14 sm:pb-16 w-full">
         {/* Pill badge */}
-        <div className={`inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.08] rounded-full px-3 sm:px-4 py-1.5 mb-6 sm:mb-8 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        <div className={`inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.08] rounded-full px-3 sm:px-4 py-1.5 mb-6 sm:mb-8 transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
           <span className="w-1.5 h-1.5 rounded-full bg-[#60A5FA] animate-pulse" />
           <span className="text-white/50 text-[11px] sm:text-[12px] tracking-wide font-medium">Available for new projects — 2026</span>
         </div>
 
         {/* Headline with rotating word */}
-        <h1 className={`text-[clamp(36px,8vw,88px)] font-black text-white leading-[1.05] tracking-tight mb-6 sm:mb-8 transition-all duration-700 delay-100 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+        <h1 className={`text-[clamp(36px,8vw,88px)] font-black text-white leading-[1.05] tracking-tight mb-6 sm:mb-8 transition-opacity duration-700 delay-100 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
           Websites that
           <br />
           <span
@@ -135,12 +138,12 @@ export default function Hero() {
           your business.
         </h1>
 
-        <p className={`text-white/45 text-[15px] sm:text-[17px] leading-relaxed max-w-sm sm:max-w-lg mb-8 sm:mb-10 transition-all duration-700 delay-200 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        <p className={`text-white/45 text-[15px] sm:text-[17px] leading-relaxed max-w-sm sm:max-w-lg mb-8 sm:mb-10 transition-opacity duration-700 delay-200 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
           I design and build beautiful websites that turn visitors into customers — from brochure sites to full e-commerce stores.
         </p>
 
         {/* CTAs */}
-        <div className={`flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mb-8 sm:mb-10 transition-all duration-700 delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        <div className={`flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mb-8 sm:mb-10 transition-opacity duration-700 delay-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
           <a href="/contact" className="group inline-flex items-center justify-center gap-2 bg-[#2563EB] text-white font-semibold px-6 sm:px-7 py-3.5 sm:py-4 rounded-full hover:bg-[#1D4ED8] transition-all text-[14px] sm:text-[15px] hover:scale-[1.03] active:scale-[0.97]">
             Get a free quote
             <svg className="group-hover:translate-x-1 transition-transform" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -153,7 +156,7 @@ export default function Hero() {
         </div>
 
         {/* Website type pills — 2 rows of 5, full width */}
-        <div className={`grid grid-cols-2 sm:grid-cols-5 gap-2 mb-8 sm:mb-12 transition-all duration-700 delay-400 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        <div className={`grid grid-cols-2 sm:grid-cols-5 gap-2 mb-8 sm:mb-12 transition-opacity duration-700 delay-400 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
           {[
             { emoji: '🛍️', label: 'E-Commerce' },
             { emoji: '🍕', label: 'Restaurant' },

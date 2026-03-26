@@ -12,12 +12,12 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://builtbybwhirl.com"),
   title: {
-    default: `byBrian — Web Designer & Developer`,
+    default: `Brian Whirlow (bwhirl) — Web Designer & Developer`,
     template: `%s | byBrian`,
   },
   description: siteConfig.description,
   openGraph: {
-    title: `byBrian — Web Designer & Developer`,
+    title: `Brian Whirlow (bwhirl) — Web Designer & Developer`,
     description: siteConfig.description,
     url: "https://builtbybwhirl.com",
     siteName: "byBrian",
@@ -25,9 +25,15 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `byBrian — Web Designer & Developer`,
+    title: `Brian Whirlow (bwhirl) — Web Designer & Developer`,
     description: siteConfig.description,
   },
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -152,8 +152,8 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* Website type pills — static, no scrolling */}
-        <div className={`flex flex-wrap gap-2 mb-8 sm:mb-12 transition-all duration-700 delay-400 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        {/* Website type pills — 2 rows of 5, full width */}
+        <div className={`grid grid-cols-2 sm:grid-cols-5 gap-2 mb-8 sm:mb-12 transition-all duration-700 delay-400 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           {[
             { emoji: '🛍️', label: 'E-Commerce' },
             { emoji: '🍕', label: 'Restaurant' },
@@ -168,7 +168,7 @@ export default function Hero() {
           ].map((item) => (
             <span
               key={item.label}
-              className="inline-flex items-center gap-1.5 text-[12px] sm:text-[13px] font-medium text-white/40 border border-white/[0.08] rounded-full px-3 py-1.5"
+              className="flex items-center justify-center gap-1.5 text-[12px] sm:text-[13px] font-medium text-white/40 border border-white/[0.08] rounded-full py-2 px-3"
             >
               <span>{item.emoji}</span>
               <span>{item.label}</span>

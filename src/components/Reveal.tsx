@@ -11,10 +11,12 @@ interface RevealProps {
 export default function Reveal({ children, delay = 0, className = '' }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
-  const reducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
-    if (reducedMotion) { setVisible(true); return; }
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mq.matches);
+    if (mq.matches) { setVisible(true); return; }
     const el = ref.current;
     if (!el) return;
     const observer = new IntersectionObserver(
@@ -28,7 +30,7 @@ export default function Reveal({ children, delay = 0, className = '' }: RevealPr
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, [reducedMotion]);
+  }, []);
 
   return (
     <div

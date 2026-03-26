@@ -22,9 +22,9 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 60);
       const doc = document.documentElement;
-      const scrolled = doc.scrollTop || document.body.scrollTop;
+      const scrollTop = doc.scrollTop || document.body.scrollTop;
       const total = doc.scrollHeight - doc.clientHeight;
-      setProgress(total > 0 ? (scrolled / total) * 100 : 0);
+      setProgress(total > 0 ? (scrollTop / total) * 100 : 0);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);

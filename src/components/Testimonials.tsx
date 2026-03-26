@@ -2,9 +2,9 @@ import Reveal from "./Reveal";
 
 const reviews = [
   {
-    name: "Marcus D.",
-    role: "Owner, Ember & Oak Restaurant",
-    avatar: "MD",
+    name: "Nick M.",
+    role: "",
+    avatar: "NM",
     rating: 5,
     text: "Brian completely transformed our online presence. Before working with him, our old site was basically just a phone number on a white page. Within the first month we saw a noticeable uptick in bookings coming directly through the website. He was responsive the entire time and delivered ahead of schedule. 10/10 would recommend to any local business owner.",
     highlight: "Bookings up within the first month",
@@ -12,7 +12,7 @@ const reviews = [
   },
   {
     name: "Priya S.",
-    role: "Founder, Luminary Skincare Co.",
+    role: "",
     avatar: "PS",
     rating: 5,
     text: "I came to Brian needing a Shopify store that actually felt premium — not just a generic template. He designed every page from scratch and integrated our product catalog, a loyalty rewards app, and email capture. He also handled our SEO setup so we started showing up in Google searches we never ranked for before. Super professional, great communicator, and the site looks stunning.",
@@ -20,9 +20,9 @@ const reviews = [
     tag: "E-Commerce",
   },
   {
-    name: "Jordan T.",
-    role: "Freelance Photographer, JT Visual",
-    avatar: "JT",
+    name: "Joseph D.",
+    role: "",
+    avatar: "JD",
     rating: 5,
     text: "I needed a portfolio site that could show off my photography without looking cluttered or cheap. Brian nailed it on the first revision. He set it up on a CMS so I can update galleries myself without touching code, which was a huge deal for me. I've already gotten two client inquiries directly through the contact form he built. Really glad I hired him.",
     highlight: "2 client inquiries through the contact form already",
@@ -94,7 +94,6 @@ export default function Testimonials() {
                   </div>
                   <div>
                     <p className="text-[#1A1A1A] text-[13px] font-bold leading-tight">{review.name}</p>
-                    <p className="text-[#AEACA6] text-[11px] mt-0.5">{review.role}</p>
                   </div>
                 </div>
 

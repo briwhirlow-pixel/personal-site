@@ -613,15 +613,13 @@ export default function GymPage() {
       settingsData.forEach(s => settingsMap.set(s.exerciseId, s));
       setExerciseSettings(settingsMap);
 
-      // If there's an active cycle, load it and navigate directly to it
+      // Pre-load the active cycle data so tapping it is instant, but stay on cycles view
       const active = cyclesData.find(c => c.status === 'active');
       if (active) {
         const fullCycle = await fetchCycle(active.id);
         if (fullCycle) {
           setActiveCycle(fullCycle);
           setSelectedDay(getTodayDayNumber());
-          window.history.replaceState({ gymView: 'cycle' }, '', '/gym');
-          setView('cycle');
         }
       }
     } catch (err) {

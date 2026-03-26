@@ -1,262 +1,92 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import AnimatedCounter from './AnimatedCounter';
-
-const words = ['grow', 'convert', 'scale', 'elevate'];
+import { useEffect, useState } from 'react';
 
 export default function Hero() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const sectionRef = useRef<HTMLElement>(null);
   const [loaded, setLoaded] = useState(false);
-  const [wordIndex, setWordIndex] = useState(0);
-  const [fade, setFade] = useState(true);
-  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
-  const [isPointerFine, setIsPointerFine] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFade(false);
-      setTimeout(() => {
-        setWordIndex(i => (i + 1) % words.length);
-        setFade(true);
-      }, 400);
-    }, 2500);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => { setLoaded(true); }, []);
 
-  // Cursor glow — desktop (pointer: fine) only
-  useEffect(() => {
-    const fine = window.matchMedia('(pointer: fine)').matches;
-    setIsPointerFine(fine);
-    if (!fine) return;
-    const handleMouseMove = (e: MouseEvent) => {
-      const section = sectionRef.current;
-      if (!section) return;
-      const rect = section.getBoundingClientRect();
-      setMousePos({
-        x: ((e.clientX - rect.left) / rect.width) * 100,
-        y: ((e.clientY - rect.top) / rect.height) * 100,
-      });
-    };
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    // Respect user's motion preference
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    // Fewer particles on mobile for performance
-    const isMobile = window.innerWidth < 768;
-    const particleCount = isMobile ? 25 : 55;
-
-    type Particle = { x: number; y: number; r: number; vx: number; vy: number; opacity: number; color: string };
-    const colors = ['rgba(37,99,235,', 'rgba(99,102,241,', 'rgba(147,197,253,'];
-    const particles: Particle[] = Array.from({ length: particleCount }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 2.5 + 0.5,
-      vx: (Math.random() - 0.5) * 0.25,
-      vy: (Math.random() - 0.5) * 0.25,
-      opacity: Math.random() * 0.45 + 0.05,
-      color: colors[Math.floor(Math.random() * colors.length)],
-    }));
-
-    let animId: number;
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach((p, i) => {
-        particles.slice(i + 1).forEach(q => {
-          const dist = Math.hypot(p.x - q.x, p.y - q.y);
-          if (dist < 120) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = `rgba(147,197,253,${(1 - dist / 120) * 0.06})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        });
-      });
-      particles.forEach(p => {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `${p.color}${p.opacity})`;
-        ctx.fill();
-      });
-      animId = requestAnimationFrame(draw);
-    };
-    draw();
-    return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize); };
-  }, []);
-
   return (
     <section
-      ref={sectionRef}
       className="relative min-h-screen flex flex-col justify-center overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, #06091F 0%, #0D1B45 45%, #081229 100%)' }}
+      style={{ background: 'linear-gradient(160deg, #06091F 0%, #0D1B45 50%, #081229 100%)' }}
     >
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+      {/* Subtle static gradient orbs — no animation */}
+      <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full blur-[160px] opacity-[0.12] pointer-events-none" style={{ background: '#2563EB' }} />
+      <div className="absolute bottom-1/4 left-1/5 w-[400px] h-[400px] rounded-full blur-[130px] opacity-[0.08] pointer-events-none" style={{ background: '#6366F1' }} />
 
-      {/* Grain texture overlay — adds a premium tactile feel */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          opacity: 0.045,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          backgroundRepeat: 'repeat',
-          backgroundSize: '200px 200px',
-        }}
-      />
-
-      {/* Cursor glow — desktop/mouse only, invisible on touch devices */}
-      {isPointerFine && (
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `radial-gradient(600px circle at ${mousePos.x}% ${mousePos.y}%, rgba(37,99,235,0.08), transparent 60%)`,
-            transition: 'background 0.1s ease',
-          }}
-        />
-      )}
-
-      {/* Gradient orbs */}
-      <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full blur-[130px] opacity-[0.15] pointer-events-none" style={{ background: '#2563EB' }} />
-      <div className="absolute bottom-1/4 left-1/5 w-[400px] h-[400px] rounded-full blur-[110px] opacity-[0.10] pointer-events-none" style={{ background: '#6366F1' }} />
-
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 md:px-12 pt-24 sm:pt-28 pb-14 sm:pb-16 w-full">
+      <div className={`relative max-w-7xl mx-auto px-5 sm:px-8 md:px-12 pt-24 sm:pt-28 pb-14 sm:pb-16 w-full transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
         {/* Pill badge */}
-        <div className={`inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.08] rounded-full px-3 sm:px-4 py-1.5 mb-6 sm:mb-8 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        <div className="inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.08] rounded-full px-3 sm:px-4 py-1.5 mb-6 sm:mb-8">
           <span className="w-1.5 h-1.5 rounded-full bg-[#60A5FA] animate-pulse" />
           <span className="text-white/50 text-[11px] sm:text-[12px] tracking-wide font-medium">Available for new projects — 2026</span>
         </div>
 
-        {/* Headline */}
-        <h1 className={`text-[clamp(36px,8vw,88px)] font-black text-white leading-[1.05] tracking-tight mb-6 sm:mb-8 transition-all duration-700 delay-100 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+        {/* Headline — static, no rotating words */}
+        <h1 className="text-[clamp(36px,8vw,88px)] font-black text-white leading-[1.05] tracking-tight mb-6 sm:mb-8">
           Websites that
           <br />
-          <span
-            className="text-[#60A5FA] inline-block"
-            style={{
-              opacity: fade ? 1 : 0,
-              transform: fade ? 'translateY(0)' : 'translateY(-12px)',
-              transition: 'opacity 0.35s ease, transform 0.35s ease',
-              filter: fade ? 'drop-shadow(0 0 24px rgba(96,165,250,0.5))' : 'none',
-            }}
-          >
-            {words[wordIndex]}
-          </span>
+          <span className="text-[#60A5FA]">convert</span>
           <br />
           your business.
         </h1>
 
-        <p className={`text-white/45 text-[15px] sm:text-[17px] leading-relaxed max-w-sm sm:max-w-lg mb-8 sm:mb-10 transition-all duration-700 delay-200 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          I design and build fast, beautiful websites that convert visitors into customers — from brochure sites to full e-commerce stores.
+        <p className="text-white/45 text-[15px] sm:text-[17px] leading-relaxed max-w-sm sm:max-w-lg mb-8 sm:mb-10">
+          I design and build beautiful websites that turn visitors into customers — from brochure sites to full e-commerce stores.
         </p>
 
-        <div className={`flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mb-8 sm:mb-10 transition-all duration-700 delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <a href="/contact" className="group inline-flex items-center justify-center gap-2 bg-[#2563EB] text-white font-semibold px-6 sm:px-7 py-3.5 sm:py-4 rounded-full hover:bg-[#1D4ED8] transition-all text-[14px] sm:text-[15px] hover:scale-[1.03] active:scale-[0.97]">
+        {/* CTAs */}
+        <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mb-10 sm:mb-14">
+          <a href="/contact" className="group inline-flex items-center justify-center gap-2 bg-[#2563EB] text-white font-semibold px-6 sm:px-7 py-3.5 sm:py-4 rounded-full hover:bg-[#1D4ED8] transition-colors text-[14px] sm:text-[15px]">
             Get a free quote
             <svg className="group-hover:translate-x-1 transition-transform" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
           </a>
+          <a href="/work" className="inline-flex items-center justify-center gap-2 text-white/60 font-semibold px-6 sm:px-7 py-3.5 sm:py-4 rounded-full border border-white/10 hover:border-white/30 hover:text-white transition-colors text-[14px] sm:text-[15px]">
+            See examples I&apos;ve built
+          </a>
         </div>
 
-        {/* Scrolling website types marquee */}
-        <div className={`mb-8 sm:mb-12 transition-all duration-700 delay-400 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <div className="flex items-center gap-4">
-            {/* Marquee strip */}
-            <div className="flex-1 overflow-hidden relative">
-              {/* Fade edges */}
-              <div className="absolute left-0 top-0 bottom-0 w-8 z-10" style={{ background: 'linear-gradient(to right, #080C14, transparent)' }} />
-              <div className="absolute right-0 top-0 bottom-0 w-8 z-10" style={{ background: 'linear-gradient(to left, #080C14, transparent)' }} />
-              <div
-                className="flex gap-3 whitespace-nowrap"
-                style={{ animation: 'marquee 22s linear infinite', width: 'max-content' }}
-              >
-                {[
-                  { emoji: '🛍️', label: 'E-Commerce' },
-                  { emoji: '🍕', label: 'Restaurant' },
-                  { emoji: '📸', label: 'Photography' },
-                  { emoji: '💼', label: 'Portfolio' },
-                  { emoji: '🏠', label: 'Real Estate' },
-                  { emoji: '💈', label: 'Salon & Spa' },
-                  { emoji: '🏋️', label: 'Fitness' },
-                  { emoji: '🏗️', label: 'Construction' },
-                  { emoji: '📱', label: 'SaaS / App' },
-                  { emoji: '🎓', label: 'Education' },
-                  { emoji: '🛍️', label: 'E-Commerce' },
-                  { emoji: '🍕', label: 'Restaurant' },
-                  { emoji: '📸', label: 'Photography' },
-                  { emoji: '💼', label: 'Portfolio' },
-                  { emoji: '🏠', label: 'Real Estate' },
-                  { emoji: '💈', label: 'Salon & Spa' },
-                  { emoji: '🏋️', label: 'Fitness' },
-                  { emoji: '🏗️', label: 'Construction' },
-                  { emoji: '📱', label: 'SaaS / App' },
-                  { emoji: '🎓', label: 'Education' },
-                ].map((item, i) => (
-                  <span
-                    key={i}
-                    className="inline-flex items-center gap-1.5 text-[13px] sm:text-[15px] font-medium text-white/45 border border-white/[0.08] rounded-full px-3 py-1.5"
-                  >
-                    <span>{item.emoji}</span>
-                    <span>{item.label}</span>
-                  </span>
-                ))}
-              </div>
-            </div>
-            {/* Learn More link */}
-            <a
-              href="/work"
-              className="flex-shrink-0 inline-flex items-center gap-1.5 text-[13px] sm:text-[15px] font-semibold text-white/60 hover:text-white transition-colors group"
+        {/* Website types — static pill list, no scrolling */}
+        <div className="flex flex-wrap gap-2 mb-10 sm:mb-14">
+          {[
+            { emoji: '🛍️', label: 'E-Commerce' },
+            { emoji: '🍕', label: 'Restaurant' },
+            { emoji: '📸', label: 'Photography' },
+            { emoji: '💼', label: 'Portfolio' },
+            { emoji: '🏠', label: 'Real Estate' },
+            { emoji: '💈', label: 'Salon & Spa' },
+            { emoji: '🏋️', label: 'Fitness' },
+            { emoji: '🏗️', label: 'Construction' },
+            { emoji: '📱', label: 'SaaS / App' },
+            { emoji: '🎓', label: 'Education' },
+          ].map((item) => (
+            <span
+              key={item.label}
+              className="inline-flex items-center gap-1.5 text-[12px] sm:text-[13px] font-medium text-white/40 border border-white/[0.08] rounded-full px-3 py-1.5"
             >
-              <span className="hidden sm:inline">Learn More About Examples I&apos;ve Built</span>
-              <span className="sm:hidden">See Examples</span>
-              <svg className="group-hover:translate-x-1 transition-transform" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-              </svg>
-            </a>
-          </div>
+              <span>{item.emoji}</span>
+              <span>{item.label}</span>
+            </span>
+          ))}
         </div>
 
         {/* Stats */}
-        <div className={`grid grid-cols-3 sm:flex sm:flex-wrap gap-6 sm:gap-12 pt-6 sm:pt-8 border-t border-white/[0.08] transition-all duration-700 delay-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
+        <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-6 sm:gap-12 pt-6 sm:pt-8 border-t border-white/[0.08]">
           {[
-            { target: 72, suffix: 'hr', label: 'First Draft' },
-            { target: 100, suffix: '%', label: 'Satisfaction' },
-            { target: 3, suffix: '×', label: 'Lead Increase' },
+            { value: '72hr', label: 'First Draft' },
+            { value: '100%', label: 'Satisfaction' },
+            { value: '3×', label: 'Lead Increase' },
           ].map((stat) => (
             <div key={stat.label}>
-              <p className="text-[28px] sm:text-[36px] font-black text-white leading-none tabular-nums">
-                <AnimatedCounter target={stat.target} suffix={stat.suffix} />
-              </p>
+              <p className="text-[28px] sm:text-[36px] font-black text-white leading-none">{stat.value}</p>
               <p className="text-white/35 text-[11px] sm:text-[13px] mt-1 sm:mt-1.5 font-medium">{stat.label}</p>
             </div>
           ))}
         </div>
       </div>
-
     </section>
   );
 }

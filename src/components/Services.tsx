@@ -13,16 +13,16 @@ export default function Services() {
             Simple, transparent pricing.
           </h2>
           <p className="text-[#737373] text-[17px] leading-relaxed">
-            No hidden fees. Pick the package that fits, or reach out for something custom.
+            One-time project fee. Pick the package that fits, or reach out for something custom. Hosting is optional — you always get your code.
           </p>
         </Reveal>
 
         <Reveal delay={100} className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-10 sm:mb-16">
           {[
-            { icon: '⚡', label: 'Fast Delivery', sub: '2–4 week turnaround' },
-            { icon: '📱', label: 'Fully Responsive', sub: 'Every screen size' },
-            { icon: '🔍', label: 'SEO Optimized', sub: 'Built to be found' },
-            { icon: '♾️', label: 'Ongoing Support', sub: "I don't disappear" },
+            { icon: '⚡', label: 'Fast Turnaround', sub: '2–4 week delivery' },
+            { icon: '📱', label: 'Mobile-First', sub: 'Looks great on every screen' },
+            { icon: '🔍', label: 'SEO Ready', sub: 'Built to be found on Google' },
+            { icon: '📁', label: 'You Own It', sub: 'Full code handoff, no lock-in' },
           ].map((f) => (
             <div key={f.label} className="bg-white rounded-xl p-4 border border-[#E5E4DF] hover:border-[#2563EB]/30 hover:shadow-md transition-all group cursor-default">
               <div className="text-2xl mb-2 group-hover:scale-110 transition-transform inline-block">{f.icon}</div>

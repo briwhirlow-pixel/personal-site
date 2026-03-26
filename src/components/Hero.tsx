@@ -7,12 +7,9 @@ const words = ['grow', 'convert', 'scale', 'elevate'];
 
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const sectionRef = useRef<HTMLElement>(null);
   const [loaded, setLoaded] = useState(false);
   const [wordIndex, setWordIndex] = useState(0);
   const [fade, setFade] = useState(true);
-  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
-  const [isPointerFine, setIsPointerFine] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -27,23 +24,6 @@ export default function Hero() {
 
   useEffect(() => { setLoaded(true); }, []);
 
-  // Cursor glow — desktop (pointer: fine) only
-  useEffect(() => {
-    const fine = window.matchMedia('(pointer: fine)').matches;
-    setIsPointerFine(fine);
-    if (!fine) return;
-    const handleMouseMove = (e: MouseEvent) => {
-      const section = sectionRef.current;
-      if (!section) return;
-      const rect = section.getBoundingClientRect();
-      setMousePos({
-        x: ((e.clientX - rect.left) / rect.width) * 100,
-        y: ((e.clientY - rect.top) / rect.height) * 100,
-      });
-    };
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -109,7 +89,7 @@ export default function Hero() {
 
   return (
     <section
-      ref={sectionRef}
+
       className="relative min-h-screen flex flex-col justify-center overflow-hidden"
       style={{ background: 'linear-gradient(135deg, #06091F 0%, #0D1B45 45%, #081229 100%)' }}
     >
@@ -125,15 +105,6 @@ export default function Hero() {
         }}
       />
 
-      {isPointerFine && (
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `radial-gradient(600px circle at ${mousePos.x}% ${mousePos.y}%, rgba(37,99,235,0.08), transparent 60%)`,
-            transition: 'background 0.1s ease',
-          }}
-        />
-      )}
 
       <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full blur-[130px] opacity-[0.15] pointer-events-none" style={{ background: '#2563EB' }} />
       <div className="absolute bottom-1/4 left-1/5 w-[400px] h-[400px] rounded-full blur-[110px] opacity-[0.10] pointer-events-none" style={{ background: '#6366F1' }} />

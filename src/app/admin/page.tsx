@@ -678,7 +678,7 @@ export default function AdminPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [tab, setTab] = useState<"pipeline" | "projects" | "playbook" | "budget" | "expenses">("pipeline");
+  const [tab, setTab] = useState<"pipeline" | "projects" | "playbook" | "budget" | "expenses" | "templates" | "discovery">("pipeline");
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [showNewProject, setShowNewProject] = useState(false);
   const [newProjectLead, setNewProjectLead] = useState<Lead | null>(null);
@@ -778,12 +778,12 @@ export default function AdminPage() {
 
         {/* Tabs */}
         <div className="flex flex-wrap gap-1 mb-6 bg-[#1A1D27] rounded-xl p-1 w-fit border border-[#2A2D3A]">
-          {(["pipeline", "projects", "playbook", "budget", "expenses"] as const).map(t => (
+          {(["pipeline", "projects", "playbook", "budget", "expenses", "templates", "discovery"] as const).map(t => (
             <button key={t} onClick={() => setTab(t)}
               className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition ${
                 tab === t ? "bg-[#2563EB] text-white" : "text-white/40 hover:text-white"
               }`}>
-              {t === "pipeline" ? `Pipeline (${leads.length})` : t === "projects" ? `Projects (${projects.length})` : t === "playbook" ? "📋 Playbook" : t === "budget" ? "💰 Budget Tiers" : "🧾 Expenses"}
+              {t === "pipeline" ? `Pipeline (${leads.length})` : t === "projects" ? `Projects (${projects.length})` : t === "playbook" ? "📋 Playbook" : t === "budget" ? "💰 Budget Tiers" : t === "expenses" ? "🧾 Expenses" : t === "templates" ? "🗂️ Templates" : "📞 Discovery Call"}
             </button>
           ))}
         </div>
@@ -825,6 +825,12 @@ export default function AdminPage() {
 
         {/* Expenses view */}
         {tab === "expenses" && <Expenses />}
+
+        {/* Templates view */}
+        {tab === "templates" && <SiteTemplates />}
+
+        {/* Discovery Call view */}
+        {tab === "discovery" && <DiscoveryCall />}
 
         {/* Projects view */}
         {tab === "projects" && (
@@ -1814,6 +1820,640 @@ function Expenses() {
               <p className="text-[10px] uppercase tracking-widest font-semibold text-white/30 mb-1">{s.label}</p>
               <p className="font-black text-[20px] mb-1" style={{ color: s.color }}>{s.cost}</p>
               <p className="text-white/40 text-[11px] leading-relaxed">{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SiteTemplates() {
+  const templates = [
+    {
+      type: "E-Commerce Store",
+      emoji: "🛍️",
+      color: "#F59E0B",
+      border: "rgba(245,158,11,0.2)",
+      bg: "rgba(245,158,11,0.06)",
+      tier: "Custom ($2,500+)",
+      stack: ["Next.js", "Stripe", "Supabase", "Vercel"],
+      pages: ["Home", "Shop / Collection", "Product Detail", "Cart", "Checkout", "Order Confirmation", "Account / Orders", "About", "Contact"],
+      mustHave: [
+        "Product catalog with categories + filters",
+        "Product pages: photos, description, variants (size/color), Add to Cart",
+        "Cart sidebar or page (persistent across sessions)",
+        "Stripe checkout (one-time payments)",
+        "Order confirmation email (via Resend)",
+        "Mobile-first checkout flow",
+        "Inventory display (in stock / out of stock)",
+        "SEO: product meta titles, OG images",
+      ],
+      niceToHave: [
+        "Discount/promo code support (Stripe coupons)",
+        "Customer login + order history (Supabase Auth)",
+        "Product reviews section",
+        "Wishlist / save for later",
+        "Related products carousel",
+        "Abandoned cart email",
+      ],
+      clientNeeds: [
+        "Product list with names, descriptions, prices, variants",
+        "Product photos (high-res, white/neutral background preferred)",
+        "Brand logo + color palette",
+        "Shipping policy, return policy copy",
+        "Stripe account connected",
+        "Domain purchased",
+      ],
+      questions: [
+        "How many products do you have?",
+        "Do products have variants (sizes, colors)?",
+        "Do you need customer accounts or is guest checkout fine?",
+        "Do you ship physically or is this digital/service?",
+        "Do you have existing photos or need placeholder images?",
+      ],
+    },
+    {
+      type: "Restaurant & Hospitality",
+      emoji: "🍽️",
+      color: "#EF4444",
+      border: "rgba(239,68,68,0.2)",
+      bg: "rgba(239,68,68,0.06)",
+      tier: "Starter–Professional ($500–$1,200)",
+      stack: ["Next.js", "Vercel", "Resend", "Sanity (optional CMS)"],
+      pages: ["Home", "Menu", "About / Story", "Reservations", "Gallery", "Contact / Location"],
+      mustHave: [
+        "Full menu display (sections: starters, mains, drinks, desserts)",
+        "Hours + location with Google Maps embed",
+        "Reservation link (OpenTable, Resy, or simple form)",
+        "Mobile-responsive — most users visit on phone",
+        "Hero with food/ambiance photography",
+        "Contact form or click-to-call button",
+        "Social media links (Instagram especially)",
+      ],
+      niceToHave: [
+        "Online ordering integration (Slice, Toast, or custom)",
+        "Events / specials section",
+        "Gift card link",
+        "Photo gallery / Instagram feed embed",
+        "CMS so owner can update menu without dev help",
+      ],
+      clientNeeds: [
+        "Menu (PDF or text — every item, price, description)",
+        "Photos of food, interior, exterior",
+        "Logo + brand colors",
+        "Hours of operation",
+        "Address + parking info",
+        "Reservation platform they use (or none yet)",
+      ],
+      questions: [
+        "Do you take reservations? Through what platform?",
+        "Do you offer online ordering or delivery?",
+        "Do you want to update the menu yourself (CMS) or have me do it?",
+        "Do you have professional food photos or need to use stock?",
+        "Any events, specials, or seasonal menus to highlight?",
+      ],
+    },
+    {
+      type: "Portfolio & Personal Brand",
+      emoji: "✦",
+      color: "#8B5CF6",
+      border: "rgba(139,92,246,0.2)",
+      bg: "rgba(139,92,246,0.06)",
+      tier: "Starter–Professional ($500–$1,200)",
+      stack: ["Next.js", "Vercel", "Sanity or Contentlayer", "Resend"],
+      pages: ["Home", "Work / Projects", "Project Detail", "About", "Services (optional)", "Contact"],
+      mustHave: [
+        "Full-screen hero with name + tagline",
+        "Project gallery with categories",
+        "Individual project pages (problem, approach, result + screenshots)",
+        "About page with bio + headshot",
+        "Contact form with inquiry type",
+        "Smooth page transitions / reveal animations",
+        "Downloadable resume link (optional)",
+      ],
+      niceToHave: [
+        "CMS for adding new projects without code",
+        "Case study format (long-form write-ups)",
+        "Testimonials section",
+        "Blog",
+        "Password-protected work (for NDA projects)",
+      ],
+      clientNeeds: [
+        "3–10 portfolio pieces with project descriptions",
+        "Screenshots or mockups of each project",
+        "Headshot / profile photo",
+        "Short bio (2–3 sentences)",
+        "Services or skills they offer",
+        "Resume PDF (optional)",
+      ],
+      questions: [
+        "What's your primary goal — job hunting, freelance clients, or brand building?",
+        "How many projects do you want to feature?",
+        "Do you have case studies written or just screenshots?",
+        "Do you want a blog or writing section?",
+        "Do you want to update projects yourself (CMS)?",
+      ],
+    },
+    {
+      type: "Business & Services",
+      emoji: "💼",
+      color: "#3B82F6",
+      border: "rgba(59,130,246,0.2)",
+      bg: "rgba(59,130,246,0.06)",
+      tier: "Starter–Advanced ($500–$2,000)",
+      stack: ["Next.js", "Vercel", "Resend", "Supabase (if lead capture needed)", "Calendly"],
+      pages: ["Home", "Services", "About / Team", "Pricing (optional)", "Testimonials", "Contact / Book a Call"],
+      mustHave: [
+        "Clear above-the-fold headline: who you help + how",
+        "Services breakdown (what's included, who it's for)",
+        "Trust signals: testimonials, logos, credentials",
+        "Multiple CTAs throughout (contact form + calendar booking)",
+        "Mobile-first, fast-loading",
+        "Basic SEO setup",
+        "Google Analytics / tracking pixel",
+      ],
+      niceToHave: [
+        "Pricing page",
+        "FAQ section",
+        "Case studies / results",
+        "Lead magnet + email capture (Supabase + Resend)",
+        "Live chat widget (Crisp, Tawk.to — free tiers)",
+        "Blog for SEO",
+      ],
+      clientNeeds: [
+        "Description of services (what they do, for whom, outcomes)",
+        "2–5 client testimonials",
+        "Headshots of team members",
+        "Calendly or booking platform link",
+        "Logo + brand colors",
+        "Any credentials, certifications, or client logos",
+      ],
+      questions: [
+        "What's your primary conversion action — form fill, call booking, or phone call?",
+        "Do you have testimonials ready to use?",
+        "Do you want a pricing page or keep it inquiry-only?",
+        "Do you have existing branding (logo, colors, fonts)?",
+        "Do you have a CRM or how do you manage leads now?",
+      ],
+    },
+    {
+      type: "Real Estate & Property",
+      emoji: "🏡",
+      color: "#10B981",
+      border: "rgba(16,185,129,0.2)",
+      bg: "rgba(16,185,129,0.06)",
+      tier: "Professional–Advanced ($1,200–$2,500)",
+      stack: ["Next.js", "Supabase", "Vercel", "Resend", "Google Maps API"],
+      pages: ["Home", "Listings / Properties", "Property Detail", "About Agent", "Buyers Guide", "Sellers Guide", "Contact"],
+      mustHave: [
+        "Property listing cards with photo, price, beds/baths, sqft",
+        "Individual property pages with photo gallery",
+        "Search/filter by price, beds, neighborhood",
+        "Lead capture form on every listing",
+        "Agent bio + credentials",
+        "Contact form + direct phone CTA",
+        "Google Maps embed on property pages",
+        "Mobile-first — buyers browse on phones",
+      ],
+      niceToHave: [
+        "Virtual tour embed (YouTube/Matterport)",
+        "Mortgage calculator",
+        "Neighborhood info pages",
+        "IDX feed integration (MLS listings — requires 3rd party service)",
+        "Market stats / blog",
+      ],
+      clientNeeds: [
+        "Current listings (address, price, photos, description, details)",
+        "Agent headshot + bio + credentials",
+        "Brokerage logo if needed",
+        "Contact preference (form vs. direct phone/email)",
+        "Any buyer/seller resources to include",
+      ],
+      questions: [
+        "Do you need IDX/MLS integration or will you manually add listings?",
+        "How many active listings do you typically have?",
+        "Is this for one agent or a team?",
+        "Do you want buyers to schedule showings through the site?",
+        "Do you have professional listing photos?",
+      ],
+    },
+    {
+      type: "Health, Wellness & Fitness",
+      emoji: "💪",
+      color: "#14B8A6",
+      border: "rgba(20,184,166,0.2)",
+      bg: "rgba(20,184,166,0.06)",
+      tier: "Professional–Advanced ($1,200–$2,500)",
+      stack: ["Next.js", "Supabase", "Vercel", "Resend", "Calendly or Acuity"],
+      pages: ["Home", "Services / Classes", "Schedule", "About", "Pricing / Memberships", "Testimonials", "Contact / Book"],
+      mustHave: [
+        "Hero with strong result-oriented headline",
+        "Services or class types breakdown",
+        "Pricing / membership tiers",
+        "Online booking or schedule link (Calendly, Mindbody, Acuity)",
+        "Trainer / practitioner bio + credentials",
+        "Client transformation stories / testimonials",
+        "Contact form + location/hours",
+        "Mobile-first — clients book on their phones",
+      ],
+      niceToHave: [
+        "Class schedule embed (Mindbody, Pike13)",
+        "Member login area",
+        "Blog / nutrition / workout tips",
+        "Lead magnet (free class, eBook) + email capture",
+        "Before/after photo gallery",
+        "Waivers / intake forms integration",
+      ],
+      clientNeeds: [
+        "List of services / class types offered",
+        "Pricing and membership options",
+        "Photos of studio, trainer, or classes in action",
+        "Bio + certifications",
+        "Booking platform they use",
+        "Testimonials (before/after descriptions welcome)",
+      ],
+      questions: [
+        "Do you have an existing booking system (Mindbody, Acuity, Calendly)?",
+        "Do you offer in-person, virtual, or both?",
+        "Do you want memberships / recurring billing on the site?",
+        "Do you have client transformation photos you can share?",
+        "Is this a solo practice or do you have a team?",
+      ],
+    },
+  ];
+
+  const [selected, setSelected] = useState<string>(templates[0].type);
+  const active = templates.find(t => t.type === selected)!;
+
+  return (
+    <div className="space-y-4">
+      <div className="mb-6">
+        <p className="text-white font-black text-[20px] mb-1">Site Templates</p>
+        <p className="text-white/40 text-[13px]">Everything you need to scope, quote, and build each site type.</p>
+      </div>
+
+      {/* Type selector */}
+      <div className="flex flex-wrap gap-2 mb-6">
+        {templates.map(t => (
+          <button key={t.type} onClick={() => setSelected(t.type)}
+            className="flex items-center gap-2 px-3 py-2 rounded-xl text-[13px] font-semibold transition border"
+            style={{
+              background: selected === t.type ? t.bg : "rgba(255,255,255,0.04)",
+              borderColor: selected === t.type ? t.border : "rgba(255,255,255,0.06)",
+              color: selected === t.type ? t.color : "rgba(255,255,255,0.4)",
+            }}>
+            <span>{t.emoji}</span>
+            <span className="hidden sm:inline">{t.type}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Active template detail */}
+      <div className="rounded-2xl border overflow-hidden" style={{ borderColor: active.border, background: active.bg }}>
+        {/* Header */}
+        <div className="flex flex-wrap items-start justify-between gap-4 px-6 py-5 border-b" style={{ borderColor: active.border }}>
+          <div className="flex items-center gap-3">
+            <span className="text-3xl">{active.emoji}</span>
+            <div>
+              <p className="text-white font-black text-[18px]">{active.type}</p>
+              <p className="text-[12px] font-bold" style={{ color: active.color }}>{active.tier}</p>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {active.stack.map(s => (
+              <span key={s} className="text-[11px] font-semibold px-2.5 py-1 rounded-full" style={{ background: "rgba(0,0,0,0.3)", color: active.color }}>
+                {s}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-0 divide-y md:divide-y-0 md:divide-x" style={{ borderColor: active.border }}>
+          {/* Left col */}
+          <div className="p-5 space-y-5">
+            {/* Pages */}
+            <div>
+              <p className="text-[10px] uppercase tracking-widest font-semibold text-white/30 mb-3">📄 Pages to Build</p>
+              <div className="flex flex-wrap gap-1.5">
+                {active.pages.map(p => (
+                  <span key={p} className="text-[12px] px-2.5 py-1 rounded-full font-medium" style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.6)" }}>
+                    {p}
+                  </span>
+                ))}
+              </div>
+            </div>
+            {/* Must have */}
+            <div>
+              <p className="text-[10px] uppercase tracking-widest font-semibold text-white/30 mb-3">✅ Must Have</p>
+              <ul className="space-y-1.5">
+                {active.mustHave.map(item => (
+                  <li key={item} className="text-[12px] text-white/70 flex gap-2">
+                    <span style={{ color: active.color }}>•</span>{item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* Nice to have */}
+            <div>
+              <p className="text-[10px] uppercase tracking-widest font-semibold text-white/30 mb-3">✨ Nice to Have</p>
+              <ul className="space-y-1.5">
+                {active.niceToHave.map(item => (
+                  <li key={item} className="text-[12px] text-white/50 flex gap-2">
+                    <span className="text-white/20">•</span>{item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Right col */}
+          <div className="p-5 space-y-5">
+            {/* What you need from client */}
+            <div>
+              <p className="text-[10px] uppercase tracking-widest font-semibold text-white/30 mb-3">📋 What You Need from the Client</p>
+              <ul className="space-y-1.5">
+                {active.clientNeeds.map(item => (
+                  <li key={item} className="text-[12px] text-white/70 flex gap-2">
+                    <span style={{ color: active.color }}>→</span>{item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* Discovery questions */}
+            <div>
+              <p className="text-[10px] uppercase tracking-widest font-semibold text-white/30 mb-3">❓ Key Questions to Ask</p>
+              <ul className="space-y-2">
+                {active.questions.map((q, i) => (
+                  <li key={i} className="text-[12px] text-white/70 bg-black/20 rounded-lg px-3 py-2 flex gap-2">
+                    <span className="font-bold flex-shrink-0" style={{ color: active.color }}>{i + 1}.</span>{q}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DiscoveryCall() {
+  const sections = [
+    {
+      phase: "Open (0–3 min)",
+      color: "#60A5FA",
+      bg: "rgba(96,165,250,0.08)",
+      border: "rgba(96,165,250,0.2)",
+      icon: "👋",
+      goal: "Build rapport. Set the agenda. Make them comfortable.",
+      script: `"Hey [Name], great to finally connect — I've been looking forward to this. So I've got us down for about 30 minutes. My plan is to spend most of the time understanding your business, what you're trying to accomplish with the site, and by the end I should be able to give you a good sense of what I'd build and what it would cost. Does that work for you?"
+
+[Wait for response]
+
+"Perfect. And just so you know — there's no pressure here. This is really just a conversation so I can understand your situation. If it ends up being a good fit, great, if not, I'll still point you in the right direction. Sound good?"`,
+      bullets: [],
+    },
+    {
+      phase: "Business Context (3–8 min)",
+      color: "#34D399",
+      bg: "rgba(52,211,153,0.08)",
+      border: "rgba(52,211,153,0.2)",
+      icon: "🏢",
+      goal: "Understand what they do, who they serve, and what makes them different.",
+      script: `"Before we get into the website, I want to understand your business a little better. Can you give me the quick pitch — what do you do, and who do you do it for?"
+
+[Listen. Don't interrupt. Take notes.]
+
+"Got it. And how long have you been running [business name]?"
+
+"Who's your typical customer? Like, paint me a picture of the person you most love working with."
+
+"What makes you different from competitors — why do clients pick you over someone else?"`,
+      bullets: [
+        "What does the business do?",
+        "How long have they been operating?",
+        "Who is their ideal customer?",
+        "What's their differentiator?",
+      ],
+    },
+    {
+      phase: "Current Online Presence (8–13 min)",
+      color: "#FBBF24",
+      bg: "rgba(251,191,36,0.08)",
+      border: "rgba(251,191,36,0.2)",
+      icon: "🔍",
+      goal: "Find the pain. Understand what's broken or missing.",
+      script: `"Tell me about your current website — do you have one?"
+
+[If yes:]
+"Can you pull it up? I want to take a look with you. What do you hate about it? What do you wish it did differently?"
+"Is it getting you any business right now, or do most customers come from word of mouth / referrals?"
+"When someone lands on it, what do you want them to do — call you, fill out a form, buy something?"
+
+[If no:]
+"So how are people finding you right now — is it mostly referrals, social media, in-person?"
+"Has not having a website cost you business — like, have you ever lost a client because they couldn't find you online?"`,
+      bullets: [
+        "Do they have a site? What do they dislike about it?",
+        "Is the site currently bringing in business?",
+        "What's the primary conversion action?",
+        "How do customers find them now?",
+      ],
+    },
+    {
+      phase: "Goals & Vision (13–18 min)",
+      color: "#F97316",
+      bg: "rgba(249,115,22,0.08)",
+      border: "rgba(249,115,22,0.2)",
+      icon: "🎯",
+      goal: "Define what success looks like. Get specific.",
+      script: `"So let's talk about the new site. What does a home run look like for you — what would this website need to do for you to feel like it was worth every penny?"
+
+"If the site is working perfectly 6 months from now, what's different about your business?"
+
+"Do you have sites you love the look of? Even outside your industry — anything that feels like the vibe you want?"
+
+"What pages do you know you need? Like, what sections are non-negotiable?"
+
+"Is there anything the site absolutely needs to do — take bookings, show a menu, let people buy online, something else?"`,
+      bullets: [
+        "What does a successful outcome look like?",
+        "Design inspiration / reference sites?",
+        "Non-negotiable pages and features?",
+        "Primary action the site needs to drive?",
+      ],
+    },
+    {
+      phase: "Content & Assets (18–22 min)",
+      color: "#A78BFA",
+      bg: "rgba(167,139,250,0.08)",
+      border: "rgba(167,139,250,0.2)",
+      icon: "📸",
+      goal: "Find out what you have to work with. Content is often the bottleneck.",
+      script: `"This is usually the part that surprises people — the website is only as good as the content that goes in it. So let me ask you about what you already have.
+
+Do you have a logo? Brand colors or fonts you use consistently?"
+
+"Do you have professional photos — of your business, your product, your team, your work?"
+
+[If no:] "That's completely fine — we can use high-quality stock photography to start. A lot of clients start that way."
+
+"Who's going to write the copy — the actual words on the site? Do you have someone for that, or do you want me to handle that?"
+
+"Will you need to update the site yourself after launch — like, change prices, add photos, update a menu — or are you comfortable reaching out to me when you need changes?"`,
+      bullets: [
+        "Logo + brand assets ready?",
+        "Professional photos available?",
+        "Who writes the copy?",
+        "Do they need a CMS to self-update?",
+      ],
+    },
+    {
+      phase: "Budget & Timeline (22–26 min)",
+      color: "#EC4899",
+      bg: "rgba(236,72,153,0.08)",
+      border: "rgba(236,72,153,0.2)",
+      icon: "💰",
+      goal: "Qualify the budget without being awkward. Set realistic timeline expectations.",
+      script: `"Let me ask you about budget — and I promise this isn't a trap. I just want to make sure I'm proposing something that actually works for you. Do you have a ballpark in mind for this project?"
+
+[If they give a number:]
+"Good to know. That's definitely workable — here's roughly what I can do in that range…" [reference your tiers]
+
+[If they say 'I don't know':]
+"No worries — most people don't. Here's how I'd frame it: my starting point for a clean custom site is $500. A more full-featured site with a CMS, more pages, and SEO work usually lands around $1,200–$2,500. And for e-commerce or something with a backend, we're typically talking $2,500 and up. Does any of that range feel realistic for where you're at?"
+
+"And timeline — is there a date you're working toward? A launch, a season, an event?"`,
+      bullets: [
+        "What's their budget range?",
+        "Is the budget flexible for must-haves?",
+        "Any hard deadline (event, season, launch)?",
+        "Hosting preference — take the code or managed hosting?",
+      ],
+    },
+    {
+      phase: "Wrap Up & Next Steps (26–30 min)",
+      color: "#14B8A6",
+      bg: "rgba(20,184,166,0.08)",
+      border: "rgba(20,184,166,0.2)",
+      icon: "✅",
+      goal: "Close cleanly. Set clear expectations for what happens next.",
+      script: `"This was super helpful — I feel like I have a really clear picture of what you need.
+
+Here's what I'm going to do: I'll put together a proposal that outlines exactly what I'd build, what's included, the timeline, and the investment. I'll get that to you within 24–48 hours. Does that work?"
+
+[If they're clearly interested:]
+"Is there anything else I should know before I write that up — anything we didn't cover that matters to you?"
+
+"And just to confirm — you're the decision maker on this, or is there anyone else I should loop in on the proposal?"
+
+"Once you get the proposal, if everything looks good, the way I work is: 50% deposit upfront to kick things off, 50% on delivery. You always get the full source code — it's yours. Any questions before I let you go?"
+
+"Awesome — talk soon, [Name]. I'll have something in your inbox by [specific day]."`,
+      bullets: [
+        "Confirm proposal timeline (24–48 hrs)",
+        "Ask if they're the sole decision maker",
+        "Remind them of deposit terms",
+        "End with a specific follow-up date",
+      ],
+    },
+  ];
+
+  const objections = [
+    {
+      objection: "\"I need to think about it.\"",
+      response: "\"Totally fair. What's the main thing giving you pause — is it the investment, the timing, or something about the project itself? I want to make sure the proposal I send addresses whatever's on your mind.\"",
+    },
+    {
+      objection: "\"Can you do it cheaper?\"",
+      response: "\"I can work with different budgets by scoping differently — fewer pages, no CMS, simpler design. Tell me what your hard ceiling is and I'll show you exactly what's possible in that range.\"",
+    },
+    {
+      objection: "\"I have a friend who can do it for $100.\"",
+      response: "\"That's totally an option. The difference usually comes down to timeline, quality, and what happens after — a professional build is faster, cleaner, and I'm here if something breaks. But if the budget isn't there right now, I'd never talk you out of starting somewhere.\"",
+    },
+    {
+      objection: "\"We're not ready yet — still figuring things out.\"",
+      response: "\"Makes sense. What would need to be true for you to feel ready? Sometimes the website actually helps you get clear on the business — but I'd rather know you're committed before we start.\"",
+    },
+    {
+      objection: "\"Can I see examples of your work first?\"",
+      response: "\"Absolutely — I'll include relevant examples in the proposal. Is there a specific type of site or industry you'd want to see?\"",
+    },
+  ];
+
+  return (
+    <div className="space-y-4">
+      <div className="mb-2">
+        <p className="text-white font-black text-[20px] mb-1">Discovery Call Script</p>
+        <p className="text-white/40 text-[13px]">30-minute framework to qualify, scope, and close new clients.</p>
+      </div>
+
+      {/* Timeline bar */}
+      <div className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl p-5 mb-2">
+        <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold mb-4">Call Timeline</p>
+        <div className="flex gap-1 flex-wrap">
+          {sections.map(s => (
+            <div key={s.phase} className="flex-1 min-w-[80px] rounded-lg px-2 py-2 text-center" style={{ background: s.bg, border: `1px solid ${s.border}` }}>
+              <p className="text-[10px] font-bold" style={{ color: s.color }}>{s.phase.split("(")[1]?.replace(")", "") ?? ""}</p>
+              <p className="text-white/50 text-[10px] mt-0.5">{s.icon}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Sections */}
+      {sections.map((s, i) => (
+        <div key={s.phase} className="rounded-2xl border overflow-hidden" style={{ borderColor: s.border, background: s.bg }}>
+          <div className="flex items-center gap-3 px-5 py-3.5 border-b" style={{ borderColor: s.border }}>
+            <span className="text-xl">{s.icon}</span>
+            <div className="flex-1">
+              <p className="font-black text-white text-[15px]">{s.phase}</p>
+              <p className="text-[11px] italic" style={{ color: s.color }}>{s.goal}</p>
+            </div>
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full" style={{ background: "rgba(0,0,0,0.3)", color: s.color }}>Step {i + 1}</span>
+          </div>
+          <div className="grid md:grid-cols-2 gap-0 divide-y md:divide-y-0 md:divide-x" style={{ borderColor: s.border }}>
+            <div className="p-5">
+              <p className="text-[10px] uppercase tracking-widest font-semibold text-white/30 mb-3">🗣 Script</p>
+              <div className="bg-black/20 rounded-xl p-4">
+                <p className="text-white/70 text-[12px] leading-relaxed whitespace-pre-line">{s.script}</p>
+              </div>
+            </div>
+            {s.bullets.length > 0 && (
+              <div className="p-5">
+                <p className="text-[10px] uppercase tracking-widest font-semibold text-white/30 mb-3">📌 Cover These Points</p>
+                <ul className="space-y-2">
+                  {s.bullets.map(b => (
+                    <li key={b} className="flex items-start gap-2 text-[12px] text-white/60 bg-black/20 rounded-lg px-3 py-2">
+                      <span style={{ color: s.color }} className="flex-shrink-0">✓</span>{b}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+
+      {/* Objection handling */}
+      <div className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#2A2D3A]">
+          <p className="text-white font-black text-[15px]">🛡️ Objection Handling</p>
+          <p className="text-white/40 text-[12px] mt-0.5">What to say when they push back</p>
+        </div>
+        <div className="divide-y divide-[#2A2D3A]">
+          {objections.map(o => (
+            <div key={o.objection} className="p-5 grid md:grid-cols-2 gap-4">
+              <div>
+                <p className="text-[10px] uppercase tracking-widest font-semibold text-white/30 mb-2">They say:</p>
+                <p className="text-white font-bold text-[13px]">{o.objection}</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-widest font-semibold text-white/30 mb-2">You say:</p>
+                <p className="text-white/60 text-[12px] leading-relaxed italic">{o.response}</p>
+              </div>
             </div>
           ))}
         </div>

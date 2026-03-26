@@ -716,7 +716,7 @@ export default function AdminPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [tab, setTab] = useState<"pipeline" | "projects" | "playbook" | "budget" | "expenses" | "templates" | "discovery">("pipeline");
+  const [tab, setTab] = useState<"pipeline" | "projects" | "playbook" | "budget" | "expenses" | "templates" | "discovery" | "calendar">("pipeline");
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [showNewProject, setShowNewProject] = useState(false);
   const [newProjectLead, setNewProjectLead] = useState<Lead | null>(null);
@@ -826,12 +826,12 @@ export default function AdminPage() {
 
         {/* Tabs */}
         <div className="flex flex-wrap gap-1 mb-6 bg-[#1A1D27] rounded-xl p-1 w-fit border border-[#2A2D3A]">
-          {(["pipeline", "projects", "playbook", "budget", "expenses", "templates", "discovery"] as const).map(t => (
+          {(["pipeline", "projects", "calendar", "playbook", "budget", "expenses", "templates", "discovery"] as const).map(t => (
             <button key={t} onClick={() => setTab(t)}
               className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition ${
                 tab === t ? "bg-[#2563EB] text-white" : "text-white/40 hover:text-white"
               }`}>
-              {t === "pipeline" ? `Pipeline (${leads.length})` : t === "projects" ? `Projects (${projects.length})` : t === "playbook" ? "📋 Playbook" : t === "budget" ? "💰 Budget Tiers" : t === "expenses" ? "🧾 Expenses" : t === "templates" ? "🗂️ Templates" : "📞 Discovery Call"}
+              {t === "pipeline" ? `Pipeline (${leads.length})` : t === "projects" ? `Projects (${projects.length})` : t === "calendar" ? "📅 Calendar" : t === "playbook" ? "📋 Playbook" : t === "budget" ? "💰 Budget Tiers" : t === "expenses" ? "🧾 Expenses" : t === "templates" ? "🗂️ Templates" : "📞 Discovery Call"}
             </button>
           ))}
         </div>
@@ -873,6 +873,9 @@ export default function AdminPage() {
 
         {/* Expenses view */}
         {tab === "expenses" && <Expenses />}
+
+        {/* Calendar view */}
+        {tab === "calendar" && <CalendarView leads={leads} token={token} onLeadUpdate={(updated) => setLeads(prev => prev.map(l => l.id === updated.id ? updated : l))} />}
 
         {/* Templates view */}
         {tab === "templates" && <SiteTemplates />}
@@ -2506,6 +2509,265 @@ Here's what I'm going to do: I'll put together a proposal that outlines exactly 
           ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+// ─── Calendar View ────────────────────────────────────────────────────────────
+
+interface CallEntry {
+  id: string;
+  leadId?: string;
+  name: string;
+  email?: string;
+  type: "callback" | "discovery";
+  date: string; // YYYY-MM-DD
+  time?: string; // HH:MM
+  note?: string;
+  createdAt: string;
+}
+
+const STORAGE_KEY = "admin_call_entries";
+
+function loadEntries(): CallEntry[] {
+  if (typeof window === "undefined") return [];
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); } catch { return []; }
+}
+
+function saveEntries(entries: CallEntry[]) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+}
+
+function CalendarView({ leads, token, onLeadUpdate }: { leads: Lead[]; token: string; onLeadUpdate: (l: Lead) => void }) {
+  const [entries, setEntries] = useState<CallEntry[]>(() => loadEntries());
+  const [showAdd, setShowAdd] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "", type: "callback" as "callback" | "discovery", date: "", time: "", note: "" });
+
+  const today = new Date().toISOString().split("T")[0];
+  const tomorrow = new Date(Date.now() + 86400000).toISOString().split("T")[0];
+
+  // Auto-import leads with call_scheduled status that aren't already tracked
+  const scheduledLeads = leads.filter(l => l.status === "call_scheduled");
+  const trackedLeadIds = new Set(entries.map(e => e.leadId).filter(Boolean));
+  const untracked = scheduledLeads.filter(l => !trackedLeadIds.has(l.id));
+
+  const importLead = (lead: Lead) => {
+    const entry: CallEntry = {
+      id: `lead-${lead.id}`,
+      leadId: lead.id,
+      name: lead.name,
+      email: lead.email,
+      type: "discovery",
+      date: tomorrow,
+      time: "",
+      note: lead.budget ? `Budget: ${lead.budget}` : "",
+      createdAt: new Date().toISOString(),
+    };
+    const updated = [...entries, entry];
+    setEntries(updated);
+    saveEntries(updated);
+  };
+
+  const addEntry = () => {
+    if (!form.name || !form.date) return;
+    const entry: CallEntry = {
+      id: `manual-${Date.now()}`,
+      name: form.name,
+      email: form.email || undefined,
+      type: form.type,
+      date: form.date,
+      time: form.time || undefined,
+      note: form.note || undefined,
+      createdAt: new Date().toISOString(),
+    };
+    const updated = [...entries, entry];
+    setEntries(updated);
+    saveEntries(updated);
+    setForm({ name: "", email: "", type: "callback", date: "", time: "", note: "" });
+    setShowAdd(false);
+  };
+
+  const clearEntry = async (entry: CallEntry) => {
+    // If linked to a lead, move lead back to "contacted"
+    if (entry.leadId) {
+      const lead = leads.find(l => l.id === entry.leadId);
+      if (lead) {
+        const res = await fetch(`/api/admin/leads/${entry.leadId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ status: "contacted" }),
+        });
+        if (res.ok) onLeadUpdate({ ...lead, status: "contacted" });
+      }
+    }
+    const updated = entries.filter(e => e.id !== entry.id);
+    setEntries(updated);
+    saveEntries(updated);
+  };
+
+  const updateDate = (id: string, date: string) => {
+    const updated = entries.map(e => e.id === id ? { ...e, date } : e);
+    setEntries(updated);
+    saveEntries(updated);
+  };
+
+  const sorted = [...entries].sort((a, b) => a.date.localeCompare(b.date));
+
+  const getDayLabel = (date: string) => {
+    if (date === today) return { label: "Today", color: "#EF4444", bg: "rgba(239,68,68,0.1)" };
+    if (date === tomorrow) return { label: "Tomorrow", color: "#F59E0B", bg: "rgba(245,158,11,0.1)" };
+    if (date < today) return { label: "Overdue", color: "#EF4444", bg: "rgba(239,68,68,0.1)" };
+    const d = new Date(date + "T00:00:00");
+    return {
+      label: d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }),
+      color: "#60A5FA",
+      bg: "rgba(96,165,250,0.08)",
+    };
+  };
+
+  return (
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-4 mb-2">
+        <div>
+          <p className="text-white font-black text-[20px] mb-1">Calendar</p>
+          <p className="text-white/40 text-[13px]">Upcoming callbacks and 30-min discovery calls.</p>
+        </div>
+        <button onClick={() => setShowAdd(v => !v)}
+          className="flex items-center gap-2 bg-[#2563EB] text-white text-[13px] font-semibold px-4 py-2 rounded-xl hover:bg-[#1D4ED8] transition flex-shrink-0">
+          + Add Call
+        </button>
+      </div>
+
+      {/* Auto-import banner */}
+      {untracked.length > 0 && (
+        <div className="bg-amber-400/10 border border-amber-400/30 rounded-2xl p-5">
+          <p className="text-amber-300 font-bold text-[13px] mb-3">
+            📬 {untracked.length} lead{untracked.length > 1 ? "s" : ""} marked &ldquo;Call Scheduled&rdquo; — add to calendar?
+          </p>
+          <div className="space-y-2">
+            {untracked.map(lead => (
+              <div key={lead.id} className="flex items-center justify-between gap-3 bg-black/20 rounded-xl px-4 py-3">
+                <div>
+                  <p className="text-white font-semibold text-[13px]">{lead.name}</p>
+                  <p className="text-white/40 text-[11px]">{lead.email}{lead.budget ? ` · ${lead.budget}` : ""}</p>
+                </div>
+                <button onClick={() => importLead(lead)}
+                  className="text-amber-300 text-[12px] font-bold px-3 py-1.5 rounded-lg border border-amber-400/30 hover:bg-amber-400/10 transition flex-shrink-0">
+                  Add → Tomorrow
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Add form */}
+      {showAdd && (
+        <div className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl p-5 space-y-4">
+          <p className="text-white font-bold text-[14px]">New Call Reminder</p>
+          <div className="grid sm:grid-cols-2 gap-3">
+            <div>
+              <label className="text-white/30 text-[10px] uppercase tracking-widest font-semibold block mb-1.5">Client Name *</label>
+              <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Jane Smith"
+                className="w-full bg-[#0F1117] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white text-[13px] placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition" />
+            </div>
+            <div>
+              <label className="text-white/30 text-[10px] uppercase tracking-widest font-semibold block mb-1.5">Email</label>
+              <input value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="jane@example.com"
+                className="w-full bg-[#0F1117] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white text-[13px] placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition" />
+            </div>
+            <div>
+              <label className="text-white/30 text-[10px] uppercase tracking-widest font-semibold block mb-1.5">Type *</label>
+              <select value={form.type} onChange={e => setForm(f => ({ ...f, type: e.target.value as "callback" | "discovery" }))}
+                className="w-full bg-[#0F1117] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white text-[13px] focus:outline-none focus:border-[#2563EB]/50 transition">
+                <option value="callback">📞 Call Back</option>
+                <option value="discovery">🎯 Discovery Call (30 min)</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-white/30 text-[10px] uppercase tracking-widest font-semibold block mb-1.5">Date *</label>
+              <input type="date" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} min={today}
+                className="w-full bg-[#0F1117] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white text-[13px] focus:outline-none focus:border-[#2563EB]/50 transition" />
+            </div>
+            <div>
+              <label className="text-white/30 text-[10px] uppercase tracking-widest font-semibold block mb-1.5">Time (optional)</label>
+              <input type="time" value={form.time} onChange={e => setForm(f => ({ ...f, time: e.target.value }))}
+                className="w-full bg-[#0F1117] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white text-[13px] focus:outline-none focus:border-[#2563EB]/50 transition" />
+            </div>
+            <div>
+              <label className="text-white/30 text-[10px] uppercase tracking-widest font-semibold block mb-1.5">Note</label>
+              <input value={form.note} onChange={e => setForm(f => ({ ...f, note: e.target.value }))} placeholder="Budget, context…"
+                className="w-full bg-[#0F1117] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white text-[13px] placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition" />
+            </div>
+          </div>
+          <div className="flex gap-2 justify-end">
+            <button onClick={() => setShowAdd(false)} className="px-4 py-2 rounded-xl text-white/40 hover:text-white text-[13px] transition">Cancel</button>
+            <button onClick={addEntry} className="px-5 py-2 rounded-xl bg-[#2563EB] text-white font-semibold text-[13px] hover:bg-[#1D4ED8] transition">Add to Calendar</button>
+          </div>
+        </div>
+      )}
+
+      {/* Empty state */}
+      {sorted.length === 0 && !showAdd && (
+        <div className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl p-10 text-center">
+          <p className="text-4xl mb-3">📅</p>
+          <p className="text-white font-bold text-[15px] mb-1">No calls scheduled</p>
+          <p className="text-white/30 text-[13px]">Add a callback or discovery call using the button above.</p>
+        </div>
+      )}
+
+      {/* Call list */}
+      {sorted.length > 0 && (
+        <div className="space-y-3">
+          {sorted.map(entry => {
+            const day = getDayLabel(entry.date);
+            const isOverdue = entry.date < today;
+            return (
+              <div key={entry.id} className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl overflow-hidden">
+                <div className="flex items-start gap-4 p-5">
+                  {/* Date badge */}
+                  <div className="flex-shrink-0 rounded-xl px-3 py-2 text-center min-w-[72px]" style={{ background: day.bg, border: `1px solid ${day.color}30` }}>
+                    <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: day.color }}>{day.label}</p>
+                    {entry.time && <p className="text-white font-bold text-[14px] mt-0.5">{entry.time}</p>}
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                      <p className="text-white font-bold text-[15px]">{entry.name}</p>
+                      <span className="text-[11px] font-bold px-2 py-0.5 rounded-full"
+                        style={{ background: entry.type === "discovery" ? "rgba(167,139,250,0.15)" : "rgba(96,165,250,0.15)", color: entry.type === "discovery" ? "#A78BFA" : "#60A5FA" }}>
+                        {entry.type === "discovery" ? "🎯 Discovery · 30 min" : "📞 Call Back"}
+                      </span>
+                    </div>
+                    {entry.email && <p className="text-white/40 text-[12px]">{entry.email}</p>}
+                    {entry.note && <p className="text-white/30 text-[12px] mt-1 italic">{entry.note}</p>}
+                    {isOverdue && <p className="text-red-400 text-[11px] font-semibold mt-1">⚠ Overdue — reschedule or clear</p>}
+
+                    {/* Reschedule date picker */}
+                    <div className="flex items-center gap-2 mt-3">
+                      <label className="text-white/25 text-[10px] uppercase tracking-widest font-semibold">Reschedule:</label>
+                      <input type="date" defaultValue={entry.date} min={today}
+                        onChange={e => updateDate(entry.id, e.target.value)}
+                        className="bg-[#0F1117] border border-[#2A2D3A] rounded-lg px-2.5 py-1 text-white/60 text-[12px] focus:outline-none focus:border-[#2563EB]/50 transition" />
+                    </div>
+                  </div>
+
+                  {/* Done button */}
+                  <button onClick={() => clearEntry(entry)}
+                    className="flex-shrink-0 flex items-center gap-1.5 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 text-green-400 text-[12px] font-bold px-3 py-2 rounded-xl transition">
+                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/>
+                    </svg>
+                    Done
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

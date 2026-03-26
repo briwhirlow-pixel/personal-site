@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
 import LogoMarquee from "@/components/LogoMarquee";
+import SocialProof from "@/components/SocialProof";
 
 export const metadata: Metadata = {
   title: "byBrian — Web Designer & Developer",
@@ -24,6 +25,7 @@ export default function Home() {
     <main>
       <Hero />
       <LogoMarquee />
+      <SocialProof />
     </main>
   );
 }

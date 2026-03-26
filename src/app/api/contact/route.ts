@@ -65,7 +65,7 @@ export async function POST(request: Request) {
         message,
         "",
         "---",
-        "View in admin: https://your-site.vercel.app/admin",
+        `View in admin: ${process.env.NEXT_PUBLIC_SITE_URL}/admin`,
       ].join("\n"),
     });
 

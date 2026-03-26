@@ -7,9 +7,12 @@ const words = ['grow', 'convert', 'scale', 'elevate'];
 
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const [loaded, setLoaded] = useState(false);
   const [wordIndex, setWordIndex] = useState(0);
   const [fade, setFade] = useState(true);
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  const [isPointerFine, setIsPointerFine] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -23,6 +26,24 @@ export default function Hero() {
   }, []);
 
   useEffect(() => { setLoaded(true); }, []);
+
+  // Cursor glow — desktop (pointer: fine) only
+  useEffect(() => {
+    const fine = window.matchMedia('(pointer: fine)').matches;
+    setIsPointerFine(fine);
+    if (!fine) return;
+    const handleMouseMove = (e: MouseEvent) => {
+      const section = sectionRef.current;
+      if (!section) return;
+      const rect = section.getBoundingClientRect();
+      setMousePos({
+        x: ((e.clientX - rect.left) / rect.width) * 100,
+        y: ((e.clientY - rect.top) / rect.height) * 100,
+      });
+    };
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -90,10 +111,33 @@ export default function Hero() {
 
   return (
     <section
+      ref={sectionRef}
       className="relative min-h-screen flex flex-col justify-center overflow-hidden"
       style={{ background: 'linear-gradient(135deg, #06091F 0%, #0D1B45 45%, #081229 100%)' }}
     >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+
+      {/* Grain texture overlay — adds a premium tactile feel */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          opacity: 0.045,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          backgroundRepeat: 'repeat',
+          backgroundSize: '200px 200px',
+        }}
+      />
+
+      {/* Cursor glow — desktop/mouse only, invisible on touch devices */}
+      {isPointerFine && (
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: `radial-gradient(600px circle at ${mousePos.x}% ${mousePos.y}%, rgba(37,99,235,0.08), transparent 60%)`,
+            transition: 'background 0.1s ease',
+          }}
+        />
+      )}
 
       {/* Gradient orbs */}
       <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full blur-[130px] opacity-[0.15] pointer-events-none" style={{ background: '#2563EB' }} />
@@ -116,6 +160,7 @@ export default function Hero() {
               opacity: fade ? 1 : 0,
               transform: fade ? 'translateY(0)' : 'translateY(-12px)',
               transition: 'opacity 0.35s ease, transform 0.35s ease',
+              filter: fade ? 'drop-shadow(0 0 24px rgba(96,165,250,0.5))' : 'none',
             }}
           >
             {words[wordIndex]}

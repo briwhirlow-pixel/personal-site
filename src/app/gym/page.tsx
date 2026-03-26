@@ -84,6 +84,102 @@ function ActivityRing({
   );
 }
 
+// iOS-style bottom tab bar for main views
+function BottomTabBar({
+  active,
+  onTab,
+}: {
+  active: 'cycles' | 'history' | 'settings';
+  onTab: (tab: 'cycles' | 'history' | 'settings') => void;
+}) {
+  const tabs = [
+    {
+      id: 'cycles' as const,
+      label: 'Cycles',
+      icon: (fill: boolean) => (
+        <svg className="w-6 h-6" viewBox="0 0 24 24" fill={fill ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={fill ? 0 : 1.8}>
+          {fill ? (
+            <>
+              <rect x="3" y="3" width="8" height="8" rx="2" />
+              <rect x="13" y="3" width="8" height="8" rx="2" />
+              <rect x="3" y="13" width="8" height="8" rx="2" />
+              <rect x="13" y="13" width="8" height="8" rx="2" />
+            </>
+          ) : (
+            <>
+              <rect x="3" y="3" width="8" height="8" rx="2" />
+              <rect x="13" y="3" width="8" height="8" rx="2" />
+              <rect x="3" y="13" width="8" height="8" rx="2" />
+              <rect x="13" y="13" width="8" height="8" rx="2" />
+            </>
+          )}
+        </svg>
+      ),
+    },
+    {
+      id: 'history' as const,
+      label: 'History',
+      icon: (fill: boolean) => (
+        <svg className="w-6 h-6" viewBox="0 0 24 24" fill={fill ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={fill ? 0 : 1.8}>
+          {fill ? (
+            <path d="M3 3v18h18V3H3zm14 14H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z" />
+          ) : (
+            <>
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </>
+          )}
+        </svg>
+      ),
+    },
+    {
+      id: 'settings' as const,
+      label: 'Settings',
+      icon: (fill: boolean) => (
+        <svg className="w-6 h-6" viewBox="0 0 24 24" fill={fill ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={fill ? 0 : 1.8}>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d={fill
+              ? "M12 15.5A3.5 3.5 0 018.5 12 3.5 3.5 0 0112 8.5a3.5 3.5 0 013.5 3.5 3.5 3.5 0 01-3.5 3.5m7.43-2.92c.04-.32.07-.64.07-.98s-.03-.66-.07-1l2.16-1.63c.19-.15.24-.42.12-.64l-2.05-3.54c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22L2.74 8.87c-.12.21-.08.49.12.64L5.02 11.1c-.04.34-.07.67-.07 1s.03.65.07.98l-2.16 1.64c-.19.15-.24.42-.12.64l2.05 3.54c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.58 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2.05-3.54c.12-.22.07-.49-.12-.64l-2.16-1.64z"
+              : "M12 15.5A3.5 3.5 0 018.5 12 3.5 3.5 0 0112 8.5a3.5 3.5 0 013.5 3.5 3.5 3.5 0 01-3.5 3.5m7.43-2.92c.04-.32.07-.64.07-.98s-.03-.66-.07-1l2.16-1.63c.19-.15.24-.42.12-.64l-2.05-3.54c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22L2.74 8.87c-.12.21-.08.49.12.64L5.02 11.1c-.04.34-.07.67-.07 1s.03.65.07.98l-2.16 1.64c-.19.15-.24.42-.12.64l2.05 3.54c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.58 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2.05-3.54c.12-.22.07-.49-.12-.64l-2.16-1.64z"
+            }
+          />
+        </svg>
+      ),
+    },
+  ];
+
+  return (
+    <div
+      className="fixed bottom-0 left-0 right-0 z-50"
+      style={{
+        background: 'rgba(10,12,20,0.88)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        borderTop: '1px solid rgba(255,255,255,0.08)',
+        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+      }}
+    >
+      <div className="flex items-center justify-around px-2 pt-2 pb-2">
+        {tabs.map(tab => {
+          const isActive = active === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => onTab(tab.id)}
+              className="flex flex-col items-center gap-[3px] px-5 py-1 rounded-xl transition-all active:scale-95"
+              style={{ color: isActive ? '#0A84FF' : 'rgba(255,255,255,0.35)' }}
+            >
+              {tab.icon(isActive)}
+              <span className="text-[10px] font-medium tracking-wide">{tab.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 const MUSCLE_COLORS: Record<string, string> = {
   chest: '#22D3EE',
   back: '#6366F1',
@@ -198,6 +294,10 @@ export default function GymPage() {
     return remaining > 0 ? remaining : 0;
   }, []);
 
+  // Track current view in a ref so the popstate handler (set up on mount) can read it without stale closures
+  const viewRef = useRef<View>('cycles');
+  useEffect(() => { viewRef.current = view; }, [view]);
+
   // Request notification permission and subscribe to push (lazy, on first timer start)
   const pushSubscribedRef = useRef(false);
   const requestNotificationPermission = useCallback(async () => {
@@ -209,6 +309,11 @@ export default function GymPage() {
       pushSubscribedRef.current = true;
       await subscribeToPush();
     }
+  }, []);
+
+  // Haptic feedback — uses Vibration API, only fires on devices that support it (most iOS/Android)
+  const triggerHaptic = useCallback((pattern: number | number[] = 20) => {
+    if ('vibrate' in navigator) navigator.vibrate(pattern);
   }, []);
 
   // Play a short beep sound for timer completion
@@ -376,6 +481,38 @@ export default function GymPage() {
     }
   }, []);
 
+  // Browser back button support.
+  // Push a history entry on each forward navigation so iOS/Android swipe-back
+  // and the browser back button navigate within the gym tracker rather than leaving the page.
+  useEffect(() => {
+    window.history.replaceState({ gymView: 'cycles' }, '', '/gym');
+
+    const handlePopState = () => {
+      const cur = viewRef.current;
+      if (cur === 'exercise') {
+        viewRef.current = 'cycle';
+        setView('cycle');
+      } else if (cur === 'cycle' || cur === 'builder') {
+        viewRef.current = 'cycles';
+        // Flush any pending timeout save (fire-and-forget)
+        if (saveTimeoutRef.current) {
+          clearTimeout(saveTimeoutRef.current);
+          saveTimeoutRef.current = null;
+        }
+        setView('cycles');
+        fetchCycles().then(data => setCycles(data)).catch(() => {});
+      } else {
+        // settings / history → back to cycles
+        viewRef.current = 'cycles';
+        setView('cycles');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Handle visibility change - recalculate time when user returns to tab
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -425,7 +562,18 @@ export default function GymPage() {
     loadData();
   }, [isAuthed]);
 
-  // Pre-fetch exercise images when viewing cycle
+  // Eagerly pre-fetch images for ALL program exercises immediately on auth —
+  // so images are ready before the user taps any exercise
+  useEffect(() => {
+    if (!isAuthed) return;
+    program.days.forEach(day => {
+      day.exercises.forEach(ex => {
+        fetchExerciseImage(ex.name);
+      });
+    });
+  }, [isAuthed, program.days, fetchExerciseImage]);
+
+  // Pre-fetch exercise images when viewing cycle (covers exercises in the active workout)
   useEffect(() => {
     if (view === 'cycle' && currentWorkout) {
       currentWorkout.exercises.forEach(ex => {
@@ -469,6 +617,7 @@ export default function GymPage() {
         if (fullCycle) {
           setActiveCycle(fullCycle);
           setSelectedDay(getTodayDayNumber());
+          window.history.replaceState({ gymView: 'cycle' }, '', '/gym');
           setView('cycle');
         }
       }
@@ -523,6 +672,7 @@ export default function GymPage() {
       const newCycle = await createCycle();
       setCycles([newCycle, ...cycles]);
       setActiveCycle(newCycle);
+      window.history.pushState({ gymView: 'cycle' }, '', '/gym');
       setView('cycle');
     } catch (err) {
       setError('Failed to create cycle');
@@ -535,6 +685,7 @@ export default function GymPage() {
       // If we already have this cycle loaded with workouts, just use it
       // This prevents losing unsaved data when navigating back
       if (activeCycle && activeCycle.id === cycle.id) {
+        window.history.pushState({ gymView: 'cycle' }, '', '/gym');
         setView('cycle');
         return;
       }
@@ -542,6 +693,7 @@ export default function GymPage() {
       const fullCycle = await fetchCycle(cycle.id);
       if (fullCycle) {
         setActiveCycle(fullCycle);
+        window.history.pushState({ gymView: 'cycle' }, '', '/gym');
         setView('cycle');
       }
     } catch (err) {
@@ -557,10 +709,13 @@ export default function GymPage() {
     }
 
     if (currentWorkout) {
+      setIsSaving(true);
       try {
         await saveWorkoutLog(currentWorkout);
       } catch (err) {
         console.error('Error saving workout:', err);
+      } finally {
+        setIsSaving(false);
       }
     }
   };
@@ -788,6 +943,7 @@ export default function GymPage() {
     setSelectedExerciseIndex(index);
     setExerciseHistory(null);
     setShowExerciseHistory(false);
+    window.history.pushState({ gymView: 'exercise' }, '', '/gym');
     setView('exercise');
   };
 
@@ -829,8 +985,9 @@ export default function GymPage() {
       return { ...prevCycle, workouts: updatedWorkouts };
     });
 
-    setIsSaving(true);
+    // Only show the spinner after the debounce fires — avoids flashing on every keystroke
     saveTimeoutRef.current = setTimeout(async () => {
+      setIsSaving(true);
       try {
         await saveWorkoutLog(workout);
       } catch (err) {
@@ -861,7 +1018,7 @@ export default function GymPage() {
       }
       // Clear failed status when passing
       newSets[setIndex].failed = false;
-      // Start the rest timer
+      triggerHaptic(15);
       startRestTimer();
     }
 
@@ -869,7 +1026,7 @@ export default function GymPage() {
     if (field === 'failed' && value === true) {
       newSets[setIndex].completed = true;
       newSets[setIndex].failed = true;
-      // Start the rest timer
+      triggerHaptic([20, 10, 20]);
       startRestTimer();
     }
 
@@ -907,7 +1064,7 @@ export default function GymPage() {
       }
       // Clear failed status when passing
       newSupersetSets[setIndex].failed = false;
-      // Start the rest timer
+      triggerHaptic(15);
       startRestTimer();
     }
 
@@ -915,7 +1072,7 @@ export default function GymPage() {
     if (field === 'failed' && value === true) {
       newSupersetSets[setIndex].completed = true;
       newSupersetSets[setIndex].failed = true;
-      // Start the rest timer
+      triggerHaptic([20, 10, 20]);
       startRestTimer();
     }
 
@@ -1049,10 +1206,14 @@ export default function GymPage() {
   const handleDeleteCycle = async (cycleId: string) => {
     setIsDeleting(true);
     try {
-      // Check if this was a completed cycle — if so, revert TM bumps
+      // Check if this was a completed cycle — if so, revert TM bumps.
+      // Cycles in the list have empty workouts arrays, so fetch the full cycle first.
       const cycleToDelete = cycles.find(c => c.id === cycleId);
-      if (cycleToDelete?.status === 'completed' && cycleToDelete.workouts) {
-        for (const workout of cycleToDelete.workouts) {
+      const fullCycleToDelete = cycleToDelete?.status === 'completed'
+        ? await fetchCycle(cycleId)
+        : null;
+      if (fullCycleToDelete?.workouts && fullCycleToDelete.workouts.length > 0) {
+        for (const workout of fullCycleToDelete.workouts) {
           for (const exercise of workout.exercises) {
             const settings = exerciseSettings.get(exercise.exerciseId);
             const increment = settings?.tmIncrement ?? DEFAULT_EXERCISE_SETTINGS.tmIncrement;
@@ -1293,28 +1454,14 @@ export default function GymPage() {
                 <span className="text-[13px] text-white/40">{profileName}</span>
               )}
             </div>
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setView('history')}
-                className="text-[#0A84FF] text-[15px] font-medium"
-              >
-                History
-              </button>
-              <button
-                onClick={() => setView('settings')}
-                className="text-[#0A84FF] text-[15px] font-medium"
-              >
-                Settings
-              </button>
-              <button
+            <button
                 onClick={handleLogout}
-                className="text-white/40 hover:text-[#FF453A] transition-colors"
+                className="text-white/40 active:text-[#FF453A] transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
               </button>
-            </div>
           </div>
         </header>
 
@@ -1324,7 +1471,7 @@ export default function GymPage() {
           </div>
         )}
 
-        <main className="px-4 pt-2 pb-24">
+        <main className="px-4 pt-2 pb-24" style={{ paddingBottom: 'calc(6rem + env(safe-area-inset-bottom, 0px))' }}>
           {/* Large title */}
           <h1 className="text-[34px] font-bold text-white tracking-tight mb-6">Cycles</h1>
 
@@ -1476,6 +1623,13 @@ export default function GymPage() {
             )}
           </div>
         </main>
+        <BottomTabBar
+          active="cycles"
+          onTab={(tab) => {
+            if (tab === 'history') { window.history.pushState({ gymView: 'history' }, '', '/gym'); setView('history'); }
+            else if (tab === 'settings') { window.history.pushState({ gymView: 'settings' }, '', '/gym'); setView('settings'); }
+          }}
+        />
       </div>
     );
   }
@@ -1489,6 +1643,7 @@ export default function GymPage() {
       setSelectedDayType(null);
       setBuilderSelectedExercises([]);
       setExerciseSetCounts(new Map());
+      window.history.pushState({ gymView: 'builder' }, '', '/gym');
       setView('builder');
     };
 
@@ -1548,7 +1703,7 @@ export default function GymPage() {
           </div>
         )}
 
-        <main className="px-4 pt-2 pb-24">
+        <main className="px-4 pt-2 pb-24" style={{ paddingBottom: 'calc(6rem + env(safe-area-inset-bottom, 0px))' }}>
           {/* Active workout in progress */}
           {currentWorkout && currentWorkout.exercises.length > 0 ? (
             <div className="space-y-4">
@@ -1714,6 +1869,7 @@ export default function GymPage() {
       const workout = initializeFlexibleWorkout(selectedExerciseDefs, selectedDayType, exerciseSetCounts, muscleGroupNames);
       if (workout) {
         setCurrentWorkout(workout);
+        window.history.pushState({ gymView: 'cycle' }, '', '/gym');
         setView('cycle');
       }
     };
@@ -1750,7 +1906,7 @@ export default function GymPage() {
           </div>
         </header>
 
-        <main className="px-4 py-6 pb-32">
+        <main className="px-4 py-6 pb-32" style={{ paddingBottom: 'calc(8rem + env(safe-area-inset-bottom, 0px))' }}>
           {/* Step 1: Muscle group selection */}
           {builderStep === 1 && (
             <div>
@@ -2004,30 +2160,62 @@ export default function GymPage() {
           </div>
         </header>
         {/* Exercise hero — image + title */}
-        {exerciseImages.get(exercise.exerciseName) ? (
-          <div className="relative mx-0 mt-0">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={exerciseImages.get(exercise.exerciseName)!}
-              alt={exercise.exerciseName}
-              className="w-full h-[200px] object-cover"
-            />
-            <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 30%, #080C14 100%)' }} />
-            <div className="absolute bottom-0 left-0 right-0 px-4 pb-3">
-              <h1 className="text-[26px] font-bold text-white tracking-tight leading-tight">{exercise.exerciseName}</h1>
+        {(() => {
+          const imgUrl = exerciseImages.get(exercise.exerciseName);
+          const isFetched = fetchedExercises.current.has(exercise.exerciseName);
+          const isLoading = isFetched && imgUrl === undefined;
+          const hasImage = typeof imgUrl === 'string';
+
+          if (hasImage) {
+            return (
+              <div className="relative mx-0 mt-0">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={imgUrl}
+                  alt={exercise.exerciseName}
+                  className="w-full object-cover"
+                  style={{ height: 220, display: 'block' }}
+                />
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(8,12,20,0.15) 0%, rgba(8,12,20,0.55) 60%, #080C14 100%)' }} />
+                <div className="absolute bottom-0 left-0 right-0 px-4 pb-4">
+                  <h1 className="text-[26px] font-bold text-white tracking-tight leading-tight drop-shadow-lg">{exercise.exerciseName}</h1>
+                  {programExercise?.notes && (
+                    <p className="text-white/70 text-sm mt-0.5">{programExercise.notes}</p>
+                  )}
+                </div>
+              </div>
+            );
+          }
+
+          if (isLoading) {
+            return (
+              <div className="relative" style={{ height: 220, background: 'linear-gradient(135deg, #0f1628 0%, #162038 100%)' }}>
+                <div className="absolute inset-0 overflow-hidden">
+                  <div
+                    className="absolute inset-0 -translate-x-full animate-[shimmer_1.4s_infinite]"
+                    style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent)' }}
+                  />
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 px-4 pb-4">
+                  <h1 className="text-[26px] font-bold text-white tracking-tight leading-tight">{exercise.exerciseName}</h1>
+                  {programExercise?.notes && (
+                    <p className="text-white/40 text-sm mt-0.5">{programExercise.notes}</p>
+                  )}
+                </div>
+              </div>
+            );
+          }
+
+          // No image found or not yet started fetch
+          return (
+            <div className="px-4 pt-5 pb-1">
+              <h1 className="text-[28px] font-bold text-white tracking-tight leading-tight">{exercise.exerciseName}</h1>
               {programExercise?.notes && (
-                <p className="text-white/50 text-sm mt-0.5">{programExercise.notes}</p>
+                <p className="text-white/40 text-sm mt-1">{programExercise.notes}</p>
               )}
             </div>
-          </div>
-        ) : (
-          <div className="px-4 pt-5 pb-1">
-            <h1 className="text-[28px] font-bold text-white tracking-tight leading-tight">{exercise.exerciseName}</h1>
-            {programExercise?.notes && (
-              <p className="text-white/40 text-sm mt-1">{programExercise.notes}</p>
-            )}
-          </div>
-        )}
+          );
+        })()}
 
         {/* Prominent rest timer banner */}
         {restTimeRemaining > 0 && (
@@ -2061,7 +2249,7 @@ export default function GymPage() {
           </div>
         )}
 
-        <main className="px-4 pt-4 pb-24">
+        <main className="px-4 pt-4 pb-24" style={{ paddingBottom: 'calc(6rem + env(safe-area-inset-bottom, 0px))' }}>
           {/* Training Max — Hero display */}
           <div className="text-center mb-6 py-4">
             <p className="text-white/40 text-xs uppercase tracking-widest mb-3">Training Max</p>
@@ -2305,8 +2493,16 @@ export default function GymPage() {
                     />
                   </div>
 
-                  {/* Weight input */}
-                  <div className="flex-1">
+                  {/* Weight input with ±5 steppers */}
+                  <div className="flex-1 flex items-center gap-1">
+                    <button
+                      onClick={() => {
+                        const cur = set.actualWeight ?? set.targetWeight;
+                        handleSetUpdate(selectedExerciseIndex, setIndex, 'actualWeight', Math.max(0, cur - 5));
+                        triggerHaptic(12);
+                      }}
+                      className="w-7 h-9 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white/60 text-[13px] font-bold flex items-center justify-center flex-shrink-0 transition-all"
+                    >−</button>
                     <input
                       type="number"
                       value={set.actualWeight ?? ''}
@@ -2317,8 +2513,16 @@ export default function GymPage() {
                         e.target.value ? parseFloat(e.target.value) : null
                       )}
                       placeholder={set.targetWeight.toString()}
-                      className="w-full bg-[#162038] rounded-xl px-2 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#6366F1]"
+                      className="flex-1 min-w-0 bg-[#162038] rounded-xl px-1 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#6366F1]"
                     />
+                    <button
+                      onClick={() => {
+                        const cur = set.actualWeight ?? set.targetWeight;
+                        handleSetUpdate(selectedExerciseIndex, setIndex, 'actualWeight', cur + 5);
+                        triggerHaptic(12);
+                      }}
+                      className="w-7 h-9 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white/60 text-[13px] font-bold flex items-center justify-center flex-shrink-0 transition-all"
+                    >+</button>
                   </div>
 
                   {/* Pass / Fail */}
@@ -2499,17 +2703,6 @@ export default function GymPage() {
         {/* Header */}
         <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10">
           <div className="px-4 py-4">
-            <div className="flex items-center justify-between mb-2">
-              <button
-                onClick={() => setView('cycles')}
-                className="text-[#0A84FF] transition-colors flex items-center gap-1"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-                Back
-              </button>
-            </div>
             <h1 className="text-[17px] font-semibold text-white">Settings</h1>
             <p className="text-white/40 text-sm">Edit training maxes, supersets, and progression</p>
           </div>
@@ -2521,7 +2714,7 @@ export default function GymPage() {
           </div>
         )}
 
-        <main className="px-4 pt-2 pb-24">
+        <main className="px-4 pt-2 pb-24" style={{ paddingBottom: 'calc(6rem + env(safe-area-inset-bottom, 0px))' }}>
           <h1 className="text-[34px] font-bold text-white tracking-tight mb-6">Settings</h1>
           {/* Seed Data Button */}
           <div className="bg-[#0F1628] rounded-2xl p-4 mb-6">
@@ -2814,7 +3007,25 @@ export default function GymPage() {
               );
             })}
           </div>
+
+          {/* Logout */}
+          <button
+            onClick={handleLogout}
+            className="w-full mt-6 bg-[#FF453A]/10 border border-[#FF453A]/20 active:bg-[#FF453A]/20 text-[#FF453A] font-semibold text-[17px] py-4 rounded-2xl flex items-center justify-center gap-2 transition-all"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Sign Out
+          </button>
         </main>
+        <BottomTabBar
+          active="settings"
+          onTab={(tab) => {
+            if (tab === 'cycles') { window.history.pushState({ gymView: 'cycles' }, '', '/gym'); setView('cycles'); }
+            else if (tab === 'history') { window.history.pushState({ gymView: 'history' }, '', '/gym'); setView('history'); }
+          }}
+        />
       </div>
     );
   }
@@ -2870,17 +3081,6 @@ export default function GymPage() {
         {/* Header */}
         <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10">
           <div className="px-4 py-4">
-            <div className="flex items-center justify-between mb-2">
-              <button
-                onClick={() => setView('cycles')}
-                className="text-[#0A84FF] transition-colors flex items-center gap-1"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-                Back
-              </button>
-            </div>
             <h1 className="text-[17px] font-semibold text-white">TM History</h1>
             <p className="text-white/40 text-sm">Track your progression over time</p>
           </div>
@@ -2892,7 +3092,7 @@ export default function GymPage() {
           </div>
         )}
 
-        <main className="px-4 pt-2 pb-24">
+        <main className="px-4 pt-2 pb-24" style={{ paddingBottom: 'calc(6rem + env(safe-area-inset-bottom, 0px))' }}>
           <h1 className="text-[34px] font-bold text-white tracking-tight mb-6">TM History</h1>
           {/* Exercise selector */}
           <div className="mb-6">
@@ -3033,6 +3233,13 @@ export default function GymPage() {
             </div>
           )}
         </main>
+        <BottomTabBar
+          active="history"
+          onTab={(tab) => {
+            if (tab === 'cycles') { window.history.pushState({ gymView: 'cycles' }, '', '/gym'); setView('cycles'); }
+            else if (tab === 'settings') { window.history.pushState({ gymView: 'settings' }, '', '/gym'); setView('settings'); }
+          }}
+        />
       </div>
     );
   }

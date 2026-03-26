@@ -228,6 +228,9 @@ export default function GymPage() {
   // Delete cycle state
   const [deletingCycleId, setDeletingCycleId] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [swipedCycleId, setSwipedCycleId] = useState<string | null>(null);
+  const swipeTouchStartX = useRef<number>(0);
+  const swipeTouchCurrentX = useRef<number>(0);
 
   // Edit cycle start date state
   const [editingDateCycleId, setEditingDateCycleId] = useState<string | null>(null);
@@ -1447,7 +1450,7 @@ export default function GymPage() {
     return (
       <div className="min-h-screen" style={{ background: 'radial-gradient(ellipse at 25% 0%, rgba(99,102,241,0.12) 0%, transparent 55%), radial-gradient(ellipse at 75% 100%, rgba(34,211,238,0.06) 0%, transparent 55%), #080C14' }}>
         {/* Header */}
-        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10">
+        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
           <div className="px-4 py-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
               {profileName && (
@@ -1494,11 +1497,53 @@ export default function GymPage() {
               const isConfirmingDelete = deletingCycleId === cycle.id;
               const isEditingDate = editingDateCycleId === cycle.id;
 
+              const isSwiped = swipedCycleId === cycle.id;
+
               return (
                 <div
                   key={cycle.id}
-                  className="bg-[#0F1628] rounded-2xl overflow-hidden"
+                  className="rounded-2xl overflow-hidden relative"
+                  style={{ background: '#0F1628' }}
+                  onTouchStart={(e) => {
+                    swipeTouchStartX.current = e.touches[0].clientX;
+                    swipeTouchCurrentX.current = e.touches[0].clientX;
+                  }}
+                  onTouchMove={(e) => {
+                    swipeTouchCurrentX.current = e.touches[0].clientX;
+                  }}
+                  onTouchEnd={() => {
+                    const delta = swipeTouchCurrentX.current - swipeTouchStartX.current;
+                    if (delta < -55) {
+                      setSwipedCycleId(cycle.id);
+                      triggerHaptic(15);
+                    } else if (delta > 20) {
+                      setSwipedCycleId(null);
+                    }
+                  }}
                 >
+                  {/* Swipe delete button revealed behind */}
+                  {!isConfirmingDelete && (
+                    <div className="absolute right-0 top-0 bottom-0 flex items-stretch">
+                      <button
+                        onClick={() => { setSwipedCycleId(null); setDeletingCycleId(cycle.id); }}
+                        className="w-20 bg-[#FF453A] flex flex-col items-center justify-center gap-1 rounded-r-2xl"
+                      >
+                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        <span className="text-white text-[11px] font-semibold">Delete</span>
+                      </button>
+                    </div>
+                  )}
+                  {/* Row content — slides left on swipe */}
+                  <div
+                    style={{
+                      transform: isSwiped && !isConfirmingDelete ? 'translateX(-80px)' : 'translateX(0)',
+                      transition: 'transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                      background: '#0F1628',
+                      borderRadius: '1rem',
+                    }}
+                  >
                   {isConfirmingDelete ? (
                     <div className="p-4">
                       <p className="text-white mb-3">Delete Cycle {cycle.cycleNumber}?</p>
@@ -1524,7 +1569,7 @@ export default function GymPage() {
                     <div className="flex">
                       <div
                         className="flex-1 p-4 text-left active:bg-white/[0.04] transition-colors cursor-pointer"
-                        onClick={() => handleSelectCycle(cycle)}
+                        onClick={() => { if (isSwiped) { setSwipedCycleId(null); return; } handleSelectCycle(cycle); }}
                       >
                         <div className="flex items-center gap-4">
                           {/* Activity ring showing completion */}
@@ -1601,17 +1646,17 @@ export default function GymPage() {
                           </svg>
                         </div>
                       </div>
-                      <button
-                        onClick={() => setDeletingCycleId(cycle.id)}
-                        className="px-4 text-white/40 hover:text-[#FF453A] hover:bg-[#FF453A]/10 transition-colors border-l border-white/[0.08]"
-                        title="Delete cycle"
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </button>
+                      {/* Swipe left to delete hint — only shown when not swiped */}
+                      {!isSwiped && (
+                        <div className="px-3 flex items-center text-white/15">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
+                          </svg>
+                        </div>
+                      )}
                     </div>
                   )}
+                  </div>{/* end sliding wrapper */}
                 </div>
               );
             })}
@@ -1649,7 +1694,7 @@ export default function GymPage() {
 
     return (
       <div className="min-h-screen" style={{ background: 'radial-gradient(ellipse at 25% 0%, rgba(99,102,241,0.12) 0%, transparent 55%), radial-gradient(ellipse at 75% 100%, rgba(34,211,238,0.06) 0%, transparent 55%), #080C14' }}>
-        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10">
+        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
           <div className="px-4 py-3 flex items-center justify-between">
             <button
               onClick={handleBackToCycles}
@@ -1876,7 +1921,7 @@ export default function GymPage() {
 
     return (
       <div className="min-h-screen bg-[#080C14]">
-        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10">
+        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
           <div className="px-4 py-4 flex items-center justify-between">
             <button
               onClick={() => {
@@ -2119,7 +2164,7 @@ export default function GymPage() {
     return (
       <div className="min-h-screen bg-[#080C14]">
         {/* Header */}
-        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10">
+        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
           <div className="px-4 py-3 flex items-center justify-between">
             <button
               onClick={handleBackToCycle}
@@ -2188,8 +2233,10 @@ export default function GymPage() {
           }
 
           if (isLoading) {
+            const muscleKeyL = Object.keys(MUSCLE_COLORS).find(k => exercise.exerciseId?.includes(k)) ?? 'back';
+            const accentColorL = MUSCLE_COLORS[muscleKeyL] ?? '#6366F1';
             return (
-              <div className="relative" style={{ height: 220, background: 'linear-gradient(135deg, #0f1628 0%, #162038 100%)' }}>
+              <div className="relative" style={{ height: 220, background: `radial-gradient(ellipse at 30% 40%, ${accentColorL}18 0%, transparent 65%), linear-gradient(135deg, #0f1628 0%, #080C14 100%)` }}>
                 <div className="absolute inset-0 overflow-hidden">
                   <div
                     className="absolute inset-0 -translate-x-full animate-[shimmer_1.4s_infinite]"
@@ -2206,13 +2253,28 @@ export default function GymPage() {
             );
           }
 
-          // No image found or not yet started fetch
+          // No image found — show a gradient hero using the muscle group color
+          const muscleKey = Object.keys(MUSCLE_COLORS).find(k => exercise.exerciseId?.includes(k)) ?? 'back';
+          const accentColor = MUSCLE_COLORS[muscleKey] ?? '#6366F1';
           return (
-            <div className="px-4 pt-5 pb-1">
-              <h1 className="text-[28px] font-bold text-white tracking-tight leading-tight">{exercise.exerciseName}</h1>
-              {programExercise?.notes && (
-                <p className="text-white/40 text-sm mt-1">{programExercise.notes}</p>
-              )}
+            <div className="relative" style={{ height: 220 }}>
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: `radial-gradient(ellipse at 30% 40%, ${accentColor}22 0%, transparent 65%), linear-gradient(135deg, #0f1628 0%, #080C14 100%)`,
+                }}
+              />
+              {/* Subtle grid pattern */}
+              <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, #fff 0px, #fff 1px, transparent 1px, transparent 40px), repeating-linear-gradient(90deg, #fff 0px, #fff 1px, transparent 1px, transparent 40px)' }} />
+              <div className="absolute bottom-0 left-0 right-0 px-4 pb-4">
+                <div className="inline-block px-2 py-0.5 rounded-md mb-2" style={{ backgroundColor: `${accentColor}25`, border: `1px solid ${accentColor}40` }}>
+                  <span className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: accentColor }}>{muscleKey}</span>
+                </div>
+                <h1 className="text-[26px] font-bold text-white tracking-tight leading-tight">{exercise.exerciseName}</h1>
+                {programExercise?.notes && (
+                  <p className="text-white/40 text-sm mt-0.5">{programExercise.notes}</p>
+                )}
+              </div>
             </div>
           );
         })()}
@@ -2701,7 +2763,7 @@ export default function GymPage() {
     return (
       <div className="min-h-screen bg-[#080C14]">
         {/* Header */}
-        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10">
+        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
           <div className="px-4 py-4">
             <h1 className="text-[17px] font-semibold text-white">Settings</h1>
             <p className="text-white/40 text-sm">Edit training maxes, supersets, and progression</p>
@@ -3079,7 +3141,7 @@ export default function GymPage() {
     return (
       <div className="min-h-screen bg-[#080C14]">
         {/* Header */}
-        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10">
+        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
           <div className="px-4 py-4">
             <h1 className="text-[17px] font-semibold text-white">TM History</h1>
             <p className="text-white/40 text-sm">Track your progression over time</p>

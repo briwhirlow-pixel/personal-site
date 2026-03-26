@@ -173,16 +173,71 @@ export default function Hero() {
           I design and build fast, beautiful websites that convert visitors into customers — from brochure sites to full e-commerce stores.
         </p>
 
-        <div className={`flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mb-14 sm:mb-20 transition-all duration-700 delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        <div className={`flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mb-8 sm:mb-10 transition-all duration-700 delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <a href="/contact" className="group inline-flex items-center justify-center gap-2 bg-[#2563EB] text-white font-semibold px-6 sm:px-7 py-3.5 sm:py-4 rounded-full hover:bg-[#1D4ED8] transition-all text-[14px] sm:text-[15px] hover:scale-[1.03] active:scale-[0.97]">
             Get a free quote
             <svg className="group-hover:translate-x-1 transition-transform" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
           </a>
-          <a href="/work" className="inline-flex items-center justify-center gap-2 text-white/60 font-semibold px-6 sm:px-7 py-3.5 sm:py-4 rounded-full border border-white/10 hover:border-white/30 hover:text-white transition-all text-[14px] sm:text-[15px] hover:scale-[1.03] active:scale-[0.97]">
-            See Examples I&apos;ve Built
-          </a>
+        </div>
+
+        {/* Scrolling website types marquee */}
+        <div className={`mb-8 sm:mb-12 transition-all duration-700 delay-400 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <div className="flex items-center gap-4">
+            {/* Marquee strip */}
+            <div className="flex-1 overflow-hidden relative">
+              {/* Fade edges */}
+              <div className="absolute left-0 top-0 bottom-0 w-8 z-10" style={{ background: 'linear-gradient(to right, #080C14, transparent)' }} />
+              <div className="absolute right-0 top-0 bottom-0 w-8 z-10" style={{ background: 'linear-gradient(to left, #080C14, transparent)' }} />
+              <div
+                className="flex gap-3 whitespace-nowrap"
+                style={{ animation: 'marquee 22s linear infinite', width: 'max-content' }}
+              >
+                {[
+                  { emoji: '🛍️', label: 'E-Commerce' },
+                  { emoji: '🍕', label: 'Restaurant' },
+                  { emoji: '📸', label: 'Photography' },
+                  { emoji: '💼', label: 'Portfolio' },
+                  { emoji: '🏠', label: 'Real Estate' },
+                  { emoji: '💈', label: 'Salon & Spa' },
+                  { emoji: '🏋️', label: 'Fitness' },
+                  { emoji: '🏗️', label: 'Construction' },
+                  { emoji: '📱', label: 'SaaS / App' },
+                  { emoji: '🎓', label: 'Education' },
+                  { emoji: '🛍️', label: 'E-Commerce' },
+                  { emoji: '🍕', label: 'Restaurant' },
+                  { emoji: '📸', label: 'Photography' },
+                  { emoji: '💼', label: 'Portfolio' },
+                  { emoji: '🏠', label: 'Real Estate' },
+                  { emoji: '💈', label: 'Salon & Spa' },
+                  { emoji: '🏋️', label: 'Fitness' },
+                  { emoji: '🏗️', label: 'Construction' },
+                  { emoji: '📱', label: 'SaaS / App' },
+                  { emoji: '🎓', label: 'Education' },
+                ].map((item, i) => (
+                  <span
+                    key={i}
+                    className="inline-flex items-center gap-1.5 text-[13px] sm:text-[15px] font-medium text-white/45 border border-white/[0.08] rounded-full px-3 py-1.5"
+                  >
+                    <span>{item.emoji}</span>
+                    <span>{item.label}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+            {/* Learn More link */}
+            <a
+              href="/work"
+              className="flex-shrink-0 inline-flex items-center gap-1.5 text-[13px] sm:text-[15px] font-semibold text-white/60 hover:text-white transition-colors group"
+            >
+              <span className="hidden sm:inline">Learn More About Examples I&apos;ve Built</span>
+              <span className="sm:hidden">See Examples</span>
+              <svg className="group-hover:translate-x-1 transition-transform" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </a>
+          </div>
         </div>
 
         {/* Stats */}

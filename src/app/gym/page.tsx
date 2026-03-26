@@ -100,7 +100,7 @@ function BottomTabBar({
   const tabs = [
     {
       id: 'cycles' as const,
-      label: 'Cycles',
+      label: 'Workouts',
       icon: (fill: boolean) => (
         <svg className="w-6 h-6" viewBox="0 0 24 24" fill={fill ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={fill ? 0 : 1.8}>
           <rect x="3" y="3" width="8" height="8" rx="2" />
@@ -292,6 +292,12 @@ export default function GymPage() {
   const [activeBasketballSession, setActiveBasketballSession] = useState<BasketballSession | null>(null);
   const [isLoadingBasketball, setIsLoadingBasketball] = useState(false);
   const basketballStartTimeRef = useRef<number | null>(null);
+
+  // Plate calculator state
+  const [plateCalcWeight, setPlateCalcWeight] = useState<number | null>(null);
+
+  // Analytics tab state (for history view)
+  const [analyticsTab, setAnalyticsTab] = useState<'overview' | 'strength' | 'hoops'>('overview');
 
   // Calculate remaining time from stored end time
   const calculateRemainingTime = useCallback(() => {
@@ -1534,7 +1540,7 @@ export default function GymPage() {
 
         <main className="px-4 pt-2 pb-24" style={{ paddingBottom: 'calc(6rem + env(safe-area-inset-bottom, 0px))' }}>
           {/* Large title */}
-          <h1 className="text-[34px] font-bold text-white tracking-tight mb-4">Cycles</h1>
+          <h1 className="text-[34px] font-bold text-white tracking-tight mb-4">Workouts</h1>
 
           {/* Streak + stats strip */}
           {cycles.length > 0 && (() => {
@@ -1551,7 +1557,7 @@ export default function GymPage() {
                 </div>
                 <div className="bg-[#0F1628] rounded-2xl p-3 text-center">
                   <div className="text-[22px] font-bold text-[#6366F1]">{cycles.length}</div>
-                  <div className="text-white/40 text-[11px] mt-0.5">Cycles</div>
+                  <div className="text-white/40 text-[11px] mt-0.5">Blocks</div>
                 </div>
                 <div className="bg-[#0F1628] rounded-2xl p-3 text-center">
                   <div className="text-[22px] font-bold text-[#30D158]">{activeCycleData ? `${activePct}%` : `${completedCycles}`}</div>
@@ -1561,7 +1567,7 @@ export default function GymPage() {
             );
           })()}
 
-          {/* Create New Cycle Button */}
+          {/* Create New Workout Button */}
           <button
             onClick={handleCreateCycle}
             className="w-full bg-[#6366F1] active:bg-[#4F46E5] active:scale-[0.98] text-white font-semibold text-[17px] py-4 rounded-2xl mb-6 flex items-center justify-center gap-2 transition-all shadow-lg shadow-[#6366F1]/20"
@@ -1569,7 +1575,7 @@ export default function GymPage() {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
             </svg>
-            Start New Cycle
+            Start New Workout
           </button>
 
           {/* Cycles List */}
@@ -2431,26 +2437,29 @@ export default function GymPage() {
           );
         })()}
 
-        {/* Rest timer duration picker — always visible */}
-        <div className="mx-4 mt-3 flex items-center justify-between">
-          <span className="text-white/30 text-[12px]">Rest timer</span>
-          <div className="flex gap-1.5">
-            {[60, 90, 120, 180].map(sec => (
-              <button
-                key={sec}
-                onClick={() => {
-                  setRestTimerDuration(sec);
-                  localStorage.setItem(REST_DURATION_KEY, String(sec));
-                  triggerHaptic(10);
-                }}
-                className="px-2.5 py-1 rounded-lg text-[12px] font-semibold transition-all"
-                style={{
-                  background: restTimerDuration === sec ? 'rgba(48,209,88,0.2)' : 'rgba(255,255,255,0.06)',
-                  color: restTimerDuration === sec ? '#30D158' : 'rgba(255,255,255,0.35)',
-                  border: restTimerDuration === sec ? '1px solid rgba(48,209,88,0.35)' : '1px solid transparent',
-                }}
-              >{sec}s</button>
-            ))}
+        {/* Rest timer duration picker — slider */}
+        <div className="mx-4 mt-3">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-white/30 text-[12px]">Rest timer</span>
+            <span className="text-[#30D158] text-[15px] font-bold">{restTimerDuration}s</span>
+          </div>
+          <input
+            type="range"
+            className="rest-slider"
+            min={30}
+            max={180}
+            step={15}
+            value={restTimerDuration}
+            onChange={(e) => {
+              const val = parseInt(e.target.value);
+              setRestTimerDuration(val);
+              localStorage.setItem(REST_DURATION_KEY, String(val));
+              triggerHaptic(10);
+            }}
+          />
+          <div className="flex justify-between mt-1">
+            <span className="text-white/20 text-[10px]">30s</span>
+            <span className="text-white/20 text-[10px]">3:00</span>
           </div>
         </div>
 
@@ -2538,20 +2547,36 @@ export default function GymPage() {
             )}
           </div>
 
-          {/* History Button */}
-          <button
-            onClick={() => handleLoadExerciseHistory(exercise.exerciseId, selectedDay)}
-            className={`w-full mb-6 flex items-center justify-center gap-2 py-3 rounded-2xl border transition-colors ${
-              showExerciseHistory
-                ? 'bg-[#0A84FF]/15 border-[#0A84FF]/40 text-[#0A84FF]'
-                : 'bg-[#0F1628] border-white/[0.08] text-white/50 hover:text-white hover:border-white/[0.12]'
-            }`}
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            {showExerciseHistory ? 'Hide Previous Performance' : 'Previous Performance'}
-          </button>
+          {/* Utility buttons row */}
+          <div className="flex gap-2 mb-6">
+            <button
+              onClick={() => handleLoadExerciseHistory(exercise.exerciseId, selectedDay)}
+              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl border transition-colors ${
+                showExerciseHistory
+                  ? 'bg-[#0A84FF]/15 border-[#0A84FF]/40 text-[#0A84FF]'
+                  : 'bg-[#0F1628] border-white/[0.08] text-white/50'
+              }`}
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-sm font-medium">{showExerciseHistory ? 'Hide History' : 'Last Session'}</span>
+            </button>
+            <button
+              onClick={() => {
+                const firstSet = exercise.sets[0];
+                const w = firstSet?.actualWeight ?? firstSet?.targetWeight ?? exercise.trainingMax;
+                setPlateCalcWeight(w > 0 ? w : 135);
+                triggerHaptic(10);
+              }}
+              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl border bg-[#0F1628] border-white/[0.08] text-white/50 transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+              </svg>
+              <span className="text-sm font-medium">Plates</span>
+            </button>
+          </div>
 
           {/* Exercise History Panel */}
           {showExerciseHistory && (
@@ -2732,52 +2757,70 @@ export default function GymPage() {
                     <span className="text-white/30 text-xs">{set.targetReps}×{set.targetWeight}</span>
                   </div>
 
-                  {/* Reps input */}
-                  <div className="flex-1">
-                    <input
-                      type="number"
-                      value={set.actualReps ?? ''}
-                      onChange={(e) => handleSetUpdate(
-                        selectedExerciseIndex,
-                        setIndex,
-                        'actualReps',
-                        e.target.value ? parseInt(e.target.value) : null
-                      )}
-                      placeholder={set.targetReps.toString()}
-                      className="w-full bg-[#162038] rounded-xl px-2 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#6366F1]"
-                    />
+                  {/* Reps stepper — no keyboard */}
+                  <div className="flex-1 flex items-center justify-center gap-1">
+                    <button
+                      onClick={() => {
+                        const cur = set.actualReps ?? set.targetReps;
+                        handleSetUpdate(selectedExerciseIndex, setIndex, 'actualReps', Math.max(0, cur - 1));
+                        triggerHaptic(10);
+                      }}
+                      className="w-8 h-10 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white/60 text-[17px] font-bold flex items-center justify-center flex-shrink-0 transition-all"
+                    >−</button>
+                    <span className="text-[17px] font-semibold w-8 text-center" style={{ color: set.actualReps !== null ? '#fff' : 'rgba(255,255,255,0.3)' }}>
+                      {set.actualReps ?? set.targetReps}
+                    </span>
+                    <button
+                      onClick={() => {
+                        const cur = set.actualReps ?? set.targetReps;
+                        handleSetUpdate(selectedExerciseIndex, setIndex, 'actualReps', cur + 1);
+                        triggerHaptic(10);
+                      }}
+                      className="w-8 h-10 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white/60 text-[17px] font-bold flex items-center justify-center flex-shrink-0 transition-all"
+                    >+</button>
                   </div>
 
-                  {/* Weight input with ±5 steppers */}
+                  {/* Weight stepper — no keyboard, ±2.5 and ±5 */}
                   <div className="flex-1 flex items-center gap-1">
                     <button
                       onClick={() => {
                         const cur = set.actualWeight ?? set.targetWeight;
-                        handleSetUpdate(selectedExerciseIndex, setIndex, 'actualWeight', Math.max(0, cur - 5));
+                        handleSetUpdate(selectedExerciseIndex, setIndex, 'actualWeight', Math.max(0, Math.round((cur - 5) * 10) / 10));
                         triggerHaptic(12);
                       }}
-                      className="w-7 h-9 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white/60 text-[13px] font-bold flex items-center justify-center flex-shrink-0 transition-all"
-                    >−</button>
-                    <input
-                      type="number"
-                      value={set.actualWeight ?? ''}
-                      onChange={(e) => handleSetUpdate(
-                        selectedExerciseIndex,
-                        setIndex,
-                        'actualWeight',
-                        e.target.value ? parseFloat(e.target.value) : null
-                      )}
-                      placeholder={set.targetWeight.toString()}
-                      className="flex-1 min-w-0 bg-[#162038] rounded-xl px-1 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#6366F1]"
-                    />
+                      className="w-8 h-10 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white/50 text-[11px] font-bold flex items-center justify-center flex-shrink-0 transition-all"
+                    >−5</button>
+                    <div className="flex flex-col items-center flex-1 min-w-0">
+                      <span className="text-[16px] font-semibold leading-tight" style={{ color: set.actualWeight !== null ? '#fff' : 'rgba(255,255,255,0.3)' }}>
+                        {set.actualWeight !== null ? set.actualWeight : set.targetWeight}
+                      </span>
+                      <div className="flex gap-1 mt-0.5">
+                        <button
+                          onClick={() => {
+                            const cur = set.actualWeight ?? set.targetWeight;
+                            handleSetUpdate(selectedExerciseIndex, setIndex, 'actualWeight', Math.max(0, Math.round((cur - 2.5) * 10) / 10));
+                            triggerHaptic(10);
+                          }}
+                          className="text-white/30 text-[9px] font-bold px-1 py-0.5 rounded bg-white/[0.04] active:bg-white/[0.12] transition-all"
+                        >−2.5</button>
+                        <button
+                          onClick={() => {
+                            const cur = set.actualWeight ?? set.targetWeight;
+                            handleSetUpdate(selectedExerciseIndex, setIndex, 'actualWeight', Math.round((cur + 2.5) * 10) / 10);
+                            triggerHaptic(10);
+                          }}
+                          className="text-white/30 text-[9px] font-bold px-1 py-0.5 rounded bg-white/[0.04] active:bg-white/[0.12] transition-all"
+                        >+2.5</button>
+                      </div>
+                    </div>
                     <button
                       onClick={() => {
                         const cur = set.actualWeight ?? set.targetWeight;
-                        handleSetUpdate(selectedExerciseIndex, setIndex, 'actualWeight', cur + 5);
+                        handleSetUpdate(selectedExerciseIndex, setIndex, 'actualWeight', Math.round((cur + 5) * 10) / 10);
                         triggerHaptic(12);
                       }}
-                      className="w-7 h-9 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white/60 text-[13px] font-bold flex items-center justify-center flex-shrink-0 transition-all"
-                    >+</button>
+                      className="w-8 h-10 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white/50 text-[11px] font-bold flex items-center justify-center flex-shrink-0 transition-all"
+                    >+5</button>
                   </div>
 
                   {/* Pass / Fail */}
@@ -2890,33 +2933,69 @@ export default function GymPage() {
                     <div className="w-20 flex-shrink-0 text-center">
                       <span className="text-white/30 text-xs">{set.targetReps}×{set.targetWeight}</span>
                     </div>
-                    <div className="flex-1">
-                      <input
-                        type="number"
-                        value={set.actualReps ?? ''}
-                        onChange={(e) => handleSupersetUpdate(
-                          selectedExerciseIndex,
-                          setIndex,
-                          'actualReps',
-                          e.target.value ? parseInt(e.target.value) : null
-                        )}
-                        placeholder={set.targetReps.toString()}
-                        className="w-full bg-[#162038] rounded-xl px-2 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#FF9F0A]"
-                      />
+                    {/* Superset reps stepper */}
+                    <div className="flex-1 flex items-center justify-center gap-1">
+                      <button
+                        onClick={() => {
+                          const cur = set.actualReps ?? set.targetReps;
+                          handleSupersetUpdate(selectedExerciseIndex, setIndex, 'actualReps', Math.max(0, cur - 1));
+                          triggerHaptic(10);
+                        }}
+                        className="w-8 h-10 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white/60 text-[17px] font-bold flex items-center justify-center flex-shrink-0 transition-all"
+                      >−</button>
+                      <span className="text-[17px] font-semibold w-8 text-center" style={{ color: set.actualReps !== null ? '#fff' : 'rgba(255,255,255,0.3)' }}>
+                        {set.actualReps ?? set.targetReps}
+                      </span>
+                      <button
+                        onClick={() => {
+                          const cur = set.actualReps ?? set.targetReps;
+                          handleSupersetUpdate(selectedExerciseIndex, setIndex, 'actualReps', cur + 1);
+                          triggerHaptic(10);
+                        }}
+                        className="w-8 h-10 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white/60 text-[17px] font-bold flex items-center justify-center flex-shrink-0 transition-all"
+                      >+</button>
                     </div>
-                    <div className="flex-1">
-                      <input
-                        type="number"
-                        value={set.actualWeight ?? ''}
-                        onChange={(e) => handleSupersetUpdate(
-                          selectedExerciseIndex,
-                          setIndex,
-                          'actualWeight',
-                          e.target.value ? parseFloat(e.target.value) : null
-                        )}
-                        placeholder={set.targetWeight.toString()}
-                        className="w-full bg-[#162038] rounded-xl px-2 py-2.5 text-white text-center text-[17px] font-semibold border-0 focus:outline-none focus:ring-1 focus:ring-[#FF9F0A]"
-                      />
+                    {/* Superset weight stepper */}
+                    <div className="flex-1 flex items-center gap-1">
+                      <button
+                        onClick={() => {
+                          const cur = set.actualWeight ?? set.targetWeight;
+                          handleSupersetUpdate(selectedExerciseIndex, setIndex, 'actualWeight', Math.max(0, Math.round((cur - 5) * 10) / 10));
+                          triggerHaptic(12);
+                        }}
+                        className="w-8 h-10 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white/50 text-[11px] font-bold flex items-center justify-center flex-shrink-0 transition-all"
+                      >−5</button>
+                      <div className="flex flex-col items-center flex-1 min-w-0">
+                        <span className="text-[16px] font-semibold leading-tight" style={{ color: set.actualWeight !== null ? '#fff' : 'rgba(255,255,255,0.3)' }}>
+                          {set.actualWeight !== null ? set.actualWeight : set.targetWeight}
+                        </span>
+                        <div className="flex gap-1 mt-0.5">
+                          <button
+                            onClick={() => {
+                              const cur = set.actualWeight ?? set.targetWeight;
+                              handleSupersetUpdate(selectedExerciseIndex, setIndex, 'actualWeight', Math.max(0, Math.round((cur - 2.5) * 10) / 10));
+                              triggerHaptic(10);
+                            }}
+                            className="text-white/30 text-[9px] font-bold px-1 py-0.5 rounded bg-white/[0.04] active:bg-white/[0.12] transition-all"
+                          >−2.5</button>
+                          <button
+                            onClick={() => {
+                              const cur = set.actualWeight ?? set.targetWeight;
+                              handleSupersetUpdate(selectedExerciseIndex, setIndex, 'actualWeight', Math.round((cur + 2.5) * 10) / 10);
+                              triggerHaptic(10);
+                            }}
+                            className="text-white/30 text-[9px] font-bold px-1 py-0.5 rounded bg-white/[0.04] active:bg-white/[0.12] transition-all"
+                          >+2.5</button>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => {
+                          const cur = set.actualWeight ?? set.targetWeight;
+                          handleSupersetUpdate(selectedExerciseIndex, setIndex, 'actualWeight', Math.round((cur + 5) * 10) / 10);
+                          triggerHaptic(12);
+                        }}
+                        className="w-8 h-10 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white/50 text-[11px] font-bold flex items-center justify-center flex-shrink-0 transition-all"
+                      >+5</button>
                     </div>
                     <div className="flex gap-1.5 flex-shrink-0">
                       <button
@@ -2942,6 +3021,128 @@ export default function GymPage() {
             </div>
           )}
         </main>
+
+        {/* Plate Calculator Modal */}
+        {plateCalcWeight !== null && (() => {
+          const BAR_WEIGHT = 45;
+          const PLATES = [45, 35, 25, 10, 5, 2.5];
+          const PLATE_COLORS: Record<number, string> = {
+            45: '#FF453A', 35: '#FFD60A', 25: '#30D158', 10: '#fff',
+            5: '#0A84FF', 2.5: '#FF9F0A',
+          };
+          const perSide = Math.max(0, (plateCalcWeight - BAR_WEIGHT) / 2);
+          const platesNeeded: number[] = [];
+          let remaining = perSide;
+          for (const plate of PLATES) {
+            while (remaining >= plate - 0.01) {
+              platesNeeded.push(plate);
+              remaining = Math.round((remaining - plate) * 100) / 100;
+            }
+          }
+          const totalLoaded = BAR_WEIGHT + platesNeeded.reduce((s, p) => s + p, 0) * 2;
+          return (
+            <div
+              className="fixed inset-0 z-50 flex items-end justify-center"
+              style={{ background: 'rgba(0,0,0,0.7)' }}
+              onClick={() => setPlateCalcWeight(null)}
+            >
+              <div
+                className="w-full max-w-lg rounded-t-3xl px-6 pt-5 pb-10"
+                style={{ background: '#0F1628', paddingBottom: 'calc(2.5rem + env(safe-area-inset-bottom, 0px))' }}
+                onClick={e => e.stopPropagation()}
+              >
+                {/* Handle bar */}
+                <div className="w-10 h-1 bg-white/20 rounded-full mx-auto mb-5" />
+                <div className="flex items-center justify-between mb-5">
+                  <h2 className="text-white text-[20px] font-bold">Plate Calculator</h2>
+                  <button onClick={() => setPlateCalcWeight(null)} className="text-white/40 active:text-white transition-colors">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                {/* Weight input */}
+                <div className="flex items-center justify-center gap-3 mb-6">
+                  <button
+                    onClick={() => setPlateCalcWeight(w => Math.max(BAR_WEIGHT, Math.round(((w ?? 0) - 5) * 10) / 10))}
+                    className="w-11 h-11 rounded-full bg-white/[0.08] active:bg-white/[0.18] text-white text-xl font-bold flex items-center justify-center transition-all"
+                  >−</button>
+                  <div className="text-center">
+                    <span className="text-[48px] font-bold text-white leading-none">{plateCalcWeight}</span>
+                    <span className="text-white/40 text-xl ml-1">lbs</span>
+                  </div>
+                  <button
+                    onClick={() => setPlateCalcWeight(w => Math.round(((w ?? 0) + 5) * 10) / 10)}
+                    className="w-11 h-11 rounded-full bg-white/[0.08] active:bg-white/[0.18] text-white text-xl font-bold flex items-center justify-center transition-all"
+                  >+</button>
+                </div>
+                {/* Bar visualization */}
+                <div className="flex items-center justify-center gap-1 mb-5">
+                  {/* Left plates (reversed) */}
+                  {[...platesNeeded].reverse().map((p, i) => (
+                    <div
+                      key={`L${i}`}
+                      className="rounded-sm flex items-center justify-center text-black font-bold"
+                      style={{
+                        background: PLATE_COLORS[p] ?? '#888',
+                        width: p >= 25 ? 18 : p >= 10 ? 14 : 10,
+                        height: p >= 45 ? 56 : p >= 25 ? 48 : p >= 10 ? 40 : 32,
+                        fontSize: 8,
+                      }}
+                    />
+                  ))}
+                  {/* Bar */}
+                  <div className="h-4 rounded-full flex-1 max-w-[60px]" style={{ background: '#555' }} />
+                  {/* Right plates */}
+                  {platesNeeded.map((p, i) => (
+                    <div
+                      key={`R${i}`}
+                      className="rounded-sm flex items-center justify-center text-black font-bold"
+                      style={{
+                        background: PLATE_COLORS[p] ?? '#888',
+                        width: p >= 25 ? 18 : p >= 10 ? 14 : 10,
+                        height: p >= 45 ? 56 : p >= 25 ? 48 : p >= 10 ? 40 : 32,
+                        fontSize: 8,
+                      }}
+                    />
+                  ))}
+                </div>
+                {/* Breakdown */}
+                <div className="bg-black/30 rounded-2xl p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-white/50 text-sm">Bar</span>
+                    <span className="text-white font-medium">45 lbs</span>
+                  </div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-white/50 text-sm">Per side</span>
+                    <span className="text-white font-medium">{perSide} lbs</span>
+                  </div>
+                  {platesNeeded.length > 0 ? (
+                    <div className="space-y-2">
+                      {Object.entries(
+                        platesNeeded.reduce((acc, p) => { acc[p] = (acc[p] ?? 0) + 1; return acc; }, {} as Record<number, number>)
+                      ).sort((a, b) => Number(b[0]) - Number(a[0])).map(([p, count]) => (
+                        <div key={p} className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded-sm" style={{ background: PLATE_COLORS[Number(p)] ?? '#888' }} />
+                            <span className="text-white/70 text-sm">{p} lb plate</span>
+                          </div>
+                          <span className="text-white text-sm font-semibold">×{count} per side</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-white/40 text-sm text-center">Bar only</p>
+                  )}
+                  <div className="border-t border-white/10 mt-3 pt-3 flex items-center justify-between">
+                    <span className="text-white/50 text-sm">Actual total</span>
+                    <span className="text-[#30D158] font-bold">{totalLoaded} lbs</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
       </div>
     );
   }
@@ -3286,7 +3487,7 @@ export default function GymPage() {
     );
   }
 
-  // History view
+  // Analytics / History view
   if (view === 'history') {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const gymExercisesForHistory = require('@/data/gym-exercises.json') as {
@@ -3301,6 +3502,51 @@ export default function GymPage() {
 
     // Get selected exercise info
     const selectedExInfo = allExercises.find(e => e.id === selectedHistoryExercise);
+
+    // ── Basketball analytics ──────────────────────────────────
+    const now = new Date();
+    const weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
+    const monthAgo = new Date(now); monthAgo.setDate(monthAgo.getDate() - 30);
+
+    const bSessions = basketballSessions;
+    const bThisWeek = bSessions.filter(s => new Date(s.date) >= weekAgo).length;
+    const bThisMonth = bSessions.filter(s => new Date(s.date) >= monthAgo).length;
+    const bTotalDurationMins = Math.round(bSessions.reduce((t, s) => t + (s.durationSecs ?? 0), 0) / 60);
+
+    let totalMakes = 0, totalAttempts = 0;
+    const categoryCount: Record<string, number> = {};
+    bSessions.forEach(s => {
+      (s.drills ?? []).forEach((d: BasketballDrillLog) => {
+        if (d.makes != null && d.attempts != null && d.attempts > 0) {
+          totalMakes += d.makes;
+          totalAttempts += d.attempts;
+        }
+        categoryCount[d.category] = (categoryCount[d.category] ?? 0) + 1;
+      });
+    });
+    const shootingPct = totalAttempts > 0 ? Math.round((totalMakes / totalAttempts) * 100) : null;
+
+    // Category breakdown sorted
+    const categoryLabels: Record<string, string> = {
+      'ball-handling': 'Ball Handling', 'shooting': 'Shooting',
+      'footwork': 'Footwork', 'conditioning': 'Conditioning',
+      'explosiveness': 'Explosiveness', 'skill-work': 'Skill Work',
+    };
+    const topCategories = Object.entries(categoryCount)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 4);
+    const maxCatCount = topCategories[0]?.[1] ?? 1;
+
+    // Last 8 basketball sessions for frequency chart
+    const last8Sessions = [...bSessions].slice(0, 8).reverse();
+
+    // ── Strength analytics ────────────────────────────────────
+    const completedCycles = cycles.filter(c => c.status === 'completed').length;
+    const activeCycleData = cycles.find(c => c.status === 'active');
+    const totalWorkoutDays = cycles.reduce((t, c) => t + (c.completedWorkouts ?? 0), 0);
+    const avgCompletionPct = completedCycles > 0
+      ? Math.round(cycles.filter(c => c.status === 'completed').reduce((t, c) => t + (c.setCompletion ?? 100), 0) / completedCycles)
+      : null;
 
     // Calculate chart dimensions
     const chartWidth = 100; // percentage
@@ -3337,8 +3583,8 @@ export default function GymPage() {
         {/* Header */}
         <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
           <div className="px-4 py-4">
-            <h1 className="text-[17px] font-semibold text-white">TM History</h1>
-            <p className="text-white/40 text-sm">Track your progression over time</p>
+            <h1 className="text-[17px] font-semibold text-white">Analytics</h1>
+            <p className="text-white/40 text-sm">Your progress at a glance</p>
           </div>
         </header>
 
@@ -3349,31 +3595,147 @@ export default function GymPage() {
         )}
 
         <main className="px-4 pt-2 pb-24" style={{ paddingBottom: 'calc(6rem + env(safe-area-inset-bottom, 0px))' }}>
-          <h1 className="text-[34px] font-bold text-white tracking-tight mb-6">TM History</h1>
-          {/* Exercise selector */}
-          <div className="mb-6">
-            <label className="text-white/50 text-sm block mb-2">Select Exercise</label>
-            <select
-              value={selectedHistoryExercise}
-              onChange={(e) => handleLoadHistory(e.target.value)}
-              className="w-full bg-[#0F1628] rounded-xl px-4 py-3 text-white border-0"
-            >
-              <option value="">Choose an exercise...</option>
-              {allExercises.map(ex => (
-                <option key={ex.id} value={ex.id}>
-                  {ex.name} - {ex.dayName}
-                </option>
-              ))}
-            </select>
+          <h1 className="text-[34px] font-bold text-white tracking-tight mb-4">Analytics</h1>
+
+          {/* Tab switcher */}
+          <div className="flex gap-1 bg-white/[0.06] rounded-xl p-1 mb-6">
+            {(['overview', 'strength', 'hoops'] as const).map(tab => (
+              <button
+                key={tab}
+                onClick={() => setAnalyticsTab(tab)}
+                className={`flex-1 py-2 rounded-lg text-[13px] font-semibold transition-all capitalize ${
+                  analyticsTab === tab ? 'bg-white/[0.12] text-white' : 'text-white/40'
+                }`}
+              >{tab === 'hoops' ? '🏀 Hoops' : tab === 'strength' ? '💪 Strength' : '📊 Overview'}</button>
+            ))}
           </div>
 
-          {isLoadingHistory && (
+          {/* ── OVERVIEW TAB ── */}
+          {analyticsTab === 'overview' && (
+            <div className="space-y-4">
+              {/* Lifting summary */}
+              <div className="bg-[#0F1628] rounded-2xl p-4">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-[#6366F1] text-lg">💪</span>
+                  <h2 className="text-white font-semibold">Lifting</h2>
+                </div>
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="text-center">
+                    <div className="text-[28px] font-bold text-[#6366F1]">{totalWorkoutDays}</div>
+                    <div className="text-white/40 text-[11px] mt-0.5">Sessions</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-[28px] font-bold text-[#FF9F0A]">{cycles.length}</div>
+                    <div className="text-white/40 text-[11px] mt-0.5">Blocks</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-[28px] font-bold text-[#30D158]">{completedCycles}</div>
+                    <div className="text-white/40 text-[11px] mt-0.5">Completed</div>
+                  </div>
+                </div>
+                {activeCycleData && (
+                  <div className="mt-4 pt-4 border-t border-white/[0.08]">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-white/50 text-sm">Active block progress</span>
+                      <span className="text-[#30D158] text-sm font-bold">{activeCycleData.setCompletion ?? 0}%</span>
+                    </div>
+                    <div className="h-2 bg-white/[0.08] rounded-full overflow-hidden">
+                      <div
+                        className="h-full rounded-full transition-all"
+                        style={{ width: `${activeCycleData.setCompletion ?? 0}%`, background: 'linear-gradient(90deg, #6366F1, #30D158)' }}
+                      />
+                    </div>
+                  </div>
+                )}
+                {avgCompletionPct !== null && (
+                  <p className="text-white/30 text-xs mt-3 text-center">Avg completion rate: {avgCompletionPct}%</p>
+                )}
+              </div>
+
+              {/* Basketball summary */}
+              <div className="bg-[#0F1628] rounded-2xl p-4">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-lg">🏀</span>
+                  <h2 className="text-white font-semibold">Basketball</h2>
+                </div>
+                <div className="grid grid-cols-3 gap-3 mb-4">
+                  <div className="text-center">
+                    <div className="text-[28px] font-bold text-[#FF9F0A]">{bSessions.length}</div>
+                    <div className="text-white/40 text-[11px] mt-0.5">Sessions</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-[28px] font-bold text-[#0A84FF]">{bThisWeek}</div>
+                    <div className="text-white/40 text-[11px] mt-0.5">This Week</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-[28px] font-bold" style={{ color: '#30D158' }}>
+                      {shootingPct !== null ? `${shootingPct}%` : '—'}
+                    </div>
+                    <div className="text-white/40 text-[11px] mt-0.5">Shooting</div>
+                  </div>
+                </div>
+                {bTotalDurationMins > 0 && (
+                  <p className="text-white/30 text-xs text-center">{bTotalDurationMins} total minutes on the court</p>
+                )}
+              </div>
+
+              {/* Cycle list */}
+              {cycles.length > 0 && (
+                <div className="bg-[#0F1628] rounded-2xl overflow-hidden">
+                  <div className="px-4 py-3 border-b border-white/[0.08]">
+                    <h3 className="text-white font-semibold text-sm">Workout Blocks</h3>
+                  </div>
+                  {cycles.slice(0, 5).map(c => (
+                    <div key={c.id} className="px-4 py-3 border-b border-white/[0.05] flex items-center justify-between">
+                      <div>
+                        <p className="text-white text-sm font-medium">Block #{c.cycleNumber}</p>
+                        <p className="text-white/40 text-xs mt-0.5">
+                          {c.status === 'active' ? 'In progress' : c.status === 'completed' ? 'Completed' : 'Archived'}
+                          {c.completedWorkouts ? ` · ${c.completedWorkouts} sessions` : ''}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {c.status === 'active' && (
+                          <span className="text-[#30D158] text-xs font-semibold">{c.setCompletion ?? 0}%</span>
+                        )}
+                        <div
+                          className="w-2 h-2 rounded-full"
+                          style={{ background: c.status === 'active' ? '#30D158' : c.status === 'completed' ? '#6366F1' : '#555' }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ── STRENGTH TAB (TM History) ── */}
+          {analyticsTab === 'strength' && (
+            <div className="mb-6">
+              <label className="text-white/50 text-sm block mb-2">Select Exercise</label>
+              <select
+                value={selectedHistoryExercise}
+                onChange={(e) => handleLoadHistory(e.target.value)}
+                className="w-full bg-[#0F1628] rounded-xl px-4 py-3 text-white border-0"
+              >
+                <option value="">Choose an exercise...</option>
+                {allExercises.map(ex => (
+                  <option key={ex.id} value={ex.id}>
+                    {ex.name} - {ex.dayName}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {isLoadingHistory && analyticsTab === 'strength' && (
             <div className="flex justify-center py-8">
               <div className="w-8 h-8 border-2 border-white/[0.12] border-t-[#6366F1] rounded-full animate-spin" />
             </div>
           )}
 
-          {selectedHistoryExercise && !isLoadingHistory && (
+          {selectedHistoryExercise && !isLoadingHistory && analyticsTab === 'strength' && (
             <>
               {/* Chart */}
               <div className="bg-[#0F1628] rounded-2xl p-4 mb-6">
@@ -3399,93 +3761,192 @@ export default function GymPage() {
                       </div>
 
                       {/* Line chart */}
-                      <svg
-                        className="absolute inset-0 w-full h-full"
-                        viewBox="0 0 100 100"
-                        preserveAspectRatio="none"
-                      >
-                        {/* Line */}
-                        <path
-                          d={pathD}
-                          fill="none"
-                          stroke="#30D158"
-                          strokeWidth="2"
-                          vectorEffect="non-scaling-stroke"
-                        />
-                        {/* Dots */}
+                      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <path d={pathD} fill="none" stroke="#30D158" strokeWidth="2" vectorEffect="non-scaling-stroke" />
                         {chartPoints.map((p, i) => (
-                          <circle
-                            key={i}
-                            cx={p.x}
-                            cy={p.y}
-                            r="4"
-                            fill="#30D158"
-                            vectorEffect="non-scaling-stroke"
-                          />
+                          <circle key={i} cx={p.x} cy={p.y} r="4" fill="#30D158" vectorEffect="non-scaling-stroke" />
                         ))}
                       </svg>
                     </div>
 
-                    {/* X-axis labels */}
                     {sortedHistory.length > 0 && (
                       <div className="ml-14 mt-2 flex justify-between text-white/40 text-xs">
-                        <span>
-                          {new Date(sortedHistory[0].recordedAt).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: '2-digit' })}
-                        </span>
+                        <span>{new Date(sortedHistory[0].recordedAt).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: '2-digit' })}</span>
                         {sortedHistory.length > 1 && (
-                          <span>
-                            {new Date(sortedHistory[sortedHistory.length - 1].recordedAt).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: '2-digit' })}
-                          </span>
+                          <span>{new Date(sortedHistory[sortedHistory.length - 1].recordedAt).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: '2-digit' })}</span>
                         )}
                       </div>
                     )}
                   </div>
                 ) : (
-                  <div className="h-32 flex items-center justify-center text-white/40">
-                    No history recorded yet
-                  </div>
+                  <div className="h-32 flex items-center justify-center text-white/40">No history recorded yet</div>
                 )}
               </div>
 
               {/* History list */}
               <div className="bg-[#0F1628] rounded-2xl overflow-hidden">
                 <div className="p-4 border-b border-white/[0.08]">
-                  <h3 className="text-white font-medium">History</h3>
+                  <h3 className="text-white font-medium">TM History</h3>
                 </div>
                 {sortedHistory.length > 0 ? (
                   <div className="divide-y divide-white/5">
                     {[...sortedHistory].reverse().map((entry) => (
                       <div key={entry.id} className="px-4 py-3 flex items-center justify-between">
-                        <div>
-                          <p className="text-white/50 text-sm">
-                            {new Date(entry.recordedAt).toLocaleDateString('en-US', {
-                              month: 'short',
-                              day: 'numeric',
-                              year: 'numeric'
-                            })}
-                          </p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-[#30D158] font-bold">{entry.weight} lbs</p>
-                        </div>
+                        <p className="text-white/50 text-sm">
+                          {new Date(entry.recordedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                        </p>
+                        <p className="text-[#30D158] font-bold">{entry.weight} lbs</p>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <div className="p-4 text-center text-white/40">
-                    No history recorded yet. Update your training max to start tracking.
-                  </div>
+                  <div className="p-4 text-center text-white/40">No history yet. Update your TM to start tracking.</div>
                 )}
               </div>
             </>
           )}
 
-          {!selectedHistoryExercise && !isLoadingHistory && (
-            <div className="text-center py-12">
-              <svg className="w-16 h-16 text-white/30 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-              <p className="text-white/40">Select an exercise to view its history</p>
+          {!selectedHistoryExercise && !isLoadingHistory && analyticsTab === 'strength' && (
+            <div className="text-center py-8 text-white/40">Select an exercise above to view its progression</div>
+          )}
+
+          {/* ── HOOPS TAB ── */}
+          {analyticsTab === 'hoops' && (
+            <div className="space-y-4">
+              {bSessions.length === 0 ? (
+                <div className="text-center py-12">
+                  <span className="text-5xl block mb-4">🏀</span>
+                  <p className="text-white/40">No basketball sessions yet.</p>
+                  <p className="text-white/25 text-sm mt-1">Head to the Hoops tab to log your first session.</p>
+                </div>
+              ) : (
+                <>
+                  {/* Shooting stats */}
+                  {totalAttempts > 0 && (
+                    <div className="bg-[#0F1628] rounded-2xl p-4">
+                      <h3 className="text-white font-semibold mb-4">Shooting</h3>
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className="flex-1">
+                          <div className="text-[44px] font-bold text-[#30D158] leading-none">{shootingPct}%</div>
+                          <div className="text-white/40 text-sm mt-1">Overall FG%</div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-white font-semibold">{totalMakes} / {totalAttempts}</p>
+                          <p className="text-white/40 text-xs">Makes / Attempts</p>
+                        </div>
+                      </div>
+                      {/* FG% bar */}
+                      <div className="h-3 bg-white/[0.08] rounded-full overflow-hidden">
+                        <div
+                          className="h-full rounded-full"
+                          style={{ width: `${shootingPct}%`, background: (shootingPct ?? 0) >= 50 ? '#30D158' : (shootingPct ?? 0) >= 35 ? '#FFD60A' : '#FF453A' }}
+                        />
+                      </div>
+                      <div className="flex justify-between text-white/25 text-[10px] mt-1">
+                        <span>0%</span><span>50%</span><span>100%</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Session frequency */}
+                  <div className="bg-[#0F1628] rounded-2xl p-4">
+                    <h3 className="text-white font-semibold mb-1">Frequency</h3>
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="text-center">
+                        <div className="text-[28px] font-bold text-[#FF9F0A]">{bThisWeek}</div>
+                        <div className="text-white/40 text-[11px]">This Week</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-[28px] font-bold text-[#0A84FF]">{bThisMonth}</div>
+                        <div className="text-white/40 text-[11px]">This Month</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-[28px] font-bold text-white">{bSessions.length}</div>
+                        <div className="text-white/40 text-[11px]">All Time</div>
+                      </div>
+                    </div>
+                    {/* Recent sessions timeline */}
+                    {last8Sessions.length > 0 && (
+                      <div className="flex items-end gap-1.5" style={{ height: 48 }}>
+                        {last8Sessions.map((s, i) => {
+                          const drillCount = (s.drills ?? []).length;
+                          const height = Math.max(12, Math.min(48, drillCount * 8 + 12));
+                          return (
+                            <div key={s.id} className="flex-1 flex flex-col items-center justify-end gap-1">
+                              <div
+                                className="w-full rounded-t-sm"
+                                style={{ height, background: i === last8Sessions.length - 1 ? '#FF9F0A' : 'rgba(255,159,10,0.3)' }}
+                              />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                    {last8Sessions.length > 0 && (
+                      <div className="flex justify-between text-white/25 text-[10px] mt-1">
+                        <span>{new Date(last8Sessions[0].date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                        <span>Today</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Top categories */}
+                  {topCategories.length > 0 && (
+                    <div className="bg-[#0F1628] rounded-2xl p-4">
+                      <h3 className="text-white font-semibold mb-4">Focus Areas</h3>
+                      <div className="space-y-3">
+                        {topCategories.map(([catId, count]) => (
+                          <div key={catId}>
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-white/70 text-sm">{categoryLabels[catId] ?? catId}</span>
+                              <span className="text-white/50 text-xs">{count} drills</span>
+                            </div>
+                            <div className="h-2 bg-white/[0.08] rounded-full overflow-hidden">
+                              <div
+                                className="h-full rounded-full"
+                                style={{ width: `${(count / maxCatCount) * 100}%`, background: '#FF9F0A' }}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Recent sessions list */}
+                  <div className="bg-[#0F1628] rounded-2xl overflow-hidden">
+                    <div className="px-4 py-3 border-b border-white/[0.08]">
+                      <h3 className="text-white font-semibold text-sm">Recent Sessions</h3>
+                    </div>
+                    {bSessions.slice(0, 10).map(s => {
+                      const sMakes = (s.drills ?? []).reduce((t: number, d: BasketballDrillLog) => t + (d.makes ?? 0), 0);
+                      const sAttempts = (s.drills ?? []).reduce((t: number, d: BasketballDrillLog) => t + (d.attempts ?? 0), 0);
+                      const sPct = sAttempts > 0 ? Math.round((sMakes / sAttempts) * 100) : null;
+                      return (
+                        <div key={s.id} className="px-4 py-3 border-b border-white/[0.05] flex items-center justify-between">
+                          <div>
+                            <p className="text-white text-sm font-medium">
+                              {new Date(s.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                            </p>
+                            <p className="text-white/40 text-xs mt-0.5">
+                              {(s.drills ?? []).length} drills
+                              {s.durationSecs ? ` · ${Math.round(s.durationSecs / 60)}m` : ''}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            {sPct !== null && (
+                              <p className="text-[#30D158] text-sm font-bold">{sPct}%</p>
+                            )}
+                            {s.completed && (
+                              <span className="text-[#30D158] text-[10px]">✓ Done</span>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
             </div>
           )}
         </main>

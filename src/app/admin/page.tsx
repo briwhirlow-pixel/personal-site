@@ -678,7 +678,7 @@ export default function AdminPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [tab, setTab] = useState<"pipeline" | "projects" | "playbook">("pipeline");
+  const [tab, setTab] = useState<"pipeline" | "projects" | "playbook" | "budget" | "expenses">("pipeline");
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [showNewProject, setShowNewProject] = useState(false);
   const [newProjectLead, setNewProjectLead] = useState<Lead | null>(null);
@@ -777,13 +777,13 @@ export default function AdminPage() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 mb-6 bg-[#1A1D27] rounded-xl p-1 w-fit border border-[#2A2D3A]">
-          {(["pipeline", "projects", "playbook"] as const).map(t => (
+        <div className="flex flex-wrap gap-1 mb-6 bg-[#1A1D27] rounded-xl p-1 w-fit border border-[#2A2D3A]">
+          {(["pipeline", "projects", "playbook", "budget", "expenses"] as const).map(t => (
             <button key={t} onClick={() => setTab(t)}
-              className={`px-5 py-2 rounded-lg text-[13px] font-semibold transition capitalize ${
+              className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition ${
                 tab === t ? "bg-[#2563EB] text-white" : "text-white/40 hover:text-white"
               }`}>
-              {t === "pipeline" ? `Pipeline (${leads.length})` : t === "projects" ? `Projects (${projects.length})` : "📋 Playbook"}
+              {t === "pipeline" ? `Pipeline (${leads.length})` : t === "projects" ? `Projects (${projects.length})` : t === "playbook" ? "📋 Playbook" : t === "budget" ? "💰 Budget Tiers" : "🧾 Expenses"}
             </button>
           ))}
         </div>
@@ -819,6 +819,12 @@ export default function AdminPage() {
 
         {/* Playbook view */}
         {tab === "playbook" && <Playbook />}
+
+        {/* Budget Tiers view */}
+        {tab === "budget" && <BudgetTiers />}
+
+        {/* Expenses view */}
+        {tab === "expenses" && <Expenses />}
 
         {/* Projects view */}
         {tab === "projects" && (
@@ -1436,6 +1442,378 @@ function Playbook() {
               <div className="text-2xl mb-3">{r.icon}</div>
               <p className="text-white font-bold text-[14px] mb-1">{r.label}</p>
               <p className="text-white/40 text-[12px] leading-relaxed">{r.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BudgetTiers() {
+  const tiers = [
+    {
+      range: "$0 – $499",
+      label: "Not a Fit",
+      color: "#EF4444",
+      bg: "rgba(239,68,68,0.08)",
+      border: "rgba(239,68,68,0.2)",
+      icon: "🚫",
+      summary: "Below minimum viable budget. Politely decline or refer to DIY platforms (Squarespace, Wix).",
+      canDo: [
+        "Single-page static site (if very simple)",
+        "Template customization only — no custom design",
+        "Basic HTML/CSS brochure page",
+      ],
+      cantDo: [
+        "Custom design",
+        "CMS or dynamic content",
+        "E-commerce",
+        "Meaningful SEO work",
+        "Revisions beyond 1 round",
+      ],
+      tools: [],
+      note: "Recommend they start with Squarespace or a Webflow template. Revisit when budget grows.",
+    },
+    {
+      range: "$500 – $999",
+      label: "Starter",
+      color: "#F59E0B",
+      bg: "rgba(245,158,11,0.08)",
+      border: "rgba(245,158,11,0.2)",
+      icon: "🌱",
+      summary: "Entry-level custom site. Clean design, mobile-first, deployed and live.",
+      canDo: [
+        "3–5 page custom site (Home, About, Services, Contact + 1 more)",
+        "Mobile-responsive layout",
+        "Contact form wired to email (Resend free tier)",
+        "Basic on-page SEO (meta titles, descriptions, OG tags)",
+        "Deployed to Vercel (free tier)",
+        "1 round of revisions",
+        "GitHub repo handoff",
+      ],
+      cantDo: [
+        "CMS / editable content",
+        "E-commerce / payments",
+        "Blog",
+        "Custom animations",
+        "Multiple revision rounds",
+      ],
+      tools: ["Next.js", "Tailwind", "Vercel (free)", "Resend (free)", "GitHub"],
+      note: "This is the $500 flat-fee model. Position as 'fast, clean, professional — no frills.'",
+    },
+    {
+      range: "$1,000 – $1,499",
+      label: "Professional",
+      color: "#3B82F6",
+      bg: "rgba(59,130,246,0.08)",
+      border: "rgba(59,130,246,0.2)",
+      icon: "⚡",
+      summary: "Full-featured brochure or portfolio site with CMS and polished design.",
+      canDo: [
+        "Up to 8 pages",
+        "Headless CMS (Sanity.io free tier or Contentlayer)",
+        "Client can edit content without touching code",
+        "Custom animations / scroll reveals",
+        "Blog or news section (optional)",
+        "SEO optimization + sitemap + robots.txt",
+        "Contact form + email automation",
+        "2 rounds of revisions",
+        "Vercel deployment + domain setup",
+        "30-day post-launch support",
+      ],
+      cantDo: [
+        "E-commerce / Stripe payments",
+        "User accounts / auth",
+        "Large-scale custom functionality",
+      ],
+      tools: ["Next.js", "Tailwind", "Vercel", "Sanity (free)", "Resend", "GitHub"],
+      note: "This is the $1,200 model. Add $200–$300 for blog or extra pages.",
+    },
+    {
+      range: "$1,500 – $2,499",
+      label: "Advanced",
+      color: "#8B5CF6",
+      bg: "rgba(139,92,246,0.08)",
+      border: "rgba(139,92,246,0.2)",
+      icon: "🚀",
+      summary: "Business site with Supabase backend, auth, booking, or lead capture.",
+      canDo: [
+        "Everything in Professional tier",
+        "Supabase database (lead capture, form storage, simple CRM)",
+        "User authentication (Supabase Auth)",
+        "Admin dashboard for client to view submissions",
+        "Booking / inquiry system",
+        "Newsletter signup + email list (Resend or Loops)",
+        "Custom interactive components",
+        "3 rounds of revisions",
+        "60-day post-launch support",
+      ],
+      cantDo: [
+        "Full e-commerce with inventory management",
+        "Complex payment flows",
+        "Native mobile app",
+      ],
+      tools: ["Next.js", "Tailwind", "Vercel", "Supabase", "Resend", "GitHub", "Claude API (optional)"],
+      note: "Scope carefully — Supabase auth + DB adds real complexity. Quote high end of range for auth.",
+    },
+    {
+      range: "$2,500 – $4,999",
+      label: "Custom Build",
+      color: "#10B981",
+      bg: "rgba(16,185,129,0.08)",
+      border: "rgba(16,185,129,0.2)",
+      icon: "🛠️",
+      summary: "E-commerce, SaaS MVP, or complex web app with full backend.",
+      canDo: [
+        "Stripe payment integration (one-time or subscriptions)",
+        "E-commerce store (product pages, cart, checkout)",
+        "SaaS MVP with user accounts + billing",
+        "AI-powered features (Claude API integration)",
+        "Multi-role dashboards",
+        "Advanced Supabase (row-level security, realtime, storage)",
+        "Custom API integrations (3rd-party services)",
+        "Performance optimization + Core Web Vitals",
+        "Unlimited revisions within scope",
+        "90-day post-launch support",
+      ],
+      cantDo: [
+        "Native mobile apps",
+        "Ongoing retainer (handled separately)",
+        "Large team features (roles, permissions at enterprise scale)",
+      ],
+      tools: ["Next.js", "Tailwind", "Vercel Pro", "Supabase Pro", "Stripe", "Claude API", "Resend", "GitHub"],
+      note: "Milestone billing: ⅓ start / ⅓ mid / ⅓ delivery. Always get scope in writing.",
+    },
+    {
+      range: "$5,000+",
+      label: "Enterprise / Retainer",
+      color: "#F97316",
+      bg: "rgba(249,115,22,0.08)",
+      border: "rgba(249,115,22,0.2)",
+      icon: "🏢",
+      summary: "Large custom platforms, ongoing development retainers, or multi-month projects.",
+      canDo: [
+        "Everything in Custom Build tier",
+        "Full product development (multi-month)",
+        "Monthly retainer for ongoing dev ($1,500–$3,000/mo)",
+        "Team handoff with documentation",
+        "Advanced AI integrations (RAG, embeddings, Claude agents)",
+        "Custom design systems",
+        "Dedicated Vercel / Supabase org setup",
+        "SLAs and priority support",
+      ],
+      cantDo: [],
+      tools: ["Full stack", "Vercel Pro/Enterprise", "Supabase Pro", "Stripe", "Claude API", "GitHub Teams"],
+      note: "Require signed contract. Monthly retainers paid in advance. Scope change = new quote.",
+    },
+  ];
+
+  return (
+    <div className="space-y-4">
+      <div className="mb-6">
+        <p className="text-white font-black text-[20px] mb-1">Budget Tiers</p>
+        <p className="text-white/40 text-[13px]">What you can deliver at each price point using your current stack.</p>
+      </div>
+
+      {tiers.map((tier) => (
+        <div key={tier.range} className="rounded-2xl border overflow-hidden" style={{ borderColor: tier.border, background: tier.bg }}>
+          {/* Header */}
+          <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: tier.border }}>
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">{tier.icon}</span>
+              <div>
+                <p className="text-white font-black text-[16px]">{tier.range}</p>
+                <p className="text-[12px] font-bold uppercase tracking-widest" style={{ color: tier.color }}>{tier.label}</p>
+              </div>
+            </div>
+            <p className="text-white/50 text-[12px] max-w-xs text-right leading-relaxed hidden sm:block">{tier.summary}</p>
+          </div>
+
+          {/* Body */}
+          <div className="grid sm:grid-cols-2 gap-0 divide-y sm:divide-y-0 sm:divide-x" style={{ borderColor: tier.border }}>
+            {/* Can Do */}
+            <div className="p-5">
+              <p className="text-[10px] uppercase tracking-widest font-semibold text-white/30 mb-3">✅ Included</p>
+              <ul className="space-y-1.5">
+                {tier.canDo.map(item => (
+                  <li key={item} className="text-white/70 text-[12px] flex gap-2">
+                    <span className="text-green-400 flex-shrink-0">•</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Can't Do + Tools + Note */}
+            <div className="p-5 space-y-4">
+              {tier.cantDo.length > 0 && (
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest font-semibold text-white/30 mb-3">❌ Out of Scope</p>
+                  <ul className="space-y-1.5">
+                    {tier.cantDo.map(item => (
+                      <li key={item} className="text-white/50 text-[12px] flex gap-2">
+                        <span className="text-red-400 flex-shrink-0">•</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {tier.tools.length > 0 && (
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest font-semibold text-white/30 mb-2">🛠 Stack</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {tier.tools.map(t => (
+                      <span key={t} className="text-[11px] font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(255,255,255,0.06)', color: tier.color }}>
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {tier.note && (
+                <div className="rounded-xl px-3 py-2.5" style={{ background: 'rgba(0,0,0,0.2)' }}>
+                  <p className="text-white/40 text-[11px] leading-relaxed italic">💡 {tier.note}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Expenses() {
+  const categories = [
+    {
+      name: "AI & Development",
+      icon: "🤖",
+      color: "#8B5CF6",
+      items: [
+        { label: "Claude Pro (Anthropic)", cost: "$20/mo", notes: "Used for code generation, client work, brainstorming. Tax deductible." },
+        { label: "Claude API usage", cost: "Variable", notes: "Only if you build AI features into client sites. Pay per token." },
+        { label: "GitHub Free", cost: "$0/mo", notes: "Free for public + private repos. Upgrade to Teams ($4/user/mo) if needed." },
+      ],
+    },
+    {
+      name: "Hosting & Deployment",
+      icon: "🌐",
+      color: "#3B82F6",
+      items: [
+        { label: "Vercel Hobby (your projects)", cost: "$0/mo", notes: "Free tier for personal projects and portfolio site." },
+        { label: "Vercel Pro (client sites)", cost: "$20/mo", notes: "Required for commercial client deployments. Can bill back to client." },
+        { label: "Vercel Pro (per client add-on)", cost: "+$10/mo/site", notes: "Each additional site beyond free quota on Pro plan." },
+        { label: "Netlify (alternative)", cost: "$0–$19/mo", notes: "Good fallback if Vercel isn't the right fit for a project." },
+      ],
+    },
+    {
+      name: "Database & Backend",
+      icon: "🗄️",
+      color: "#10B981",
+      items: [
+        { label: "Supabase Free", cost: "$0/mo", notes: "2 free projects. Pauses after 1 week of inactivity. Good for dev." },
+        { label: "Supabase Pro", cost: "$25/mo/project", notes: "Required for production client databases. No pause, daily backups." },
+        { label: "PlanetScale / Neon (alt)", cost: "$0–$19/mo", notes: "Alternative Postgres hosts if Supabase isn't the fit." },
+      ],
+    },
+    {
+      name: "Email",
+      icon: "📧",
+      color: "#F59E0B",
+      items: [
+        { label: "Resend Free", cost: "$0/mo", notes: "3,000 emails/mo free. Plenty for contact forms on small sites." },
+        { label: "Resend Pro", cost: "$20/mo", notes: "50k emails/mo. Needed for client newsletter or high-volume forms." },
+        { label: "Google Workspace", cost: "$6/mo/user", notes: "Professional @yourdomain.com email for client-facing communication." },
+      ],
+    },
+    {
+      name: "Domains",
+      icon: "🔗",
+      color: "#EF4444",
+      items: [
+        { label: "Your domain (portfolio)", cost: "~$12–$15/yr", notes: "Namecheap or Cloudflare Registrar. Cheapest renewal rates." },
+        { label: "Client domain (if managed)", cost: "~$12–$15/yr", notes: "Bill back to client + small markup for your time managing it." },
+        { label: "Cloudflare DNS (free)", cost: "$0/mo", notes: "Use Cloudflare for DNS on all sites — faster, free SSL, DDoS protection." },
+      ],
+    },
+    {
+      name: "Design & Assets",
+      icon: "🎨",
+      color: "#EC4899",
+      items: [
+        { label: "Figma Free", cost: "$0/mo", notes: "3 projects free. Enough for most freelance work." },
+        { label: "Figma Professional", cost: "$15/mo", notes: "Unlimited projects. Worth it once you have 2+ active clients." },
+        { label: "Unsplash / Pexels", cost: "$0", notes: "Free stock photos for placeholder/client use (with attribution check)." },
+        { label: "Lucide / Heroicons", cost: "$0", notes: "Open source icon sets. Always use these first." },
+      ],
+    },
+    {
+      name: "Payments & Admin",
+      icon: "💳",
+      color: "#14B8A6",
+      items: [
+        { label: "Stripe (client payments)", cost: "2.9% + $0.30/txn", notes: "No monthly fee. Taken per transaction. Use for all project invoices." },
+        { label: "Wave (invoicing)", cost: "$0", notes: "Free invoicing tool. Integrates with Stripe for online payment." },
+        { label: "Calendly Free", cost: "$0/mo", notes: "1 event type free. Enough for discovery calls." },
+        { label: "Notion Free", cost: "$0/mo", notes: "Project notes, client briefs, content planning." },
+      ],
+    },
+  ];
+
+  const totalFixed = 20 + 20 + 25 + 6 + 15;
+  const totalEstimate = `~$${totalFixed}–$${totalFixed + 50}/mo`;
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <p className="text-white font-black text-[20px] mb-1">Expenses</p>
+          <p className="text-white/40 text-[13px]">Monthly cost breakdown to run your freelance operation.</p>
+        </div>
+        <div className="text-right">
+          <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold">Est. Monthly Burn</p>
+          <p className="text-white font-black text-[22px]">{totalEstimate}</p>
+          <p className="text-white/30 text-[10px]">at full capacity (1+ active client)</p>
+        </div>
+      </div>
+
+      {categories.map((cat) => (
+        <div key={cat.name} className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl overflow-hidden">
+          <div className="flex items-center gap-3 px-5 py-3.5 border-b border-[#2A2D3A]">
+            <span className="text-xl">{cat.icon}</span>
+            <p className="font-bold text-[14px]" style={{ color: cat.color }}>{cat.name}</p>
+          </div>
+          <div className="divide-y divide-[#2A2D3A]">
+            {cat.items.map((item) => (
+              <div key={item.label} className="flex items-start justify-between gap-4 px-5 py-3.5">
+                <div className="flex-1 min-w-0">
+                  <p className="text-white text-[13px] font-semibold">{item.label}</p>
+                  <p className="text-white/35 text-[11px] leading-relaxed mt-0.5">{item.notes}</p>
+                </div>
+                <span className="text-[13px] font-bold flex-shrink-0" style={{ color: cat.color }}>{item.cost}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      {/* Summary */}
+      <div className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl p-5">
+        <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold mb-4">Cost Scenarios</p>
+        <div className="grid sm:grid-cols-3 gap-4">
+          {[
+            { label: "Just Starting", cost: "$20/mo", desc: "Claude Pro only. Everything else free tier. No active clients.", color: "#F59E0B" },
+            { label: "1 Active Client", cost: "$65–$90/mo", desc: "Claude Pro + Vercel Pro + Supabase Pro + Google email.", color: "#3B82F6" },
+            { label: "2–3 Clients", cost: "$100–$150/mo", desc: "All above + Figma Pro + extra Supabase projects as needed.", color: "#10B981" },
+          ].map(s => (
+            <div key={s.label} className="bg-black/20 rounded-xl p-4">
+              <p className="text-[10px] uppercase tracking-widest font-semibold text-white/30 mb-1">{s.label}</p>
+              <p className="font-black text-[20px] mb-1" style={{ color: s.color }}>{s.cost}</p>
+              <p className="text-white/40 text-[11px] leading-relaxed">{s.desc}</p>
             </div>
           ))}
         </div>

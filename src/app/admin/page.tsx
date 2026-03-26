@@ -202,52 +202,90 @@ function ProjectCard({ p, token, invoices, onStatusChange, onUpdate, onInvoiceCr
         </div>
       )}
       {/* Row */}
-      <div className="p-5 flex items-center gap-5">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-3 mb-1">
-            <p className="text-white font-bold text-[15px] truncate">{p.name}</p>
-            <ProjectBadge status={p.status} />
-            {p.delivery_type === "managed" && (
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-500/15 text-green-400">HOSTED</span>
-            )}
-            {p.delivery_type === "handoff" && (
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/5 text-white/30">HANDED OFF</span>
-            )}
-          </div>
-          <p className="text-white/40 text-[13px] truncate">{p.client_email}</p>
-        </div>
-        <div className="hidden md:flex items-center gap-6 text-right flex-shrink-0">
-          {p.agreed_budget && (
-            <div>
-              <p className="text-white/20 text-[10px] uppercase tracking-widest mb-0.5">Budget</p>
-              <p className="text-white text-[14px] font-semibold">{p.agreed_budget}</p>
+      <div className="p-5">
+        {/* Top: name + delivery button */}
+        <div className="flex items-start justify-between gap-3 mb-4">
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-wrap items-center gap-2 mb-1">
+              <p className="text-white font-bold text-[15px] truncate">{p.name}</p>
+              <ProjectBadge status={p.status} />
+              {p.delivery_type === "managed" && (
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-500/15 text-green-400">HOSTED</span>
+              )}
+              {p.delivery_type === "handoff" && (
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/5 text-white/30">HANDED OFF</span>
+              )}
             </div>
-          )}
-          {p.delivery_type === "managed" && p.monthly_rate && (
-            <div>
-              <p className="text-white/20 text-[10px] uppercase tracking-widest mb-0.5">MRR</p>
-              <p className="text-green-400 text-[14px] font-semibold">${p.monthly_rate}/mo</p>
+            <p className="text-white/40 text-[13px] truncate">{p.client_email}</p>
+            {/* Budget / MRR / Expiry — shown inline on mobile */}
+            <div className="flex flex-wrap gap-4 mt-2">
+              {p.agreed_budget && (
+                <div>
+                  <p className="text-white/20 text-[10px] uppercase tracking-widest mb-0.5">Budget</p>
+                  <p className="text-white text-[13px] font-semibold">{p.agreed_budget}</p>
+                </div>
+              )}
+              {p.delivery_type === "managed" && p.monthly_rate && (
+                <div>
+                  <p className="text-white/20 text-[10px] uppercase tracking-widest mb-0.5">MRR</p>
+                  <p className="text-green-400 text-[13px] font-semibold">${p.monthly_rate}/mo</p>
+                </div>
+              )}
+              {daysLeft !== null && p.delivery_type === "handoff" && (
+                <div>
+                  <p className="text-white/20 text-[10px] uppercase tracking-widest mb-0.5">Expires</p>
+                  <p className={`text-[13px] font-semibold ${daysLeft <= 7 ? "text-red-400" : "text-amber-400"}`}>{daysLeft}d left</p>
+                </div>
+              )}
             </div>
-          )}
-          {daysLeft !== null && p.delivery_type === "handoff" && (
-            <div>
-              <p className="text-white/20 text-[10px] uppercase tracking-widest mb-0.5">Expires</p>
-              <p className={`text-[14px] font-semibold ${daysLeft <= 7 ? "text-red-400" : "text-amber-400"}`}>{daysLeft}d left</p>
-            </div>
-          )}
-        </div>
-        <div className="flex items-center gap-3 flex-shrink-0">
-          <div className="flex gap-2">
-            {PROJECT_STATUSES.map(s => (
-              <button key={s.key} title={s.label} onClick={() => onStatusChange(p.id, s.key)}
-                className="w-7 h-7 rounded-full border-2 transition hover:scale-110"
-                style={{ borderColor: s.color, background: p.status === s.key ? s.color : "transparent" }} />
-            ))}
           </div>
           <button onClick={() => setOpen(o => !o)}
-            className="text-[11px] px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition">
+            className="flex-shrink-0 text-[11px] px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition">
             {open ? "▲ Close" : "📦 Delivery"}
           </button>
+        </div>
+
+        {/* Status stepper — full width, labels always visible */}
+        <div className="flex items-center gap-0">
+          {PROJECT_STATUSES.map((s, i) => {
+            const isActive = p.status === s.key;
+            const isPast = PROJECT_STATUSES.findIndex(x => x.key === p.status) > i;
+            return (
+              <div key={s.key} className="flex items-center flex-1">
+                <button
+                  onClick={() => onStatusChange(p.id, s.key)}
+                  className="flex flex-col items-center gap-1 flex-1 group"
+                  title={s.label}
+                >
+                  <div
+                    className="w-7 h-7 rounded-full border-2 transition-all group-hover:scale-110 flex items-center justify-center flex-shrink-0"
+                    style={{
+                      borderColor: s.color,
+                      background: isActive ? s.color : isPast ? `${s.color}30` : "transparent",
+                    }}
+                  >
+                    {(isActive || isPast) && (
+                      <svg width="10" height="10" fill="none" stroke={isActive ? "#fff" : s.color} viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/>
+                      </svg>
+                    )}
+                  </div>
+                  <span
+                    className="text-[10px] font-semibold leading-tight text-center"
+                    style={{ color: isActive ? s.color : isPast ? `${s.color}80` : "rgba(255,255,255,0.25)" }}
+                  >
+                    {s.label}
+                  </span>
+                </button>
+                {i < PROJECT_STATUSES.length - 1 && (
+                  <div
+                    className="h-[2px] flex-1 mx-1 rounded-full transition-all"
+                    style={{ background: isPast ? `${PROJECT_STATUSES[i].color}50` : "rgba(255,255,255,0.08)" }}
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -742,8 +780,18 @@ export default function AdminPage() {
             </svg>
             Refresh
           </button>
+          <a href="https://builtbybwhirl.com" target="_blank" rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-white/30 hover:text-white text-[13px] transition">
+            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            <span className="hidden sm:inline">View Site</span>
+          </a>
           <button onClick={() => { localStorage.removeItem("admin_token"); setToken(null); }}
-            className="text-white/30 hover:text-white text-[13px] transition">
+            className="flex items-center gap-1.5 text-white/30 hover:text-red-400 text-[13px] transition">
+            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
             Sign out
           </button>
         </div>

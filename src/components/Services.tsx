@@ -24,8 +24,8 @@ export default function Services() {
             { icon: '🔍', label: 'SEO Ready', sub: 'Built to be found on Google' },
             { icon: '📁', label: 'You Own It', sub: 'Full code handoff, no lock-in' },
           ].map((f) => (
-            <div key={f.label} className="bg-white rounded-xl p-4 border border-[#E5E4DF] hover:border-[#2563EB]/30 hover:shadow-md transition-all group cursor-default">
-              <div className="text-2xl mb-2 group-hover:scale-110 transition-transform inline-block">{f.icon}</div>
+            <div key={f.label} className="bg-white rounded-xl p-4 border border-[#E5E4DF] hover:border-[#2563EB]/30 hover:shadow-md transition-all cursor-default">
+              <div className="text-2xl mb-2">{f.icon}</div>
               <p className="text-[13px] font-bold text-[#1A1A1A]">{f.label}</p>
               <p className="text-[12px] text-[#737373] mt-0.5">{f.sub}</p>
             </div>

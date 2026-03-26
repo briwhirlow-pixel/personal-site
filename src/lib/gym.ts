@@ -1,5 +1,57 @@
 import gymProgramData from '@/data/gym-program.json';
 
+// ─── Basketball Types ──────────────────────────────────────────────────────────
+
+export type BasketballMetric = 'shooting' | 'reps' | 'duration';
+
+export interface BasketballDrillLog {
+  drillId: string;
+  drillName: string;
+  category: string;
+  metric: BasketballMetric;
+  // shooting
+  makes?: number;
+  attempts?: number;
+  // reps/sets
+  setsCompleted?: number;
+  repsPerSet?: number;
+  // duration
+  durationSecs?: number;
+  completed: boolean;
+  isPersonalBest?: boolean;
+}
+
+export interface BasketballSession {
+  id?: string;
+  date: string;
+  sessionType: string;
+  templateId?: string;
+  drills: BasketballDrillLog[];
+  durationSecs?: number;
+  notes?: string;
+  completed: boolean;
+}
+
+export async function fetchBasketballSessions(): Promise<BasketballSession[]> {
+  const res = await fetchWithAuth('/api/gym/basketball');
+  if (!res.ok) throw new Error('Failed to fetch basketball sessions');
+  return res.json();
+}
+
+export async function saveBasketballSession(session: BasketballSession): Promise<string> {
+  const res = await fetchWithAuth('/api/gym/basketball', {
+    method: 'POST',
+    body: JSON.stringify(session),
+  });
+  if (!res.ok) throw new Error('Failed to save basketball session');
+  const data = await res.json();
+  return data.id;
+}
+
+export async function deleteBasketballSession(id: string): Promise<void> {
+  await fetchWithAuth(`/api/gym/basketball?id=${id}`, { method: 'DELETE' });
+}
+
 export type SetType = 'warmup' | 'working' | 'burnout' | 'dropset';
 
 export interface SetSchemeItem {
@@ -1221,3 +1273,4 @@ export async function cancelPushNotification(): Promise<void> {
     console.error('Error cancelling push notification:', error);
   }
 }
+

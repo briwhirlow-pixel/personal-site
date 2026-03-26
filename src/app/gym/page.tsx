@@ -36,6 +36,9 @@ import {
   subscribeToPush,
   schedulePushNotification,
   cancelPushNotification,
+  fetchBasketballSessions,
+  saveBasketballSession,
+  deleteBasketballSession,
   DEFAULT_EXERCISE_SETTINGS,
   Cycle,
   WorkoutLog,
@@ -46,9 +49,11 @@ import {
   TMHistoryEntry,
   ExerciseHistoryData,
   SetType,
+  BasketballSession,
+  BasketballDrillLog,
 } from '@/lib/gym';
 
-type View = 'cycles' | 'cycle' | 'builder' | 'exercise' | 'settings' | 'history';
+type View = 'cycles' | 'cycle' | 'builder' | 'exercise' | 'settings' | 'history' | 'basketball' | 'basketball-session';
 
 // Builder step: 1=muscle groups, 2=day type, 3=exercise selection
 type BuilderStep = 1 | 2 | 3;
@@ -89,8 +94,8 @@ function BottomTabBar({
   active,
   onTab,
 }: {
-  active: 'cycles' | 'history' | 'settings';
-  onTab: (tab: 'cycles' | 'history' | 'settings') => void;
+  active: 'cycles' | 'basketball' | 'history' | 'settings';
+  onTab: (tab: 'cycles' | 'basketball' | 'history' | 'settings') => void;
 }) {
   const tabs = [
     {
@@ -98,36 +103,26 @@ function BottomTabBar({
       label: 'Cycles',
       icon: (fill: boolean) => (
         <svg className="w-6 h-6" viewBox="0 0 24 24" fill={fill ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={fill ? 0 : 1.8}>
-          {fill ? (
-            <>
-              <rect x="3" y="3" width="8" height="8" rx="2" />
-              <rect x="13" y="3" width="8" height="8" rx="2" />
-              <rect x="3" y="13" width="8" height="8" rx="2" />
-              <rect x="13" y="13" width="8" height="8" rx="2" />
-            </>
-          ) : (
-            <>
-              <rect x="3" y="3" width="8" height="8" rx="2" />
-              <rect x="13" y="3" width="8" height="8" rx="2" />
-              <rect x="3" y="13" width="8" height="8" rx="2" />
-              <rect x="13" y="13" width="8" height="8" rx="2" />
-            </>
-          )}
+          <rect x="3" y="3" width="8" height="8" rx="2" />
+          <rect x="13" y="3" width="8" height="8" rx="2" />
+          <rect x="3" y="13" width="8" height="8" rx="2" />
+          <rect x="13" y="13" width="8" height="8" rx="2" />
         </svg>
+      ),
+    },
+    {
+      id: 'basketball' as const,
+      label: 'Hoops',
+      icon: (_fill: boolean) => (
+        <span className="text-[22px] leading-none">🏀</span>
       ),
     },
     {
       id: 'history' as const,
       label: 'History',
       icon: (fill: boolean) => (
-        <svg className="w-6 h-6" viewBox="0 0 24 24" fill={fill ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={fill ? 0 : 1.8}>
-          {fill ? (
-            <path d="M3 3v18h18V3H3zm14 14H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z" />
-          ) : (
-            <>
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-            </>
-          )}
+        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={fill ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
         </svg>
       ),
     },
@@ -135,15 +130,9 @@ function BottomTabBar({
       id: 'settings' as const,
       label: 'Settings',
       icon: (fill: boolean) => (
-        <svg className="w-6 h-6" viewBox="0 0 24 24" fill={fill ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={fill ? 0 : 1.8}>
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d={fill
-              ? "M12 15.5A3.5 3.5 0 018.5 12 3.5 3.5 0 0112 8.5a3.5 3.5 0 013.5 3.5 3.5 3.5 0 01-3.5 3.5m7.43-2.92c.04-.32.07-.64.07-.98s-.03-.66-.07-1l2.16-1.63c.19-.15.24-.42.12-.64l-2.05-3.54c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22L2.74 8.87c-.12.21-.08.49.12.64L5.02 11.1c-.04.34-.07.67-.07 1s.03.65.07.98l-2.16 1.64c-.19.15-.24.42-.12.64l2.05 3.54c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.58 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2.05-3.54c.12-.22.07-.49-.12-.64l-2.16-1.64z"
-              : "M12 15.5A3.5 3.5 0 018.5 12 3.5 3.5 0 0112 8.5a3.5 3.5 0 013.5 3.5 3.5 3.5 0 01-3.5 3.5m7.43-2.92c.04-.32.07-.64.07-.98s-.03-.66-.07-1l2.16-1.63c.19-.15.24-.42.12-.64l-2.05-3.54c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22L2.74 8.87c-.12.21-.08.49.12.64L5.02 11.1c-.04.34-.07.67-.07 1s.03.65.07.98l-2.16 1.64c-.19.15-.24.42-.12.64l2.05 3.54c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.58 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2.05-3.54c.12-.22.07-.49-.12-.64l-2.16-1.64z"
-            }
-          />
+        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={fill ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="3" />
+          <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
         </svg>
       ),
     },
@@ -283,9 +272,26 @@ export default function GymPage() {
 
   // Rest timer state - persistent across navigation and browser backgrounding
   const [restTimeRemaining, setRestTimeRemaining] = useState<number>(0);
+  const [restTimerDuration, setRestTimerDuration] = useState<number>(60); // customizable: 60/90/120/180
   const restTimerRef = useRef<NodeJS.Timeout | null>(null);
   const notificationTimerRef = useRef<NodeJS.Timeout | null>(null);
   const REST_TIMER_KEY = 'gym_rest_timer_end';
+  const REST_DURATION_KEY = 'gym_rest_duration';
+
+  // Workout duration tracking
+  const workoutStartTimeRef = useRef<number | null>(null);
+  const [workoutElapsedSecs, setWorkoutElapsedSecs] = useState<number>(0);
+  const workoutDurationTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // PR and completion state
+  const [newPRs, setNewPRs] = useState<string[]>([]);
+  const [showCompletionScreen, setShowCompletionScreen] = useState(false);
+
+  // Basketball state
+  const [basketballSessions, setBasketballSessions] = useState<BasketballSession[]>([]);
+  const [activeBasketballSession, setActiveBasketballSession] = useState<BasketballSession | null>(null);
+  const [isLoadingBasketball, setIsLoadingBasketball] = useState(false);
+  const basketballStartTimeRef = useRef<number | null>(null);
 
   // Calculate remaining time from stored end time
   const calculateRemainingTime = useCallback(() => {
@@ -392,13 +398,14 @@ export default function GymPage() {
       clearInterval(restTimerRef.current);
     }
 
-    // Store end time in localStorage (60 seconds from now)
-    const durationMs = 60 * 1000;
+    // Use current restTimerDuration (loaded from localStorage or default 60s)
+    const savedDuration = parseInt(localStorage.getItem(REST_DURATION_KEY) ?? '60', 10);
+    const durationMs = savedDuration * 1000;
     const endTime = Date.now() + durationMs;
     localStorage.setItem(REST_TIMER_KEY, endTime.toString());
 
     // Set initial time
-    setRestTimeRemaining(60);
+    setRestTimeRemaining(savedDuration);
 
     // Schedule client-side notification (works if app stays in memory)
     scheduleTimerNotification(durationMs);
@@ -497,15 +504,17 @@ export default function GymPage() {
         setView('cycle');
       } else if (cur === 'cycle' || cur === 'builder') {
         viewRef.current = 'cycles';
-        // Flush any pending timeout save (fire-and-forget)
         if (saveTimeoutRef.current) {
           clearTimeout(saveTimeoutRef.current);
           saveTimeoutRef.current = null;
         }
         setView('cycles');
         fetchCycles().then(data => setCycles(data)).catch(() => {});
+      } else if (cur === 'basketball-session') {
+        viewRef.current = 'basketball';
+        setView('basketball');
       } else {
-        // settings / history → back to cycles
+        // settings / history / basketball → back to cycles
         viewRef.current = 'cycles';
         setView('cycles');
       }
@@ -563,6 +572,12 @@ export default function GymPage() {
   useEffect(() => {
     if (!isAuthed) return;
     loadData();
+    // Load saved rest timer duration
+    const saved = parseInt(localStorage.getItem(REST_DURATION_KEY) ?? '60', 10);
+    setRestTimerDuration(saved);
+    // Load basketball sessions
+    fetchBasketballSessions().then(setBasketballSessions).catch(() => {});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthed]);
 
   // Eagerly pre-fetch images for ALL program exercises immediately on auth —
@@ -944,6 +959,19 @@ export default function GymPage() {
     setSelectedExerciseIndex(index);
     setExerciseHistory(null);
     setShowExerciseHistory(false);
+    // Auto-load previous session history
+    if (activeCycle) {
+      handleLoadExerciseHistory(exercise.exerciseId, currentWorkout?.dayNumber ?? 1);
+    }
+    // Start workout duration timer on first exercise tap
+    if (!workoutStartTimeRef.current) {
+      workoutStartTimeRef.current = Date.now();
+      workoutDurationTimerRef.current = setInterval(() => {
+        if (workoutStartTimeRef.current) {
+          setWorkoutElapsedSecs(Math.floor((Date.now() - workoutStartTimeRef.current) / 1000));
+        }
+      }, 1000);
+    }
     window.history.pushState({ gymView: 'exercise' }, '', '/gym');
     setView('exercise');
   };
@@ -1021,6 +1049,29 @@ export default function GymPage() {
       newSets[setIndex].failed = false;
       triggerHaptic(15);
       startRestTimer();
+
+      // PR detection — check if this weight × reps beats exerciseHistory best
+      const weight = newSets[setIndex].actualWeight ?? newSets[setIndex].targetWeight;
+      const reps = newSets[setIndex].actualReps ?? newSets[setIndex].targetReps;
+      const exerciseName = newExercises[exerciseIndex].exerciseName;
+      if (exerciseHistory && exerciseName === selectedExercise?.exerciseName) {
+        const prevBestVolume = exerciseHistory.sets.reduce((best, s) => {
+          const vol = (s.actualWeight ?? s.targetWeight ?? 0) * (s.actualReps ?? s.targetReps ?? 0);
+          return vol > best ? vol : best;
+        }, 0);
+        const thisVolume = weight * reps;
+        const prevBestWeight = exerciseHistory.sets.reduce((best, s) => {
+          const w = s.actualWeight ?? s.targetWeight ?? 0;
+          return w > best ? w : best;
+        }, 0);
+        if (weight > prevBestWeight || thisVolume > prevBestVolume) {
+          const prMsg = weight > prevBestWeight
+            ? `${exerciseName} — new weight PR: ${weight} lbs!`
+            : `${exerciseName} — new volume PR!`;
+          setNewPRs(prev => prev.includes(prMsg) ? prev : [...prev, prMsg]);
+          triggerHaptic([30, 20, 30, 20, 50]);
+        }
+      }
     }
 
     // If marking as failed, also mark as completed but with failed flag
@@ -1040,6 +1091,15 @@ export default function GymPage() {
       (!ex.supersetSets || ex.supersetSets.every(s => s.completed))
     );
     newWorkout.completed = allCompleted;
+
+    // Show completion screen when all sets done
+    if (allCompleted && !showCompletionScreen) {
+      if (workoutDurationTimerRef.current) {
+        clearInterval(workoutDurationTimerRef.current);
+        workoutDurationTimerRef.current = null;
+      }
+      setShowCompletionScreen(true);
+    }
 
     setCurrentWorkout(newWorkout);
     setSelectedExercise(newExercises[exerciseIndex]);
@@ -1474,7 +1534,32 @@ export default function GymPage() {
 
         <main className="px-4 pt-2 pb-24" style={{ paddingBottom: 'calc(6rem + env(safe-area-inset-bottom, 0px))' }}>
           {/* Large title */}
-          <h1 className="text-[34px] font-bold text-white tracking-tight mb-6">Cycles</h1>
+          <h1 className="text-[34px] font-bold text-white tracking-tight mb-4">Cycles</h1>
+
+          {/* Streak + stats strip */}
+          {cycles.length > 0 && (() => {
+            const completedCycles = cycles.filter(c => c.status === 'completed').length;
+            const activeCycleData = cycles.find(c => c.status === 'active');
+            const activePct = activeCycleData?.setCompletion ?? 0;
+            // Count workout days across all completed cycles (rough streak = completed cycles × avg days/cycle)
+            const totalWorkoutDays = cycles.reduce((t, c) => t + (c.completedWorkouts ?? 0), 0);
+            return (
+              <div className="grid grid-cols-3 gap-3 mb-6">
+                <div className="bg-[#0F1628] rounded-2xl p-3 text-center">
+                  <div className="text-[22px] font-bold text-[#FF9F0A]">{totalWorkoutDays}</div>
+                  <div className="text-white/40 text-[11px] mt-0.5">Total Days</div>
+                </div>
+                <div className="bg-[#0F1628] rounded-2xl p-3 text-center">
+                  <div className="text-[22px] font-bold text-[#6366F1]">{cycles.length}</div>
+                  <div className="text-white/40 text-[11px] mt-0.5">Cycles</div>
+                </div>
+                <div className="bg-[#0F1628] rounded-2xl p-3 text-center">
+                  <div className="text-[22px] font-bold text-[#30D158]">{activeCycleData ? `${activePct}%` : `${completedCycles}`}</div>
+                  <div className="text-white/40 text-[11px] mt-0.5">{activeCycleData ? 'Progress' : 'Done'}</div>
+                </div>
+              </div>
+            );
+          })()}
 
           {/* Create New Cycle Button */}
           <button
@@ -1669,7 +1754,8 @@ export default function GymPage() {
         <BottomTabBar
           active="cycles"
           onTab={(tab) => {
-            if (tab === 'history') { window.history.pushState({ gymView: 'history' }, '', '/gym'); setView('history'); }
+            if (tab === 'basketball') { window.history.pushState({ gymView: 'basketball' }, '', '/gym'); setView('basketball'); }
+            else if (tab === 'history') { window.history.pushState({ gymView: 'history' }, '', '/gym'); setView('history'); }
             else if (tab === 'settings') { window.history.pushState({ gymView: 'settings' }, '', '/gym'); setView('settings'); }
           }}
         />
@@ -2199,9 +2285,77 @@ export default function GymPage() {
                   Saving
                 </span>
               )}
+              {workoutElapsedSecs > 0 && (
+                <span className="text-white/30 text-[12px] tabular-nums">
+                  {Math.floor(workoutElapsedSecs / 60)}:{String(workoutElapsedSecs % 60).padStart(2, '0')}
+                </span>
+              )}
             </div>
           </div>
         </header>
+
+        {/* PR banner */}
+        {newPRs.length > 0 && (
+          <div className="mx-4 mt-3 rounded-2xl px-4 py-3 flex items-center justify-between gap-3"
+            style={{ background: 'linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,159,10,0.1))', border: '1px solid rgba(255,215,0,0.25)' }}>
+            <div className="flex-1">
+              <div className="text-[#FFD60A] font-bold text-[13px] mb-0.5">🏆 New Personal Record!</div>
+              {newPRs.map((pr, i) => (
+                <div key={i} className="text-white/70 text-[12px]">{pr}</div>
+              ))}
+            </div>
+            <button onClick={() => setNewPRs([])} className="text-white/30 text-[18px] leading-none">×</button>
+          </div>
+        )}
+
+        {/* Completion screen overlay */}
+        {showCompletionScreen && currentWorkout && (
+          <div className="fixed inset-0 z-50 flex flex-col" style={{ background: 'rgba(8,12,20,0.97)', paddingTop: 'env(safe-area-inset-top, 0px)' }}>
+            <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
+              <div className="text-[72px] mb-4">🎉</div>
+              <h1 className="text-[32px] font-bold text-white mb-2">Workout Complete!</h1>
+              <p className="text-white/50 mb-8">{currentWorkout.dayName}</p>
+              {/* Stats */}
+              <div className="grid grid-cols-3 gap-4 w-full max-w-sm mb-6">
+                <div className="bg-[#0F1628] rounded-2xl p-4">
+                  <div className="text-[22px] font-bold text-white">
+                    {Math.floor(workoutElapsedSecs / 60)}m
+                  </div>
+                  <div className="text-white/40 text-[11px] mt-1">Duration</div>
+                </div>
+                <div className="bg-[#0F1628] rounded-2xl p-4">
+                  <div className="text-[22px] font-bold text-[#6366F1]">
+                    {currentWorkout.exercises.reduce((t, ex) => t + ex.sets.filter(s => s.completed && !s.failed).length, 0)}
+                  </div>
+                  <div className="text-white/40 text-[11px] mt-1">Sets Done</div>
+                </div>
+                <div className="bg-[#0F1628] rounded-2xl p-4">
+                  <div className="text-[22px] font-bold text-[#30D158]">
+                    {Math.round(currentWorkout.exercises.reduce((t, ex) =>
+                      t + ex.sets.filter(s => s.completed && !s.failed).reduce((st, s) => st + (s.actualWeight ?? s.targetWeight) * (s.actualReps ?? s.targetReps), 0)
+                    , 0) / 1000 * 10) / 10}k
+                  </div>
+                  <div className="text-white/40 text-[11px] mt-1">lbs Moved</div>
+                </div>
+              </div>
+              {newPRs.length > 0 && (
+                <div className="w-full max-w-sm bg-[#0F1628] rounded-2xl p-4 mb-6 text-left">
+                  <div className="text-[#FFD60A] font-bold text-[13px] mb-2">🏆 PRs This Workout</div>
+                  {newPRs.map((pr, i) => <div key={i} className="text-white/60 text-[13px]">{pr}</div>)}
+                </div>
+              )}
+            </div>
+            <div className="px-6 pb-10" style={{ paddingBottom: 'calc(2.5rem + env(safe-area-inset-bottom, 0px))' }}>
+              <button
+                onClick={() => { setShowCompletionScreen(false); setNewPRs([]); workoutStartTimeRef.current = null; setWorkoutElapsedSecs(0); handleBackToCycle(); }}
+                className="w-full bg-[#6366F1] active:bg-[#4F46E5] text-white font-bold text-[17px] py-4 rounded-2xl"
+              >
+                Back to Workout
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Exercise hero — image + title */}
         {(() => {
           const imgUrl = exerciseImages.get(exercise.exerciseName);
@@ -2277,10 +2431,33 @@ export default function GymPage() {
           );
         })()}
 
+        {/* Rest timer duration picker — always visible */}
+        <div className="mx-4 mt-3 flex items-center justify-between">
+          <span className="text-white/30 text-[12px]">Rest timer</span>
+          <div className="flex gap-1.5">
+            {[60, 90, 120, 180].map(sec => (
+              <button
+                key={sec}
+                onClick={() => {
+                  setRestTimerDuration(sec);
+                  localStorage.setItem(REST_DURATION_KEY, String(sec));
+                  triggerHaptic(10);
+                }}
+                className="px-2.5 py-1 rounded-lg text-[12px] font-semibold transition-all"
+                style={{
+                  background: restTimerDuration === sec ? 'rgba(48,209,88,0.2)' : 'rgba(255,255,255,0.06)',
+                  color: restTimerDuration === sec ? '#30D158' : 'rgba(255,255,255,0.35)',
+                  border: restTimerDuration === sec ? '1px solid rgba(48,209,88,0.35)' : '1px solid transparent',
+                }}
+              >{sec}s</button>
+            ))}
+          </div>
+        </div>
+
         {/* Prominent rest timer banner */}
         {restTimeRemaining > 0 && (
           <div
-            className="mx-4 mt-3 rounded-2xl px-4 py-3 flex items-center justify-between"
+            className="mx-4 mt-2 rounded-2xl px-4 py-3 flex items-center justify-between"
             style={{
               backgroundColor: restTimeRemaining <= 10 ? 'rgba(255,69,58,0.12)' : restTimeRemaining <= 30 ? 'rgba(255,214,10,0.08)' : 'rgba(48,209,88,0.08)',
             }}
@@ -2299,12 +2476,7 @@ export default function GymPage() {
               >
                 {restTimeRemaining}s
               </span>
-              <button
-                onClick={clearRestTimer}
-                className="text-white/35 text-[13px] font-medium"
-              >
-                Done
-              </button>
+              <button onClick={clearRestTimer} className="text-white/35 text-[13px] font-medium">Done</button>
             </div>
           </div>
         )}
@@ -2487,6 +2659,29 @@ export default function GymPage() {
 
           {/* Working Sets — iOS table view style */}
           <div className="mb-6">
+            {/* Previous session data */}
+            {exerciseHistory && (
+              <div className="mb-3 px-1">
+                <div className="bg-[#0A84FF]/08 border border-[#0A84FF]/20 rounded-xl px-3 py-2 flex items-center justify-between">
+                  <span className="text-[#0A84FF] text-[12px] font-medium">Last session</span>
+                  <div className="flex gap-3">
+                    {exerciseHistory.sets.slice(0, 4).map((s, i) => (
+                      <span key={i} className="text-white/50 text-[11px]">
+                        {s.actualReps ?? s.targetReps}×{s.actualWeight ?? s.targetWeight}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+            {!exerciseHistory && !isLoadingExerciseHistory && (
+              <button
+                onClick={() => handleLoadExerciseHistory(exercise.exerciseId, currentWorkout.dayNumber)}
+                className="mb-3 w-full text-[#0A84FF]/60 text-[12px] text-center py-1"
+              >
+                Load previous session data
+              </button>
+            )}
             {/* Column headers */}
             <div className="flex items-center gap-2 px-1 mb-2">
               <div className="w-8 flex-shrink-0" />
@@ -3083,6 +3278,7 @@ export default function GymPage() {
           active="settings"
           onTab={(tab) => {
             if (tab === 'cycles') { window.history.pushState({ gymView: 'cycles' }, '', '/gym'); setView('cycles'); }
+            else if (tab === 'basketball') { window.history.pushState({ gymView: 'basketball' }, '', '/gym'); setView('basketball'); }
             else if (tab === 'history') { window.history.pushState({ gymView: 'history' }, '', '/gym'); setView('history'); }
           }}
         />
@@ -3297,6 +3493,340 @@ export default function GymPage() {
           active="history"
           onTab={(tab) => {
             if (tab === 'cycles') { window.history.pushState({ gymView: 'cycles' }, '', '/gym'); setView('cycles'); }
+            else if (tab === 'basketball') { window.history.pushState({ gymView: 'basketball' }, '', '/gym'); setView('basketball'); }
+            else if (tab === 'settings') { window.history.pushState({ gymView: 'settings' }, '', '/gym'); setView('settings'); }
+          }}
+        />
+      </div>
+    );
+  }
+
+  // ─── Basketball Session View ───────────────────────────────────────────────
+  if (view === 'basketball-session' && activeBasketballSession) {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const bbData = require('@/data/basketball-drills.json') as {
+      categories: Array<{ id: string; name: string; icon: string; color: string; drills: Array<{ id: string; name: string; description: string; metric: string; defaultSets?: number; defaultDurationSecs?: number; defaultReps?: number; defaultAttempts?: number }> }>;
+    };
+    const allDrills = bbData.categories.flatMap(c => c.drills.map(d => ({ ...d, categoryId: c.id, categoryName: c.name, color: c.color })));
+
+    const session = activeBasketballSession;
+    const totalDrills = session.drills.length;
+    const completedDrills = session.drills.filter(d => d.completed).length;
+    const shootingDrills = session.drills.filter(d => d.metric === 'shooting' && d.attempts && d.attempts > 0);
+    const totalMakes = shootingDrills.reduce((s, d) => s + (d.makes ?? 0), 0);
+    const totalAttempts = shootingDrills.reduce((s, d) => s + (d.attempts ?? 0), 0);
+
+    const updateDrill = (drillId: string, updates: Partial<BasketballDrillLog>) => {
+      setActiveBasketballSession(prev => {
+        if (!prev) return prev;
+        const newDrills = prev.drills.map(d => d.drillId === drillId ? { ...d, ...updates } : d);
+        return { ...prev, drills: newDrills };
+      });
+    };
+
+    const finishSession = async () => {
+      if (!activeBasketballSession) return;
+      const durationSecs = basketballStartTimeRef.current
+        ? Math.floor((Date.now() - basketballStartTimeRef.current) / 1000)
+        : undefined;
+      const finished = { ...activeBasketballSession, completed: true, durationSecs };
+      try {
+        const id = await saveBasketballSession(finished);
+        const saved = { ...finished, id };
+        setBasketballSessions(prev => [saved, ...prev.filter(s => s.id !== id)]);
+        setActiveBasketballSession(null);
+        basketballStartTimeRef.current = null;
+        window.history.pushState({ gymView: 'basketball' }, '', '/gym');
+        setView('basketball');
+      } catch { /* ignore */ }
+    };
+
+    return (
+      <div className="min-h-screen bg-[#080C14]">
+        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
+          <div className="px-4 py-3 flex items-center justify-between">
+            <button onClick={() => { setActiveBasketballSession(null); window.history.pushState({ gymView: 'basketball' }, '', '/gym'); setView('basketball'); }}
+              className="text-[#FF9F0A] flex items-center gap-1 text-[17px]">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Hoops
+            </button>
+            <div className="text-center">
+              <div className="text-white font-semibold text-[15px]">{session.sessionType}</div>
+              <div className="text-white/40 text-[12px]">{completedDrills}/{totalDrills} drills</div>
+            </div>
+            <button onClick={finishSession}
+              className="bg-[#FF9F0A] text-black font-bold text-[13px] px-3 py-1.5 rounded-full">
+              Done
+            </button>
+          </div>
+          {/* Progress bar */}
+          <div className="h-[2px] bg-white/[0.06]">
+            <div className="h-full bg-[#FF9F0A] transition-all duration-500" style={{ width: `${totalDrills > 0 ? (completedDrills / totalDrills) * 100 : 0}%` }} />
+          </div>
+        </header>
+
+        {/* Shooting summary strip */}
+        {totalAttempts > 0 && (
+          <div className="px-4 py-2 bg-[#FF9F0A]/08 border-b border-[#FF9F0A]/15 flex items-center justify-between">
+            <span className="text-[#FF9F0A] text-sm font-medium">🎯 Shooting</span>
+            <span className="text-white font-bold text-sm">{totalMakes}/{totalAttempts} — {Math.round((totalMakes / totalAttempts) * 100)}%</span>
+          </div>
+        )}
+
+        <main className="px-4 pt-4 space-y-3" style={{ paddingBottom: 'calc(2rem + env(safe-area-inset-bottom, 0px))' }}>
+          {session.drills.map((drillLog) => {
+            const drillDef = allDrills.find(d => d.id === drillLog.drillId);
+            const color = drillDef?.color ?? '#FF9F0A';
+            const isComplete = drillLog.completed;
+
+            return (
+              <div key={drillLog.drillId} className="rounded-2xl overflow-hidden" style={{ background: isComplete ? `${color}12` : '#0F1628', border: `1px solid ${isComplete ? color + '30' : 'rgba(255,255,255,0.06)'}` }}>
+                <div className="p-4">
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex-1">
+                      <div className="text-[11px] uppercase tracking-wider font-semibold mb-0.5" style={{ color }}>{drillLog.category}</div>
+                      <h3 className="text-white font-semibold text-[16px]">{drillLog.drillName}</h3>
+                      {drillDef?.description && <p className="text-white/35 text-[12px] mt-0.5">{drillDef.description}</p>}
+                    </div>
+                    <button
+                      onClick={() => { updateDrill(drillLog.drillId, { completed: !isComplete }); triggerHaptic(isComplete ? 10 : 20); }}
+                      className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 ml-3 transition-all"
+                      style={{ background: isComplete ? color : 'rgba(255,255,255,0.08)' }}
+                    >
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Shooting metric */}
+                  {drillLog.metric === 'shooting' && (
+                    <div className="flex items-center gap-3 mt-2">
+                      <div className="flex-1">
+                        <label className="text-white/40 text-[11px] uppercase tracking-wide block mb-1">Makes</label>
+                        <div className="flex items-center gap-2">
+                          <button onClick={() => updateDrill(drillLog.drillId, { makes: Math.max(0, (drillLog.makes ?? 0) - 1) })}
+                            className="w-8 h-8 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white font-bold flex items-center justify-center">−</button>
+                          <span className="text-white font-bold text-[22px] w-10 text-center">{drillLog.makes ?? 0}</span>
+                          <button onClick={() => updateDrill(drillLog.drillId, { makes: Math.min((drillLog.attempts ?? 0), (drillLog.makes ?? 0) + 1) })}
+                            className="w-8 h-8 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white font-bold flex items-center justify-center">+</button>
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <label className="text-white/40 text-[11px] uppercase tracking-wide block mb-1">Attempts</label>
+                        <div className="flex items-center gap-2">
+                          <button onClick={() => updateDrill(drillLog.drillId, { attempts: Math.max(0, (drillLog.attempts ?? 0) - 1) })}
+                            className="w-8 h-8 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white font-bold flex items-center justify-center">−</button>
+                          <span className="text-white font-bold text-[22px] w-10 text-center">{drillLog.attempts ?? 0}</span>
+                          <button onClick={() => updateDrill(drillLog.drillId, { attempts: (drillLog.attempts ?? 0) + 1 })}
+                            className="w-8 h-8 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white font-bold flex items-center justify-center">+</button>
+                        </div>
+                      </div>
+                      {(drillLog.attempts ?? 0) > 0 && (
+                        <div className="text-right">
+                          <div className="text-[11px] text-white/40 mb-1">Pct</div>
+                          <div className="font-bold text-[18px]" style={{ color }}>{Math.round(((drillLog.makes ?? 0) / (drillLog.attempts ?? 1)) * 100)}%</div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Reps metric */}
+                  {drillLog.metric === 'reps' && (
+                    <div className="flex items-center gap-3 mt-2">
+                      <div>
+                        <label className="text-white/40 text-[11px] uppercase tracking-wide block mb-1">Sets Done</label>
+                        <div className="flex items-center gap-2">
+                          <button onClick={() => updateDrill(drillLog.drillId, { setsCompleted: Math.max(0, (drillLog.setsCompleted ?? 0) - 1) })}
+                            className="w-8 h-8 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white font-bold flex items-center justify-center">−</button>
+                          <span className="text-white font-bold text-[22px] w-8 text-center">{drillLog.setsCompleted ?? 0}</span>
+                          <button onClick={() => updateDrill(drillLog.drillId, { setsCompleted: (drillLog.setsCompleted ?? 0) + 1 })}
+                            className="w-8 h-8 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white font-bold flex items-center justify-center">+</button>
+                        </div>
+                      </div>
+                      {drillDef?.defaultSets && <span className="text-white/30 text-sm self-end mb-1">of {drillDef.defaultSets} sets × {drillDef.defaultReps} reps</span>}
+                    </div>
+                  )}
+
+                  {/* Duration metric */}
+                  {drillLog.metric === 'duration' && (
+                    <div className="flex items-center gap-3 mt-2">
+                      <div>
+                        <label className="text-white/40 text-[11px] uppercase tracking-wide block mb-1">Sets Done</label>
+                        <div className="flex items-center gap-2">
+                          <button onClick={() => updateDrill(drillLog.drillId, { setsCompleted: Math.max(0, (drillLog.setsCompleted ?? 0) - 1) })}
+                            className="w-8 h-8 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white font-bold flex items-center justify-center">−</button>
+                          <span className="text-white font-bold text-[22px] w-8 text-center">{drillLog.setsCompleted ?? 0}</span>
+                          <button onClick={() => updateDrill(drillLog.drillId, { setsCompleted: (drillLog.setsCompleted ?? 0) + 1 })}
+                            className="w-8 h-8 rounded-lg bg-white/[0.06] active:bg-white/[0.15] text-white font-bold flex items-center justify-center">+</button>
+                        </div>
+                      </div>
+                      {drillDef?.defaultSets && drillDef?.defaultDurationSecs && (
+                        <span className="text-white/30 text-sm self-end mb-1">of {drillDef.defaultSets} × {drillDef.defaultDurationSecs}s</span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </main>
+      </div>
+    );
+  }
+
+  // ─── Basketball Home View ───────────────────────────────────────────────────
+  if (view === 'basketball') {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const bbData = require('@/data/basketball-drills.json') as {
+      categories: Array<{ id: string; name: string; icon: string; color: string; description: string; drills: Array<{ id: string; name: string; metric: string; defaultSets?: number; defaultDurationSecs?: number; defaultReps?: number; defaultAttempts?: number }> }>;
+      sessionTemplates: Array<{ id: string; name: string; icon: string; description: string; drillIds: string[] }>;
+    };
+
+    const startSession = (templateId: string, templateName: string, drillIds: string[]) => {
+      const allDrills = bbData.categories.flatMap(c => c.drills.map(d => ({ ...d, categoryId: c.id, categoryName: c.name, color: c.color })));
+      const drillLogs: BasketballDrillLog[] = drillIds.map(id => {
+        const def = allDrills.find(d => d.id === id);
+        if (!def) return null;
+        return {
+          drillId: id,
+          drillName: def.name,
+          category: def.categoryName,
+          metric: def.metric as 'shooting' | 'reps' | 'duration',
+          makes: def.metric === 'shooting' ? 0 : undefined,
+          attempts: def.metric === 'shooting' ? (def.defaultAttempts ?? 0) : undefined,
+          setsCompleted: def.metric !== 'shooting' ? 0 : undefined,
+          completed: false,
+        } as BasketballDrillLog;
+      }).filter(Boolean) as BasketballDrillLog[];
+
+      const newSession: BasketballSession = {
+        date: new Date().toISOString().split('T')[0],
+        sessionType: templateName,
+        templateId,
+        drills: drillLogs,
+        completed: false,
+      };
+      basketballStartTimeRef.current = Date.now();
+      setActiveBasketballSession(newSession);
+      window.history.pushState({ gymView: 'basketball-session' }, '', '/gym');
+      setView('basketball-session');
+    };
+
+    // Recent shooting % across last 5 sessions
+    const recentShooting = basketballSessions.slice(0, 5).flatMap(s => s.drills.filter(d => d.metric === 'shooting' && (d.attempts ?? 0) > 0));
+    const overallMakes = recentShooting.reduce((s, d) => s + (d.makes ?? 0), 0);
+    const overallAttempts = recentShooting.reduce((s, d) => s + (d.attempts ?? 0), 0);
+
+    return (
+      <div className="min-h-screen" style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(255,159,10,0.1) 0%, transparent 55%), #080C14' }}>
+        <header className="backdrop-blur-xl bg-[#080C14]/80 border-b border-white/[0.06] sticky top-0 z-10" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
+          <div className="px-4 py-3">
+            <h1 className="text-[17px] font-semibold text-white">Hoops Tracker</h1>
+          </div>
+        </header>
+
+        <main className="px-4 pt-4" style={{ paddingBottom: 'calc(6rem + env(safe-area-inset-bottom, 0px))' }}>
+          <h1 className="text-[34px] font-bold text-white tracking-tight mb-1">Hoops</h1>
+          <p className="text-white/40 text-[15px] mb-6">Track drills, shooting, and conditioning</p>
+
+          {/* Stats strip */}
+          {basketballSessions.length > 0 && (
+            <div className="grid grid-cols-3 gap-3 mb-6">
+              <div className="bg-[#0F1628] rounded-2xl p-3 text-center">
+                <div className="text-[22px] font-bold text-white">{basketballSessions.length}</div>
+                <div className="text-white/40 text-[11px]">Sessions</div>
+              </div>
+              <div className="bg-[#0F1628] rounded-2xl p-3 text-center">
+                <div className="text-[22px] font-bold" style={{ color: '#FF9F0A' }}>
+                  {overallAttempts > 0 ? `${Math.round((overallMakes / overallAttempts) * 100)}%` : '—'}
+                </div>
+                <div className="text-white/40 text-[11px]">Shoot %</div>
+              </div>
+              <div className="bg-[#0F1628] rounded-2xl p-3 text-center">
+                <div className="text-[22px] font-bold text-white">
+                  {basketballSessions.filter(s => {
+                    const d = new Date(s.date);
+                    const now = new Date();
+                    const diffDays = (now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24);
+                    return diffDays <= 7;
+                  }).length}
+                </div>
+                <div className="text-white/40 text-[11px]">This Week</div>
+              </div>
+            </div>
+          )}
+
+          {/* Session Templates */}
+          <h2 className="text-white/50 text-[11px] uppercase tracking-widest font-semibold mb-3">Start a Session</h2>
+          <div className="space-y-3 mb-6">
+            {bbData.sessionTemplates.map(template => (
+              <button
+                key={template.id}
+                onClick={() => startSession(template.id, template.name, template.drillIds)}
+                className="w-full bg-[#0F1628] active:bg-[#162038] rounded-2xl p-4 text-left flex items-center gap-4 transition-all"
+                style={{ border: '1px solid rgba(255,255,255,0.06)' }}
+              >
+                <span className="text-[32px]">{template.icon}</span>
+                <div className="flex-1">
+                  <div className="text-white font-semibold text-[16px]">{template.name}</div>
+                  <div className="text-white/40 text-[13px]">{template.description}</div>
+                  <div className="text-white/25 text-[11px] mt-0.5">{template.drillIds.length} drills</div>
+                </div>
+                <svg className="w-4 h-4 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            ))}
+          </div>
+
+          {/* Recent Sessions */}
+          {basketballSessions.length > 0 && (
+            <>
+              <h2 className="text-white/50 text-[11px] uppercase tracking-widest font-semibold mb-3">Recent Sessions</h2>
+              <div className="space-y-2">
+                {basketballSessions.slice(0, 8).map(session => {
+                  const shooting = session.drills.filter(d => d.metric === 'shooting' && (d.attempts ?? 0) > 0);
+                  const makes = shooting.reduce((s, d) => s + (d.makes ?? 0), 0);
+                  const attempts = shooting.reduce((s, d) => s + (d.attempts ?? 0), 0);
+                  const durationMins = session.durationSecs ? Math.round(session.durationSecs / 60) : null;
+                  return (
+                    <div key={session.id} className="bg-[#0F1628] rounded-2xl px-4 py-3 flex items-center justify-between">
+                      <div>
+                        <div className="text-white font-medium text-[15px]">{session.sessionType}</div>
+                        <div className="text-white/35 text-[12px]">
+                          {new Date(session.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                          {durationMins && ` · ${durationMins}m`}
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        {attempts > 0
+                          ? <div className="font-bold" style={{ color: '#FF9F0A' }}>{Math.round((makes / attempts) * 100)}%</div>
+                          : <div className="text-white/30 text-sm">{session.drills.filter(d => d.completed).length}/{session.drills.length} drills</div>
+                        }
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
+
+          {basketballSessions.length === 0 && !isLoadingBasketball && (
+            <div className="text-center py-16">
+              <div className="text-[64px] mb-4">🏀</div>
+              <p className="text-white/40 text-[16px]">No sessions yet.</p>
+              <p className="text-white/25 text-[14px] mt-1">Pick a session above to get started.</p>
+            </div>
+          )}
+        </main>
+        <BottomTabBar
+          active="basketball"
+          onTab={(tab) => {
+            if (tab === 'cycles') { window.history.pushState({ gymView: 'cycles' }, '', '/gym'); setView('cycles'); }
+            else if (tab === 'history') { window.history.pushState({ gymView: 'history' }, '', '/gym'); setView('history'); }
             else if (tab === 'settings') { window.history.pushState({ gymView: 'settings' }, '', '/gym'); setView('settings'); }
           }}
         />

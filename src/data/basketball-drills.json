@@ -1,0 +1,430 @@
+{
+  "categories": [
+    {
+      "id": "ball-handling",
+      "name": "Ball Handling",
+      "icon": "🏀",
+      "color": "#FF9F0A",
+      "description": "Improve your dribble confidence and control",
+      "drills": [
+        {
+          "id": "stationary-crossover",
+          "name": "Stationary Crossover",
+          "description": "Low, fast crossovers in place. Keep eyes up.",
+          "metric": "duration",
+          "defaultSets": 3,
+          "defaultDurationSecs": 45
+        },
+        {
+          "id": "two-ball-dribble",
+          "name": "Two Ball Dribble",
+          "description": "Both balls simultaneously, then alternating.",
+          "metric": "duration",
+          "defaultSets": 3,
+          "defaultDurationSecs": 30
+        },
+        {
+          "id": "figure-eight",
+          "name": "Figure 8",
+          "description": "Weave ball through legs in figure 8 pattern.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 20
+        },
+        {
+          "id": "spider-dribble",
+          "name": "Spider Dribble",
+          "description": "4-tap pattern: front-front-back-back. Fast hands.",
+          "metric": "duration",
+          "defaultSets": 3,
+          "defaultDurationSecs": 30
+        },
+        {
+          "id": "pound-dribble",
+          "name": "Pound Dribble",
+          "description": "Hard dribble as low as possible, each hand.",
+          "metric": "duration",
+          "defaultSets": 2,
+          "defaultDurationSecs": 45
+        },
+        {
+          "id": "hesitation-dribble",
+          "name": "Hesitation (Hesi) Drill",
+          "description": "Walk up, freeze with eye fake, explode past.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 10
+        },
+        {
+          "id": "behind-back",
+          "name": "Behind the Back",
+          "description": "Stationary behind-the-back crossovers.",
+          "metric": "duration",
+          "defaultSets": 3,
+          "defaultDurationSecs": 30
+        },
+        {
+          "id": "between-legs",
+          "name": "Between the Legs",
+          "description": "Alternating between-the-leg dribbles moving forward.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 20
+        }
+      ]
+    },
+    {
+      "id": "shooting",
+      "name": "Shooting",
+      "icon": "🎯",
+      "color": "#30D158",
+      "description": "Track makes and percentages to see real improvement",
+      "drills": [
+        {
+          "id": "free-throws",
+          "name": "Free Throws",
+          "description": "Shoot from the charity stripe. Focus on routine.",
+          "metric": "shooting",
+          "defaultAttempts": 20
+        },
+        {
+          "id": "corner-threes",
+          "name": "Corner 3s",
+          "description": "Both corners. Catch and shoot, game-speed setup.",
+          "metric": "shooting",
+          "defaultAttempts": 20
+        },
+        {
+          "id": "wing-threes",
+          "name": "Wing 3s",
+          "description": "Left and right wing. Focus on balance and follow-through.",
+          "metric": "shooting",
+          "defaultAttempts": 20
+        },
+        {
+          "id": "top-key-threes",
+          "name": "Top of Key 3s",
+          "description": "Straight on 3s. Repeat shot until rhythm is locked in.",
+          "metric": "shooting",
+          "defaultAttempts": 15
+        },
+        {
+          "id": "mid-range",
+          "name": "Mid-Range Jumper",
+          "description": "Elbow jumpers and baseline mid-range. Bread and butter.",
+          "metric": "shooting",
+          "defaultAttempts": 20
+        },
+        {
+          "id": "pull-up-jumper",
+          "name": "Pull-Up Jumper",
+          "description": "Off dribble. Simulate game situations.",
+          "metric": "shooting",
+          "defaultAttempts": 15
+        },
+        {
+          "id": "floater",
+          "name": "Floater / Runner",
+          "description": "Off two feet and one foot. Kiss it off the glass.",
+          "metric": "shooting",
+          "defaultAttempts": 15
+        },
+        {
+          "id": "mikan-drill",
+          "name": "Mikan Drill",
+          "description": "Alternating layups under the basket, no dribble.",
+          "metric": "shooting",
+          "defaultAttempts": 20
+        },
+        {
+          "id": "form-shooting",
+          "name": "Form Shooting (Close Range)",
+          "description": "1-2 ft from basket. Perfect mechanics, one hand.",
+          "metric": "reps",
+          "defaultSets": 1,
+          "defaultReps": 25
+        }
+      ]
+    },
+    {
+      "id": "footwork",
+      "name": "Footwork",
+      "icon": "👟",
+      "color": "#0A84FF",
+      "description": "The foundation of elite basketball movement",
+      "drills": [
+        {
+          "id": "defensive-slides",
+          "name": "Defensive Slides",
+          "description": "Side-to-side defensive position slides. Stay low.",
+          "metric": "duration",
+          "defaultSets": 4,
+          "defaultDurationSecs": 30
+        },
+        {
+          "id": "drop-step",
+          "name": "Drop Step Finish",
+          "description": "Post up, drop step, power layup. Both sides.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 10
+        },
+        {
+          "id": "jab-step",
+          "name": "Jab Step Series",
+          "description": "Jab and shoot, jab and drive, jab and crossover.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 10
+        },
+        {
+          "id": "v-cut",
+          "name": "V-Cut to Catch",
+          "description": "Cut hard toward basket, plant, explode back to catch.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 10
+        },
+        {
+          "id": "pivot-work",
+          "name": "Pivot & Protect",
+          "description": "Catch, pivot away from pressure, read defense.",
+          "metric": "duration",
+          "defaultSets": 2,
+          "defaultDurationSecs": 45
+        },
+        {
+          "id": "box-out-drill",
+          "name": "Box Out Technique",
+          "description": "Stance, contact, hold ground for 3 seconds.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 10
+        },
+        {
+          "id": "closeout-drill",
+          "name": "Closeout Drill",
+          "description": "Sprint from paint, chop steps at shooter, no foul.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 8
+        }
+      ]
+    },
+    {
+      "id": "conditioning",
+      "name": "Conditioning",
+      "icon": "🏃",
+      "color": "#FF453A",
+      "description": "Build the engine to play your game in the 4th quarter",
+      "drills": [
+        {
+          "id": "suicides",
+          "name": "Suicides (Full Court)",
+          "description": "Touch baseline, FT line, half court, far FT, far baseline.",
+          "metric": "reps",
+          "defaultSets": 1,
+          "defaultReps": 5
+        },
+        {
+          "id": "seventeens",
+          "name": "17s",
+          "description": "Baseline to baseline 17 times in 60 seconds.",
+          "metric": "duration",
+          "defaultSets": 3,
+          "defaultDurationSecs": 60
+        },
+        {
+          "id": "line-drills",
+          "name": "Line Drills",
+          "description": "Sprint baseline → FT → baseline → half → baseline → far FT → baseline.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 3
+        },
+        {
+          "id": "full-court-layups",
+          "name": "Full Court Layups",
+          "description": "Dribble full court each direction, no stopping.",
+          "metric": "duration",
+          "defaultSets": 1,
+          "defaultDurationSecs": 180
+        },
+        {
+          "id": "jump-rope",
+          "name": "Jump Rope",
+          "description": "Single bounce, alternating feet, double-unders.",
+          "metric": "duration",
+          "defaultSets": 3,
+          "defaultDurationSecs": 60
+        },
+        {
+          "id": "defensive-shell",
+          "name": "Defensive Shell Drill",
+          "description": "Contain the ball handler for full possession.",
+          "metric": "duration",
+          "defaultSets": 5,
+          "defaultDurationSecs": 30
+        }
+      ]
+    },
+    {
+      "id": "explosiveness",
+      "name": "Explosiveness",
+      "icon": "⚡",
+      "color": "#BF5AF2",
+      "description": "Add inches to your vert and first-step quickness",
+      "drills": [
+        {
+          "id": "box-jumps",
+          "name": "Box Jumps",
+          "description": "Explode onto box, step down controlled. Full extension.",
+          "metric": "reps",
+          "defaultSets": 4,
+          "defaultReps": 8
+        },
+        {
+          "id": "depth-jumps",
+          "name": "Depth Jumps",
+          "description": "Step off box, land and immediately jump as high as possible.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 6
+        },
+        {
+          "id": "broad-jumps",
+          "name": "Broad Jumps",
+          "description": "Max horizontal jump distance. Stick the landing.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 8
+        },
+        {
+          "id": "single-leg-hops",
+          "name": "Single Leg Hops",
+          "description": "Hop forward on one leg, absorb landing, repeat.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 10
+        },
+        {
+          "id": "approach-jump",
+          "name": "Approach Jump (Max Vert)",
+          "description": "2-3 step approach, two-foot takeoff. Touch highest point.",
+          "metric": "reps",
+          "defaultSets": 5,
+          "defaultReps": 3
+        },
+        {
+          "id": "cone-hops",
+          "name": "Lateral Cone Hops",
+          "description": "Quick side-to-side hops over cone. Fast feet.",
+          "metric": "duration",
+          "defaultSets": 4,
+          "defaultDurationSecs": 20
+        },
+        {
+          "id": "Bulgarian-split-squat",
+          "name": "Bulgarian Split Squat",
+          "description": "Rear foot elevated, drive through front heel.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 10
+        }
+      ]
+    },
+    {
+      "id": "skill-work",
+      "name": "Skill Work",
+      "icon": "🎮",
+      "color": "#22D3EE",
+      "description": "IQ, passing, finishing — the details that win games",
+      "drills": [
+        {
+          "id": "wall-passing",
+          "name": "Wall Passing",
+          "description": "Chest pass, bounce pass, overhead. Off wall at game speed.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 25
+        },
+        {
+          "id": "euro-step",
+          "name": "Euro Step Finish",
+          "description": "Gather, step left, step right (or reverse). Soft finish.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 10
+        },
+        {
+          "id": "reverse-layup",
+          "name": "Reverse Layup",
+          "description": "Attack baseline, reverse finish off glass. Both hands.",
+          "metric": "shooting",
+          "defaultAttempts": 15
+        },
+        {
+          "id": "post-moves",
+          "name": "Post Move Sequence",
+          "description": "Catch in post, up-fake, drop step, hook. Both sides.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 8
+        },
+        {
+          "id": "spin-move",
+          "name": "Spin Move to Layup",
+          "description": "Drive baseline, spin, protect ball, finish strong.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 10
+        },
+        {
+          "id": "shot-fake",
+          "name": "Shot Fake & Drive",
+          "description": "Catch, shot fake, one dribble pull-up or drive to basket.",
+          "metric": "reps",
+          "defaultSets": 3,
+          "defaultReps": 10
+        }
+      ]
+    }
+  ],
+  "sessionTemplates": [
+    {
+      "id": "shooting-day",
+      "name": "Shooting Day",
+      "icon": "🎯",
+      "description": "Pure shooting focus — free throws, 3s, mid-range",
+      "drillIds": ["free-throws", "corner-threes", "wing-threes", "mid-range", "pull-up-jumper", "mikan-drill"]
+    },
+    {
+      "id": "handles-day",
+      "name": "Handles Day",
+      "icon": "🏀",
+      "description": "Ball handling and footwork",
+      "drillIds": ["stationary-crossover", "two-ball-dribble", "figure-eight", "spider-dribble", "hesitation-dribble", "between-legs"]
+    },
+    {
+      "id": "conditioning-day",
+      "name": "Conditioning Day",
+      "icon": "🏃",
+      "description": "Build your engine — sprints, jumps, endurance",
+      "drillIds": ["jump-rope", "suicides", "box-jumps", "depth-jumps", "seventeens", "cone-hops"]
+    },
+    {
+      "id": "full-workout",
+      "name": "Full Workout",
+      "icon": "⚡",
+      "description": "Complete session covering all areas",
+      "drillIds": ["stationary-crossover", "free-throws", "defensive-slides", "corner-threes", "box-jumps", "wing-threes", "suicides", "pull-up-jumper"]
+    },
+    {
+      "id": "game-prep",
+      "name": "Game Prep",
+      "icon": "🏆",
+      "description": "Light activation before game day",
+      "drillIds": ["form-shooting", "free-throws", "hesitation-dribble", "jab-step", "mikan-drill", "closeout-drill"]
+    }
+  ]
+}

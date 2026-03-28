@@ -126,6 +126,20 @@ export const websiteTypes: WebsiteType[] = [
   },
 ];
 
+export const liveProjects = [
+  {
+    name: "APEX Performance Studio",
+    category: "Health, Wellness & Fitness",
+    tag: "Fitness Studio",
+    description: "Full multi-page fitness studio site — class schedules, trainer profiles, membership pricing, and free trial booking form.",
+    url: "https://apex-fitness-navy.vercel.app",
+    features: ["6 class types + full schedule", "Trainer profile pages", "3-tier membership pricing", "Free trial booking form"],
+    accentColor: "#C8FF00",
+    bgFrom: "#060B18",
+    bgTo: "#0A1535",
+  },
+];
+
 export const budgetOptions = [
   "Under $500",
   "$500 – $1,000",

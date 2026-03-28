@@ -74,30 +74,30 @@ export async function POST(request: Request) {
 
     // Send personalized confirmation to the lead
     await transporter.sendMail({
-      from: `"Brian @ byBrian Web Design" <${process.env.GMAIL_USER}>`,
+      from: `"Brian" <${process.env.GMAIL_USER}>`,
       to: email,
-      subject: `Got your quote request, ${firstName} — here's what's next`,
+      subject: `You're in good hands, ${firstName} — here's what's next`,
       text: [
-        `Hey ${firstName},`,
+        `Hey ${firstName}!`,
         "",
-        `Thanks for reaching out! I've received your quote request and I'm excited to learn more about your project.`,
+        `This is so exciting — I just received your quote request and I'm already looking forward to working on your project together.`,
         "",
-        "Here's a quick summary of what you submitted:",
+        "Here's a quick recap of what you submitted:",
         `  • Website type: ${websiteType || "Not specified"}`,
         `  • Budget: ${budget}`,
         `  • Target launch: ${launchDate || "Not specified"}`,
         "",
-        "What happens next:",
-        "  1. I'll review your request and reach out within 1–2 business days.",
-        "  2. We'll hop on a quick discovery call to align on goals and direction.",
-        "  3. I'll put together a tailored proposal and we get to work.",
+        "Here's what happens from here:",
+        "  1. I'll personally review your request and reach out within 1–2 business days.",
+        "  2. We'll have a quick discovery call to get aligned on your vision and goals.",
+        "  3. I'll craft a tailored proposal and we'll hit the ground running.",
         "",
-        "In the meantime, feel free to reply to this email if you have any questions.",
+        "You made a great decision reaching out — I can't wait to bring your vision to life.",
+        "",
+        "If anything comes to mind before then, just reply to this email. I'm always happy to chat.",
         "",
         "Talk soon,",
         "Brian",
-        "byBrian Web Design",
-        "builtbybwhirl.com",
       ].join("\n"),
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; color: #1A1A1A;">
@@ -105,9 +105,12 @@ export async function POST(request: Request) {
             <p style="margin: 0; color: white; font-size: 22px; font-weight: 800; letter-spacing: -0.5px;">byBrian <span style="color: rgba(255,255,255,0.6); font-weight: 400; font-size: 13px;">WEB DESIGN</span></p>
           </div>
           <div style="background: #ffffff; padding: 32px; border: 1px solid #E5E4DF; border-top: none; border-radius: 0 0 12px 12px;">
-            <p style="font-size: 16px; margin: 0 0 16px;">Hey ${firstName},</p>
+            <p style="font-size: 16px; margin: 0 0 16px;">Hey ${firstName}!</p>
+            <p style="font-size: 15px; color: #444; line-height: 1.6; margin: 0 0 8px;">
+              This is so exciting — I just received your quote request and I'm already looking forward to working on your project together.
+            </p>
             <p style="font-size: 15px; color: #444; line-height: 1.6; margin: 0 0 24px;">
-              Thanks for reaching out! I've received your quote request and I'm excited to learn more about your project.
+              Here's a quick recap of what you shared with me:
             </p>
 
             <div style="background: #F8F8F6; border-radius: 10px; padding: 20px 24px; margin-bottom: 28px;">
@@ -119,27 +122,26 @@ export async function POST(request: Request) {
               </table>
             </div>
 
-            <p style="margin: 0 0 12px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #AEACA6;">What Happens Next</p>
-            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px;">
+            <p style="margin: 0 0 12px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #AEACA6;">Here's What Happens Next</p>
+            <div style="margin-bottom: 28px;">
               ${[
-                ["📬", "I'll review your request and reach out within <strong>1–2 business days</strong>."],
-                ["📞", "We'll hop on a quick <strong>discovery call</strong> to align on goals and direction."],
-                ["⚡", "I'll put together a tailored <strong>proposal</strong> and we get to work."],
+                ["📬", "I'll <strong>personally review</strong> your request and reach out within 1–2 business days."],
+                ["📞", "We'll hop on a quick <strong>discovery call</strong> to get aligned on your vision and goals."],
+                ["⚡", "I'll craft a tailored <strong>proposal</strong> and we'll hit the ground running."],
               ].map(([icon, text]) => `
-                <div style="display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; background: #fff; border: 1px solid #E5E4DF; border-radius: 8px;">
-                  <span style="font-size: 18px; line-height: 1;">${icon}</span>
+                <div style="display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; background: #fff; border: 1px solid #E5E4DF; border-radius: 8px; margin-bottom: 8px;">
+                  <span style="font-size: 18px; line-height: 1.4;">${icon}</span>
                   <p style="margin: 0; font-size: 14px; color: #444; line-height: 1.5;">${text}</p>
                 </div>
               `).join("")}
             </div>
 
-            <p style="font-size: 14px; color: #737373; margin: 0 0 24px;">
-              In the meantime, feel free to reply to this email if you have any questions.
+            <p style="font-size: 15px; color: #444; line-height: 1.6; margin: 0 0 24px;">
+              You made a great decision reaching out — I can't wait to bring your vision to life. If anything comes to mind before then, just reply to this email. I'm always happy to chat.
             </p>
 
             <p style="font-size: 15px; margin: 0;">Talk soon,<br/>
-            <strong>Brian</strong><br/>
-            <span style="color: #737373; font-size: 13px;">byBrian Web Design &mdash; builtbybwhirl.com</span></p>
+            <strong>Brian</strong></p>
           </div>
         </div>
       `,

@@ -116,7 +116,7 @@ export default function Hero() {
         {/* Pill badge */}
         <div className={`inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.08] rounded-full px-3 sm:px-4 py-1.5 mb-6 sm:mb-8 transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
           <span className="w-1.5 h-1.5 rounded-full bg-[#60A5FA] animate-pulse" />
-          <span className="text-white/50 text-[11px] sm:text-[12px] tracking-wide font-medium">Available for new projects — 2026</span>
+          <span className="text-white/50 text-[11px] sm:text-[12px] tracking-wide font-medium">Taking 4 new projects in April — spots limited</span>
         </div>
 
         {/* Headline with rotating word */}
@@ -139,11 +139,11 @@ export default function Hero() {
         </h1>
 
         <p className={`text-white/45 text-[15px] sm:text-[17px] leading-relaxed max-w-sm sm:max-w-lg mb-8 sm:mb-10 transition-opacity duration-700 delay-200 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
-          I design and build beautiful websites that turn visitors into customers — from brochure sites to full e-commerce stores.
+          I design and build websites that turn visitors into paying customers — fast.
         </p>
 
         {/* CTAs */}
-        <div className={`flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mb-8 sm:mb-10 transition-opacity duration-700 delay-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mb-3 sm:mb-4 transition-opacity duration-700 delay-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
           <a href="/contact" className="group inline-flex items-center justify-center gap-2 bg-[#2563EB] text-white font-semibold px-6 sm:px-7 py-3.5 sm:py-4 rounded-full hover:bg-[#1D4ED8] transition-all text-[14px] sm:text-[15px] hover:scale-[1.03] active:scale-[0.97]">
             Get a free quote
             <svg className="group-hover:translate-x-1 transition-transform" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -151,9 +151,14 @@ export default function Hero() {
             </svg>
           </a>
           <a href="/work" className="inline-flex items-center justify-center gap-2 text-white/60 font-semibold px-6 sm:px-7 py-3.5 sm:py-4 rounded-full border border-white/10 hover:border-white/30 hover:text-white transition-all text-[14px] sm:text-[15px] hover:scale-[1.03] active:scale-[0.97]">
-            See examples I&apos;ve built
+            See what I build →
           </a>
         </div>
+
+        {/* Price anchor */}
+        <p className={`text-white/30 text-[12px] mb-7 sm:mb-9 transition-opacity duration-700 delay-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
+          Projects from <span className="text-white/50 font-semibold">$500</span> · Free quote · No commitment
+        </p>
 
         {/* Website type pills — 2 rows of 5, full width */}
         <div className={`grid grid-cols-2 sm:grid-cols-5 gap-2 mb-8 sm:mb-12 transition-opacity duration-700 delay-400 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
@@ -183,8 +188,8 @@ export default function Hero() {
         <div className={`flex flex-wrap justify-center gap-8 sm:gap-12 pt-6 sm:pt-8 border-t border-white/[0.08] transition-all duration-700 delay-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
           {[
             { target: 72, suffix: 'hr', label: 'First Draft' },
-            { target: 100, suffix: '%', label: 'Satisfaction' },
-            { target: 3, suffix: '×', label: 'Lead Increase' },
+            { target: 100, suffix: '%', label: 'Client Satisfaction' },
+            { target: 5, suffix: '.0★', label: 'Avg. Rating' },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
               <p className="text-[28px] sm:text-[36px] font-black text-white leading-none tabular-nums">

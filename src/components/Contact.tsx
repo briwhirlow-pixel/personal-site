@@ -52,12 +52,18 @@ const faqs = [
 
 export default function Contact() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [formStep, setFormStep] = useState<1 | 2>(1);
   const [launchOption, setLaunchOption] = useState<string>("");
   const [customDate, setCustomDate] = useState("");
   const [websiteTypeValue, setWebsiteTypeValue] = useState("");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormData>();
+  const { register, handleSubmit, reset, setValue, trigger, formState: { errors } } = useForm<FormData>();
+
+  const goToStep2 = async () => {
+    const valid = await trigger(["name", "email", "message"]);
+    if (valid) setFormStep(2);
+  };
 
   const selectLaunch = (option: string) => {
     setLaunchOption(option);
@@ -83,6 +89,7 @@ export default function Contact() {
       setLaunchOption("");
       setCustomDate("");
       setWebsiteTypeValue("");
+      setFormStep(1);
     } catch {
       setStatus("error");
     }
@@ -128,7 +135,7 @@ export default function Contact() {
 
             {/* Strong opening copy */}
             <p className="text-[#737373] text-[15px] leading-relaxed mb-8">
-              Whether you&apos;re starting from scratch, replacing a site that isn&apos;t working, or ready to sell online — I build websites that are fast, beautiful, and built to convert. No templates. No fluff. Just a site that works as hard as you do.
+              Tell me what you need. I&apos;ll send a custom quote within 24 hours — no commitment, no fluff.
             </p>
 
             {/* Contact options */}
@@ -177,10 +184,9 @@ export default function Contact() {
                 <div className="space-y-1">
                   {[
                     { icon: "✍️", title: "Fill Out This Form", time: "2 min", desc: "Tell me what you need, your timeline, and budget.", active: true },
-                    { icon: "📬", title: "I Review & Respond", time: "Within 24 hrs", desc: "I send a personalized reply and we schedule a call.", active: false },
-                    { icon: "📞", title: "30-Min Discovery Call", time: "Free", desc: "We align on goals, design direction, and scope.", active: false },
+                    { icon: "📞", title: "Free 30-Min Discovery Call", time: "Free", desc: "We align on goals, design direction, and scope — I answer everything.", active: false },
                     { icon: "⚡", title: "I Build Your Site", time: "2–4 weeks", desc: "Regular check-ins so you always know where things stand.", active: false },
-                    { icon: "🚀", title: "Launch Day", time: "You go live", desc: "Your site is live. You own everything. You grow.", active: false },
+                    { icon: "🚀", title: "Launch Your Way", time: "You go live", desc: "Take your files and host anywhere — or let me manage hosting for $49/mo. Either way, you own it.", active: false },
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-4 group relative">
                       <div className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-[15px] border-2 transition-all duration-300 ${
@@ -272,130 +278,162 @@ export default function Contact() {
             ) : (
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
-                {/* Name + Email row */}
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Your Name</label>
-                    <input type="text" placeholder="Jane Smith" className={inputClass(!!errors.name)}
-                      {...register("name", { required: "Name is required" })} />
-                    {errors.name && <p className="text-red-500 text-[12px] mt-1">{errors.name.message}</p>}
-                  </div>
-                  <div>
-                    <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Email Address</label>
-                    <input type="email" placeholder="jane@example.com" className={inputClass(!!errors.email)}
-                      {...register("email", { required: "Email is required", pattern: { value: /^\S+@\S+$/i, message: "Invalid email" } })} />
-                    {errors.email && <p className="text-red-500 text-[12px] mt-1">{errors.email.message}</p>}
-                  </div>
+                {/* Step indicator */}
+                <div className="flex items-center gap-2 mb-1">
+                  {[1, 2].map((s) => (
+                    <div key={s} className="flex items-center gap-2">
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-black transition-all ${formStep >= s ? "bg-[#2563EB] text-white" : "bg-[#E5E4DF] text-[#AEACA6]"}`}>{s}</div>
+                      {s < 2 && <div className={`h-px w-8 transition-all ${formStep >= 2 ? "bg-[#2563EB]" : "bg-[#E5E4DF]"}`} />}
+                    </div>
+                  ))}
+                  <span className="text-[11px] text-[#AEACA6] ml-1">{formStep === 1 ? "The basics" : "A few more details"}</span>
                 </div>
 
-                {/* Type of Website */}
-                <div>
-                  <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Type of Website</label>
-                  <select
-                    className={inputClass(!!errors.websiteType)}
-                    {...register("websiteType", { required: "Please select a website type" })}
-                    onChange={(e) => setWebsiteTypeValue(e.target.value)}
-                  >
-                    <option value="">Select a type…</option>
-                    <option value="Business / Brochure Site">Business / Brochure Site</option>
-                    <option value="E-Commerce Store">E-Commerce Store</option>
-                    <option value="Portfolio / Personal Brand">Portfolio / Personal Brand</option>
-                    <option value="Restaurant / Food & Beverage">Restaurant / Food & Beverage</option>
-                    <option value="Real Estate">Real Estate</option>
-                    <option value="Health, Wellness & Fitness">Health, Wellness & Fitness</option>
-                    <option value="Blog / Content Site">Blog / Content Site</option>
-                    <option value="Landing Page">Landing Page</option>
-                    <option value="Non-Profit / Community">Non-Profit / Community</option>
-                    <option value="custom">Other — I&apos;ll describe it below</option>
-                  </select>
-                  {errors.websiteType && <p className="text-red-500 text-[12px] mt-1">{errors.websiteType.message}</p>}
-                  {websiteTypeValue === "custom" && (
-                    <input type="text" placeholder="Describe your website type…"
-                      className={`${inputClass(!!errors.websiteTypeCustom)} mt-2`}
-                      {...register("websiteTypeCustom", {
-                        validate: (val) => websiteTypeValue !== "custom" || !!val || "Please describe your website type",
-                      })} />
-                  )}
-                  {errors.websiteTypeCustom && <p className="text-red-500 text-[12px] mt-1">{errors.websiteTypeCustom.message}</p>}
-                </div>
+                {/* ── Step 1 ── */}
+                {formStep === 1 && (
+                  <>
+                    {/* Name + Email row */}
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Your Name</label>
+                        <input type="text" placeholder="Jane Smith" className={inputClass(!!errors.name)}
+                          {...register("name", { required: "Name is required" })} />
+                        {errors.name && <p className="text-red-500 text-[12px] mt-1">{errors.name.message}</p>}
+                      </div>
+                      <div>
+                        <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Email Address</label>
+                        <input type="email" placeholder="jane@example.com" className={inputClass(!!errors.email)}
+                          {...register("email", { required: "Email is required", pattern: { value: /^\S+@\S+$/i, message: "Invalid email" } })} />
+                        {errors.email && <p className="text-red-500 text-[12px] mt-1">{errors.email.message}</p>}
+                      </div>
+                    </div>
 
-                {/* Budget */}
-                <div>
-                  <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Budget Range</label>
-                  <select className={inputClass(!!errors.budget)} {...register("budget", { required: "Please select a budget" })}>
-                    <option value="">Select a range…</option>
-                    {budgetOptions.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
-                  </select>
-                  {errors.budget && <p className="text-red-500 text-[12px] mt-1">{errors.budget.message}</p>}
-                </div>
+                    {/* Message */}
+                    <div>
+                      <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Tell Me About Your Project</label>
+                      <textarea rows={5} placeholder="What do you need built? What's the goal? Any details help."
+                        className={`w-full bg-white border ${errors.message ? "border-red-400" : "border-[#E5E4DF]"} rounded-xl px-4 py-3.5 text-[14px] text-[#1A1A1A] placeholder-[#CECCC6] focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition resize-none`}
+                        {...register("message", { required: "Please describe your project" })} />
+                      {errors.message && <p className="text-red-500 text-[12px] mt-1">{errors.message.message}</p>}
+                    </div>
 
-                {/* Launch Date */}
-                <div>
-                  <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-3">Expected Launch Date</label>
-                  <input type="hidden" {...register("launchDate")} />
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
-                    {[
-                      { label: "2 Weeks", value: "2weeks" },
-                      { label: "1 Month", value: "1month" },
-                      { label: "3 Months", value: "3months" },
-                      { label: "Custom", value: "custom" },
-                    ].map((opt) => (
-                      <button key={opt.value} type="button" onClick={() => selectLaunch(opt.value)}
-                        className={`py-2.5 px-3 rounded-xl border text-left transition-all ${
-                          launchOption === opt.value
-                            ? "border-[#2563EB] bg-[#EFF6FF] text-[#2563EB]"
-                            : "border-[#E5E4DF] text-[#737373] hover:border-[#2563EB]/40 bg-white"
-                        }`}>
-                        <span className="block text-[12px] sm:text-[13px] font-semibold">{opt.label}</span>
-                        {launchOption === opt.value && opt.value !== "custom" && (
-                          <span className="block text-[10px] mt-0.5 opacity-70">{getDateFromOption(opt.value)}</span>
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                  {launchOption === "custom" && (
-                    <input type="date" value={customDate}
-                      onChange={(e) => { setCustomDate(e.target.value); setValue("launchDate", e.target.value); }}
-                      className={inputClass()} min={new Date().toISOString().split("T")[0]} />
-                  )}
-                </div>
-
-                {/* Message */}
-                <div>
-                  <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Tell Me About Your Project</label>
-                  <textarea rows={4} placeholder="What do you need built? What's the goal? Any details help."
-                    className={`w-full bg-white border ${errors.message ? "border-red-400" : "border-[#E5E4DF]"} rounded-xl px-4 py-3.5 text-[14px] text-[#1A1A1A] placeholder-[#CECCC6] focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition resize-none`}
-                    {...register("message", { required: "Please describe your project" })} />
-                  {errors.message && <p className="text-red-500 text-[12px] mt-1">{errors.message.message}</p>}
-                </div>
-
-                {/* Mini testimonial */}
-                <div className="bg-[#F2F1EC] border border-[#E5E4DF] rounded-xl p-4 flex gap-3 items-start">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#1E3A8A] to-[#2563EB] flex items-center justify-center flex-shrink-0">
-                    <span className="text-white text-[10px] font-black">PS</span>
-                  </div>
-                  <div>
-                    <p className="text-[12px] text-[#555555] leading-relaxed italic">&ldquo;He designed every page from scratch, handled our SEO setup, and we started showing up in Google searches we never ranked for before. Super professional.&rdquo;</p>
-                    <p className="text-[11px] font-bold text-[#1A1A1A] mt-1.5">Priya S. — E-Commerce Client</p>
-                  </div>
-                </div>
-
-                {status === "error" && (
-                  <p className="text-red-500 text-[13px]">
-                    Something went wrong. Email me directly at{" "}
-                    <a href={`mailto:${siteConfig.email}`} className="underline">{siteConfig.email}</a>.
-                  </p>
+                    <button type="button" onClick={goToStep2}
+                      className="w-full bg-[#2563EB] text-white font-bold py-4 px-6 rounded-xl hover:bg-[#1D4ED8] transition-all text-[15px] tracking-wide hover:scale-[1.01] active:scale-[0.99]">
+                      Next — Choose Your Budget →
+                    </button>
+                    <p className="text-center text-[12px] text-[#AEACA6] -mt-2">Free quote · No commitment</p>
+                  </>
                 )}
 
-                <div>
-                  <button type="submit" disabled={status === "loading"}
-                    className="w-full bg-[#2563EB] text-white font-bold py-4 px-6 rounded-xl hover:bg-[#1D4ED8] disabled:opacity-50 disabled:cursor-not-allowed transition-all text-[15px] tracking-wide hover:scale-[1.01] active:scale-[0.99]">
-                    {status === "loading" ? "Sending…" : "Get My Free Quote →"}
-                  </button>
-                  <p className="text-center text-[12px] text-[#AEACA6] mt-2.5">
-                    No commitment. I&apos;ll respond within 24 hours.
-                  </p>
-                </div>
+                {/* ── Step 2 ── */}
+                {formStep === 2 && (
+                  <>
+                    {/* Type of Website */}
+                    <div>
+                      <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Type of Website</label>
+                      <select
+                        className={inputClass(!!errors.websiteType)}
+                        {...register("websiteType", { required: "Please select a website type" })}
+                        onChange={(e) => setWebsiteTypeValue(e.target.value)}
+                      >
+                        <option value="">Select a type…</option>
+                        <option value="Business / Brochure Site">Business / Brochure Site</option>
+                        <option value="E-Commerce Store">E-Commerce Store</option>
+                        <option value="Portfolio / Personal Brand">Portfolio / Personal Brand</option>
+                        <option value="Restaurant / Food & Beverage">Restaurant / Food & Beverage</option>
+                        <option value="Real Estate">Real Estate</option>
+                        <option value="Health, Wellness & Fitness">Health, Wellness & Fitness</option>
+                        <option value="Blog / Content Site">Blog / Content Site</option>
+                        <option value="Landing Page">Landing Page</option>
+                        <option value="Non-Profit / Community">Non-Profit / Community</option>
+                        <option value="custom">Other — I&apos;ll describe it below</option>
+                      </select>
+                      {errors.websiteType && <p className="text-red-500 text-[12px] mt-1">{errors.websiteType.message}</p>}
+                      {websiteTypeValue === "custom" && (
+                        <input type="text" placeholder="Describe your website type…"
+                          className={`${inputClass(!!errors.websiteTypeCustom)} mt-2`}
+                          {...register("websiteTypeCustom", {
+                            validate: (val) => websiteTypeValue !== "custom" || !!val || "Please describe your website type",
+                          })} />
+                      )}
+                      {errors.websiteTypeCustom && <p className="text-red-500 text-[12px] mt-1">{errors.websiteTypeCustom.message}</p>}
+                    </div>
+
+                    {/* Budget */}
+                    <div>
+                      <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Budget Range</label>
+                      <select className={inputClass(!!errors.budget)} {...register("budget", { required: "Please select a budget" })}>
+                        <option value="">Select a range…</option>
+                        {budgetOptions.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
+                      </select>
+                      {errors.budget && <p className="text-red-500 text-[12px] mt-1">{errors.budget.message}</p>}
+                    </div>
+
+                    {/* Launch Date */}
+                    <div>
+                      <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-3">Expected Launch Date</label>
+                      <input type="hidden" {...register("launchDate")} />
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+                        {[
+                          { label: "2 Weeks", value: "2weeks" },
+                          { label: "1 Month", value: "1month" },
+                          { label: "3 Months", value: "3months" },
+                          { label: "Custom", value: "custom" },
+                        ].map((opt) => (
+                          <button key={opt.value} type="button" onClick={() => selectLaunch(opt.value)}
+                            className={`py-2.5 px-3 rounded-xl border text-left transition-all ${
+                              launchOption === opt.value
+                                ? "border-[#2563EB] bg-[#EFF6FF] text-[#2563EB]"
+                                : "border-[#E5E4DF] text-[#737373] hover:border-[#2563EB]/40 bg-white"
+                            }`}>
+                            <span className="block text-[12px] sm:text-[13px] font-semibold">{opt.label}</span>
+                            {launchOption === opt.value && opt.value !== "custom" && (
+                              <span className="block text-[10px] mt-0.5 opacity-70">{getDateFromOption(opt.value)}</span>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                      {launchOption === "custom" && (
+                        <input type="date" value={customDate}
+                          onChange={(e) => { setCustomDate(e.target.value); setValue("launchDate", e.target.value); }}
+                          className={inputClass()} min={new Date().toISOString().split("T")[0]} />
+                      )}
+                    </div>
+
+                    {/* Mini testimonial */}
+                    <div className="bg-[#F2F1EC] border border-[#E5E4DF] rounded-xl p-4 flex gap-3 items-start">
+                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#1E3A8A] to-[#2563EB] flex items-center justify-center flex-shrink-0">
+                        <span className="text-white text-[10px] font-black">PS</span>
+                      </div>
+                      <div>
+                        <p className="text-[12px] text-[#555555] leading-relaxed italic">&ldquo;He designed every page from scratch, handled our SEO setup, and we started showing up in Google searches we never ranked for before. Super professional.&rdquo;</p>
+                        <p className="text-[11px] font-bold text-[#1A1A1A] mt-1.5">Priya S. — E-Commerce Client</p>
+                      </div>
+                    </div>
+
+                    {status === "error" && (
+                      <p className="text-red-500 text-[13px]">
+                        Something went wrong. Email me directly at{" "}
+                        <a href={`mailto:${siteConfig.email}`} className="underline">{siteConfig.email}</a>.
+                      </p>
+                    )}
+
+                    <div>
+                      <button type="submit" disabled={status === "loading"}
+                        className="w-full bg-[#2563EB] text-white font-bold py-4 px-6 rounded-xl hover:bg-[#1D4ED8] disabled:opacity-50 disabled:cursor-not-allowed transition-all text-[15px] tracking-wide hover:scale-[1.01] active:scale-[0.99]">
+                        {status === "loading" ? "Sending…" : "Get My Free Quote →"}
+                      </button>
+                      <p className="text-center text-[12px] text-[#AEACA6] mt-2.5">
+                        No commitment. I&apos;ll respond within 24 hours.
+                      </p>
+                    </div>
+
+                    <button type="button" onClick={() => setFormStep(1)}
+                      className="w-full text-center text-[12px] text-[#AEACA6] hover:text-[#737373] transition">
+                      ← Back
+                    </button>
+                  </>
+                )}
 
               </form>
             )}

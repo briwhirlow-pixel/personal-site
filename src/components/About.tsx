@@ -41,8 +41,8 @@ export default function About() {
                   {[
                     { value: "72hr", label: "First Draft" },
                     { value: "5+", label: "Years Exp." },
-                    { value: "100%", label: "Satisfaction" },
-                    { value: "3×", label: "Traffic" },
+                    { value: "100%", label: "Client Satisfaction" },
+                    { value: "5.0★", label: "Avg. Rating" },
                   ].map((badge) => (
                     <div key={badge.label} className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 text-center">
                       <p className="text-white font-black text-base sm:text-xl leading-none">{badge.value}</p>
@@ -67,10 +67,10 @@ export default function About() {
 
             <div className="space-y-4 text-[#555555] text-[15px] leading-relaxed mb-8">
               <p>
-                Hey — I&apos;m Brian. I&apos;m a freelance web designer and developer with over 5 years of experience helping businesses of all sizes build their online presence.
+                I build websites that get businesses more customers. I&apos;ve worked with restaurants, e-commerce brands, photographers, and service businesses — turning slow, outdated sites into their <span className="text-[#1A1A1A] font-semibold">best-performing sales tool</span>.
               </p>
               <p>
-                I started out as a self-taught developer and grew into design, realizing that the best websites aren&apos;t just technically solid — they&apos;re also <span className="text-[#1A1A1A] font-semibold">visually compelling and strategically built to convert</span>. That combination is what I bring to every project. I&apos;m constantly staying on top of the latest in design and tech so your site is always built with modern best practices.
+                I started out self-taught and grew into design, realizing that the best websites aren&apos;t just technically solid — they&apos;re strategically built to convert. Every project I take on gets my full attention, from the first wireframe to launch day.
               </p>
             </div>
 

@@ -101,7 +101,7 @@ export default function Services() {
               <span className="font-bold text-[#1A1A1A]">Larger projects:</span> ⅓ / ⅓ / ⅓ milestone splits available
             </p>
             <span className="hidden sm:block w-px h-4 bg-[#E5E4DF]" />
-            <p className="text-[#737373] text-[13px]">No work begins without a deposit.</p>
+            <p className="text-[#737373] text-[13px]">Your project slot is secured with a 50% deposit.</p>
           </div>
         </Reveal>
 
@@ -136,7 +136,7 @@ export default function Services() {
                     <span className="text-[10px] font-bold bg-[#2563EB] text-white px-2 py-0.5 rounded-full">$49/mo</span>
                   </div>
                   <p className="text-[#737373] text-[13px] leading-relaxed mb-3">
-                    We handle hosting, SSL, uptime, and deployments. Includes 1 hour of free edits every month. Pay yearly and get 2 months free.
+                    I handle hosting, SSL, uptime, and deployments. Includes 1 hour of free edits every month. Pay yearly and get 2 months free.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {["Hosting + SSL", "1hr edits/mo", "$490/yr saves $98"].map(tag => (

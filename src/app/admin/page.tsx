@@ -1492,11 +1492,11 @@ function Playbook() {
       {/* Revenue model */}
       <div className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl p-6">
         <p className="text-white/30 text-[11px] uppercase tracking-widest font-semibold mb-5">Revenue Model</p>
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-3 gap-4 mb-6">
           {[
             { icon: "🔨", label: "Project Fee", desc: "One-time payment for building the site. 50% upfront, 50% on delivery. Ranges from $500 (landing page) to $5,000+ (custom app).", color: "#60A5FA" },
-            { icon: "🌐", label: "Managed Hosting", desc: "$49/month or $490/year (2 months free). Covers hosting, SSL, uptime monitoring, and 1 hour of edits per month.", color: "#34D399" },
-            { icon: "⚡", label: "Ad-hoc Edits", desc: "Any work beyond the 1hr monthly inclusion is billed at your hourly rate. Small jobs, copy changes, new pages, integrations.", color: "#FBBF24" },
+            { icon: "🌐", label: "Monthly Care Plan", desc: "Recurring revenue from hosting + maintenance. Three tiers: $49 / $99 / $149 per month. Your passive income stream — every client is a candidate.", color: "#34D399" },
+            { icon: "⚡", label: "Ad-hoc Edits", desc: "Work beyond the monthly inclusion billed at your hourly rate. New pages, integrations, redesigns — anything outside the plan scope.", color: "#FBBF24" },
           ].map(r => (
             <div key={r.label} className="bg-black/20 rounded-xl p-5">
               <div className="text-2xl mb-3">{r.icon}</div>
@@ -1504,6 +1504,54 @@ function Playbook() {
               <p className="text-white/40 text-[12px] leading-relaxed">{r.desc}</p>
             </div>
           ))}
+        </div>
+        {/* Care plan tier breakdown */}
+        <div>
+          <p className="text-white/30 text-[11px] uppercase tracking-widest font-semibold mb-3">Care Plan Tiers</p>
+          <div className="grid md:grid-cols-3 gap-3">
+            {[
+              {
+                name: "Basic — $49/mo", badge: null,
+                includes: ["Hosting on Vercel (free tier)", "SSL certificate (auto)", "Uptime monitoring", "Daily GitHub backups", "Annual domain renewal pass-through"],
+                yourCost: "$0/mo", yourTime: "~0 hrs",
+                deliver: "Deploy site to Vercel, connect domain. GitHub = backup. Fully passive.",
+              },
+              {
+                name: "Starter — $99/mo", badge: "Most sold",
+                includes: ["Everything in Basic", "Up to 1 hr of edits/month", "Priority email support", "Same-day deployment of changes", "Change log sent to client monthly"],
+                yourCost: "$0/mo", yourTime: "~1 hr",
+                deliver: "Use Claude to make code changes in minutes. Push via GitHub → auto-deploys to Vercel. Track time, bill overages at hourly rate.",
+              },
+              {
+                name: "Growth — $149/mo", badge: "Best margin",
+                includes: ["Everything in Starter", "Up to 2 hrs of edits/month", "Monthly SEO performance report", "Google Search Console setup", "Core Web Vitals monitoring"],
+                yourCost: "$0/mo", yourTime: "~2 hrs",
+                deliver: "Pull data from Google Search Console + Vercel Analytics → paste into Claude → Claude generates a clean branded report. ~20 min per client.",
+              },
+            ].map(t => (
+              <div key={t.name} className="bg-black/30 rounded-xl p-4 border border-white/[0.06]">
+                <div className="flex items-center gap-2 mb-3">
+                  <p className="text-white font-black text-[13px]">{t.name}</p>
+                  {t.badge && <span className="text-[10px] font-bold bg-[#34D399]/20 text-[#34D399] px-2 py-0.5 rounded-full">{t.badge}</span>}
+                </div>
+                <ul className="space-y-1 mb-3">
+                  {t.includes.map(i => (
+                    <li key={i} className="text-white/45 text-[11px] flex items-start gap-1.5">
+                      <span className="text-[#34D399] flex-shrink-0 mt-0.5">✓</span>{i}
+                    </li>
+                  ))}
+                </ul>
+                <div className="border-t border-white/[0.06] pt-3 space-y-1.5">
+                  <p className="text-[10px] text-white/25 uppercase tracking-widest font-semibold">How to deliver</p>
+                  <p className="text-white/40 text-[11px] leading-relaxed">{t.deliver}</p>
+                  <div className="flex gap-3 pt-1">
+                    <span className="text-[10px] font-bold text-emerald-400">Cost to you: {t.yourCost}</span>
+                    <span className="text-[10px] font-bold text-blue-400">Time: {t.yourTime}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -2925,8 +2973,8 @@ function Marketing() {
           heading: "Bundling — increases average deal size",
           items: [
             "Website + logo design bundle: add $200–$400, feels like a deal to the client",
-            "Website + 3 months of SEO at $49/mo — your first recurring revenue",
-            "Website + hosting management: pitch the $49/mo hosting plan at every single project",
+            "Website + 3 months of Growth Care at $149/mo — fast-tracks recurring revenue and gives client real SEO value",
+            "Website + care plan: pitch the $99/mo Starter plan at every single project — most clients say yes when it's bundled at close",
             "\"Launch Package\" (site + logo + Google Business setup + social headers): charge $1,500+ for what takes you 2 extra hours",
           ],
         },
@@ -3048,6 +3096,57 @@ function Marketing() {
             "Build a weekly content schedule you can actually maintain going forward",
             "Document what's working in outreach — double down on it",
             "End-of-month goal: 1 paying client, 200+ Instagram followers, 50+ Google Maps profile views",
+          ],
+        },
+      ],
+    },
+    {
+      title: "🛠️ How to Deliver Each Care Plan (With Your Tools)",
+      color: "#34D399",
+      bg: "rgba(52,211,153,0.06)",
+      border: "rgba(52,211,153,0.15)",
+      content: [
+        {
+          heading: "Basic — $49/mo (fully passive, $0 cost)",
+          items: [
+            "Vercel: deploy the site once, connect the client's domain — SSL is automatic, deploys run on git push",
+            "GitHub: every commit is a versioned backup — no separate backup tool needed",
+            "Uptime: Vercel's free tier shows uptime and alerts. Zero config required.",
+            "Domain: client buys their own, or you buy it at cost + $10/yr markup — either is fine",
+            "Your monthly effort: literally 0 hours unless something breaks. Pure margin.",
+          ],
+        },
+        {
+          heading: "Starter — $99/mo (1 hr edits, Claude does the work)",
+          items: [
+            "Client emails or texts a request (text change, new image, new section) — you handle it within 48hrs",
+            "Open the project in Claude Code, describe the change — Claude writes the code in minutes",
+            "Push to GitHub → Vercel auto-deploys in ~30 seconds. Done.",
+            "Track time per client. 1 hr is the included limit — anything extra is billed at your hourly rate",
+            "Monthly: send a 3-line email: 'Here's what changed this month. Let me know if you need anything.' Clients love the communication.",
+            "Real math: $99 × 10 clients = $990/mo passive. At avg 30 min/client that's $198/hr effective rate.",
+          ],
+        },
+        {
+          heading: "Growth — $149/mo (SEO report = the reason clients stay)",
+          items: [
+            "Step 1: Set up Google Search Console on the client's site (free, 10 min one-time setup) — gives you keywords, impressions, clicks, ranking positions",
+            "Step 2: Enable Vercel Analytics (free tier) — Core Web Vitals, page views, top pages",
+            "Step 3: Each month, export/screenshot the GSC data + Vercel performance numbers",
+            "Step 4: Paste into Claude with: 'Generate a professional monthly SEO report for [Client Name] based on this data' — Claude produces a clean, readable report in 60 seconds",
+            "Step 5: Send the report as a PDF or Google Doc. Clients see real numbers and feel like they have an agency, not a freelancer.",
+            "Supabase: optional — store month-over-month metrics in a simple table so you can show trend data over time. Impressive at the 3-month mark.",
+            "Real math: $149 × 10 clients = $1,490/mo. At ~2 hrs/client that's $74/hr — but the perceived value is $300/hr+ to the client.",
+          ],
+        },
+        {
+          heading: "Upsell playbook — turning one-time builds into recurring revenue",
+          items: [
+            "At project kickoff: mention the care plan as part of your onboarding — 'After launch, I offer three support plans. Most clients go with the $99 Starter.'",
+            "At launch: pitch the plan at peak client happiness — the moment the site goes live, they're most likely to say yes",
+            "Frame it as protection: 'For $99/month I make sure the site stays fast, secure, and updated — without you having to think about it'",
+            "Annual option: offer $990/yr for Starter ($99 × 10 = they save 2 months). $1,490/yr for Growth. Upfront cash = better for your cash flow.",
+            "Goal: every project should end with a signed care plan. 10 clients at $99 = $990/mo recurring before you land client 11.",
           ],
         },
       ],

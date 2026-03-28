@@ -130,17 +130,29 @@ export default function Services() {
               {/* Managed Hosting */}
               <div className="p-6 flex gap-4 items-start">
                 <div className="w-10 h-10 rounded-xl bg-[#2563EB]/10 flex items-center justify-center flex-shrink-0 text-lg">🌐</div>
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <p className="font-black text-[#1A1A1A] text-[15px]">Managed hosting</p>
-                    <span className="text-[10px] font-bold bg-[#2563EB] text-white px-2 py-0.5 rounded-full">$49/mo</span>
-                  </div>
-                  <p className="text-[#737373] text-[13px] leading-relaxed mb-3">
-                    I handle hosting, SSL, uptime, and deployments. Includes 1 hour of free edits every month. Pay yearly and get 2 months free.
+                <div className="flex-1 min-w-0">
+                  <p className="font-black text-[#1A1A1A] text-[15px] mb-1">Managed care plans</p>
+                  <p className="text-[#737373] text-[13px] leading-relaxed mb-4">
+                    I handle hosting, SSL, and deployments. Pick the plan that fits — cancel anytime, pay yearly and save 2 months.
                   </p>
-                  <div className="flex flex-wrap gap-2">
-                    {["Hosting + SSL", "1hr edits/mo", "$490/yr saves $98"].map(tag => (
-                      <span key={tag} className="text-[11px] font-semibold bg-[#2563EB]/8 text-[#2563EB] px-2.5 py-1 rounded-full">{tag}</span>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { name: "Basic", price: "$49/mo", features: ["Hosting + SSL", "Uptime monitoring", "Daily backups"] },
+                      { name: "Starter", price: "$99/mo", features: ["Everything in Basic", "1 hr edits/month", "Priority support"], highlighted: true },
+                      { name: "Growth", price: "$149/mo", features: ["Everything in Starter", "2 hrs edits/month", "Monthly SEO report"] },
+                    ].map((plan) => (
+                      <div key={plan.name} className={`rounded-xl p-3 border ${plan.highlighted ? 'border-[#2563EB]/40 bg-[#2563EB]/5' : 'border-[#E5E4DF] bg-[#F9F9F7]'}`}>
+                        <p className="text-[10px] font-bold text-[#737373] uppercase tracking-wide mb-0.5">{plan.name}</p>
+                        <p className="text-[14px] font-black text-[#2563EB] mb-2">{plan.price}</p>
+                        <ul className="space-y-1">
+                          {plan.features.map(f => (
+                            <li key={f} className="text-[10px] text-[#737373] flex items-start gap-1 leading-snug">
+                              <span className="text-[#2563EB] flex-shrink-0">✓</span>
+                              {f}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     ))}
                   </div>
                 </div>

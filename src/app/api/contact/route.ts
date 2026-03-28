@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import { z } from "zod";
 import { getSupabaseAdmin } from "@/lib/supabase";
 
@@ -40,21 +40,14 @@ export async function POST(request: Request) {
       console.error("Supabase insert error:", dbError);
     }
 
-    // Send email notification
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD,
-      },
-    });
-
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const fromDomain = process.env.RESEND_FROM_DOMAIN || "builtbybwhirl.com";
     const firstName = name.split(" ")[0];
 
     // Notify Brian
-    await transporter.sendMail({
-      from: `"byBrian Contact Form" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER,
+    await resend.emails.send({
+      from: `byBrian Contact Form <noreply@${fromDomain}>`,
+      to: process.env.CONTACT_TO_EMAIL!,
       replyTo: email,
       subject: `New lead: ${name} — ${websiteType || budget}`,
       text: [
@@ -73,9 +66,10 @@ export async function POST(request: Request) {
     });
 
     // Send personalized confirmation to the lead
-    await transporter.sendMail({
-      from: `"Brian" <${process.env.GMAIL_USER}>`,
+    await resend.emails.send({
+      from: `Brian <brian@${fromDomain}>`,
       to: email,
+      replyTo: `brian@${fromDomain}`,
       subject: `You're in good hands, ${firstName} — here's what's next`,
       text: [
         `Hey ${firstName}!`,

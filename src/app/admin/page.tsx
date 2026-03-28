@@ -716,7 +716,7 @@ export default function AdminPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [tab, setTab] = useState<"pipeline" | "projects" | "playbook" | "budget" | "expenses" | "templates" | "discovery" | "calendar">("pipeline");
+  const [tab, setTab] = useState<"pipeline" | "projects" | "playbook" | "budget" | "expenses" | "templates" | "discovery" | "calendar" | "marketing">("pipeline");
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [showNewProject, setShowNewProject] = useState(false);
   const [newProjectLead, setNewProjectLead] = useState<Lead | null>(null);
@@ -826,12 +826,12 @@ export default function AdminPage() {
 
         {/* Tabs */}
         <div className="flex flex-wrap gap-1 mb-6 bg-[#1A1D27] rounded-xl p-1 w-fit border border-[#2A2D3A]">
-          {(["pipeline", "projects", "calendar", "playbook", "budget", "expenses", "templates", "discovery"] as const).map(t => (
+          {(["pipeline", "projects", "calendar", "playbook", "budget", "expenses", "templates", "discovery", "marketing"] as const).map(t => (
             <button key={t} onClick={() => setTab(t)}
               className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition ${
                 tab === t ? "bg-[#2563EB] text-white" : "text-white/40 hover:text-white"
               }`}>
-              {t === "pipeline" ? `Pipeline (${leads.length})` : t === "projects" ? `Projects (${projects.length})` : t === "calendar" ? "📅 Calendar" : t === "playbook" ? "📋 Playbook" : t === "budget" ? "💰 Budget Tiers" : t === "expenses" ? "🧾 Expenses" : t === "templates" ? "🗂️ Templates" : "📞 Discovery Call"}
+              {t === "pipeline" ? `Pipeline (${leads.length})` : t === "projects" ? `Projects (${projects.length})` : t === "calendar" ? "📅 Calendar" : t === "playbook" ? "📋 Playbook" : t === "budget" ? "💰 Budget Tiers" : t === "expenses" ? "🧾 Expenses" : t === "templates" ? "🗂️ Templates" : t === "discovery" ? "📞 Discovery Call" : "📣 Marketing"}
             </button>
           ))}
         </div>
@@ -882,6 +882,9 @@ export default function AdminPage() {
 
         {/* Discovery Call view */}
         {tab === "discovery" && <DiscoveryCall />}
+
+        {/* Marketing view */}
+        {tab === "marketing" && <Marketing />}
 
         {/* Projects view */}
         {tab === "projects" && (
@@ -2768,6 +2771,318 @@ function CalendarView({ leads, token, onLeadUpdate }: { leads: Lead[]; token: st
           })}
         </div>
       )}
+    </div>
+  );
+}
+
+// ─── Marketing ────────────────────────────────────────────────────────────────
+
+function Marketing() {
+  const sections = [
+    {
+      title: "🎯 Your Target Market — South Jersey + Philly Tri-State",
+      color: "#60A5FA",
+      bg: "rgba(96,165,250,0.06)",
+      border: "rgba(96,165,250,0.15)",
+      content: [
+        {
+          heading: "Who to go after first",
+          items: [
+            "South Jersey towns: Cherry Hill, Voorhees, Marlton, Moorestown, Mount Laurel, Haddonfield, Medford",
+            "Philadelphia: Fishtown, Manayunk, South Philly, Northern Liberties, Chestnut Hill — all small business dense",
+            "Delaware: Wilmington, Newark — lower competition than Philly, lots of service businesses with budget",
+            "Best niches: restaurants, salons/spas, contractors, real estate agents, fitness studios, med spas, dentists, accountants",
+            "These businesses NEED websites but most still have outdated or no site — perfect entry market",
+          ],
+        },
+        {
+          heading: "Why your location is an advantage",
+          items: [
+            "You can offer in-person meetings — huge trust builder vs. remote-only freelancers",
+            "Philly has a massive small business scene but few local devs doing modern builds",
+            "South Jersey suburbs are full of service businesses in your $500–$3k sweet spot",
+            "\"Local designer who actually shows up\" is a real differentiator — use it in every pitch",
+          ],
+        },
+      ],
+    },
+    {
+      title: "📱 Social Media Strategy",
+      color: "#A78BFA",
+      bg: "rgba(167,139,250,0.06)",
+      border: "rgba(167,139,250,0.15)",
+      content: [
+        {
+          heading: "Instagram — highest ROI for your niche",
+          items: [
+            "Post before/after website redesigns — \"I rebuilt this restaurant's site in 72 hours\" gets huge engagement",
+            "Reels over everything: screen-record your builds, design process, time-lapses of you working",
+            "Story polls: 'Which homepage do you prefer — A or B?' = massive engagement + educational",
+            "Local hashtags: #SouthJersey #PhillySmallBusiness #CherryHillNJ #PhillyBusiness",
+            "Tag local businesses in your content even in non-promo posts — they notice and follow",
+            "Target: 3–4 posts/week + 5 stories/day when actively growing",
+          ],
+        },
+        {
+          heading: "TikTok / YouTube Shorts — fastest growth right now",
+          items: [
+            "\"I rebuilt a local business's website in 60 seconds\" format performs extremely well",
+            "\"Things your website is costing you\" — pain-point content business owners share to their audience",
+            "\"Small business website mistakes\" series — positions you as the expert, gets saved constantly",
+            "No face needed — screen recording + voiceover works perfectly for web design content",
+            "One viral video can generate 5–10 inbound leads — worth the time investment",
+          ],
+        },
+        {
+          heading: "LinkedIn — for higher-budget clients ($1,200+)",
+          items: [
+            "Post case studies: 'Client had no online presence. 3 weeks later, first inquiry from Google.'",
+            "Connect with Philadelphia-area business owners, real estate agents, consultants",
+            "Comment on posts from Philly business communities — visibility without having to post daily",
+          ],
+        },
+        {
+          heading: "Facebook — still huge for local service businesses",
+          items: [
+            "Join every South Jersey and Philly local business Facebook group you can find",
+            "Don't spam — answer questions, be helpful, only mention your services when genuinely relevant",
+            "\"Recommend a web designer\" posts happen constantly in these groups — be active and visible",
+            "Groups to join: South Jersey Business Network, Cherry Hill Business Community, NJ Small Business Owners, Philly Small Biz",
+          ],
+        },
+      ],
+    },
+    {
+      title: "⚡ Ways to Get Clients Fast — First 30 Days",
+      color: "#34D399",
+      bg: "rgba(52,211,153,0.06)",
+      border: "rgba(52,211,153,0.15)",
+      content: [
+        {
+          heading: "Direct outreach — highest conversion rate",
+          items: [
+            "Google \"[city] [business type]\" and find businesses with bad or no websites — message them directly on Instagram or Facebook",
+            "Walk into local businesses in Cherry Hill, Haddonfield, Voorhees — introduce yourself, leave a card with your website URL",
+            "Sample pitch: \"I noticed your website hasn't been updated in a while — I help businesses like yours get a modern site in 2 weeks. Here's what I built recently.\"",
+            "Target restaurants in Philly — high volume, all need updated sites, most budgets are $500–$1,200",
+            "Goal: reach out to 10 businesses per day. 10/day × 30 days = 300 contacts. At 3% close rate = 9 clients",
+          ],
+        },
+        {
+          heading: "Referral engine — cheapest client acquisition",
+          items: [
+            "Offer $100–$150 cash for every referral who signs — tell every client about it at kickoff",
+            "After every project: send a handwritten thank-you note + referral card — memorable, costs $2",
+            "Ask for the referral at peak happiness: the moment you launch their site",
+            "\"Who else do you know that could use something like this?\" — ask it every single time",
+          ],
+        },
+        {
+          heading: "Local listings & platforms",
+          items: [
+            "Google Business Profile — set up immediately as a web designer in Cherry Hill / South Jersey. Free and drives local search.",
+            "Yelp — list as a web designer in Cherry Hill, Philadelphia. Free tier is enough to start.",
+            "Thumbtack and Bark.com — pay-per-lead, good for getting first clients fast ($50 budget goes far)",
+            "Nextdoor — businesses post looking for services constantly, monitor your local area",
+          ],
+        },
+        {
+          heading: "Networking — underrated in 2026",
+          items: [
+            "South Jersey Chamber of Commerce events — every city has one, attend monthly, hand out cards",
+            "BNI (Business Network International) — referral-focused, only one web designer per chapter allowed",
+            "Philadelphia SCORE events — free org full of small business owners who need websites",
+            "Cherry Hill Business Association, Mount Laurel Chamber — show up twice and you'll know everyone",
+          ],
+        },
+      ],
+    },
+    {
+      title: "💸 Discounts, Deals & Promotions That Work",
+      color: "#FBBF24",
+      bg: "rgba(251,191,36,0.06)",
+      border: "rgba(251,191,36,0.15)",
+      content: [
+        {
+          heading: "Launch offers — use now while building portfolio",
+          items: [
+            "\"First 3 clients this month get $200 off\" — creates urgency, fills your calendar fast",
+            "\"Refer a friend — you both save $100\" — viral referral loop that costs you little",
+            "\"Free SEO audit\" — low-barrier lead gen, easy upsell into a full build",
+            "\"Free 1-page website for a local nonprofit\" — great portfolio piece + community goodwill",
+          ],
+        },
+        {
+          heading: "Seasonal promotions — Philly/NJ specific",
+          items: [
+            "January: \"New Year, New Website\" — businesses love the fresh-start narrative",
+            "March/April: tax refund season — small business owners spend on growth here",
+            "September: back-to-business push after summer — huge for restaurants and service businesses",
+            "November/December: skip discounts — businesses panic-spend on marketing before year end, charge full rate",
+          ],
+        },
+        {
+          heading: "Bundling — increases average deal size",
+          items: [
+            "Website + logo design bundle: add $200–$400, feels like a deal to the client",
+            "Website + 3 months of SEO at $49/mo — your first recurring revenue",
+            "Website + hosting management: pitch the $49/mo hosting plan at every single project",
+            "\"Launch Package\" (site + logo + Google Business setup + social headers): charge $1,500+ for what takes you 2 extra hours",
+          ],
+        },
+      ],
+    },
+    {
+      title: "📣 Building Your Audience — First 100 Followers & Beyond",
+      color: "#FB923C",
+      bg: "rgba(251,146,60,0.06)",
+      border: "rgba(251,146,60,0.15)",
+      content: [
+        {
+          heading: "Instagram growth tactics",
+          items: [
+            "Follow and genuinely engage with every South Jersey and Philly small business you can find — many follow back",
+            "Comment on local business posts: \"Love what you do at [business] — your site could really show that off\" — soft pitch, high response rate",
+            "Start with your personal network: post your site launch and APEX demo on your personal Instagram, ask friends to share",
+            "Collab: offer a discounted or free site to a popular local business or influencer in exchange for a shoutout to their audience",
+            "Consistency wins — 30 days of daily posts gets you to 200–500 followers minimum",
+          ],
+        },
+        {
+          heading: "Content that gets shared in this region",
+          items: [
+            "\"South Jersey businesses doing it right online\" — feature locals, they share it to their audiences",
+            "\"Philly small business spotlight\" — tag them, their followers see your name",
+            "\"Before/after: I rebuilt this Cherry Hill business's website\" — local specificity = shareable",
+            "\"Website red flags every business owner should know\" — everyone shares this with their network",
+          ],
+        },
+      ],
+    },
+    {
+      title: "🗺️ Philly Tri-State Specific Playbook",
+      color: "#EC4899",
+      bg: "rgba(236,72,153,0.06)",
+      border: "rgba(236,72,153,0.15)",
+      content: [
+        {
+          heading: "Philadelphia — 20 min away, use it",
+          items: [
+            "Fishtown, Northern Liberties, Manayunk — constantly opening restaurants, studios, boutiques — all need sites",
+            "Check Philly Instagram tags: #phillybusiness #phillyrestaurant — every tagged business is a potential lead",
+            "Center City service businesses (law firms, accountants, consultants) — higher budgets, want polished sites",
+            "Philly Startup Leaders community — small agencies and startups frequently need web work",
+          ],
+        },
+        {
+          heading: "South Jersey sweet spots",
+          items: [
+            "Cherry Hill: highest concentration of small businesses in South Jersey, affluent clientele, strong budgets",
+            "Voorhees / Marlton: med spas, dental offices, fitness studios — can all pay $1,200+ and want quality",
+            "Haddonfield / Moorestown: boutique retail, upscale restaurants — image-conscious, will pay for premium",
+            "Medford / Medford Lakes: newer businesses, less competition from other designers",
+          ],
+        },
+        {
+          heading: "Delaware — seriously underrated",
+          items: [
+            "Wilmington has a massive financial/corporate sector — bigger budgets than typical small business",
+            "Newark (near U of Delaware): tons of young businesses with modern taste and startup energy",
+            "No sales tax in Delaware — businesses there are used to spending and less price-sensitive",
+            "Far less competition than Philly or NJ — you could own this market quickly",
+          ],
+        },
+        {
+          heading: "Best industries in this region",
+          items: [
+            "Restaurants & bars (highest volume, fastest decisions) — South Philly, Fishtown, Cherry Hill",
+            "Med spas & beauty (fastest growing, high budgets) — Voorhees, Marlton, Main Line PA",
+            "Real estate agents (recurring needs, referral machines) — Cherry Hill, Moorestown, Philly suburbs",
+            "Contractors & home services (almost always have terrible sites) — all of South Jersey",
+            "Fitness studios & personal trainers (you have a demo site for this already) — everywhere",
+          ],
+        },
+      ],
+    },
+    {
+      title: "📆 30-Day Action Plan",
+      color: "#34D399",
+      bg: "rgba(52,211,153,0.06)",
+      border: "rgba(52,211,153,0.15)",
+      content: [
+        {
+          heading: "Week 1 — Foundation",
+          items: [
+            "Set up Google Business Profile as a web designer in Cherry Hill / South Jersey",
+            "Create Instagram, TikTok, LinkedIn with the same handle everywhere",
+            "Post your personal site launch + APEX demo on all platforms",
+            "Join 5 South Jersey + 5 Philly Facebook business groups",
+            "List on Thumbtack and Bark.com with a $50 starting budget",
+          ],
+        },
+        {
+          heading: "Week 2 — Outreach",
+          items: [
+            "Identify 50 local businesses with bad or no websites via Google Maps",
+            "Send 10 DMs per day on Instagram or Facebook — keep messages short and specific",
+            "Attend 1 local chamber or networking event this week",
+            "Post 1 Reel or TikTok showing a build or before/after",
+            "Ask 5 people in your personal network directly for a referral",
+          ],
+        },
+        {
+          heading: "Week 3 — Content + Momentum",
+          items: [
+            "Post a South Jersey business spotlight featuring a local business — tag them",
+            "Create a lead magnet post: \"5 things your website is costing you\" as a carousel",
+            "Follow up on all week 2 outreach that didn't respond",
+            "Film a screen-recorded time-lapse of the APEX site build — post as a Reel",
+            "Aim to land your first paid project — even $500 starts the momentum",
+          ],
+        },
+        {
+          heading: "Week 4 — Close & Systematize",
+          items: [
+            "Close 1–2 clients — collect deposit, start work",
+            "Ask every new client for a Google review immediately after they sign",
+            "Build a weekly content schedule you can actually maintain going forward",
+            "Document what's working in outreach — double down on it",
+            "End-of-month goal: 1 paying client, 200+ Instagram followers, 50+ Google Maps profile views",
+          ],
+        },
+      ],
+    },
+  ];
+
+  return (
+    <div className="space-y-5">
+      <div className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl p-5">
+        <p className="text-white font-black text-[17px] mb-1">📣 Marketing Playbook</p>
+        <p className="text-white/40 text-[13px]">Your complete strategy for landing clients in South Jersey, Philadelphia, and the tri-state area.</p>
+      </div>
+
+      {sections.map((section) => (
+        <div key={section.title} className="rounded-2xl border overflow-hidden" style={{ borderColor: section.border, background: section.bg }}>
+          <div className="px-5 py-4 border-b" style={{ borderColor: section.border }}>
+            <p className="text-white font-black text-[15px]">{section.title}</p>
+          </div>
+          <div className="p-5 grid md:grid-cols-2 gap-6">
+            {section.content.map((block) => (
+              <div key={block.heading}>
+                <p className="text-[11px] uppercase tracking-widest font-bold mb-3" style={{ color: section.color }}>{block.heading}</p>
+                <ul className="space-y-2">
+                  {block.items.map((item, i) => (
+                    <li key={i} className="flex items-start gap-2.5 text-[13px] text-white/65 leading-relaxed">
+                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: section.color }} />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

@@ -176,7 +176,7 @@ export default function Hero() {
           ].map((item) => (
             <span
               key={item.label}
-              className="flex items-center justify-center gap-1.5 text-[12px] sm:text-[13px] font-medium text-white/40 border border-white/[0.08] rounded-full py-2 px-3"
+              className="flex items-center justify-center gap-1.5 text-[12px] sm:text-[13px] font-semibold text-white/70 border border-white/20 bg-white/[0.06] rounded-full py-2 px-3"
             >
               <span>{item.emoji}</span>
               <span>{item.label}</span>

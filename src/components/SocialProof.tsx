@@ -2,9 +2,10 @@ import Reveal from "./Reveal";
 
 const stats = [
   {
-    value: "72hr",
+    value: "72",
+    suffix: "hr",
     label: "First Draft Delivered",
-    sub: "From discovery call to design in your hands.",
+    sub: "First version in your hands within 72 hours of kickoff.",
     icon: (
       <svg width="20" height="20" fill="none" stroke="#2563EB" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z"/>
@@ -12,7 +13,8 @@ const stats = [
     ),
   },
   {
-    value: "5.0★",
+    value: "5.0",
+    suffix: "★",
     label: "Client Rating",
     sub: "Every project handed off with pride — no exceptions.",
     icon: (
@@ -22,7 +24,8 @@ const stats = [
     ),
   },
   {
-    value: "15+",
+    value: "15",
+    suffix: "+",
     label: "Industries Served",
     sub: "Restaurants, e-commerce, portfolios, agencies, and more.",
     icon: (
@@ -48,7 +51,7 @@ export default function SocialProof() {
               <div className="group bg-white border border-[#E5E4DF] rounded-2xl p-6 sm:p-7 flex flex-col gap-4 hover:border-[#2563EB]/25 hover:shadow-[0_8px_32px_rgba(37,99,235,0.07)] transition-all duration-300">
                 <div className="flex items-center justify-between">
                   <p className="text-[32px] sm:text-[36px] font-black text-[#1A1A1A] leading-none tracking-tight">
-                    {stat.value}
+                    {stat.value}<span className="text-[22px]">{stat.suffix}</span>
                   </p>
                   <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] flex items-center justify-center flex-shrink-0">
                     {stat.icon}

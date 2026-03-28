@@ -4,7 +4,7 @@ export const siteConfig = {
   description:
     "I design and build fast, beautiful websites that help businesses grow. From simple brochure sites to full e-commerce stores — I handle it all.",
   email: "brianwhirlowbusiness@gmail.com",
-  calendlyUrl: "#",
+  calendlyUrl: "https://calendly.com/brianwhirlowbusiness/30min",
   social: {
     github: "#",
     linkedin: "https://www.linkedin.com/in/bwhirlow/",

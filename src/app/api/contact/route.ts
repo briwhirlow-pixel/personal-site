@@ -80,7 +80,7 @@ export async function POST(request: Request) {
       text: [
         `Hey ${firstName}!`,
         "",
-        `This is so exciting — I just received your quote request and I'm already looking forward to working on your project together.`,
+        `I've received your quote request and I'm looking forward to learning more about your project.`,
         "",
         "Here's a quick recap of what you submitted:",
         `  • Website type: ${websiteType || "Not specified"}`,
@@ -107,7 +107,7 @@ export async function POST(request: Request) {
           <div style="background: #ffffff; padding: 32px; border: 1px solid #E5E4DF; border-top: none; border-radius: 0 0 12px 12px;">
             <p style="font-size: 16px; margin: 0 0 16px;">Hey ${firstName}!</p>
             <p style="font-size: 15px; color: #444; line-height: 1.6; margin: 0 0 8px;">
-              This is so exciting — I just received your quote request and I'm already looking forward to working on your project together.
+              I've received your quote request and I'm looking forward to learning more about your project.
             </p>
             <p style="font-size: 15px; color: #444; line-height: 1.6; margin: 0 0 24px;">
               Here's a quick recap of what you shared with me:

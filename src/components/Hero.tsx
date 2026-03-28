@@ -180,13 +180,13 @@ export default function Hero() {
         </div>
 
         {/* Stats */}
-        <div className={`flex flex-wrap justify-center sm:justify-start gap-8 sm:gap-12 pt-6 sm:pt-8 border-t border-white/[0.08] transition-all duration-700 delay-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`flex flex-wrap justify-center gap-8 sm:gap-12 pt-6 sm:pt-8 border-t border-white/[0.08] transition-all duration-700 delay-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
           {[
             { target: 72, suffix: 'hr', label: 'First Draft' },
             { target: 100, suffix: '%', label: 'Satisfaction' },
             { target: 3, suffix: '×', label: 'Lead Increase' },
           ].map((stat) => (
-            <div key={stat.label} className="text-center sm:text-left">
+            <div key={stat.label} className="text-center">
               <p className="text-[28px] sm:text-[36px] font-black text-white leading-none tabular-nums">
                 <AnimatedCounter target={stat.target} suffix={stat.suffix} />
               </p>

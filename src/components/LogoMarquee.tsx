@@ -5,17 +5,22 @@ const items = [
 ];
 
 export default function LogoMarquee() {
+  const doubled = [...items, ...items];
   return (
-    <div className="bg-[#F2F1EC] border-y border-[#E5E4DF] py-4 sm:py-5">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-12">
-        <div className="flex flex-wrap gap-x-6 gap-y-2 justify-center">
-          {items.map((item, i) => (
-            <span key={i} className="text-[12px] sm:text-[13px] font-semibold text-[#737373] tracking-wide whitespace-nowrap flex items-center gap-2">
-              {i > 0 && <span className="text-[#CECCC6] text-[8px]">✦</span>}
-              {item}
-            </span>
-          ))}
-        </div>
+    <div className="bg-[#F2F1EC] border-y border-[#E5E4DF] py-4 sm:py-5 overflow-hidden">
+      <div
+        className="flex gap-8 whitespace-nowrap"
+        style={{ animation: 'marquee 30s linear infinite', width: 'max-content' }}
+      >
+        {doubled.map((item, i) => (
+          <span
+            key={i}
+            className="text-[12px] sm:text-[13px] font-semibold text-[#737373] tracking-wide flex items-center gap-3 flex-shrink-0"
+          >
+            <span className="text-[#CECCC6] text-[8px]">✦</span>
+            {item}
+          </span>
+        ))}
       </div>
     </div>
   );

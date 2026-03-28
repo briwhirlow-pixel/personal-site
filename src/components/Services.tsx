@@ -17,25 +17,32 @@ export default function Services() {
           </p>
         </Reveal>
 
-        <Reveal delay={100} className="mb-10 sm:mb-16">
-          {/* Horizontal scroll on mobile, 4-col grid on desktop */}
-          <div className="-mx-5 sm:mx-0 overflow-x-auto sm:overflow-visible">
-            <div className="flex sm:grid sm:grid-cols-4 gap-3 sm:gap-4 px-5 sm:px-0 pb-1 sm:pb-0">
-              {[
-                { icon: '⚡', label: 'Fast Turnaround', sub: '2–4 week delivery' },
-                { icon: '📱', label: 'Mobile-First', sub: 'Looks great on every screen' },
-                { icon: '🔍', label: 'SEO Ready', sub: 'Built to be found on Google' },
-                { icon: '📁', label: 'You Own It', sub: 'Full code handoff, no lock-in' },
-              ].map((f) => (
-                <div key={f.label} className="flex-shrink-0 w-[calc(50vw-28px)] sm:w-auto bg-white rounded-xl p-4 border border-[#E5E4DF] hover:border-[#2563EB]/30 hover:shadow-md transition-all cursor-default">
-                  <div className="text-2xl mb-2">{f.icon}</div>
-                  <p className="text-[13px] font-bold text-[#1A1A1A]">{f.label}</p>
-                  <p className="text-[12px] text-[#737373] mt-0.5">{f.sub}</p>
+        {/* Scrolling marquee strip */}
+        <div className="-mx-5 sm:-mx-8 md:-mx-12 overflow-hidden mb-10 sm:mb-16 py-1">
+          <div
+            className="flex gap-4"
+            style={{ animation: 'marquee 22s linear infinite', width: 'max-content' }}
+          >
+            {[
+              { icon: '⚡', label: 'Fast Turnaround', sub: '2–4 week delivery' },
+              { icon: '📱', label: 'Mobile-First', sub: 'Looks great on every screen' },
+              { icon: '🔍', label: 'SEO Ready', sub: 'Built to be found on Google' },
+              { icon: '📁', label: 'You Own It', sub: 'Full code handoff, no lock-in' },
+              { icon: '⚡', label: 'Fast Turnaround', sub: '2–4 week delivery' },
+              { icon: '📱', label: 'Mobile-First', sub: 'Looks great on every screen' },
+              { icon: '🔍', label: 'SEO Ready', sub: 'Built to be found on Google' },
+              { icon: '📁', label: 'You Own It', sub: 'Full code handoff, no lock-in' },
+            ].map((f, i) => (
+              <div key={i} className="flex-shrink-0 flex items-center gap-3 bg-white rounded-xl px-5 py-3.5 border border-[#E5E4DF] shadow-sm">
+                <span className="text-2xl">{f.icon}</span>
+                <div>
+                  <p className="text-[13px] font-bold text-[#1A1A1A] whitespace-nowrap">{f.label}</p>
+                  <p className="text-[12px] text-[#737373] whitespace-nowrap">{f.sub}</p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-        </Reveal>
+        </div>
 
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6">
           {services.map((tier, i) => (

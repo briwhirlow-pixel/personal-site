@@ -49,18 +49,18 @@ function BrowserMockup({ mockupKey }: { mockupKey: string }) {
 
 export default function Portfolio() {
   return (
-    <section id="portfolio" className="bg-[#FAFAF7] py-28">
+    <section id="portfolio" className="py-28" style={{ background: 'linear-gradient(160deg, #06091F 0%, #0D1B45 50%, #060D22 100%)' }}>
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <Reveal className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
           <div>
-            <p className="text-[#2563EB] text-[12px] font-semibold tracking-widest uppercase mb-4">
+            <p className="text-[#60A5FA] text-[12px] font-semibold tracking-widest uppercase mb-4">
               What I Build
             </p>
-            <h2 className="text-[clamp(32px,4.5vw,56px)] font-black text-[#1A1A1A] leading-tight tracking-tight">
+            <h2 className="text-[clamp(32px,4.5vw,56px)] font-black text-white leading-tight tracking-tight">
               Types of websites<br />I specialize in.
             </h2>
           </div>
-          <p className="text-[#737373] text-[15px] leading-relaxed max-w-xs">
+          <p className="text-white/40 text-[15px] leading-relaxed max-w-xs">
             Every business is different. Here are the most popular types of sites I build — each tailored to your goals.
           </p>
         </Reveal>
@@ -69,7 +69,11 @@ export default function Portfolio() {
           {websiteTypes.map((type: WebsiteType, i: number) => (
             <Reveal key={type.name} delay={i * 80} direction="up">
               <TiltCard className="h-full">
-                <div className="group bg-white rounded-2xl overflow-hidden border border-[#E5E4DF] hover:border-[#2563EB]/20 hover:shadow-2xl hover:shadow-[#2563EB]/8 transition-all duration-300 flex flex-col h-full">
+                <div className="group rounded-2xl overflow-hidden border border-white/[0.08] hover:border-[#2563EB]/50 transition-all duration-300 flex flex-col h-full"
+                  style={{ background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(8px)', boxShadow: '0 0 0 0 rgba(37,99,235,0)' }}
+                  onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 40px 0 rgba(37,99,235,0.18), inset 0 1px 0 rgba(255,255,255,0.08)')}
+                  onMouseLeave={e => (e.currentTarget.style.boxShadow = '0 0 0 0 rgba(37,99,235,0)')}
+                >
                   <div className="p-3 pb-0">
                     <BrowserMockup mockupKey={type.mockupKey} />
                   </div>
@@ -77,18 +81,18 @@ export default function Portfolio() {
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-xl">{type.emoji}</span>
                       <div>
-                        <p className="text-[#2563EB] text-[11px] font-semibold tracking-wide uppercase leading-none mb-0.5">
+                        <p className="text-[#60A5FA] text-[11px] font-semibold tracking-wide uppercase leading-none mb-0.5">
                           {type.tagline}
                         </p>
-                        <h3 className="text-[17px] font-black text-[#1A1A1A] tracking-tight">{type.name}</h3>
+                        <h3 className="text-[17px] font-black text-white tracking-tight">{type.name}</h3>
                       </div>
                     </div>
-                    <p className="text-[#737373] text-[13px] leading-relaxed mb-4">{type.description}</p>
+                    <p className="text-white/40 text-[13px] leading-relaxed mb-4">{type.description}</p>
                     <ul className="mt-auto space-y-1.5">
                       {type.includes.map((item) => (
-                        <li key={item} className="flex items-center gap-2 text-[12px] text-[#4A4A4A]">
-                          <div className="w-3.5 h-3.5 rounded-full bg-[#EFF6FF] flex items-center justify-center flex-shrink-0">
-                            <svg width="7" height="7" fill="none" stroke="#2563EB" viewBox="0 0 24 24">
+                        <li key={item} className="flex items-center gap-2 text-[12px] text-white/60">
+                          <div className="w-3.5 h-3.5 rounded-full bg-[#2563EB]/20 flex items-center justify-center flex-shrink-0">
+                            <svg width="7" height="7" fill="none" stroke="#60A5FA" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/>
                             </svg>
                           </div>
@@ -96,7 +100,7 @@ export default function Portfolio() {
                         </li>
                       ))}
                     </ul>
-                    <a href="/contact" className="mt-4 block text-center py-2.5 px-4 rounded-full border border-[#E5E4DF] text-[12px] font-semibold text-[#737373] hover:bg-[#2563EB] hover:text-white hover:border-[#2563EB] transition-all">
+                    <a href="/contact" className="mt-4 block text-center py-2.5 px-4 rounded-full border border-white/10 text-[12px] font-semibold text-white/50 hover:bg-[#2563EB] hover:text-white hover:border-[#2563EB] transition-all">
                       Get a quote →
                     </a>
                   </div>

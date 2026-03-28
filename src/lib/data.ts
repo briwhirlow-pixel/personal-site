@@ -7,7 +7,7 @@ export const siteConfig = {
   calendlyUrl: "#",
   social: {
     github: "#",
-    linkedin: "#",
+    linkedin: "https://www.linkedin.com/in/bwhirlow/",
   },
 };
 

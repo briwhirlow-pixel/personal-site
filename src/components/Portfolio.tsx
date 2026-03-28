@@ -51,10 +51,13 @@ export default function Portfolio() {
   return (
     <section id="portfolio" className="py-28" style={{ background: 'linear-gradient(160deg, #06091F 0%, #0D1B45 50%, #060D22 100%)' }}>
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Live Projects */}
+        {/* Example Projects */}
         {liveProjects.length > 0 && (
           <Reveal className="mb-16">
-            <p className="text-[#60A5FA] text-[12px] font-semibold tracking-widest uppercase mb-4">Live Work</p>
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-4">
+              <p className="text-[#60A5FA] text-[12px] font-semibold tracking-widest uppercase">Example Projects</p>
+              <p className="text-white/30 text-[12px] italic">Built to demonstrate real-world capabilities</p>
+            </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {liveProjects.map((project) => (
                 <a key={project.name} href={project.url} target="_blank" rel="noopener noreferrer"

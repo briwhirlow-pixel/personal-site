@@ -155,10 +155,6 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* Price anchor */}
-        <p className={`text-white/30 text-[12px] mb-7 sm:mb-9 transition-opacity duration-700 delay-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
-          Projects from <span className="text-white/50 font-semibold">$500</span> · Free quote · No commitment
-        </p>
 
         {/* Website type pills — 2 rows of 5, full width */}
         <div className={`grid grid-cols-2 sm:grid-cols-5 gap-2 mb-8 sm:mb-12 transition-opacity duration-700 delay-400 ${loaded ? 'opacity-100' : 'opacity-0'}`}>

@@ -755,7 +755,7 @@ export default function AdminPage() {
   const [newProjectLead, setNewProjectLead] = useState<Lead | null>(null);
   const [loading, setLoading] = useState(false);
   const [fetchError, setFetchError] = useState("");
-  const [showArchived, setShowArchived] = useState(false);
+  const [pipelineView, setPipelineView] = useState<"kanban" | "archive">("kanban");
 
   // Check for saved token on mount
   useEffect(() => {
@@ -875,56 +875,80 @@ export default function AdminPage() {
         {/* Pipeline view */}
         {tab === "pipeline" && (
           <div>
-            <div className="flex items-center justify-between mb-4">
-              <p className="text-white/30 text-[12px]">{archivedLeads.length} archived lead{archivedLeads.length !== 1 ? "s" : ""}</p>
-              <button onClick={() => setShowArchived(v => !v)}
-                className={`text-[12px] font-semibold px-3 py-1.5 rounded-lg border transition ${showArchived ? "bg-white/10 text-white border-white/20" : "text-white/40 border-[#2A2D3A] hover:text-white/70"}`}>
-                {showArchived ? "Hide Archived" : "Show Archived"}
-              </button>
+            {/* Kanban / Archive toggle header */}
+            <div className="flex items-center justify-between mb-5">
+              <div className="flex gap-1 bg-[#1A1D27] rounded-lg p-1 border border-[#2A2D3A]">
+                <button onClick={() => setPipelineView("kanban")}
+                  className={`px-3 py-1.5 rounded-md text-[12px] font-semibold transition ${pipelineView === "kanban" ? "bg-[#2563EB] text-white" : "text-white/40 hover:text-white"}`}>
+                  Pipeline
+                </button>
+                <button onClick={() => setPipelineView("archive")}
+                  className={`px-3 py-1.5 rounded-md text-[12px] font-semibold transition flex items-center gap-1.5 ${pipelineView === "archive" ? "bg-[#2563EB] text-white" : "text-white/40 hover:text-white"}`}>
+                  🗃️ Archive
+                  {archivedLeads.length > 0 && (
+                    <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${pipelineView === "archive" ? "bg-white/20" : "bg-white/10"}`}>{archivedLeads.length}</span>
+                  )}
+                </button>
+              </div>
             </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
-            {LEAD_STATUSES.map(s => {
-              const colLeads = (showArchived ? leads : activeLeads).filter(l => l.status === s.key);
-              return (
-                <div key={s.key} className="bg-[#1A1D27] rounded-2xl p-4 border border-[#2A2D3A] min-h-[200px]">
-                  <div className="flex items-center justify-between mb-4">
-                    <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: s.color }}>{s.label}</p>
-                    <span className="text-[11px] font-bold px-2 py-0.5 rounded-full" style={{ background: s.bg, color: s.color }}>
-                      {colLeads.length}
-                    </span>
-                  </div>
+
+            {/* Kanban view */}
+            {pipelineView === "kanban" && (
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
+                {LEAD_STATUSES.map(s => {
+                  const colLeads = activeLeads.filter(l => l.status === s.key);
+                  return (
+                    <div key={s.key} className="bg-[#1A1D27] rounded-2xl p-4 border border-[#2A2D3A] min-h-[200px]">
+                      <div className="flex items-center justify-between mb-4">
+                        <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: s.color }}>{s.label}</p>
+                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-full" style={{ background: s.bg, color: s.color }}>
+                          {colLeads.length}
+                        </span>
+                      </div>
+                      <div className="space-y-2">
+                        {colLeads.map(lead => (
+                          <button key={lead.id} onClick={() => setSelectedLead(lead)}
+                            className="w-full text-left bg-[#0F1117] hover:bg-[#16191F] border border-[#2A2D3A] hover:border-[#3A3D4A] rounded-xl p-3 transition">
+                            <p className="text-white text-[13px] font-semibold leading-tight truncate">{lead.name}</p>
+                            {lead.budget && <p className="text-white/40 text-[11px] mt-1 truncate">{lead.budget}</p>}
+                            <p className="text-white/20 text-[10px] mt-1.5">{timeAgo(lead.created_at)}</p>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Archive view */}
+            {pipelineView === "archive" && (
+              <div>
+                <div className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl p-5 mb-4">
+                  <p className="text-white font-black text-[15px] mb-1">🗃️ Archived Leads</p>
+                  <p className="text-white/35 text-[13px]">These leads are removed from your pipeline but never deleted. Click any lead to restore it.</p>
+                </div>
+                {archivedLeads.length === 0 ? (
+                  <div className="text-center py-16 text-white/20 text-[14px]">No archived leads yet.</div>
+                ) : (
                   <div className="space-y-2">
-                    {colLeads.map(lead => (
+                    {archivedLeads.map(lead => (
                       <button key={lead.id} onClick={() => setSelectedLead(lead)}
-                        className="w-full text-left bg-[#0F1117] hover:bg-[#16191F] border border-[#2A2D3A] hover:border-[#3A3D4A] rounded-xl p-3 transition">
-                        <p className="text-white text-[13px] font-semibold leading-tight truncate">{lead.name}</p>
-                        {lead.budget && <p className="text-white/40 text-[11px] mt-1 truncate">{lead.budget}</p>}
-                        <p className="text-white/20 text-[10px] mt-1.5">{timeAgo(lead.created_at)}</p>
+                        className="w-full text-left bg-[#1A1D27] hover:bg-[#1F2230] border border-[#2A2D3A] hover:border-[#3A3D4A] rounded-xl p-4 transition flex items-center justify-between gap-4">
+                        <div className="min-w-0">
+                          <p className="text-white/70 text-[14px] font-semibold truncate">{lead.name}</p>
+                          <p className="text-white/30 text-[12px] mt-0.5">{lead.email}</p>
+                        </div>
+                        <div className="text-right flex-shrink-0">
+                          {lead.budget && <p className="text-white/40 text-[12px]">{lead.budget}</p>}
+                          <p className="text-white/20 text-[11px] mt-0.5">{timeAgo(lead.created_at)}</p>
+                        </div>
                       </button>
                     ))}
                   </div>
-                </div>
-              );
-            })}
-            {showArchived && archivedLeads.length > 0 && (
-              <div className="bg-[#1A1D27] rounded-2xl p-4 border border-[#2A2D3A] border-dashed min-h-[200px]">
-                <div className="flex items-center justify-between mb-4">
-                  <p className="text-[11px] font-bold uppercase tracking-widest text-white/30">Archived</p>
-                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white/5 text-white/30">{archivedLeads.length}</span>
-                </div>
-                <div className="space-y-2">
-                  {archivedLeads.map(lead => (
-                    <button key={lead.id} onClick={() => setSelectedLead(lead)}
-                      className="w-full text-left bg-[#0F1117] border border-[#2A2D3A] rounded-xl p-3 transition hover:border-[#3A3D4A] opacity-50 hover:opacity-75">
-                      <p className="text-white text-[13px] font-semibold leading-tight truncate">{lead.name}</p>
-                      {lead.budget && <p className="text-white/40 text-[11px] mt-1 truncate">{lead.budget}</p>}
-                      <p className="text-white/20 text-[10px] mt-1.5">{timeAgo(lead.created_at)}</p>
-                    </button>
-                  ))}
-                </div>
+                )}
               </div>
             )}
-          </div>
           </div>
         )}
 

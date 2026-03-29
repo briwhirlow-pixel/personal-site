@@ -51,9 +51,9 @@ export default function Portfolio() {
   return (
     <section id="portfolio" className="py-28" style={{ background: 'linear-gradient(160deg, #0A1230 0%, #122558 50%, #0C1835 100%)' }}>
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Top row: heading left, APEX card right */}
-        <div className="grid md:grid-cols-2 gap-10 items-start mb-12">
-          <Reveal>
+        {/* Top row: heading spans 2 cols, APEX card in col 3 — all in same 3-col grid as cards below */}
+        <div className="grid sm:grid-cols-3 gap-5 sm:gap-6 mb-5">
+          <Reveal className="sm:col-span-2 flex flex-col justify-center">
             <p className="text-[#60A5FA] text-[12px] font-semibold tracking-widest uppercase mb-4">What I Build</p>
             <h2 className="text-[clamp(32px,4.5vw,56px)] font-black text-white leading-tight tracking-tight mb-4">
               Types of websites<br />I specialize in.
@@ -64,12 +64,12 @@ export default function Portfolio() {
           </Reveal>
 
           {liveProjects.length > 0 && (
-            <Reveal delay={100}>
+            <Reveal delay={100} className="flex flex-col">
               <p className="text-[#60A5FA] text-[12px] font-semibold tracking-widest uppercase mb-4">Example Project</p>
               {(() => {
                 const project = liveProjects[0];
                 return (
-                  <div className="scale-[0.82] origin-top-left -mb-24">
+                  <div className="flex-1">
                   <a href={project.url} target="_blank" rel="noopener noreferrer"
                     className="group rounded-2xl overflow-hidden border border-white/[0.08] hover:border-[#2563EB]/50 transition-all duration-300 flex flex-col"
                     style={{ background: `linear-gradient(135deg, ${project.bgFrom} 0%, ${project.bgTo} 100%)` }}>
@@ -143,7 +143,7 @@ export default function Portfolio() {
           )}
         </div>
 
-        {/* Website type cards grid */}
+        {/* Website type cards grid — same 3-col layout */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {websiteTypes.map((type: WebsiteType, i: number) => (
             <Reveal key={type.name} delay={i * 80} direction="up">

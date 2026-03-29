@@ -5,7 +5,7 @@ import Reveal from "./Reveal";
 const skills = [
   "Next.js", "React", "TypeScript", "Tailwind CSS",
   "Node.js", "Supabase", "Shopify", "Framer",
-  "Figma", "SEO", "E-Commerce", "CMS",
+  "Figma", "SEO Optimized", "E-Commerce", "CMS",
 ];
 
 const highlights = [
@@ -93,13 +93,13 @@ export default function About() {
 
             <div className="space-y-3 text-[#555555] text-[14px] leading-relaxed mb-6">
               <p>
-                Welcome to BuiltByBrian! I&apos;m a web designer and developer based in the Philadelphia/South Jersey area. I started building sites for fun, realized I had a knack for making them actually convert, and turned that passion into a business.
+                Welcome to BuiltByBrian. I&apos;m a web designer and developer based in the Philadelphia/South Jersey area. I started building sites for fun, realized I had a knack for making them actually convert, and turned that passion into a business.
               </p>
               <p>
-                I&apos;ve worked with restaurants, e-commerce brands, photographers, and service businesses — turning slow, outdated sites into their <span className="text-[#1A1A1A] font-semibold">best-performing sales tool</span>. You&apos;ll always know where your project stands — no ghosting, no vague timelines, just clean work delivered fast.
+                I&apos;ve worked with restaurants, e-commerce brands, photographers, and service businesses — turning slow, outdated sites into their <span className="text-[#1A1A1A] font-semibold">best-performing sales tool</span>. You&apos;ll always know where your project stands — no ghosting, no vague timelines, just clean work, delivered fast.
               </p>
               <p>
-                I hold a degree in Management Information Systems and am currently finishing my MBA in Sustainable Business and Management — meaning I think about your website as a business tool, not just a design project. Outside of work I&apos;m hiking, working out, traveling, and spending time with family and friends.
+                I hold a degree in Management Information Systems and am currently finishing my MBA in Sustainable Business and Management — so when I build your site, I&apos;m thinking about results, not just aesthetics. Outside of work I&apos;m hiking, working out, traveling, and spending time with family and friends.
               </p>
             </div>
 

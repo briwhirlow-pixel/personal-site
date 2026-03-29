@@ -2,13 +2,13 @@ import Reveal from "./Reveal";
 
 const stats = [
   {
-    value: "2–4",
-    suffix: "wk",
-    label: "Average Delivery",
-    sub: "Most sites go live within 2–4 weeks of kickoff — no long waits.",
+    value: "100",
+    suffix: "%",
+    label: "Client Satisfaction",
+    sub: "Every client I've worked with has been happy with the final result — no exceptions.",
     icon: (
       <svg width="20" height="20" fill="none" stroke="#2563EB" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
       </svg>
     ),
   },

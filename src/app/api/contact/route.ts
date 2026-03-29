@@ -12,6 +12,34 @@ const schema = z.object({
   message: z.string().min(1),
 });
 
+const DEFAULTS = {
+  email_quote_subject:  "You're in good hands, {{firstName}} — here's what's next",
+  email_quote_greeting: "Hey {{firstName}}!",
+  email_quote_intro:    "I've received your quote request and I'm looking forward to learning more about your project.",
+  email_quote_closing:  "You made a great decision reaching out — I can't wait to bring your vision to life. If anything comes to mind before then, just reply to this email. I'm always happy to chat.",
+};
+
+async function getEmailSettings(): Promise<typeof DEFAULTS> {
+  try {
+    const { data } = await getSupabaseAdmin().from("settings").select("key, value");
+    if (!data) return DEFAULTS;
+    const map: Record<string, string> = {};
+    for (const row of data) map[row.key] = row.value;
+    return {
+      email_quote_subject:  map.email_quote_subject  ?? DEFAULTS.email_quote_subject,
+      email_quote_greeting: map.email_quote_greeting ?? DEFAULTS.email_quote_greeting,
+      email_quote_intro:    map.email_quote_intro    ?? DEFAULTS.email_quote_intro,
+      email_quote_closing:  map.email_quote_closing  ?? DEFAULTS.email_quote_closing,
+    };
+  } catch {
+    return DEFAULTS;
+  }
+}
+
+function applyVars(template: string, vars: Record<string, string>): string {
+  return template.replace(/\{\{(\w+)\}\}/g, (_, key) => vars[key] ?? `{{${key}}}`);
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -43,6 +71,14 @@ export async function POST(request: Request) {
     const resend = new Resend(process.env.RESEND_API_KEY);
     const fromDomain = process.env.RESEND_FROM_DOMAIN || "builtbybwhirl.com";
     const firstName = name.split(" ")[0];
+    const vars = { firstName, name, email, websiteType: websiteType || "Not specified", budget, launchDate: launchDate || "Not specified" };
+
+    // Fetch editable template from Supabase
+    const tpl = await getEmailSettings();
+    const subject  = applyVars(tpl.email_quote_subject,  vars);
+    const greeting = applyVars(tpl.email_quote_greeting, vars);
+    const intro    = applyVars(tpl.email_quote_intro,    vars);
+    const closing  = applyVars(tpl.email_quote_closing,  vars);
 
     // Notify Brian
     await resend.emails.send({
@@ -70,11 +106,11 @@ export async function POST(request: Request) {
       from: `Brian <brian@${fromDomain}>`,
       to: email,
       replyTo: `brian@${fromDomain}`,
-      subject: `You're in good hands, ${firstName} — here's what's next`,
+      subject,
       text: [
-        `Hey ${firstName}!`,
+        greeting,
         "",
-        `I've received your quote request and I'm looking forward to learning more about your project.`,
+        intro,
         "",
         "Here's a quick recap of what you submitted:",
         `  • Website type: ${websiteType || "Not specified"}`,
@@ -86,9 +122,7 @@ export async function POST(request: Request) {
         "  2. We'll have a quick discovery call to get aligned on your vision and goals.",
         "  3. I'll craft a tailored proposal and we'll hit the ground running.",
         "",
-        "You made a great decision reaching out — I can't wait to bring your vision to life.",
-        "",
-        "If anything comes to mind before then, just reply to this email. I'm always happy to chat.",
+        closing,
         "",
         "Talk soon,",
         "Brian",
@@ -99,13 +133,8 @@ export async function POST(request: Request) {
             <p style="margin: 0; color: white; font-size: 22px; font-weight: 800; letter-spacing: -0.5px;">byBrian <span style="color: rgba(255,255,255,0.6); font-weight: 400; font-size: 13px;">WEB DESIGN</span></p>
           </div>
           <div style="background: #ffffff; padding: 32px; border: 1px solid #E5E4DF; border-top: none; border-radius: 0 0 12px 12px;">
-            <p style="font-size: 16px; margin: 0 0 16px;">Hey ${firstName}!</p>
-            <p style="font-size: 15px; color: #444; line-height: 1.6; margin: 0 0 8px;">
-              I've received your quote request and I'm looking forward to learning more about your project.
-            </p>
-            <p style="font-size: 15px; color: #444; line-height: 1.6; margin: 0 0 24px;">
-              Here's a quick recap of what you shared with me:
-            </p>
+            <p style="font-size: 16px; margin: 0 0 16px;">${greeting}</p>
+            <p style="font-size: 15px; color: #444; line-height: 1.6; margin: 0 0 24px;">${intro}</p>
 
             <div style="background: #F8F8F6; border-radius: 10px; padding: 20px 24px; margin-bottom: 28px;">
               <p style="margin: 0 0 12px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #AEACA6;">Your Quote Summary</p>
@@ -130,9 +159,7 @@ export async function POST(request: Request) {
               `).join("")}
             </div>
 
-            <p style="font-size: 15px; color: #444; line-height: 1.6; margin: 0 0 24px;">
-              You made a great decision reaching out — I can't wait to bring your vision to life. If anything comes to mind before then, just reply to this email. I'm always happy to chat.
-            </p>
+            <p style="font-size: 15px; color: #444; line-height: 1.6; margin: 0 0 24px;">${closing}</p>
 
             <p style="font-size: 15px; margin: 0;">Talk soon,<br/>
             <strong>Brian</strong></p>

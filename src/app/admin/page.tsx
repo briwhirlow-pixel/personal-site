@@ -749,7 +749,7 @@ export default function AdminPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [tab, setTab] = useState<"pipeline" | "projects" | "playbook" | "budget" | "expenses" | "templates" | "discovery" | "calendar" | "marketing">("pipeline");
+  const [tab, setTab] = useState<"pipeline" | "projects" | "playbook" | "budget" | "expenses" | "templates" | "discovery" | "calendar" | "marketing" | "emails">("pipeline");
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [showNewProject, setShowNewProject] = useState(false);
   const [newProjectLead, setNewProjectLead] = useState<Lead | null>(null);
@@ -862,12 +862,12 @@ export default function AdminPage() {
 
         {/* Tabs */}
         <div className="flex flex-wrap gap-1 mb-6 bg-[#1A1D27] rounded-xl p-1 w-fit border border-[#2A2D3A]">
-          {(["pipeline", "projects", "calendar", "playbook", "budget", "expenses", "templates", "discovery", "marketing"] as const).map(t => (
+          {(["pipeline", "projects", "calendar", "playbook", "budget", "expenses", "templates", "discovery", "marketing", "emails"] as const).map(t => (
             <button key={t} onClick={() => setTab(t)}
               className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition ${
                 tab === t ? "bg-[#2563EB] text-white" : "text-white/40 hover:text-white"
               }`}>
-              {t === "pipeline" ? `Pipeline (${activeLeads.length})` : t === "projects" ? `Projects (${projects.length})` : t === "calendar" ? "📅 Calendar" : t === "playbook" ? "📋 Playbook" : t === "budget" ? "💰 Budget Tiers" : t === "expenses" ? "🧾 Expenses" : t === "templates" ? "🗂️ Templates" : t === "discovery" ? "📞 Discovery Call" : "📣 Marketing"}
+              {t === "pipeline" ? `Pipeline (${activeLeads.length})` : t === "projects" ? `Projects (${projects.length})` : t === "calendar" ? "📅 Calendar" : t === "playbook" ? "📋 Playbook" : t === "budget" ? "💰 Budget Tiers" : t === "expenses" ? "🧾 Expenses" : t === "templates" ? "🗂️ Templates" : t === "discovery" ? "📞 Discovery Call" : t === "marketing" ? "📣 Marketing" : "📧 Emails"}
             </button>
           ))}
         </div>
@@ -948,6 +948,9 @@ export default function AdminPage() {
 
         {/* Marketing view */}
         {tab === "marketing" && <Marketing />}
+
+        {/* Email Templates view */}
+        {tab === "emails" && <EmailTemplates token={token} />}
 
         {/* Projects view */}
         {tab === "projects" && (
@@ -2882,6 +2885,113 @@ function CalendarView({ leads, token, onLeadUpdate }: { leads: Lead[]; token: st
           })}
         </div>
       )}
+    </div>
+  );
+}
+
+// ─── Email Templates ─────────────────────────────────────────────────────────
+
+const EMAIL_FIELDS = [
+  {
+    key: "email_quote_subject",
+    label: "Subject Line",
+    hint: "The email subject the lead sees in their inbox.",
+    rows: 1,
+  },
+  {
+    key: "email_quote_greeting",
+    label: "Greeting",
+    hint: "Opening line. Use {{firstName}} for their first name.",
+    rows: 1,
+  },
+  {
+    key: "email_quote_intro",
+    label: "Intro Paragraph",
+    hint: "First paragraph after the greeting.",
+    rows: 3,
+  },
+  {
+    key: "email_quote_closing",
+    label: "Closing Paragraph",
+    hint: "Personal closing before 'Talk soon, Brian'.",
+    rows: 3,
+  },
+] as const;
+
+const EMAIL_DEFAULTS: Record<string, string> = {
+  email_quote_subject:  "You're in good hands, {{firstName}} — here's what's next",
+  email_quote_greeting: "Hey {{firstName}}!",
+  email_quote_intro:    "I've received your quote request and I'm looking forward to learning more about your project.",
+  email_quote_closing:  "You made a great decision reaching out — I can't wait to bring your vision to life. If anything comes to mind before then, just reply to this email. I'm always happy to chat.",
+};
+
+function EmailTemplates({ token }: { token: string }) {
+  const [values, setValues] = useState<Record<string, string>>(EMAIL_DEFAULTS);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/admin/settings", { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.json())
+      .then(data => {
+        setValues(prev => ({ ...prev, ...data }));
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [token]);
+
+  const save = async () => {
+    setSaving(true);
+    const res = await fetch("/api/admin/settings", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify(values),
+    });
+    setSaving(false);
+    if (res.ok) { setSaved(true); setTimeout(() => setSaved(false), 2500); }
+  };
+
+  const preview = (key: string) =>
+    (values[key] || "").replace(/\{\{firstName\}\}/g, "Jane").replace(/\{\{name\}\}/g, "Jane Smith");
+
+  if (loading) return <p className="text-white/30 text-[13px]">Loading…</p>;
+
+  return (
+    <div className="max-w-2xl space-y-5">
+      <div className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl p-5">
+        <p className="text-white font-black text-[17px] mb-1">📧 Quote Confirmation Email</p>
+        <p className="text-white/40 text-[13px]">
+          This email is sent automatically to every lead when they submit the contact form. Edit any part below — changes take effect on the next submission.
+        </p>
+        <p className="text-white/25 text-[11px] mt-2">Use <span className="text-[#60A5FA] font-mono">{"{{firstName}}"}</span> to personalize with the lead's first name.</p>
+      </div>
+
+      <div className="space-y-4">
+        {EMAIL_FIELDS.map(field => (
+          <div key={field.key} className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl p-5">
+            <div className="flex items-center justify-between mb-1">
+              <p className="text-white font-bold text-[14px]">{field.label}</p>
+              <p className="text-white/25 text-[11px]">{field.hint}</p>
+            </div>
+            <textarea
+              rows={field.rows}
+              value={values[field.key] || ""}
+              onChange={e => setValues(prev => ({ ...prev, [field.key]: e.target.value }))}
+              className="w-full bg-black/30 border border-[#2A2D3A] focus:border-[#2563EB] rounded-xl px-4 py-3 text-white text-[14px] placeholder-white/20 focus:outline-none transition resize-none mb-3"
+            />
+            <div className="bg-black/20 rounded-lg px-3 py-2">
+              <p className="text-white/20 text-[10px] uppercase tracking-widest font-semibold mb-1">Preview</p>
+              <p className="text-white/50 text-[12px] leading-relaxed">{preview(field.key)}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <button onClick={save} disabled={saving}
+        className="w-full py-3.5 rounded-xl font-bold text-[14px] transition bg-[#2563EB] text-white hover:bg-[#1D4ED8] disabled:opacity-50">
+        {saving ? "Saving…" : saved ? "✓ Saved" : "Save Email Template"}
+      </button>
     </div>
   );
 }

@@ -16,28 +16,26 @@ const highlights = [
 
 export default function About() {
   return (
-    <section id="about" className="bg-[#F2F1EC] py-28">
+    <section id="about" className="bg-[#F2F1EC] py-14 sm:py-20">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
 
-        <div className="grid md:grid-cols-2 gap-16 items-center">
+        <div className="grid md:grid-cols-2 gap-10 items-center">
 
           {/* Left — photo placeholder + stats */}
           <Reveal direction="left">
             <div className="relative">
-              {/* Avatar / photo area */}
               <div
-                className="w-full aspect-[4/5] rounded-3xl overflow-hidden relative"
+                className="w-full aspect-[4/5] rounded-2xl overflow-hidden relative"
                 style={{ background: 'linear-gradient(135deg, #0D1B45 0%, #1E3A8A 100%)' }}
               >
-                {/* Initials placeholder — swap for a real <img> when you have a photo */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-[120px] font-black text-white/10 select-none leading-none">BW</span>
+                  <span className="text-[100px] font-black text-white/10 select-none leading-none">BW</span>
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 p-6" style={{ background: 'linear-gradient(to top, rgba(6,9,31,0.9), transparent)' }}>
+                <div className="absolute bottom-0 left-0 right-0 p-5" style={{ background: 'linear-gradient(to top, rgba(6,9,31,0.9), transparent)' }}>
                   <div className="flex items-end justify-between">
                     <div>
-                      <p className="text-white font-black text-xl tracking-tight">Brian Whirlow</p>
-                      <p className="text-white/50 text-sm mt-0.5">Web Designer & Developer</p>
+                      <p className="text-white font-black text-lg tracking-tight">Brian Whirlow</p>
+                      <p className="text-white/50 text-[13px] mt-0.5">Web Designer & Developer</p>
                     </div>
                     <a
                       href={siteConfig.social.linkedin}
@@ -51,17 +49,17 @@ export default function About() {
                   </div>
                 </div>
 
-                {/* Floating badges — stacked under BW initials */}
-                <div className="absolute bottom-16 sm:bottom-20 left-1/2 -translate-x-1/2 grid grid-cols-2 sm:flex gap-2 sm:gap-3 w-[calc(100%-32px)] sm:w-[calc(100%-40px)]">
+                {/* Floating badges */}
+                <div className="absolute bottom-14 sm:bottom-16 left-1/2 -translate-x-1/2 grid grid-cols-2 sm:flex gap-2 w-[calc(100%-32px)] sm:w-[calc(100%-40px)]">
                   {[
                     { value: "72hr", label: "First Draft" },
                     { value: "5+", label: "Years Exp." },
-                    { value: "100%", label: "Client Satisfaction" },
+                    { value: "100%", label: "Satisfaction" },
                     { value: "5.0★", label: "Avg. Rating" },
                   ].map((badge) => (
-                    <div key={badge.label} className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 text-center">
-                      <p className="text-white font-black text-base sm:text-xl leading-none">{badge.value}</p>
-                      <p className="text-white/50 text-[8px] sm:text-[9px] uppercase tracking-widest mt-1 font-medium">{badge.label}</p>
+                    <div key={badge.label} className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl py-2 text-center">
+                      <p className="text-white font-black text-sm sm:text-base leading-none">{badge.value}</p>
+                      <p className="text-white/50 text-[8px] uppercase tracking-widest mt-1 font-medium">{badge.label}</p>
                     </div>
                   ))}
                 </div>
@@ -71,16 +69,16 @@ export default function About() {
 
           {/* Right — bio + skills */}
           <Reveal direction="right" delay={100}>
-            <p className="text-[#2563EB] text-[12px] font-semibold tracking-widest uppercase mb-4">
+            <p className="text-[#2563EB] text-[13px] font-semibold tracking-widest uppercase mb-3">
               About Me
             </p>
-            <h2 className="text-[clamp(32px,4vw,52px)] font-black text-[#1A1A1A] leading-tight tracking-tight mb-6">
+            <h2 className="text-[clamp(24px,2.8vw,38px)] font-black text-[#1A1A1A] leading-tight tracking-tight mb-4">
               I build websites that
               <br />
               <span className="text-[#2563EB]">actually work.</span>
             </h2>
 
-            <div className="space-y-4 text-[#555555] text-[15px] leading-relaxed mb-8">
+            <div className="space-y-3 text-[#555555] text-[14px] leading-relaxed mb-6">
               <p>
                 I build websites that get businesses more customers. I&apos;ve worked with restaurants, e-commerce brands, photographers, and service businesses — turning slow, outdated sites into their <span className="text-[#1A1A1A] font-semibold">best-performing sales tool</span>.
               </p>
@@ -90,13 +88,13 @@ export default function About() {
             </div>
 
             {/* Skills chips */}
-            <div className="mb-8">
-              <p className="text-[11px] text-[#AEACA6] uppercase tracking-widest font-semibold mb-3">Tools & Technologies</p>
-              <div className="flex flex-wrap gap-2">
+            <div className="mb-5">
+              <p className="text-[11px] text-[#AEACA6] uppercase tracking-widest font-semibold mb-2.5">Tools & Technologies</p>
+              <div className="flex flex-wrap gap-1.5">
                 {skills.map((skill) => (
                   <span
                     key={skill}
-                    className="bg-white border border-[#E5E4DF] text-[#4A4A4A] text-[12px] font-semibold px-3 py-1.5 rounded-full hover:border-[#2563EB] hover:text-[#2563EB] transition-colors cursor-default"
+                    className="bg-white border border-[#E5E4DF] text-[#4A4A4A] text-[11px] font-semibold px-2.5 py-1 rounded-full hover:border-[#2563EB] hover:text-[#2563EB] transition-colors cursor-default"
                   >
                     {skill}
                   </span>
@@ -107,16 +105,16 @@ export default function About() {
             <div className="flex flex-wrap gap-3">
               <a
                 href="/contact"
-                className="inline-flex items-center gap-2 bg-[#2563EB] text-white font-semibold px-6 py-3.5 rounded-full hover:bg-[#1D4ED8] transition-all hover:scale-[1.03] active:scale-[0.97] text-[14px]"
+                className="inline-flex items-center gap-2 bg-[#2563EB] text-white font-semibold px-5 py-3 rounded-full hover:bg-[#1D4ED8] transition-all hover:scale-[1.03] active:scale-[0.97] text-[13px]"
               >
                 Work with me
-                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                 </svg>
               </a>
               <a
                 href="/services"
-                className="inline-flex items-center gap-2 text-[#737373] font-semibold px-6 py-3.5 rounded-full border border-[#E5E4DF] hover:border-[#2563EB]/40 hover:text-[#2563EB] transition-all text-[14px]"
+                className="inline-flex items-center gap-2 text-[#737373] font-semibold px-5 py-3 rounded-full border border-[#E5E4DF] hover:border-[#2563EB]/40 hover:text-[#2563EB] transition-all text-[13px]"
               >
                 View services
               </a>

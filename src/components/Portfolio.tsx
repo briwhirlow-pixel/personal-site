@@ -53,7 +53,7 @@ export default function Portfolio() {
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Top row: heading spans 2 cols, APEX card in col 3 — all in same 3-col grid as cards below */}
         <div className="grid sm:grid-cols-3 gap-5 sm:gap-6 mb-5">
-          <Reveal className="sm:col-span-2 flex flex-col justify-center">
+          <Reveal className="sm:col-span-2 flex flex-col justify-start">
             <p className="text-[#60A5FA] text-[12px] font-semibold tracking-widest uppercase mb-4">What I Build</p>
             <h2 className="text-[clamp(32px,4.5vw,56px)] font-black text-white leading-tight tracking-tight mb-4">
               Types of websites<br />I specialize in.

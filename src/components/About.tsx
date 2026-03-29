@@ -27,28 +27,16 @@ export default function About() {
                 className="w-full aspect-[4/5] rounded-3xl overflow-hidden relative"
                 style={{ background: 'linear-gradient(135deg, #0D1B45 0%, #1E3A8A 100%)' }}
               >
-                {/* Initials placeholder — swap for a real <img> when you have a photo */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-[120px] font-black text-white/10 select-none leading-none">BW</span>
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 p-6" style={{ background: 'linear-gradient(to top, rgba(6,9,31,0.9), transparent)' }}>
+                {/* Photo */}
+                <img
+                  src="/images/download.png"
+                  alt="Brian Whirlow"
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[88%] w-auto object-contain object-bottom select-none"
+                  draggable={false}
+                />
+                <div className="absolute bottom-0 left-0 right-0 p-6" style={{ background: 'linear-gradient(to top, rgba(6,9,31,0.95) 0%, rgba(6,9,31,0.4) 60%, transparent 100%)' }}>
                   <p className="text-white font-black text-xl tracking-tight">Brian Whirlow</p>
                   <p className="text-white/50 text-sm mt-0.5">Web Designer & Developer</p>
-                </div>
-
-                {/* Floating badges — stacked under BW initials */}
-                <div className="absolute bottom-16 sm:bottom-20 left-1/2 -translate-x-1/2 grid grid-cols-2 sm:flex gap-2 sm:gap-3 w-[calc(100%-32px)] sm:w-[calc(100%-40px)]">
-                  {[
-                    { value: "72hr", label: "First Draft" },
-                    { value: "5+", label: "Years Exp." },
-                    { value: "100%", label: "Client Satisfaction" },
-                    { value: "5.0★", label: "Avg. Rating" },
-                  ].map((badge) => (
-                    <div key={badge.label} className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 text-center">
-                      <p className="text-white font-black text-base sm:text-xl leading-none">{badge.value}</p>
-                      <p className="text-white/50 text-[8px] sm:text-[9px] uppercase tracking-widest mt-1 font-medium">{badge.label}</p>
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>

@@ -9,6 +9,7 @@ import Reveal from "./Reveal";
 type FormData = {
   name: string;
   email: string;
+  phone: string;
   websiteType: string;
   websiteTypeCustom: string;
   budget: string;
@@ -306,6 +307,15 @@ export default function Contact() {
                           {...register("email", { required: "Email is required", pattern: { value: /^\S+@\S+$/i, message: "Invalid email" } })} />
                         {errors.email && <p className="text-red-500 text-[12px] mt-1">{errors.email.message}</p>}
                       </div>
+                    </div>
+
+                    {/* Phone (optional) */}
+                    <div>
+                      <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">
+                        Phone <span className="text-[#AEACA6] normal-case font-medium tracking-normal">— optional</span>
+                      </label>
+                      <input type="tel" placeholder="(555) 000-0000" className={inputClass()}
+                        {...register("phone")} />
                     </div>
 
                     {/* Message */}

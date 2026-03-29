@@ -6,6 +6,7 @@ import { getSupabaseAdmin } from "@/lib/supabase";
 const schema = z.object({
   name: z.string().min(1),
   email: z.string().email(),
+  phone: z.string().optional(),
   websiteType: z.string().optional(),
   budget: z.string().min(1),
   launchDate: z.string().optional(),
@@ -49,7 +50,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { name, email, websiteType, budget, launchDate, message } = parsed.data;
+    const { name, email, phone, websiteType, budget, launchDate, message } = parsed.data;
 
     // Save to leads table
     const { error: dbError } = await getSupabaseAdmin()
@@ -57,6 +58,7 @@ export async function POST(request: Request) {
       .insert({
         name,
         email,
+        phone: phone || null,
         website_type: websiteType || null,
         budget,
         launch_date: launchDate || null,
@@ -89,6 +91,7 @@ export async function POST(request: Request) {
       text: [
         `Name: ${name}`,
         `Email: ${email}`,
+        `Phone: ${phone || "Not provided"}`,
         `Website Type: ${websiteType || "Not specified"}`,
         `Budget: ${budget}`,
         `Launch Date: ${launchDate || "Not specified"}`,

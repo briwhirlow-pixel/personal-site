@@ -32,11 +32,7 @@ export default function About() {
                   <span className="text-[100px] font-black text-white/10 select-none leading-none">BW</span>
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-5" style={{ background: 'linear-gradient(to top, rgba(6,9,31,0.9), transparent)' }}>
-                  <div className="flex items-end justify-between">
-                    <div>
-                      <p className="text-white font-black text-lg tracking-tight">Brian Whirlow</p>
-                      <p className="text-white/50 text-[13px] mt-0.5">Web Designer & Developer</p>
-                    </div>
+                  <div className="flex flex-col items-center gap-2">
                     <a
                       href={siteConfig.social.linkedin}
                       target="_blank"
@@ -46,20 +42,24 @@ export default function About() {
                     >
                       <Linkedin size={18} className="text-white" />
                     </a>
+                    <div className="text-center">
+                      <p className="text-white font-black text-lg tracking-tight">Brian Whirlow</p>
+                      <p className="text-white/50 text-[13px] mt-0.5">Web Designer & Developer</p>
+                    </div>
                   </div>
                 </div>
 
                 {/* Floating badges */}
-                <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 grid grid-cols-2 sm:flex gap-2 w-[calc(100%-32px)] sm:w-[calc(100%-40px)]">
+                <div className="absolute bottom-28 sm:bottom-32 left-1/2 -translate-x-1/2 grid grid-cols-2 sm:flex gap-2 w-[calc(100%-32px)] sm:w-[calc(100%-40px)]">
                   {[
                     { value: "72hr", label: "First Draft" },
                     { value: "5+", label: "Years Exp." },
                     { value: "100%", label: "Satisfaction" },
                     { value: "5.0★", label: "Avg. Rating" },
                   ].map((badge) => (
-                    <div key={badge.label} className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl py-2 text-center">
-                      <p className="text-white font-black text-sm sm:text-base leading-none">{badge.value}</p>
-                      <p className="text-white/50 text-[8px] uppercase tracking-widest mt-1 font-medium">{badge.label}</p>
+                    <div key={badge.label} className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl py-3 text-center">
+                      <p className="text-white font-black text-lg sm:text-xl leading-none">{badge.value}</p>
+                      <p className="text-white/50 text-[9px] uppercase tracking-widest mt-1.5 font-medium">{badge.label}</p>
                     </div>
                   ))}
                 </div>
@@ -86,7 +86,7 @@ export default function About() {
                 I&apos;ve worked with restaurants, e-commerce brands, photographers, and service businesses — turning slow, outdated sites into their <span className="text-[#1A1A1A] font-semibold">best-performing sales tool</span>. You&apos;ll always know where your project stands — no ghosting, no vague timelines, just clean work delivered fast.
               </p>
               <p>
-                I hold a degree in Management Information Systems and am currently finishing my MBA in Sustainable Business — meaning I think about your website as a business tool, not just a design project. Outside of work I&apos;m hiking, working out, traveling, and spending time with family and friends.
+                I hold a degree in Management Information Systems and am currently finishing my MBA in Sustainable Business and Management — meaning I think about your website as a business tool, not just a design project. Outside of work I&apos;m hiking, working out, traveling, and spending time with family and friends.
               </p>
             </div>
 

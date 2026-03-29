@@ -25,12 +25,12 @@ export default function About() {
           <Reveal direction="left">
             <div className="relative">
               <div
-                className="w-full aspect-[4/5] rounded-2xl overflow-hidden relative"
+                className="w-full aspect-[4/5] rounded-2xl overflow-hidden flex flex-col"
                 style={{ background: 'linear-gradient(135deg, #0D1B45 0%, #1E3A8A 100%)' }}
               >
-                {/* Logo icon centered */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <svg width="120" height="120" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-20">
+                {/* Logo icon — top half */}
+                <div className="flex-1 flex items-center justify-center">
+                  <svg width="140" height="140" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-20">
                     <rect width="32" height="32" rx="8" fill="#2563EB" />
                     <path d="M9 8h7c2 0 3.8 1.8 3.8 4 0 1.2-.5 2.1-1.2 2.9 1 .7 1.6 1.8 1.6 3.1 0 2.5-1.7 4.3-4 4.3H9V8z" fill="white" />
                     <rect x="11.5" y="10.5" width="4" height="3.5" rx="1.75" fill="#2563EB" />
@@ -38,8 +38,25 @@ export default function About() {
                   </svg>
                 </div>
 
-                <div className="absolute bottom-0 left-0 right-0 p-6" style={{ background: 'linear-gradient(to top, rgba(6,9,31,0.95) 0%, rgba(6,9,31,0.6) 60%, transparent 100%)' }}>
-                  <div className="flex flex-col items-center gap-2.5 text-center">
+                {/* Bottom content */}
+                <div className="px-4 pb-6 pt-4 flex flex-col gap-3" style={{ background: 'linear-gradient(to top, rgba(6,9,31,0.97) 0%, rgba(6,9,31,0.7) 70%, transparent 100%)' }}>
+                  {/* Badges */}
+                  <div className="grid grid-cols-4 gap-2">
+                    {[
+                      { value: "72hr", label: "First Draft" },
+                      { value: "5+", label: "Years Exp." },
+                      { value: "100%", label: "Satisfaction" },
+                      { value: "5.0★", label: "Avg. Rating" },
+                    ].map((badge) => (
+                      <div key={badge.label} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl py-3 text-center">
+                        <p className="text-white font-black text-lg leading-none">{badge.value}</p>
+                        <p className="text-white/50 text-[9px] uppercase tracking-widest mt-1.5 font-medium">{badge.label}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Name + title + LinkedIn */}
+                  <div className="flex flex-col items-center gap-1.5 text-center pt-1">
                     <p className="text-white font-black text-2xl tracking-tight">Brian Whirlow</p>
                     <p className="text-white/50 text-[15px]">Web Designer & Developer</p>
                     <a
@@ -47,26 +64,11 @@ export default function About() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="LinkedIn"
-                      className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#2563EB] hover:border-[#2563EB] transition-all"
+                      className="mt-1 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#2563EB] hover:border-[#2563EB] transition-all"
                     >
                       <Linkedin size={20} className="text-white" />
                     </a>
                   </div>
-                </div>
-
-                {/* Floating badges */}
-                <div className="absolute bottom-36 left-1/2 -translate-x-1/2 grid grid-cols-2 sm:flex gap-2 w-[calc(100%-32px)] sm:w-[calc(100%-40px)]">
-                  {[
-                    { value: "72hr", label: "First Draft" },
-                    { value: "5+", label: "Years Exp." },
-                    { value: "100%", label: "Satisfaction" },
-                    { value: "5.0★", label: "Avg. Rating" },
-                  ].map((badge) => (
-                    <div key={badge.label} className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl py-4 text-center">
-                      <p className="text-white font-black text-xl sm:text-2xl leading-none">{badge.value}</p>
-                      <p className="text-white/50 text-[10px] uppercase tracking-widest mt-2 font-medium">{badge.label}</p>
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>

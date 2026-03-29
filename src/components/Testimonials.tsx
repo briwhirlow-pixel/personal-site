@@ -28,6 +28,33 @@ const reviews = [
     highlight: "2 client inquiries through the contact form already",
     tag: "Portfolio",
   },
+  {
+    name: "Deanna P.",
+    date: "March 2026",
+    avatar: "DP",
+    rating: 5,
+    text: "My photography site got a major upgrade. Love it Brian thanks!",
+    highlight: null,
+    tag: "Photography",
+  },
+  {
+    name: "Jim B.",
+    date: "March 2026",
+    avatar: "JB",
+    rating: 5,
+    text: null,
+    highlight: null,
+    tag: null,
+  },
+  {
+    name: "Rocco F.",
+    date: "March 2026",
+    avatar: "RF",
+    rating: 5,
+    text: null,
+    highlight: null,
+    tag: null,
+  },
 ];
 
 function StarRating({ count }: { count: number }) {
@@ -59,42 +86,55 @@ export default function Testimonials() {
           </div>
         </Reveal>
 
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6" style={{ gridAutoRows: '1fr' }}>
           {reviews.map((review, i) => (
-            <Reveal key={review.name} delay={i * 100}>
-              <div className="group relative bg-[#FAFAF7] border border-[#E5E4DF] rounded-2xl p-7 flex flex-col h-full hover:border-[#2563EB]/30 hover:shadow-[0_8px_40px_rgba(37,99,235,0.08)] transition-all duration-300">
+            <Reveal key={review.name} delay={i * 100} className="h-full">
+              <div className="group relative bg-[#FAFAF7] border border-[#E5E4DF] rounded-2xl p-5 flex flex-col h-full hover:border-[#2563EB]/30 hover:shadow-[0_8px_40px_rgba(37,99,235,0.08)] transition-all duration-300">
 
                 {/* Tag + rating row */}
-                <div className="flex items-center justify-between mb-5">
-                  <span className="text-[11px] font-bold tracking-widest uppercase text-[#2563EB] bg-[#EFF6FF] px-3 py-1 rounded-full">
-                    {review.tag}
-                  </span>
+                <div className="flex items-center justify-between mb-4">
+                  {review.tag ? (
+                    <span className="text-[10px] font-bold tracking-widest uppercase text-[#2563EB] bg-[#EFF6FF] px-2.5 py-1 rounded-full">
+                      {review.tag}
+                    </span>
+                  ) : (
+                    <span className="text-[10px] font-semibold text-[#AEACA6]">Verified client</span>
+                  )}
                   <StarRating count={review.rating} />
                 </div>
 
-                {/* Quote */}
-                <div className="mb-6 flex-1">
-                  <svg width="28" height="20" viewBox="0 0 28 20" fill="none" className="mb-3 text-[#2563EB]/20" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0 20V12.8C0 9.06667 0.933333 5.93333 2.8 3.4C4.66667 0.866667 7.46667 0 11.2 0V3.6C9.33333 3.6 7.93333 4.33333 7 5.8C6.06667 7.26667 5.6 9.06667 5.6 11.2H11.2V20H0ZM16.8 20V12.8C16.8 9.06667 17.7333 5.93333 19.6 3.4C21.4667 0.866667 24.2667 0 28 0V3.6C26.1333 3.6 24.7333 4.33333 23.8 5.8C22.8667 7.26667 22.4 9.06667 22.4 11.2H28V20H16.8Z" fill="currentColor"/>
-                  </svg>
-                  <p className="text-[#555555] text-[14px] leading-relaxed">{review.text}</p>
+                {/* Quote or stars-only */}
+                <div className="flex-1 flex flex-col justify-center">
+                  {review.text ? (
+                    <>
+                      <svg width="22" height="16" viewBox="0 0 28 20" fill="none" className="mb-2 text-[#2563EB]/20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 20V12.8C0 9.06667 0.933333 5.93333 2.8 3.4C4.66667 0.866667 7.46667 0 11.2 0V3.6C9.33333 3.6 7.93333 4.33333 7 5.8C6.06667 7.26667 5.6 9.06667 5.6 11.2H11.2V20H0ZM16.8 20V12.8C16.8 9.06667 17.7333 5.93333 19.6 3.4C21.4667 0.866667 24.2667 0 28 0V3.6C26.1333 3.6 24.7333 4.33333 23.8 5.8C22.8667 7.26667 22.4 9.06667 22.4 11.2H28V20H16.8Z" fill="currentColor"/>
+                      </svg>
+                      <p className="text-[#555555] text-[13px] leading-relaxed">{review.text}</p>
+                    </>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center py-4 gap-3">
+                      <StarRating count={5} />
+                      <p className="text-[#AEACA6] text-[12px]">Left a 5-star rating</p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Highlight callout */}
-                <div className="bg-[#EFF6FF] border border-[#2563EB]/10 rounded-xl px-4 py-2.5 mb-5">
-                  <p className="text-[#2563EB] text-[12px] font-semibold">
-                    ✦ {review.highlight}
-                  </p>
-                </div>
+                {review.highlight && (
+                  <div className="bg-[#EFF6FF] border border-[#2563EB]/10 rounded-xl px-3 py-2 mb-4 mt-3">
+                    <p className="text-[#2563EB] text-[11px] font-semibold">✦ {review.highlight}</p>
+                  </div>
+                )}
 
                 {/* Author */}
-                <div className="flex items-center gap-3 pt-5 border-t border-[#E5E4DF]">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#1E3A8A] to-[#2563EB] flex items-center justify-center flex-shrink-0">
-                    <span className="text-white text-[11px] font-black tracking-wide">{review.avatar}</span>
+                <div className="flex items-center gap-3 pt-4 mt-3 border-t border-[#E5E4DF]">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#1E3A8A] to-[#2563EB] flex items-center justify-center flex-shrink-0">
+                    <span className="text-white text-[10px] font-black tracking-wide">{review.avatar}</span>
                   </div>
                   <div>
-                    <p className="text-[#1A1A1A] text-[13px] font-bold leading-tight">{review.name}</p>
-                    <p className="text-[#AEACA6] text-[11px] mt-0.5">{review.date}</p>
+                    <p className="text-[#1A1A1A] text-[12px] font-bold leading-tight">{review.name}</p>
+                    <p className="text-[#AEACA6] text-[10px] mt-0.5">{review.date}</p>
                   </div>
                 </div>
 

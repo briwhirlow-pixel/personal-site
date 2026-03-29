@@ -58,23 +58,21 @@ export default function Portfolio() {
             <h2 className="text-[clamp(32px,4.5vw,56px)] font-black text-white leading-tight tracking-tight mb-4">
               Types of websites<br />I specialize in.
             </h2>
-            <p className="text-white/40 text-[15px] leading-relaxed mb-6">
+            <p className="text-white/40 text-[15px] leading-relaxed">
               Every business is different. Here are the most popular types of sites I build — each tailored to your goals.
             </p>
-            {liveProjects.length > 0 && (
-              <p className="text-[#60A5FA] text-[11px] font-semibold tracking-widest uppercase mb-1">Example Project</p>
-            )}
           </Reveal>
 
           {liveProjects.length > 0 && (
             <Reveal delay={100}>
+              <p className="text-[#60A5FA] text-[12px] font-semibold tracking-widest uppercase mb-4">Example Project</p>
               {(() => {
                 const project = liveProjects[0];
                 return (
                   <a href={project.url} target="_blank" rel="noopener noreferrer"
                     className="group rounded-2xl overflow-hidden border border-white/[0.08] hover:border-[#2563EB]/50 transition-all duration-300 flex flex-col"
                     style={{ background: `linear-gradient(135deg, ${project.bgFrom} 0%, ${project.bgTo} 100%)` }}>
-                    <div className="p-4 pb-0">
+                    <div className="p-3 pb-0">
                       <div className="w-full rounded-xl overflow-hidden border border-white/[0.06]" style={{ aspectRatio: '16/9' }}>
                         <div className="flex items-center gap-1.5 px-3 h-[22px] bg-[#1a1a1a]">
                           <div className="w-2 h-2 rounded-full bg-[#FF5F57]" />
@@ -103,7 +101,7 @@ export default function Portfolio() {
                         </div>
                       </div>
                     </div>
-                    <div className="p-5 flex-1 flex flex-col">
+                    <div className="p-4 flex-1 flex flex-col">
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-[11px] font-bold px-2.5 py-1 rounded-full tracking-widest uppercase"
                           style={{ color: project.accentColor, background: `${project.accentColor}15` }}>
@@ -114,8 +112,8 @@ export default function Portfolio() {
                           Live
                         </span>
                       </div>
-                      <h3 className="text-white font-black text-[17px] tracking-tight mb-1">{project.name}</h3>
-                      <p className="text-white/40 text-[13px] leading-relaxed mb-4">{project.description}</p>
+                      <h3 className="text-white font-black text-[15px] tracking-tight mb-1">{project.name}</h3>
+                      <p className="text-white/40 text-[12px] leading-relaxed mb-3">{project.description}</p>
                       <ul className="mt-auto space-y-1.5">
                         {project.features.map((f) => (
                           <li key={f} className="flex items-center gap-2 text-[12px] text-white/60">

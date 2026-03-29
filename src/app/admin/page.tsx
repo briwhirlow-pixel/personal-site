@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-type LeadStatus = "new" | "contacted" | "call_scheduled" | "proposal_sent" | "won" | "lost";
+type LeadStatus = "new" | "contacted" | "call_scheduled" | "proposal_sent" | "won" | "lost" | "archived";
 type ProjectStatus = "discovery" | "building" | "review" | "launched";
 
 interface Lead {
@@ -613,15 +613,48 @@ function LeadPanel({
         </div>
 
         {/* Footer actions */}
-        <div className="p-6 border-t border-[#2A2D3A] flex gap-3">
-          <button onClick={save} disabled={saving}
-            className="flex-1 bg-[#2563EB] text-white font-semibold py-3 rounded-xl hover:bg-[#1D4ED8] transition disabled:opacity-50 text-[14px]">
-            {saving ? "Saving…" : "Save Changes"}
-          </button>
-          {lead.status === "won" && (
-            <button onClick={() => onConvert(lead)}
-              className="flex-1 bg-[#0D3D2A] text-[#34D399] font-semibold py-3 rounded-xl hover:bg-[#10B98133] transition text-[14px] border border-[#34D39933]">
-              Convert to Project
+        <div className="p-6 border-t border-[#2A2D3A] space-y-3">
+          <div className="flex gap-3">
+            <button onClick={save} disabled={saving}
+              className="flex-1 bg-[#2563EB] text-white font-semibold py-3 rounded-xl hover:bg-[#1D4ED8] transition disabled:opacity-50 text-[14px]">
+              {saving ? "Saving…" : "Save Changes"}
+            </button>
+            {lead.status === "won" && (
+              <button onClick={() => onConvert(lead)}
+                className="flex-1 bg-[#0D3D2A] text-[#34D399] font-semibold py-3 rounded-xl hover:bg-[#10B98133] transition text-[14px] border border-[#34D39933]">
+                Convert to Project
+              </button>
+            )}
+          </div>
+          {lead.status !== "archived" ? (
+            <button onClick={async () => {
+              setStatus("archived");
+              setSaving(true);
+              const res = await fetch(`/api/admin/leads/${lead.id}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+                body: JSON.stringify({ status: "archived", notes }),
+              });
+              setSaving(false);
+              if (res.ok) { onUpdate(await res.json()); onClose(); }
+            }} disabled={saving}
+              className="w-full py-2.5 rounded-xl text-[13px] font-semibold text-white/30 hover:text-white/60 border border-[#2A2D3A] hover:border-white/20 transition">
+              Archive Lead
+            </button>
+          ) : (
+            <button onClick={async () => {
+              setStatus("new");
+              setSaving(true);
+              const res = await fetch(`/api/admin/leads/${lead.id}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+                body: JSON.stringify({ status: "new", notes }),
+              });
+              setSaving(false);
+              if (res.ok) { onUpdate(await res.json()); onClose(); }
+            }} disabled={saving}
+              className="w-full py-2.5 rounded-xl text-[13px] font-semibold text-[#60A5FA] border border-[#60A5FA]/20 hover:bg-[#60A5FA]/10 transition">
+              Restore to Pipeline
             </button>
           )}
         </div>
@@ -722,6 +755,7 @@ export default function AdminPage() {
   const [newProjectLead, setNewProjectLead] = useState<Lead | null>(null);
   const [loading, setLoading] = useState(false);
   const [fetchError, setFetchError] = useState("");
+  const [showArchived, setShowArchived] = useState(false);
 
   // Check for saved token on mount
   useEffect(() => {
@@ -757,6 +791,8 @@ export default function AdminPage() {
 
   if (!token) return <LoginScreen onLogin={setToken} />;
 
+  const activeLeads = leads.filter(l => l.status !== "archived");
+  const archivedLeads = leads.filter(l => l.status === "archived");
   const newCount = leads.filter(l => l.status === "new").length;
   const activeProjects = projects.filter(p => p.status !== "launched").length;
   const wonCount = leads.filter(l => l.status === "won").length;
@@ -831,16 +867,24 @@ export default function AdminPage() {
               className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition ${
                 tab === t ? "bg-[#2563EB] text-white" : "text-white/40 hover:text-white"
               }`}>
-              {t === "pipeline" ? `Pipeline (${leads.length})` : t === "projects" ? `Projects (${projects.length})` : t === "calendar" ? "📅 Calendar" : t === "playbook" ? "📋 Playbook" : t === "budget" ? "💰 Budget Tiers" : t === "expenses" ? "🧾 Expenses" : t === "templates" ? "🗂️ Templates" : t === "discovery" ? "📞 Discovery Call" : "📣 Marketing"}
+              {t === "pipeline" ? `Pipeline (${activeLeads.length})` : t === "projects" ? `Projects (${projects.length})` : t === "calendar" ? "📅 Calendar" : t === "playbook" ? "📋 Playbook" : t === "budget" ? "💰 Budget Tiers" : t === "expenses" ? "🧾 Expenses" : t === "templates" ? "🗂️ Templates" : t === "discovery" ? "📞 Discovery Call" : "📣 Marketing"}
             </button>
           ))}
         </div>
 
         {/* Pipeline view */}
         {tab === "pipeline" && (
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-white/30 text-[12px]">{archivedLeads.length} archived lead{archivedLeads.length !== 1 ? "s" : ""}</p>
+              <button onClick={() => setShowArchived(v => !v)}
+                className={`text-[12px] font-semibold px-3 py-1.5 rounded-lg border transition ${showArchived ? "bg-white/10 text-white border-white/20" : "text-white/40 border-[#2A2D3A] hover:text-white/70"}`}>
+                {showArchived ? "Hide Archived" : "Show Archived"}
+              </button>
+            </div>
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
             {LEAD_STATUSES.map(s => {
-              const colLeads = leads.filter(l => l.status === s.key);
+              const colLeads = (showArchived ? leads : activeLeads).filter(l => l.status === s.key);
               return (
                 <div key={s.key} className="bg-[#1A1D27] rounded-2xl p-4 border border-[#2A2D3A] min-h-[200px]">
                   <div className="flex items-center justify-between mb-4">
@@ -862,6 +906,25 @@ export default function AdminPage() {
                 </div>
               );
             })}
+            {showArchived && archivedLeads.length > 0 && (
+              <div className="bg-[#1A1D27] rounded-2xl p-4 border border-[#2A2D3A] border-dashed min-h-[200px]">
+                <div className="flex items-center justify-between mb-4">
+                  <p className="text-[11px] font-bold uppercase tracking-widest text-white/30">Archived</p>
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white/5 text-white/30">{archivedLeads.length}</span>
+                </div>
+                <div className="space-y-2">
+                  {archivedLeads.map(lead => (
+                    <button key={lead.id} onClick={() => setSelectedLead(lead)}
+                      className="w-full text-left bg-[#0F1117] border border-[#2A2D3A] rounded-xl p-3 transition hover:border-[#3A3D4A] opacity-50 hover:opacity-75">
+                      <p className="text-white text-[13px] font-semibold leading-tight truncate">{lead.name}</p>
+                      {lead.budget && <p className="text-white/40 text-[11px] mt-1 truncate">{lead.budget}</p>}
+                      <p className="text-white/20 text-[10px] mt-1.5">{timeAgo(lead.created_at)}</p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
           </div>
         )}
 

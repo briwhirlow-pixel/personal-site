@@ -44,9 +44,9 @@ export default function About() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="LinkedIn"
-                      className="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#2563EB] hover:border-[#2563EB] transition-all"
+                      className="w-11 h-11 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#2563EB] hover:border-[#2563EB] transition-all"
                     >
-                      <Linkedin size={15} className="text-white" />
+                      <Linkedin size={18} className="text-white" />
                     </a>
                   </div>
                 </div>

@@ -69,6 +69,7 @@ export default function Portfolio() {
               {(() => {
                 const project = liveProjects[0];
                 return (
+                  <div className="scale-[0.82] origin-top-left -mb-24">
                   <a href={project.url} target="_blank" rel="noopener noreferrer"
                     className="group rounded-2xl overflow-hidden border border-white/[0.08] hover:border-[#2563EB]/50 transition-all duration-300 flex flex-col"
                     style={{ background: `linear-gradient(135deg, ${project.bgFrom} 0%, ${project.bgTo} 100%)` }}>
@@ -135,6 +136,7 @@ export default function Portfolio() {
                       </div>
                     </div>
                   </a>
+                  </div>
                 );
               })()}
             </Reveal>

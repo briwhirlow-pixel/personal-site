@@ -94,7 +94,7 @@ export default function Hero() {
     <section
 
       className="relative min-h-screen flex flex-col justify-center overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, #06091F 0%, #0D1B45 45%, #081229 100%)' }}
+      style={{ background: 'linear-gradient(135deg, #0A1230 0%, #122558 45%, #0C1835 100%)' }}
     >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 

@@ -19,7 +19,7 @@ export default function About() {
     <section id="about" className="bg-[#F2F1EC] py-14 sm:py-20">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
 
-        <div className="grid md:grid-cols-2 gap-10 items-center">
+        <div className="grid md:grid-cols-2 gap-10 items-start">
 
           {/* Left — photo placeholder + stats */}
           <Reveal direction="left">
@@ -50,7 +50,7 @@ export default function About() {
                 </div>
 
                 {/* Floating badges */}
-                <div className="absolute bottom-14 sm:bottom-16 left-1/2 -translate-x-1/2 grid grid-cols-2 sm:flex gap-2 w-[calc(100%-32px)] sm:w-[calc(100%-40px)]">
+                <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 grid grid-cols-2 sm:flex gap-2 w-[calc(100%-32px)] sm:w-[calc(100%-40px)]">
                   {[
                     { value: "72hr", label: "First Draft" },
                     { value: "5+", label: "Years Exp." },

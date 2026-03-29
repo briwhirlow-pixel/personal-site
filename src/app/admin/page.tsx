@@ -1892,7 +1892,7 @@ function Expenses() {
       icon: "🤖",
       color: "#8B5CF6",
       items: [
-        { label: "Claude Pro (Anthropic)", cost: "$20/mo", notes: "Used for code generation, client work, brainstorming. Tax deductible." },
+        { label: "Claude Max (Anthropic)", cost: "$100/mo", notes: "Used for code generation, client work, brainstorming. Tax deductible." },
         { label: "Claude API usage", cost: "Variable", notes: "Only if you build AI features into client sites. Pay per token." },
         { label: "GitHub Free", cost: "$0/mo", notes: "Free for public + private repos. Upgrade to Teams ($4/user/mo) if needed." },
       ],
@@ -1924,7 +1924,6 @@ function Expenses() {
       color: "#F59E0B",
       items: [
         { label: "Resend Free", cost: "$0/mo", notes: "3,000 emails/mo free. Plenty for contact forms on small sites." },
-        { label: "Resend Pro", cost: "$20/mo", notes: "50k emails/mo. Needed for client newsletter or high-volume forms." },
         { label: "Google Workspace", cost: "$6/mo/user", notes: "Professional @yourdomain.com email for client-facing communication." },
       ],
     },

@@ -28,14 +28,20 @@ export default function About() {
                 className="w-full aspect-[4/5] rounded-2xl overflow-hidden flex flex-col"
                 style={{ background: 'linear-gradient(135deg, #0D1B45 0%, #1E3A8A 100%)' }}
               >
-                {/* Logo icon — top half */}
+                {/* Logo — top half */}
                 <div className="flex-1 flex items-center justify-center">
-                  <svg width="140" height="140" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-20">
-                    <rect width="32" height="32" rx="8" fill="#2563EB" />
-                    <path d="M9 8h7c2 0 3.8 1.8 3.8 4 0 1.2-.5 2.1-1.2 2.9 1 .7 1.6 1.8 1.6 3.1 0 2.5-1.7 4.3-4 4.3H9V8z" fill="white" />
-                    <rect x="11.5" y="10.5" width="4" height="3.5" rx="1.75" fill="#2563EB" />
-                    <rect x="11.5" y="15.5" width="4.5" height="3.8" rx="1.9" fill="#2563EB" />
-                  </svg>
+                  <div className="flex flex-col items-center gap-3">
+                    <svg width="80" height="80" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="32" height="32" rx="8" fill="#2563EB" />
+                      <path d="M9 8h7c2 0 3.8 1.8 3.8 4 0 1.2-.5 2.1-1.2 2.9 1 .7 1.6 1.8 1.6 3.1 0 2.5-1.7 4.3-4 4.3H9V8z" fill="white" />
+                      <rect x="11.5" y="10.5" width="4" height="3.5" rx="1.75" fill="#2563EB" />
+                      <rect x="11.5" y="15.5" width="4.5" height="3.8" rx="1.9" fill="#2563EB" />
+                    </svg>
+                    <div className="text-center">
+                      <p className="font-black text-[22px] tracking-tight leading-none text-white">By<span className="text-[#2563EB]">Brian</span></p>
+                      <p className="text-[11px] font-semibold tracking-[0.18em] uppercase mt-1 text-white/50">Web Design</p>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Bottom content */}

@@ -1,5 +1,5 @@
 import { siteConfig } from "@/lib/data";
-import { Github, Linkedin } from "lucide-react";
+import { Linkedin } from "lucide-react";
 import Logo from "./Logo";
 
 const footerLinks = [
@@ -50,7 +50,6 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-white/25 text-[12px]">© {year} {siteConfig.name}. All rights reserved.</p>
           <div className="flex items-center gap-5">
-            <a href={siteConfig.social.github} aria-label="GitHub" className="text-white/25 hover:text-white transition-colors"><Github size={16} /></a>
             <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-white/25 hover:text-white transition-colors"><Linkedin size={16} /></a>
             <a href="/admin" aria-label="Admin" className="text-white/15 hover:text-white/40 transition-colors">
               <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">

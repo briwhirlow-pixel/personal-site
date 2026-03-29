@@ -76,7 +76,7 @@ export default function Contact() {
   };
 
   const onSubmit = async (data: FormData) => {
-    const submitData = { ...data, launchDate: launchOption === "custom" ? customDate : data.launchDate };
+    const submitData = { ...data, websiteType: data.websiteType === "custom" ? data.websiteTypeCustom : data.websiteType, launchDate: launchOption === "custom" ? customDate : data.launchDate };
     setStatus("loading");
     try {
       const res = await fetch("/api/contact", {

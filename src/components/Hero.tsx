@@ -116,7 +116,7 @@ export default function Hero() {
         {/* Pill badge */}
         <div className={`inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.08] rounded-full px-3 sm:px-4 py-1.5 mb-6 sm:mb-8 transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
           <span className="w-1.5 h-1.5 rounded-full bg-[#60A5FA] animate-pulse" />
-          <span className="text-white/50 text-[11px] sm:text-[12px] tracking-wide font-medium">Taking 4 new projects in April — spots limited</span>
+          <span className="text-white/50 text-[11px] sm:text-[12px] tracking-wide font-medium">Now accepting new projects — limited spots available</span>
         </div>
 
         {/* Headline with rotating word */}

@@ -25,7 +25,7 @@ export default function Logo({ light = false }: LogoProps) {
           className="font-black tracking-tight text-[15px] leading-none"
           style={{ color: textColor }}
         >
-          by<span style={{ color: "#2563EB" }}>Brian</span>
+          By<span style={{ color: "#2563EB" }}>Brian</span>
         </span>
         <span
           className="text-[8.5px] font-semibold tracking-[0.18em] uppercase mt-[3px] leading-none"

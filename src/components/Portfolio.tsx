@@ -51,20 +51,99 @@ export default function Portfolio() {
   return (
     <section id="portfolio" className="py-28" style={{ background: 'linear-gradient(160deg, #0A1230 0%, #122558 50%, #0C1835 100%)' }}>
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <Reveal className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
-          <div>
-            <p className="text-[#60A5FA] text-[12px] font-semibold tracking-widest uppercase mb-4">
-              What I Build
-            </p>
-            <h2 className="text-[clamp(32px,4.5vw,56px)] font-black text-white leading-tight tracking-tight">
+        {/* Top row: heading left, APEX card right */}
+        <div className="grid md:grid-cols-2 gap-10 items-start mb-12">
+          <Reveal>
+            <p className="text-[#60A5FA] text-[12px] font-semibold tracking-widest uppercase mb-4">What I Build</p>
+            <h2 className="text-[clamp(32px,4.5vw,56px)] font-black text-white leading-tight tracking-tight mb-4">
               Types of websites<br />I specialize in.
             </h2>
-          </div>
-          <p className="text-white/40 text-[15px] leading-relaxed max-w-xs">
-            Every business is different. Here are the most popular types of sites I build — each tailored to your goals.
-          </p>
-        </Reveal>
+            <p className="text-white/40 text-[15px] leading-relaxed mb-6">
+              Every business is different. Here are the most popular types of sites I build — each tailored to your goals.
+            </p>
+            {liveProjects.length > 0 && (
+              <p className="text-[#60A5FA] text-[11px] font-semibold tracking-widest uppercase mb-1">Example Project</p>
+            )}
+          </Reveal>
 
+          {liveProjects.length > 0 && (
+            <Reveal delay={100}>
+              {(() => {
+                const project = liveProjects[0];
+                return (
+                  <a href={project.url} target="_blank" rel="noopener noreferrer"
+                    className="group rounded-2xl overflow-hidden border border-white/[0.08] hover:border-[#2563EB]/50 transition-all duration-300 flex flex-col"
+                    style={{ background: `linear-gradient(135deg, ${project.bgFrom} 0%, ${project.bgTo} 100%)` }}>
+                    <div className="p-4 pb-0">
+                      <div className="w-full rounded-xl overflow-hidden border border-white/[0.06]" style={{ aspectRatio: '16/9' }}>
+                        <div className="flex items-center gap-1.5 px-3 h-[22px] bg-[#1a1a1a]">
+                          <div className="w-2 h-2 rounded-full bg-[#FF5F57]" />
+                          <div className="w-2 h-2 rounded-full bg-[#FFBD2E]" />
+                          <div className="w-2 h-2 rounded-full bg-[#28CA41]" />
+                          <div className="flex-1 mx-2 bg-white/10 rounded-full h-3 flex items-center px-2">
+                            <span className="text-white/30 text-[8px] font-mono truncate">{project.url.replace('https://', '')}</span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-2 p-4" style={{ height: 'calc(100% - 22px)', background: project.bgFrom }}>
+                          <div className="w-16 h-1.5 rounded-full" style={{ background: project.accentColor }} />
+                          <div className="w-32 h-5 rounded-sm bg-white/80" />
+                          <div className="w-24 h-5 rounded-sm bg-white/40" />
+                          <div className="flex gap-2 mt-1">
+                            <div className="h-7 w-24 rounded" style={{ background: project.accentColor }} />
+                            <div className="h-7 w-20 rounded border border-white/20" />
+                          </div>
+                          <div className="flex gap-3 mt-auto pt-2 border-t border-white/10">
+                            {['1,200+', '40+', '4.9★'].map((s) => (
+                              <div key={s} className="flex flex-col">
+                                <span className="text-white text-[10px] font-black">{s}</span>
+                                <span className="text-white/30 text-[8px]">stat</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-5 flex-1 flex flex-col">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-[11px] font-bold px-2.5 py-1 rounded-full tracking-widest uppercase"
+                          style={{ color: project.accentColor, background: `${project.accentColor}15` }}>
+                          {project.tag}
+                        </span>
+                        <span className="text-[11px] text-green-400 font-semibold flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
+                          Live
+                        </span>
+                      </div>
+                      <h3 className="text-white font-black text-[17px] tracking-tight mb-1">{project.name}</h3>
+                      <p className="text-white/40 text-[13px] leading-relaxed mb-4">{project.description}</p>
+                      <ul className="mt-auto space-y-1.5">
+                        {project.features.map((f) => (
+                          <li key={f} className="flex items-center gap-2 text-[12px] text-white/60">
+                            <div className="w-3.5 h-3.5 rounded-full flex items-center justify-center flex-shrink-0"
+                              style={{ background: `${project.accentColor}20` }}>
+                              <svg width="7" height="7" fill="none" stroke={project.accentColor} viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/>
+                              </svg>
+                            </div>
+                            {f}
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="mt-4 flex items-center gap-1.5 text-[12px] font-semibold text-white/50 group-hover:text-white transition-colors">
+                        View Live Site
+                        <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </a>
+                );
+              })()}
+            </Reveal>
+          )}
+        </div>
+
+        {/* Website type cards grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {websiteTypes.map((type: WebsiteType, i: number) => (
             <Reveal key={type.name} delay={i * 80} direction="up">
@@ -81,9 +160,7 @@ export default function Portfolio() {
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-xl">{type.emoji}</span>
                       <div>
-                        <p className="text-[#60A5FA] text-[11px] font-semibold tracking-wide uppercase leading-none mb-0.5">
-                          {type.tagline}
-                        </p>
+                        <p className="text-[#60A5FA] text-[11px] font-semibold tracking-wide uppercase leading-none mb-0.5">{type.tagline}</p>
                         <h3 className="text-[17px] font-black text-white tracking-tight">{type.name}</h3>
                       </div>
                     </div>
@@ -109,86 +186,6 @@ export default function Portfolio() {
             </Reveal>
           ))}
         </div>
-
-        {/* Example Projects */}
-        {liveProjects.length > 0 && (
-          <Reveal className="mt-20">
-            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-4">
-              <p className="text-[#60A5FA] text-[12px] font-semibold tracking-widest uppercase">Example Projects</p>
-              <p className="text-white/30 text-[12px] italic">Built to demonstrate real-world capabilities</p>
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {liveProjects.map((project) => (
-                <a key={project.name} href={project.url} target="_blank" rel="noopener noreferrer"
-                  className="group rounded-2xl overflow-hidden border border-white/[0.08] hover:border-[#2563EB]/50 transition-all duration-300 flex flex-col"
-                  style={{ background: `linear-gradient(135deg, ${project.bgFrom} 0%, ${project.bgTo} 100%)` }}>
-                  <div className="p-4 pb-0">
-                    <div className="w-full rounded-xl overflow-hidden border border-white/[0.06]" style={{ aspectRatio: '16/9' }}>
-                      <div className="flex items-center gap-1.5 px-3 h-[22px] bg-[#1a1a1a]">
-                        <div className="w-2 h-2 rounded-full bg-[#FF5F57]" />
-                        <div className="w-2 h-2 rounded-full bg-[#FFBD2E]" />
-                        <div className="w-2 h-2 rounded-full bg-[#28CA41]" />
-                        <div className="flex-1 mx-2 bg-white/10 rounded-full h-3 flex items-center px-2">
-                          <span className="text-white/30 text-[8px] font-mono truncate">{project.url.replace('https://', '')}</span>
-                        </div>
-                      </div>
-                      <div className="flex flex-col gap-2 p-4" style={{ height: 'calc(100% - 22px)', background: project.bgFrom }}>
-                        <div className="w-16 h-1.5 rounded-full" style={{ background: project.accentColor }} />
-                        <div className="w-32 h-5 rounded-sm bg-white/80" />
-                        <div className="w-24 h-5 rounded-sm bg-white/40" />
-                        <div className="flex gap-2 mt-1">
-                          <div className="h-7 w-24 rounded" style={{ background: project.accentColor }} />
-                          <div className="h-7 w-20 rounded border border-white/20" />
-                        </div>
-                        <div className="flex gap-3 mt-auto pt-2 border-t border-white/10">
-                          {['1,200+', '40+', '4.9★'].map((s) => (
-                            <div key={s} className="flex flex-col">
-                              <span className="text-white text-[10px] font-black">{s}</span>
-                              <span className="text-white/30 text-[8px]">stat</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-5 flex-1 flex flex-col">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-[11px] font-bold px-2.5 py-1 rounded-full tracking-widest uppercase"
-                        style={{ color: project.accentColor, background: `${project.accentColor}15` }}>
-                        {project.tag}
-                      </span>
-                      <span className="text-[11px] text-green-400 font-semibold flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
-                        Live
-                      </span>
-                    </div>
-                    <h3 className="text-white font-black text-[17px] tracking-tight mb-1">{project.name}</h3>
-                    <p className="text-white/40 text-[13px] leading-relaxed mb-4">{project.description}</p>
-                    <ul className="mt-auto space-y-1.5">
-                      {project.features.map((f) => (
-                        <li key={f} className="flex items-center gap-2 text-[12px] text-white/60">
-                          <div className="w-3.5 h-3.5 rounded-full flex items-center justify-center flex-shrink-0"
-                            style={{ background: `${project.accentColor}20` }}>
-                            <svg width="7" height="7" fill="none" stroke={project.accentColor} viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/>
-                            </svg>
-                          </div>
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="mt-4 flex items-center gap-1.5 text-[12px] font-semibold text-white/50 group-hover:text-white transition-colors">
-                      View Live Site
-                      <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                      </svg>
-                    </div>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </Reveal>
-        )}
       </div>
     </section>
   );

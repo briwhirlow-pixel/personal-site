@@ -30,7 +30,7 @@ const reviews = [
   },
   {
     name: "Deanna P.",
-    date: "March 2026",
+    date: "October 2025",
     avatar: "DP",
     rating: 5,
     text: "My photography site got a major upgrade. Love it Brian thanks!",
@@ -39,7 +39,7 @@ const reviews = [
   },
   {
     name: "Jim B.",
-    date: "March 2026",
+    date: "December 2025",
     avatar: "JB",
     rating: 5,
     text: null,
@@ -48,7 +48,7 @@ const reviews = [
   },
   {
     name: "Rocco F.",
-    date: "March 2026",
+    date: "January 2026",
     avatar: "RF",
     rating: 5,
     text: null,

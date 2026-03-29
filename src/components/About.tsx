@@ -1,3 +1,5 @@
+import { Linkedin } from "lucide-react";
+import { siteConfig } from "@/lib/data";
 import Reveal from "./Reveal";
 
 const skills = [
@@ -32,8 +34,21 @@ export default function About() {
                   <span className="text-[120px] font-black text-white/10 select-none leading-none">BW</span>
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-6" style={{ background: 'linear-gradient(to top, rgba(6,9,31,0.9), transparent)' }}>
-                  <p className="text-white font-black text-xl tracking-tight">Brian Whirlow</p>
-                  <p className="text-white/50 text-sm mt-0.5">Web Designer & Developer</p>
+                  <div className="flex items-end justify-between">
+                    <div>
+                      <p className="text-white font-black text-xl tracking-tight">Brian Whirlow</p>
+                      <p className="text-white/50 text-sm mt-0.5">Web Designer & Developer</p>
+                    </div>
+                    <a
+                      href={siteConfig.social.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="LinkedIn"
+                      className="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#2563EB] hover:border-[#2563EB] transition-all"
+                    >
+                      <Linkedin size={15} className="text-white" />
+                    </a>
+                  </div>
                 </div>
 
                 {/* Floating badges — stacked under BW initials */}

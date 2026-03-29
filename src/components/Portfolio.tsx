@@ -49,7 +49,7 @@ function BrowserMockup({ mockupKey }: { mockupKey: string }) {
 
 export default function Portfolio() {
   return (
-    <section id="portfolio" className="py-28" style={{ background: 'linear-gradient(160deg, #06091F 0%, #0D1B45 50%, #060D22 100%)' }}>
+    <section id="portfolio" className="py-28" style={{ background: 'linear-gradient(160deg, #0A1230 0%, #122558 50%, #0C1835 100%)' }}>
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Example Projects */}
         {liveProjects.length > 0 && (

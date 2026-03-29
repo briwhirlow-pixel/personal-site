@@ -2,24 +2,24 @@ import Reveal from "./Reveal";
 
 const stats = [
   {
-    value: "72",
-    suffix: "hr",
-    label: "First Draft Delivered",
-    sub: "First version in your hands within 72 hours of kickoff.",
+    value: "20",
+    suffix: "+",
+    label: "Sites Launched",
+    sub: "Real businesses, live and performing — not mockups.",
     icon: (
       <svg width="20" height="20" fill="none" stroke="#2563EB" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
       </svg>
     ),
   },
   {
-    value: "5.0",
-    suffix: "★",
-    label: "Client Rating",
-    sub: "Every project handed off with pride — no exceptions.",
+    value: "24",
+    suffix: "hr",
+    label: "Response Guaranteed",
+    sub: "You'll hear back within 24 hours — usually the same day.",
     icon: (
-      <svg width="20" height="20" fill="#2563EB" viewBox="0 0 24 24">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      <svg width="20" height="20" fill="none" stroke="#2563EB" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
       </svg>
     ),
   },

@@ -1,5 +1,5 @@
 import { siteConfig } from "@/lib/data";
-import { Linkedin } from "lucide-react";
+import { Linkedin, ArrowRight } from "lucide-react";
 import Logo from "./Logo";
 
 const footerLinks = [
@@ -41,9 +41,7 @@ export default function Footer() {
             </p>
             <a href="/contact" className="inline-flex items-center gap-2 bg-[#2563EB] text-white font-semibold px-5 py-2.5 rounded-full hover:bg-[#1D4ED8] transition-colors text-[13px]">
               Get in touch
-              <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-              </svg>
+              <ArrowRight size={13} />
             </a>
           </div>
         </div>

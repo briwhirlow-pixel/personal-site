@@ -1,5 +1,8 @@
 import { services } from "@/lib/data";
+import { Check } from "lucide-react";
 import Reveal from "./Reveal";
+
+const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 export default function Services() {
   return (
@@ -21,7 +24,7 @@ export default function Services() {
         <div className="-mx-5 sm:-mx-8 md:-mx-12 overflow-hidden mb-10 sm:mb-16 py-1">
           <div
             className="flex gap-4"
-            style={{ animation: 'marquee 22s linear infinite', width: 'max-content' }}
+            style={{ animation: prefersReducedMotion ? 'none' : 'marquee 22s linear infinite', width: 'max-content' }}
           >
             {[
               { icon: '⚡', label: 'Fast Turnaround', sub: '2–4 week delivery' },
@@ -70,9 +73,7 @@ export default function Services() {
                   {tier.features.map((feature) => (
                     <li key={feature} className="flex items-center gap-3 text-[13px]">
                       <div className={`w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 ${tier.highlighted ? 'bg-[#2563EB]' : 'bg-[#2563EB]/10'}`}>
-                        <svg width="8" height="8" fill="none" stroke={tier.highlighted ? 'white' : '#2563EB'} viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/>
-                        </svg>
+                        <Check size={8} strokeWidth={3} color={tier.highlighted ? 'white' : '#2563EB'} />
                       </div>
                       <span className={tier.highlighted ? 'text-white/80' : 'text-[#4A4A4A]'}>{feature}</span>
                     </li>

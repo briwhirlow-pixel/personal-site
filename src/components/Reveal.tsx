@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, ReactNode } from 'react';
 interface RevealProps {
   children: ReactNode;
   delay?: number;
-  direction?: string; // kept for API compat, no longer used
+  direction?: string;
   className?: string;
 }
 

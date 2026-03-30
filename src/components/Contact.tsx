@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Mail, CalendarDays, Phone } from "lucide-react";
-import { budgetOptions, siteConfig } from "@/lib/data";
+import { budgetOptions, launchOptions, siteConfig } from "@/lib/data";
 import Reveal from "./Reveal";
 
 type FormData = {
@@ -384,12 +384,7 @@ export default function Contact() {
                       <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-3">Expected Launch Date</label>
                       <input type="hidden" {...register("launchDate")} />
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
-                        {[
-                          { label: "2 Weeks", value: "2weeks" },
-                          { label: "1 Month", value: "1month" },
-                          { label: "3 Months", value: "3months" },
-                          { label: "Custom", value: "custom" },
-                        ].map((opt) => (
+                        {launchOptions.map((opt) => (
                           <button key={opt.value} type="button" onClick={() => selectLaunch(opt.value)}
                             className={`py-2.5 px-3 rounded-xl border text-left transition-all ${
                               launchOption === opt.value

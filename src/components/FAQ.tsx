@@ -6,7 +6,7 @@ import Reveal from "./Reveal";
 const faqs = [
   {
     q: "How much does a website cost?",
-    a: "Every project is different, but most sites I build range from $500 for a simple landing page to $5,000+ for a full custom e-commerce store. After a quick discovery call I can give you an exact quote — no surprises.",
+    a: "Every project is different, but most sites I build range from $750 for a simple landing page to $5,000+ for a full custom e-commerce store. After a quick discovery call I can give you an exact quote — no surprises.",
   },
   {
     q: "How long does it take?",
@@ -14,7 +14,7 @@ const faqs = [
   },
   {
     q: "How many revisions do I get?",
-    a: "As many as it takes to get it right. I don't cap revisions — I'd rather take an extra round than hand you something you're not proud of.",
+    a: "Every package includes 2 rounds of revisions. Additional rounds are available at $75 each — though in practice, most projects are dialed in within those two rounds.",
   },
   {
     q: "Do I need to provide content and copy?",

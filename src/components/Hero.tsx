@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { ArrowRight } from 'lucide-react';
 import AnimatedCounter from './AnimatedCounter';
 
 const words = ['grow', 'convert', 'scale', 'elevate'];
@@ -146,9 +147,7 @@ export default function Hero() {
         <div className={`flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mb-3 sm:mb-4 transition-opacity duration-700 delay-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
           <a href="/contact" className="group inline-flex items-center justify-center gap-2 bg-[#2563EB] text-white font-semibold px-6 sm:px-7 py-3.5 sm:py-4 rounded-full hover:bg-[#1D4ED8] transition-all text-[14px] sm:text-[15px] hover:scale-[1.03] active:scale-[0.97]">
             Get a free quote
-            <svg className="group-hover:translate-x-1 transition-transform" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </a>
           <a href="/work" className="inline-flex items-center justify-center gap-2 text-white/60 font-semibold px-6 sm:px-7 py-3.5 sm:py-4 rounded-full border border-white/10 hover:border-white/30 hover:text-white transition-all text-[14px] sm:text-[15px] hover:scale-[1.03] active:scale-[0.97]">
             See what I build →

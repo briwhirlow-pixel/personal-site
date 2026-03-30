@@ -136,7 +136,7 @@ export default function Contact() {
 
             {/* Strong opening copy */}
             <p className="text-[#737373] text-[15px] leading-relaxed mb-8">
-              Tell me what you need. I&apos;ll send a custom quote within 24 hours — no commitment, no fluff.
+              Tell me what you need. I&apos;ll review your project and reach out personally — no commitment, no fluff.
             </p>
 
             {/* Contact options */}

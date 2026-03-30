@@ -1445,7 +1445,7 @@ const PHASES = [
     summary: "Design and develop the website. First draft delivered within 5 days.",
     steps: [
       { label: "Project status → Building", detail: "Update the project card to 'Building' so you can track active work." },
-      { label: "First draft in 5 days", detail: "Deliver an initial version of the site within 72 hours of kickoff. It doesn't have to be perfect — it needs to be tangible." },
+      { label: "First draft in 5 days", detail: "Deliver an initial version of the site within 5 days of kickoff. It doesn't have to be perfect — it needs to be tangible." },
       { label: "Revision cycles", detail: "Share a staging URL or screen recordings. Collect feedback. Iterate. Revisions continue until the client is happy — this is what's promised on the website." },
       { label: "Project status → Review", detail: "Once you believe the site is ready, move to Review and ask for final client sign-off." },
       { label: "Final approval", detail: "Client explicitly approves the final design in writing (email is fine). This protects you from scope creep after delivery." },

@@ -1,4 +1,4 @@
-import { Linkedin, Facebook } from "lucide-react";
+import { Linkedin, Facebook, Mail } from "lucide-react";
 import { siteConfig } from "@/lib/data";
 import Reveal from "./Reveal";
 
@@ -80,6 +80,13 @@ export default function About() {
                         className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#1877F2] hover:border-[#1877F2] transition-all"
                       >
                         <Facebook size={20} className="text-white" />
+                      </a>
+                      <a
+                        href="mailto:brianwhirlowbusiness@gmail.com"
+                        aria-label="Email"
+                        className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#2563EB] hover:border-[#2563EB] transition-all"
+                      >
+                        <Mail size={20} className="text-white" />
                       </a>
                     </div>
                   </div>

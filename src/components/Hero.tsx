@@ -183,7 +183,7 @@ export default function Hero() {
         {/* Stats */}
         <div className={`flex flex-wrap justify-center gap-8 sm:gap-12 pt-6 sm:pt-8 border-t border-white/[0.08] transition-all duration-700 delay-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
           {[
-            { target: 72, suffix: 'hr', label: 'First Draft' },
+            { target: 5, suffix: '-Day', label: 'First Draft' },
             { target: 100, suffix: '%', label: 'Client Satisfaction' },
             { target: 5, suffix: '.0★', label: 'Avg. Rating' },
           ].map((stat) => (

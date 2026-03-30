@@ -1442,10 +1442,10 @@ const PHASES = [
     bg: "rgba(251,146,60,0.08)",
     border: "rgba(251,146,60,0.2)",
     icon: "🛠️",
-    summary: "Design and develop the website. First draft delivered within 72 hours.",
+    summary: "Design and develop the website. First draft delivered within 5 days.",
     steps: [
       { label: "Project status → Building", detail: "Update the project card to 'Building' so you can track active work." },
-      { label: "First draft in 72 hours", detail: "Deliver an initial version of the site within 72 hours of kickoff. It doesn't have to be perfect — it needs to be tangible." },
+      { label: "First draft in 5 days", detail: "Deliver an initial version of the site within 72 hours of kickoff. It doesn't have to be perfect — it needs to be tangible." },
       { label: "Revision cycles", detail: "Share a staging URL or screen recordings. Collect feedback. Iterate. Revisions continue until the client is happy — this is what's promised on the website." },
       { label: "Project status → Review", detail: "Once you believe the site is ready, move to Review and ask for final client sign-off." },
       { label: "Final approval", detail: "Client explicitly approves the final design in writing (email is fine). This protects you from scope creep after delivery." },
@@ -3151,7 +3151,7 @@ function Marketing() {
         {
           heading: "Instagram — highest ROI for your niche",
           items: [
-            "Post before/after website redesigns — \"I rebuilt this restaurant's site in 72 hours\" gets huge engagement",
+            "Post before/after website redesigns — \"I rebuilt this restaurant's site in under a week\" gets huge engagement",
             "Reels over everything: screen-record your builds, design process, time-lapses of you working",
             "Story polls: 'Which homepage do you prefer — A or B?' = massive engagement + educational",
             "Local hashtags: #SouthJersey #PhillySmallBusiness #CherryHillNJ #PhillyBusiness",

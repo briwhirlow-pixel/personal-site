@@ -10,7 +10,7 @@ const skills = [
 
 const highlights = [
   { value: "5+", label: "Years of Experience" },
-  { value: "72hr", label: "Avg. First Draft" },
+  { value: "5-Day", label: "First Draft" },
   { value: "15+", label: "Industries Served" },
 ];
 
@@ -46,7 +46,7 @@ export default function About() {
                   {/* Badges */}
                   <div className="grid grid-cols-4 gap-2">
                     {[
-                      { value: "72hr", label: "First Draft" },
+                      { value: "5-Day", label: "First Draft" },
                       { value: "5+", label: "Years Exp." },
                       { value: "100%", label: "Satisfaction" },
                       { value: "5.0★", label: "Avg. Rating" },

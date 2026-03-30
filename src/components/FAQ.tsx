@@ -10,7 +10,7 @@ const faqs = [
   },
   {
     q: "How long does it take?",
-    a: "You'll have a first draft in your hands within 72 hours of the discovery call. Full projects typically wrap in 1–4 weeks depending on scope and how quickly feedback comes in.",
+    a: "You'll have a first draft in your hands within 5 days of the discovery call. Full projects typically wrap in 1–4 weeks depending on scope and how quickly feedback comes in.",
   },
   {
     q: "How many revisions do I get?",

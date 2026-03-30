@@ -35,7 +35,7 @@ function getTomorrow(): string {
 const faqs = [
   {
     q: "How long does a typical project take?",
-    a: "Most sites are done in 2–4 weeks. You get a first draft within 72 hours of project kickoff so you're never left waiting.",
+    a: "Most sites are done in 2–4 weeks. You get a first draft within 5 days of project kickoff so you're never left waiting.",
   },
   {
     q: "Do you offer payment plans?",
@@ -115,7 +115,7 @@ export default function Contact() {
                   Let&apos;s build something great.
                 </h2>
                 <div className="flex flex-wrap gap-2">
-                  {["Starting at $500", "First draft in 72 hrs", "Free quote — no commitment"].map((tag) => (
+                  {["Starting at $500", "First draft in 5 days", "Free quote — no commitment"].map((tag) => (
                     <span key={tag} className="bg-white/15 text-white text-[12px] font-semibold px-3 py-1 rounded-full border border-white/20">
                       {tag}
                     </span>

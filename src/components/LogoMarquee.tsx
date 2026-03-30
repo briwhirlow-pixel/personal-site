@@ -1,7 +1,7 @@
 const items = [
   "Fast Turnaround", "Mobile-First", "Ranks on Google", "Easy to Update",
   "Secure", "Custom Design", "You Own the Code", "Built to Convert",
-  "Live in 2–4 Weeks", "First Draft in 72 Hours", "SEO Optimized", "No Lock-In", "No Templates", "More Inquiries, More Sales",
+  "Live in 2–4 Weeks", "First Draft in 5 Days", "SEO Optimized", "No Lock-In", "No Templates", "More Inquiries, More Sales",
 ];
 
 export default function LogoMarquee() {

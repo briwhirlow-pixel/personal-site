@@ -31,8 +31,8 @@ export default function About() {
                 {/* Logo — top half */}
                 <div className="flex-1 flex items-center justify-center">
                   <div className="flex items-center gap-4">
-                    <div className="w-24 h-24 rounded-[22px] bg-[#2563EB] flex items-center justify-center flex-shrink-0">
-                      <span className="text-white font-black text-[64px] leading-none" style={{ fontFamily: 'inherit', marginTop: '4px' }}>B</span>
+                    <div className="h-24 rounded-[22px] bg-[#2563EB] flex items-center justify-center flex-shrink-0 px-5">
+                      <span className="text-white font-black text-[36px] leading-none tracking-tight">Built</span>
                     </div>
                     <div className="flex flex-col leading-none">
                       <p className="font-black text-[42px] tracking-tight leading-none text-white">By<span className="text-[#2563EB]">Brian</span></p>

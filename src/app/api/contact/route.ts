@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import { z } from "zod";
 import { getSupabaseAdmin } from "@/lib/supabase";
 
@@ -70,12 +70,17 @@ export async function POST(request: Request) {
       console.error("Supabase insert error:", dbError);
     }
 
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    const fromDomain = process.env.RESEND_FROM_DOMAIN || "builtbybwhirl.com";
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_APP_PASSWORD,
+      },
+    });
+
     const firstName = name.split(" ")[0];
     const vars = { firstName, name, email, websiteType: websiteType || "Not specified", budget, launchDate: launchDate || "Not specified" };
 
-    // Fetch editable template from Supabase
     const tpl = await getEmailSettings();
     const subject  = applyVars(tpl.email_quote_subject,  vars);
     const greeting = applyVars(tpl.email_quote_greeting, vars);
@@ -83,9 +88,9 @@ export async function POST(request: Request) {
     const closing  = applyVars(tpl.email_quote_closing,  vars);
 
     // Notify Brian
-    await resend.emails.send({
-      from: `byBrian Contact Form <noreply@${fromDomain}>`,
-      to: process.env.CONTACT_TO_EMAIL!,
+    await transporter.sendMail({
+      from: `"byBrian Contact Form" <${process.env.GMAIL_USER}>`,
+      to: process.env.CONTACT_TO_EMAIL || process.env.GMAIL_USER,
       replyTo: email,
       subject: `New lead: ${name} — ${websiteType || budget}`,
       text: [
@@ -104,11 +109,11 @@ export async function POST(request: Request) {
       ].join("\n"),
     });
 
-    // Send personalized confirmation to the lead
-    await resend.emails.send({
-      from: `Brian <brian@${fromDomain}>`,
+    // Send confirmation to the lead
+    await transporter.sendMail({
+      from: `"Brian @ byBrian" <${process.env.GMAIL_USER}>`,
       to: email,
-      replyTo: `brian@${fromDomain}`,
+      replyTo: process.env.GMAIL_USER,
       subject,
       text: [
         greeting,

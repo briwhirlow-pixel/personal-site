@@ -9,8 +9,8 @@ export default function Logo({ light = false }: LogoProps) {
   return (
     <span className="inline-flex items-center gap-2.5 select-none">
       {/* Icon mark — proper geometric B with gradient */}
-      <div className="w-8 h-8 rounded-[8px] bg-[#2563EB] flex items-center justify-center flex-shrink-0">
-        <span className="text-white font-black text-[20px] leading-none" style={{ marginTop: '2px' }}>B</span>
+      <div className="h-8 rounded-[8px] bg-[#2563EB] flex items-center justify-center flex-shrink-0 px-2.5">
+        <span className="text-white font-black text-[13px] leading-none tracking-tight">Built</span>
       </div>
 
       {/* Wordmark */}

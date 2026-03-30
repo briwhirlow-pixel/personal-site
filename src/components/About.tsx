@@ -1,4 +1,4 @@
-import { Linkedin } from "lucide-react";
+import { Linkedin, Facebook } from "lucide-react";
 import { siteConfig } from "@/lib/data";
 import Reveal from "./Reveal";
 
@@ -65,15 +65,26 @@ export default function About() {
                   <div className="flex flex-col items-center gap-1.5 text-center pt-1">
                     <p className="text-white font-black text-2xl tracking-tight">Brian Whirlow</p>
                     <p className="text-white/50 text-[15px]">Web Designer & Developer</p>
-                    <a
-                      href={siteConfig.social.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="LinkedIn"
-                      className="mt-1 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#2563EB] hover:border-[#2563EB] transition-all"
-                    >
-                      <Linkedin size={20} className="text-white" />
-                    </a>
+                    <div className="flex items-center gap-3 mt-1">
+                      <a
+                        href={siteConfig.social.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="LinkedIn"
+                        className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#2563EB] hover:border-[#2563EB] transition-all"
+                      >
+                        <Linkedin size={20} className="text-white" />
+                      </a>
+                      <a
+                        href="https://www.facebook.com/marketplace/profile/100001427946097/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Facebook Marketplace"
+                        className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#1877F2] hover:border-[#1877F2] transition-all"
+                      >
+                        <Facebook size={20} className="text-white" />
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>

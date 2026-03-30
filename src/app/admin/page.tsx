@@ -1807,11 +1807,103 @@ function BudgetTiers() {
     },
   ];
 
+  const addons = [
+    {
+      category: "Extra Pages",
+      items: [
+        { name: "Each additional page (beyond base)", starter: "+$75", professional: "+$60", custom: "+$50" },
+      ],
+    },
+    {
+      category: "SEO",
+      items: [
+        { name: "Basic SEO (meta tags, OG, sitemap)", starter: "Included", professional: "Included", custom: "Included" },
+        { name: "Full SEO optimization (schema, robots, keyword targeting)", starter: "+$150", professional: "+$100", custom: "Included" },
+        { name: "Monthly SEO report (ongoing)", starter: "+$75/mo", professional: "+$75/mo", custom: "+$75/mo" },
+      ],
+    },
+    {
+      category: "Design & Animations",
+      items: [
+        { name: "Custom illustration or graphics", starter: "+$200", professional: "+$150", custom: "+$150" },
+        { name: "Scroll animations / micro-interactions", starter: "+$150", professional: "+$100", custom: "Included" },
+        { name: "Custom logo design", starter: "+$250", professional: "+$200", custom: "+$200" },
+      ],
+    },
+    {
+      category: "Content & Media",
+      items: [
+        { name: "Copywriting (per page)", starter: "+$100", professional: "+$75", custom: "+$75" },
+        { name: "Photo sourcing / licensing", starter: "+$50", professional: "+$50", custom: "+$50" },
+        { name: "Blog setup (structure only, no posts)", starter: "+$200", professional: "+$100", custom: "Included" },
+      ],
+    },
+    {
+      category: "Functionality",
+      items: [
+        { name: "CMS integration (client-editable content)", starter: "+$300", professional: "Included", custom: "Included" },
+        { name: "Contact form + email notification", starter: "Included", professional: "Included", custom: "Included" },
+        { name: "Booking / scheduling integration (Calendly etc.)", starter: "+$100", professional: "+$75", custom: "+$75" },
+        { name: "E-commerce (product pages, cart, checkout)", starter: "N/A", professional: "N/A", custom: "Included" },
+        { name: "Stripe payment integration", starter: "N/A", professional: "+$400", custom: "Included" },
+        { name: "User auth / login system", starter: "N/A", professional: "N/A", custom: "Included" },
+        { name: "Admin dashboard for client", starter: "N/A", professional: "+$300", custom: "Included" },
+        { name: "3rd-party API integration", starter: "+$200", professional: "+$150", custom: "Included" },
+      ],
+    },
+    {
+      category: "Support & Extras",
+      items: [
+        { name: "Domain setup + DNS configuration", starter: "+$50", professional: "+$50", custom: "Included" },
+        { name: "Speed / Core Web Vitals optimization", starter: "+$150", professional: "+$100", custom: "Included" },
+        { name: "Rush delivery (under 1 week)", starter: "+$200", professional: "+$300", custom: "+$500" },
+        { name: "Extra revision rounds (beyond standard)", starter: "+$75/ea", professional: "+$75/ea", custom: "+$75/ea" },
+      ],
+    },
+  ];
+
   return (
     <div className="space-y-4">
       <div className="mb-6">
         <p className="text-white font-black text-[20px] mb-1">Budget Tiers</p>
         <p className="text-white/40 text-[13px]">What you can deliver at each price point using your current stack.</p>
+      </div>
+
+      {/* Pricing Builder */}
+      <div className="rounded-2xl border overflow-hidden" style={{ borderColor: "#2A2D3A", background: "#1A1D27" }}>
+        <div className="px-5 py-4 border-b" style={{ borderColor: "#2A2D3A" }}>
+          <p className="text-white font-black text-[16px]">💲 Pricing Builder</p>
+          <p className="text-white/40 text-[12px] mt-0.5">How much each add-on costs on top of the base price per tier.</p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-[12px]">
+            <thead>
+              <tr className="border-b" style={{ borderColor: "#2A2D3A" }}>
+                <th className="text-left px-5 py-3 text-white/30 font-semibold uppercase tracking-widest w-1/2">Add-on</th>
+                <th className="text-center px-4 py-3 text-[#F59E0B] font-semibold uppercase tracking-widest">Starter<br/><span className="text-white/30 normal-case font-normal">from $750</span></th>
+                <th className="text-center px-4 py-3 text-[#3B82F6] font-semibold uppercase tracking-widest">Professional<br/><span className="text-white/30 normal-case font-normal">from $1,200</span></th>
+                <th className="text-center px-4 py-3 text-[#10B981] font-semibold uppercase tracking-widest">Custom<br/><span className="text-white/30 normal-case font-normal">from $3,000</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              {addons.map((group) => (
+                <>
+                  <tr key={group.category} className="border-b" style={{ borderColor: "#2A2D3A", background: "rgba(255,255,255,0.02)" }}>
+                    <td colSpan={4} className="px-5 py-2 text-white/50 font-bold uppercase tracking-widest text-[10px]">{group.category}</td>
+                  </tr>
+                  {group.items.map((item) => (
+                    <tr key={item.name} className="border-b last:border-0" style={{ borderColor: "#2A2D3A" }}>
+                      <td className="px-5 py-3 text-white/70 leading-snug">{item.name}</td>
+                      <td className="text-center px-4 py-3 font-semibold" style={{ color: item.starter === "Included" ? "#10B981" : item.starter === "N/A" ? "#EF4444" : "#F59E0B" }}>{item.starter}</td>
+                      <td className="text-center px-4 py-3 font-semibold" style={{ color: item.professional === "Included" ? "#10B981" : item.professional === "N/A" ? "#EF4444" : "#3B82F6" }}>{item.professional}</td>
+                      <td className="text-center px-4 py-3 font-semibold" style={{ color: item.custom === "Included" ? "#10B981" : item.custom === "N/A" ? "#EF4444" : "#10B981" }}>{item.custom}</td>
+                    </tr>
+                  ))}
+                </>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {tiers.map((tier) => (

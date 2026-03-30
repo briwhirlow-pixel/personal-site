@@ -93,13 +93,13 @@ export default function About() {
 
             <div className="space-y-3 text-[#555555] text-[14px] leading-relaxed mb-6">
               <p>
-                Welcome to BuiltByBrian. I&apos;m a web designer and developer based in the Philadelphia/South Jersey area. I started building sites for fun, realized I had a knack for making them actually convert, and turned that passion into a business.
+                I&apos;m Brian — a web designer and developer based in the Philadelphia/South Jersey area. With 5 years of building websites under my belt, I turned that passion into a business helping local brands grow online.
               </p>
               <p>
                 I&apos;ve worked with restaurants, e-commerce brands, photographers, and service businesses — turning slow, outdated sites into their <span className="text-[#1A1A1A] font-semibold">best-performing sales tool</span>. You&apos;ll always know where your project stands — no ghosting, no vague timelines, just clean work, delivered fast.
               </p>
               <p>
-                I hold a degree in Management Information Systems and am currently finishing my MBA in Sustainable Business and Management — so when I build your site, I&apos;m thinking about results, not just aesthetics. Outside of work I&apos;m hiking, working out, traveling, and spending time with family and friends.
+                I hold a degree in Management Information Systems and am currently finishing my MBA in Sustainable Business and Management. Outside of work I&apos;m hiking, working out, traveling, and spending time with family and friends.
               </p>
             </div>
 

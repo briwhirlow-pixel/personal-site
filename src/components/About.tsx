@@ -31,12 +31,9 @@ export default function About() {
                 {/* Logo — top half */}
                 <div className="flex-1 flex items-center justify-center">
                   <div className="flex items-center gap-4">
-                    <svg width="96" height="96" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <rect width="32" height="32" rx="8" fill="#2563EB" />
-                      <path d="M9 8h7c2 0 3.8 1.8 3.8 4 0 1.2-.5 2.1-1.2 2.9 1 .7 1.6 1.8 1.6 3.1 0 2.5-1.7 4.3-4 4.3H9V8z" fill="white" />
-                      <rect x="11.5" y="10.5" width="4" height="3.5" rx="1.75" fill="#2563EB" />
-                      <rect x="11.5" y="15.5" width="4.5" height="3.8" rx="1.9" fill="#2563EB" />
-                    </svg>
+                    <div className="w-24 h-24 rounded-[22px] bg-[#2563EB] flex items-center justify-center flex-shrink-0">
+                      <span className="text-white font-black text-[64px] leading-none" style={{ fontFamily: 'inherit', marginTop: '4px' }}>B</span>
+                    </div>
                     <div className="flex flex-col leading-none">
                       <p className="font-black text-[42px] tracking-tight leading-none text-white">By<span className="text-[#2563EB]">Brian</span></p>
                       <p className="text-[15px] font-semibold tracking-[0.18em] uppercase mt-2 text-white/50">Web Design</p>

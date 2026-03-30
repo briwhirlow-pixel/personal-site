@@ -9,15 +9,9 @@ export default function Logo({ light = false }: LogoProps) {
   return (
     <span className="inline-flex items-center gap-2.5 select-none">
       {/* Icon mark — proper geometric B with gradient */}
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="32" height="32" rx="8" fill="#2563EB" />
-        <path
-          d="M9 8h7c2 0 3.8 1.8 3.8 4 0 1.2-.5 2.1-1.2 2.9 1 .7 1.6 1.8 1.6 3.1 0 2.5-1.7 4.3-4 4.3H9V8z"
-          fill="white"
-        />
-        <rect x="11.5" y="10.5" width="4" height="3.5" rx="1.75" fill="#2563EB" />
-        <rect x="11.5" y="15.5" width="4.5" height="3.8" rx="1.9" fill="#2563EB" />
-      </svg>
+      <div className="w-8 h-8 rounded-[8px] bg-[#2563EB] flex items-center justify-center flex-shrink-0">
+        <span className="text-white font-black text-[20px] leading-none" style={{ marginTop: '2px' }}>B</span>
+      </div>
 
       {/* Wordmark */}
       <span className="flex flex-col leading-none">

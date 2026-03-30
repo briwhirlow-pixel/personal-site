@@ -99,7 +99,7 @@ export default function About() {
                 I&apos;ve worked with restaurants, e-commerce brands, photographers, and service businesses — turning slow, outdated sites into their <span className="text-[#1A1A1A] font-semibold">best-performing sales tool</span>. You&apos;ll always know where your project stands — no ghosting, no vague timelines, just clean work, delivered fast.
               </p>
               <p>
-                I hold a degree in Management Information Systems and am currently finishing my MBA in Sustainable Business and Management. Outside of work I&apos;m hiking, working out, traveling, and spending time with family and friends.
+                I hold a degree in Management Information Systems and am currently finishing my MBA in Sustainable Business and Management. When I&apos;m not building websites, I&apos;m hiking, working out, traveling, and spending time with family and friends.
               </p>
             </div>
 

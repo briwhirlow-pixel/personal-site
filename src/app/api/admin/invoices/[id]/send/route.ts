@@ -66,7 +66,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
         ${inv.notes ? `<p style="font-size:14px;color:#737373">${inv.notes}</p>` : ""}
         <a href="${invoiceUrl}" style="display:inline-block;background:#2563EB;color:white;font-weight:700;padding:14px 28px;border-radius:8px;text-decoration:none;margin-top:8px">View Invoice Online →</a>
         <hr style="border:none;border-top:1px solid #E5E4DF;margin:32px 0"/>
-        <p style="color:#AEACA6;font-size:12px">Questions? Reply to this email or contact brianwhirlowbusiness@gmail.com</p>
+        <p style="color:#AEACA6;font-size:12px">Questions? Reply to this email or contact briwhirlow@gmail.com</p>
       </div>
     `,
   });

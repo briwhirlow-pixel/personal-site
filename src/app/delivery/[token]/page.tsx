@@ -125,7 +125,7 @@ export default function DeliveryPage({ params }: { params: Promise<{ token: stri
 
               <p className="text-white/20 text-[12px] text-center mt-6">
                 Don&apos;t have a password? Contact{" "}
-                <a href="mailto:brianwhirlowbusiness@gmail.com" className="text-white/40 hover:text-white transition underline">
+                <a href="mailto:briwhirlow@gmail.com" className="text-white/40 hover:text-white transition underline">
                   Brian
                 </a>
               </p>
@@ -233,8 +233,8 @@ export default function DeliveryPage({ params }: { params: Promise<{ token: stri
             {/* Footer note */}
             <p className="text-white/20 text-[12px] text-center pb-4">
               Questions? Email{" "}
-              <a href="mailto:brianwhirlowbusiness@gmail.com" className="text-white/40 hover:text-white transition underline">
-                brianwhirlowbusiness@gmail.com
+              <a href="mailto:briwhirlow@gmail.com" className="text-white/40 hover:text-white transition underline">
+                briwhirlow@gmail.com
               </a>
             </p>
           </div>

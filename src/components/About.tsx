@@ -82,7 +82,7 @@ export default function About() {
                         <Facebook size={20} className="text-white" />
                       </a>
                       <a
-                        href="mailto:brianwhirlowbusiness@gmail.com"
+                        href="mailto:briwhirlow@gmail.com"
                         aria-label="Email"
                         className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#2563EB] hover:border-[#2563EB] transition-all"
                       >

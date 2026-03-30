@@ -23,7 +23,7 @@ export type ServiceTier = {
 export const services: ServiceTier[] = [
   {
     name: "Starter",
-    price: "Starting at $500",
+    price: "Starting at $750",
     description: "Perfect for small businesses who need a clean, professional online presence — fast.",
     features: [
       "Up to 5 pages",

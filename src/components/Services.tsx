@@ -108,22 +108,22 @@ export default function Services() {
         {/* Accepted payments */}
         <Reveal delay={180} className="mt-4">
           <div className="flex items-center justify-center gap-3 flex-wrap">
-            <span className="text-[#737373] text-[12px] font-semibold uppercase tracking-widest">We accept</span>
+            <span className="text-[#737373] text-[15px] font-bold uppercase tracking-widest">We accept</span>
             {/* Venmo */}
-            <div className="flex items-center gap-1.5 bg-white border border-[#E5E4DF] rounded-full px-4 py-2">
-              <svg width="16" height="16" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div className="flex items-center gap-2 bg-white border border-[#E5E4DF] rounded-full px-5 py-2.5">
+              <svg width="20" height="20" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="111" height="111" rx="22" fill="#008CFF"/>
                 <path d="M82.5 20.5c3.2 5.3 4.6 10.7 4.6 17.5 0 21.8-18.6 50.1-33.7 70H21.5L8 22.8l30.7-2.9 7.5 60.2c7-11.6 15.6-29.9 15.6-42.4 0-6.8-1.2-11.5-3-15.2L82.5 20.5z" fill="white"/>
               </svg>
-              <span className="text-[12px] font-bold text-[#1A1A1A]">Venmo</span>
+              <span className="text-[14px] font-bold text-[#1A1A1A]">Venmo</span>
             </div>
             {/* PayPal */}
-            <div className="flex items-center gap-1.5 bg-white border border-[#E5E4DF] rounded-full px-4 py-2">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div className="flex items-center gap-2 bg-white border border-[#E5E4DF] rounded-full px-5 py-2.5">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.26-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.477z" fill="#009CDE"/>
                 <path d="M6.635 7.025a.982.982 0 0 1 .97-.833h6.137c.728 0 1.4.047 2.011.145a8.1 8.1 0 0 1 .81.18 5.78 5.78 0 0 1 1.15.504c.346-2.208-.003-3.712-1.195-5.076C15.222.518 12.99 0 10.072 0H2.612C2.088 0 1.64.382 1.557.9L-1.05 20.658a.641.641 0 0 0 .633.74h4.604l1.156-7.326 1.292-7.047z" fill="#012169"/>
               </svg>
-              <span className="text-[12px] font-bold text-[#1A1A1A]">PayPal</span>
+              <span className="text-[14px] font-bold text-[#1A1A1A]">PayPal</span>
             </div>
           </div>
         </Reveal>
@@ -131,8 +131,8 @@ export default function Services() {
         {/* After launch strip */}
         <Reveal delay={200} className="mt-8 sm:mt-10">
           <div className="border border-[#E5E4DF] rounded-2xl overflow-hidden">
-            <div className="px-6 py-4 border-b border-[#E5E4DF] bg-white">
-              <p className="text-[11px] font-semibold uppercase tracking-widest text-[#737373]">After launch — your choice</p>
+            <div className="px-6 py-5 border-b border-[#E5E4DF] bg-white text-center">
+              <p className="text-[15px] font-black uppercase tracking-widest text-[#1A1A1A]">After Launch — Your Choice</p>
             </div>
             <div className="grid sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-[#E5E4DF] bg-white">
               {/* File Handoff */}

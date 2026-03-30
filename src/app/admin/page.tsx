@@ -1857,7 +1857,7 @@ function BudgetTiers() {
         { name: "Domain setup + DNS configuration", starter: "+$50", professional: "+$50", custom: "Included" },
         { name: "Speed / Core Web Vitals optimization", starter: "+$150", professional: "+$100", custom: "Included" },
         { name: "Rush delivery (under 1 week)", starter: "+$200", professional: "+$300", custom: "+$500" },
-        { name: "Extra revision rounds (beyond standard)", starter: "+$75/ea", professional: "+$75/ea", custom: "+$75/ea" },
+        { name: "Additional revision rounds (beyond 2 included)", starter: "+$75/ea", professional: "+$75/ea", custom: "+$75/ea" },
       ],
     },
   ];

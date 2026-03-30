@@ -47,7 +47,7 @@ const reviews = [
     tag: null,
   },
   {
-    name: "Rocco F.",
+    name: "Rocco S.",
     date: "January 2026",
     avatar: "RF",
     rating: 5,

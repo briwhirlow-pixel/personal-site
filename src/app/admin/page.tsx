@@ -1427,12 +1427,12 @@ const PHASES = [
     summary: "Client agrees, pays the deposit, and the project officially begins.",
     steps: [
       { label: "Client accepts proposal", detail: "Verbal or written confirmation that they want to proceed." },
-      { label: "Send deposit invoice (50%)", detail: "Generate an invoice from the project card for 50% of the agreed amount. Send via Zelle, Venmo, or PayPal." },
+      { label: "Send deposit invoice (50%)", detail: "Generate an invoice from the project card for 50% of the agreed amount. Send via Venmo or PayPal." },
       { label: "Deposit received", detail: "The project slot is secured with the 50% deposit. Do not start design or development work until it clears." },
       { label: "Convert lead to project", detail: "Mark the lead as Won in the pipeline, then create a new Project card. Set the agreed budget, deadline, and start date." },
       { label: "Project status → Discovery", detail: "Begin gathering all assets: logo files, brand colors, copy, photos, login credentials for any existing platforms." },
     ],
-    tools: ["Invoice Builder", "Projects Tab", "Zelle / Venmo / PayPal"],
+    tools: ["Invoice Builder", "Projects Tab", "Venmo / PayPal"],
     rule: "50% upfront, always. No exceptions. This filters serious clients from time-wasters.",
   },
   {
@@ -1483,7 +1483,7 @@ const PHASES = [
     steps: [
       { label: "Project status → Launched", detail: "Mark the project as Launched in the admin panel. Job done." },
       { label: "Managed hosting upsell", detail: "If the client opted into managed hosting via the delivery page, you'll see an amber notification in their project card. Follow up to confirm billing and set up payment." },
-      { label: "Billing start date set", detail: "In the project card, set the monthly rate, billing start date, and next billing date. Charge monthly via Zelle, Venmo, or PayPal." },
+      { label: "Billing start date set", detail: "In the project card, set the monthly rate, billing start date, and next billing date. Charge monthly via Venmo or PayPal." },
       { label: "1 hour edits per month", detail: "Managed clients get 1 hour of free edits every month included. Track your time. Anything over 1 hour is billed at your hourly rate." },
       { label: "Ask for a review", detail: "After a week or two, follow up and ask the client to leave a review. This is the most important thing you can do for future sales." },
     ],
@@ -1584,7 +1584,7 @@ function Playbook() {
         <p className="text-white/30 text-[11px] uppercase tracking-widest font-semibold mb-5">Revenue Model</p>
         <div className="grid md:grid-cols-3 gap-4 mb-6">
           {[
-            { icon: "🔨", label: "Project Fee", desc: "One-time payment for building the site. 50% upfront, 50% on delivery. Ranges from $500 (landing page) to $5,000+ (custom app).", color: "#60A5FA" },
+            { icon: "🔨", label: "Project Fee", desc: "One-time payment for building the site. 50% upfront, 50% on delivery. Ranges from $750 (landing page) to $5,000+ (custom app).", color: "#60A5FA" },
             { icon: "🌐", label: "Monthly Care Plan", desc: "Recurring revenue from hosting + maintenance. Three tiers: $49 / $99 / $149 per month. Your passive income stream — every client is a candidate.", color: "#34D399" },
             { icon: "⚡", label: "Ad-hoc Edits", desc: "Work beyond the monthly inclusion billed at your hourly rate. New pages, integrations, redesigns — anything outside the plan scope.", color: "#FBBF24" },
           ].map(r => (
@@ -1674,7 +1674,7 @@ function BudgetTiers() {
       note: "Recommend they start with Squarespace or a Webflow template. Revisit when budget grows.",
     },
     {
-      range: "$500 – $999",
+      range: "$750 – $999",
       label: "Starter",
       color: "#F59E0B",
       bg: "rgba(245,158,11,0.08)",
@@ -1698,7 +1698,7 @@ function BudgetTiers() {
         "CMS / editable content at this tier",
       ],
       tools: ["Next.js", "Tailwind", "Vercel (free)", "Resend (free)", "GitHub"],
-      note: "This is the $500 flat-fee model. Position as 'fast, clean, professional — no frills.'",
+      note: "This is the $750 flat-fee model. Position as 'fast, clean, professional — no frills.'",
     },
     {
       range: "$1,000 – $1,499",
@@ -2605,7 +2605,7 @@ Do you have a logo? Brand colors or fonts you use consistently?"
 "Good to know. That's definitely workable — here's roughly what I can do in that range…" [reference your tiers]
 
 [If they say 'I don't know':]
-"No worries — most people don't. Here's how I'd frame it: my starting point for a clean custom site is $500. A more full-featured site with a CMS, more pages, and SEO work usually lands around $1,200–$2,500. And for e-commerce or something with a backend, we're typically talking $2,500 and up. Does any of that range feel realistic for where you're at?"
+"No worries — most people don't. Here's how I'd frame it: my starting point for a clean custom site is $750. A more full-featured site with a CMS, more pages, and SEO work usually lands around $1,200–$2,500. And for e-commerce or something with a backend, we're typically talking $2,500 and up. Does any of that range feel realistic for where you're at?"
 
 "And timeline — is there a date you're working toward? A launch, a season, an event?"`,
       bullets: [
@@ -3373,7 +3373,7 @@ function Marketing() {
             "Create a lead magnet post: \"5 things your website is costing you\" as a carousel",
             "Follow up on all week 2 outreach that didn't respond",
             "Film a screen-recorded time-lapse of the APEX site build — post as a Reel",
-            "Aim to land your first paid project — even $500 starts the momentum",
+            "Aim to land your first paid project — even $750 starts the momentum",
           ],
         },
         {

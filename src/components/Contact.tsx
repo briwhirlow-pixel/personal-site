@@ -99,7 +99,7 @@ export default function Contact() {
   const inputClass = (hasError?: boolean) =>
     `w-full bg-white border ${hasError ? "border-red-400" : "border-[#E5E4DF]"} rounded-xl px-4 py-3.5 text-[14px] text-[#1A1A1A] placeholder-[#CECCC6] focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition`;
 
-  const hasCalendly = siteConfig.calendlyUrl && siteConfig.calendlyUrl !== "#";
+  const hasCalendly = false;
 
   return (
     <section id="contact" className="bg-[#FAFAF7] py-16 sm:py-28">

@@ -115,7 +115,7 @@ export default function Contact() {
                   Let&apos;s build something great.
                 </h2>
                 <div className="flex flex-wrap gap-2">
-                  {["Starting at $500", "First draft in 5 days", "Free quote — no commitment"].map((tag) => (
+                  {["Starting at $750", "First draft in 5 days", "Free quote — no commitment"].map((tag) => (
                     <span key={tag} className="bg-white/15 text-white text-[12px] font-semibold px-3 py-1 rounded-full border border-white/20">
                       {tag}
                     </span>

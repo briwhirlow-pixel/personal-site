@@ -23,8 +23,8 @@ const steps = [
 
 export default function Process() {
   return (
-    <section className="bg-[#F2F1EC] py-24">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+    <section className="bg-[#F2F1EC] py-14 sm:py-20 md:py-24">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-12">
         <Reveal className="text-center mb-16">
           <p className="text-[#2563EB] text-[12px] font-semibold tracking-widest uppercase mb-4">
             How It Works
@@ -34,7 +34,7 @@ export default function Process() {
           </h2>
         </Reveal>
 
-        <div className="grid md:grid-cols-3 gap-8 relative">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 relative">
           {/* Connecting line on desktop */}
           <div className="hidden md:block absolute top-10 left-[20%] right-[20%] h-px bg-[#E5E4DF]" style={{ zIndex: 0 }} />
 

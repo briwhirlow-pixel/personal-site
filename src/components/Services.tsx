@@ -159,7 +159,7 @@ export default function Services() {
                   <p className="text-[#737373] text-[13px] leading-relaxed mb-4">
                     I handle hosting, SSL, and deployments. Pick the plan that fits — cancel anytime, pay yearly and save 2 months.
                   </p>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {[
                       { name: "Basic", price: "$49/mo", features: ["Hosting + SSL", "Uptime monitoring", "Daily backups"] },
                       { name: "Starter", price: "$99/mo", features: ["Everything in Basic", "1 hr edits/month", "Priority support"], highlighted: true },

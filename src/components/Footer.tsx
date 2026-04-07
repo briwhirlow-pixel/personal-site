@@ -15,7 +15,7 @@ export default function Footer() {
   return (
     <footer style={{ background: 'linear-gradient(135deg, #06091F 0%, #0D1B45 100%)' }}>
       <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-12 pt-12 sm:pt-16 pb-10">
-        <div className="grid md:grid-cols-3 gap-8 md:gap-10 mb-10 sm:mb-14 pb-10 sm:pb-14 border-b border-white/[0.08]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 mb-10 sm:mb-14 pb-10 sm:pb-14 border-b border-white/[0.08]">
           <div>
             <a href="/">
               <Logo light />

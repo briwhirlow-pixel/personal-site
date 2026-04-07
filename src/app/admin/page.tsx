@@ -17,6 +17,9 @@ interface Lead {
   message: string | null;
   status: LeadStatus;
   notes: string;
+  discount_type: "percent" | "fixed" | null;
+  discount_value: number | null;
+  discount_note: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -526,13 +529,31 @@ function LeadPanel({
   const [notes, setNotes] = useState(lead.notes || "");
   const [status, setStatus] = useState<LeadStatus>(lead.status);
   const [saving, setSaving] = useState(false);
+  const [discountType, setDiscountType] = useState<"percent" | "fixed" | null>(lead.discount_type ?? null);
+  const [discountValue, setDiscountValue] = useState<string>(lead.discount_value != null ? String(lead.discount_value) : "");
+  const [discountNote, setDiscountNote] = useState(lead.discount_note || "");
+
+  // Parse budget number for discount preview
+  const budgetNumber = lead.budget ? parseFloat(lead.budget.replace(/[^0-9.]/g, "")) : null;
+  const discountAmount = discountType && discountValue
+    ? discountType === "percent"
+      ? (budgetNumber || 0) * (parseFloat(discountValue) / 100)
+      : parseFloat(discountValue)
+    : null;
+  const discountedTotal = budgetNumber && discountAmount != null ? budgetNumber - discountAmount : null;
 
   const save = async () => {
     setSaving(true);
     const res = await fetch(`/api/admin/leads/${lead.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ status, notes }),
+      body: JSON.stringify({
+        status,
+        notes,
+        discount_type: discountType,
+        discount_value: discountValue ? parseFloat(discountValue) : null,
+        discount_note: discountNote,
+      }),
     });
     setSaving(false);
     if (res.ok) onUpdate(await res.json());
@@ -609,6 +630,91 @@ function LeadPanel({
               placeholder="Add notes about this lead…"
               className="w-full bg-[#1A1D27] border border-[#2A2D3A] rounded-xl px-4 py-3 text-white/80 text-[14px] placeholder-white/20 focus:outline-none focus:border-[#2563EB] resize-none"
             />
+          </div>
+
+          {/* Discount */}
+          <div className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <p className="text-white/30 text-[11px] uppercase tracking-widest font-semibold">Applied Discount</p>
+              {discountType && (
+                <button onClick={() => { setDiscountType(null); setDiscountValue(""); setDiscountNote(""); }}
+                  className="text-[11px] text-red-400/60 hover:text-red-400 transition">
+                  Remove
+                </button>
+              )}
+            </div>
+
+            {/* Type toggle */}
+            <div className="flex gap-2">
+              <button
+                onClick={() => setDiscountType("percent")}
+                className={`flex-1 py-2 rounded-xl text-[13px] font-semibold border transition ${discountType === "percent" ? "bg-[#2563EB]/20 border-[#2563EB]/40 text-[#60A5FA]" : "border-[#2A2D3A] text-white/30 hover:text-white"}`}>
+                % Percent
+              </button>
+              <button
+                onClick={() => setDiscountType("fixed")}
+                className={`flex-1 py-2 rounded-xl text-[13px] font-semibold border transition ${discountType === "fixed" ? "bg-[#2563EB]/20 border-[#2563EB]/40 text-[#60A5FA]" : "border-[#2A2D3A] text-white/30 hover:text-white"}`}>
+                $ Fixed Amount
+              </button>
+            </div>
+
+            {discountType && (
+              <>
+                <div className="flex gap-2 items-center">
+                  <span className="text-white/40 text-[15px] font-bold w-5 text-center flex-shrink-0">
+                    {discountType === "percent" ? "%" : "$"}
+                  </span>
+                  <input
+                    type="number"
+                    min="0"
+                    step={discountType === "percent" ? "1" : "25"}
+                    max={discountType === "percent" ? "100" : undefined}
+                    value={discountValue}
+                    onChange={e => setDiscountValue(e.target.value)}
+                    placeholder={discountType === "percent" ? "e.g. 10" : "e.g. 150"}
+                    className="flex-1 bg-[#0F1117] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white text-[14px] font-bold placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition"
+                  />
+                </div>
+                <input
+                  type="text"
+                  value={discountNote}
+                  onChange={e => setDiscountNote(e.target.value)}
+                  placeholder="Reason (e.g. referral, returning client, bundle deal)"
+                  className="w-full bg-[#0F1117] border border-[#2A2D3A] rounded-xl px-4 py-2.5 text-white/70 text-[13px] placeholder-white/20 focus:outline-none focus:border-[#2563EB]/50 transition"
+                />
+
+                {/* Preview */}
+                {discountValue && (
+                  <div className="bg-black/30 rounded-xl px-4 py-3 space-y-1.5">
+                    <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold">Price Preview</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-white/50 text-[13px]">Original</span>
+                      <span className="text-white/50 text-[13px]">
+                        {budgetNumber ? `$${budgetNumber.toLocaleString()}` : lead.budget || "—"}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-red-400 text-[13px]">
+                        Discount ({discountType === "percent" ? `${discountValue}%` : `$${discountValue}`})
+                      </span>
+                      <span className="text-red-400 text-[13px]">
+                        {discountAmount != null ? `−$${discountAmount.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}` : "—"}
+                      </span>
+                    </div>
+                    <div className="border-t border-white/10 pt-1.5 flex items-center justify-between">
+                      <span className="text-green-400 text-[14px] font-bold">Client Pays</span>
+                      <span className="text-green-400 text-[14px] font-bold">
+                        {discountedTotal != null ? `$${discountedTotal.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}` : "—"}
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+
+            {!discountType && (
+              <p className="text-white/20 text-[12px]">No discount applied. Select a type above to add one.</p>
+            )}
           </div>
         </div>
 
@@ -910,7 +1016,16 @@ export default function AdminPage() {
                           <button key={lead.id} onClick={() => setSelectedLead(lead)}
                             className="w-full text-left bg-[#0F1117] hover:bg-[#16191F] border border-[#2A2D3A] hover:border-[#3A3D4A] rounded-xl p-3 transition">
                             <p className="text-white text-[13px] font-semibold leading-tight truncate">{lead.name}</p>
-                            {lead.budget && <p className="text-white/40 text-[11px] mt-1 truncate">{lead.budget}</p>}
+                            {lead.budget && (
+                              <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+                                <p className="text-white/40 text-[11px] truncate">{lead.budget}</p>
+                                {lead.discount_type && lead.discount_value && (
+                                  <span className="px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-red-500/15 text-red-400 flex-shrink-0">
+                                    {lead.discount_type === "percent" ? `−${lead.discount_value}%` : `−$${lead.discount_value}`}
+                                  </span>
+                                )}
+                              </div>
+                            )}
                             <p className="text-white/20 text-[10px] mt-1.5">{timeAgo(lead.created_at)}</p>
                           </button>
                         ))}

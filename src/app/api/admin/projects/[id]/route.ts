@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getSupabaseClient } from "@/lib/supabase";
+import { getSupabaseAdmin } from "@/lib/supabase";
 import { isAuthorized } from "@/lib/adminAuth";
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -12,7 +12,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   const fields = ["status", "notes", "site_url", "deadline", "agreed_budget", "name"];
   fields.forEach(f => { if (body[f] !== undefined) allowed[f] = body[f]; });
 
-  const { data, error } = await getSupabaseClient()
+  const { data, error } = await getSupabaseAdmin()
     .from("projects")
     .update(allowed)
     .eq("id", id)

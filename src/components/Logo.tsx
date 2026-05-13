@@ -2,31 +2,14 @@ interface LogoProps {
   light?: boolean;
 }
 
-export default function Logo({ light = false }: LogoProps) {
-  const textColor = light ? "#ffffff" : "#1A1A1A";
-  const subColor = light ? "rgba(255,255,255,0.45)" : "#2563EB";
-
+export default function Logo({ light: _light = false }: LogoProps) {
   return (
-    <span className="inline-flex items-center gap-2.5 select-none">
-      {/* Icon mark — proper geometric B with gradient */}
-      <div className="h-8 rounded-[8px] bg-[#2563EB] flex items-center justify-center flex-shrink-0 px-2.5">
-        <span className="text-white font-black text-[13px] leading-none tracking-tight">Built</span>
-      </div>
-
-      {/* Wordmark */}
-      <span className="flex flex-col leading-none">
-        <span
-          className="font-black tracking-tight text-[15px] leading-none"
-          style={{ color: textColor }}
-        >
-          By<span style={{ color: "#2563EB" }}>Brian</span>
-        </span>
-        <span
-          className="text-[8.5px] font-semibold tracking-[0.18em] uppercase mt-[3px] leading-none"
-          style={{ color: subColor }}
-        >
-          Web Design
-        </span>
+    <span className="inline-flex items-baseline gap-2 select-none">
+      {/* Small forest dot — minimalist mark */}
+      <span aria-hidden className="inline-block w-1.5 h-1.5 rounded-full bg-forest translate-y-[-2px]" />
+      {/* Wordmark in Instrument Serif */}
+      <span className="font-serif text-[22px] leading-none text-ink tracking-tight">
+        Built<span className="italic text-clay px-[1px]">by</span>Brian
       </span>
     </span>
   );

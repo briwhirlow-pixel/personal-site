@@ -1,94 +1,113 @@
-import { Linkedin, Facebook, Mail } from "lucide-react";
+import { Linkedin, Facebook, Mail, ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/lib/data";
 import Reveal from "./Reveal";
 
 const skills = [
   "Next.js", "React", "TypeScript", "Tailwind CSS",
   "Node.js", "Supabase", "Shopify", "Framer",
-  "Figma", "SEO Optimized", "E-Commerce", "CMS",
+  "Figma", "SEO", "E-Commerce", "CMS",
 ];
 
-const highlights = [
-  { value: "5+", label: "Years of Experience" },
+const badges = [
   { value: "5-Day", label: "First Draft" },
-  { value: "15+", label: "Industries Served" },
+  { value: "5+", label: "Years Exp." },
+  { value: "100%", label: "Satisfaction" },
+  { value: "5.0★", label: "Rating" },
 ];
 
 export default function About() {
   return (
-    <section id="about" className="bg-[#F2F1EC] py-14 sm:py-20">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+    <section id="about" className="relative bg-paper text-ink pt-20 pb-28">
+      <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12">
 
-        <div className="grid md:grid-cols-2 gap-10 items-start">
+        {/* Section header */}
+        <Reveal>
+          <div className="flex items-baseline justify-between pb-4 border-b border-rule mb-12">
+            <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase flex items-center gap-2.5">
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
+              About the studio
+            </span>
+            <span className="hidden sm:inline font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
+              Index / 003
+            </span>
+          </div>
+        </Reveal>
 
-          {/* Left — photo placeholder + stats */}
-          <Reveal direction="left">
+        <div className="grid md:grid-cols-12 gap-x-10 gap-y-12 items-start">
+
+          {/* Left — profile card */}
+          <Reveal direction="left" className="md:col-span-5">
             <div className="relative">
+              {/* Forest accent backdrop */}
               <div
-                className="w-full aspect-[4/5] rounded-2xl overflow-hidden flex flex-col"
-                style={{ background: 'linear-gradient(135deg, #0D1B45 0%, #1E3A8A 100%)' }}
-              >
-                {/* Logo — top half */}
-                <div className="flex-1 flex items-center justify-center">
-                  <div className="flex items-center gap-4">
-                    <div className="h-24 rounded-[22px] bg-[#2563EB] flex items-center justify-center flex-shrink-0 px-5">
-                      <span className="text-white font-black text-[36px] leading-none tracking-tight">Built</span>
-                    </div>
-                    <div className="flex flex-col leading-none">
-                      <p className="font-black text-[42px] tracking-tight leading-none text-white">By<span className="text-[#2563EB]">Brian</span></p>
-                      <p className="text-[15px] font-semibold tracking-[0.18em] uppercase mt-2 text-white/50">Web Design</p>
-                    </div>
-                  </div>
+                aria-hidden
+                className="absolute -inset-2 bg-forest rounded-[6px]"
+                style={{ transform: "rotate(-1.5deg)" }}
+              />
+
+              <div className="relative bg-paper-soft border border-rule rounded-[4px] overflow-hidden">
+                {/* Monogram / photo zone */}
+                <div className="aspect-[4/5] relative overflow-hidden" style={{ background: "linear-gradient(135deg, #2563EB, #1E40AF)" }}>
+                  <span
+                    aria-hidden
+                    className="absolute inset-0 flex items-center justify-center font-serif italic text-paper"
+                    style={{ fontSize: 200, lineHeight: 1, opacity: 0.95 }}
+                  >
+                    B
+                  </span>
+                  <span aria-hidden className="absolute top-6 right-7 text-paper text-[22px] opacity-70">✦</span>
+                  <span aria-hidden className="absolute bottom-7 left-6 text-clay-soft text-[14px] opacity-80">✦</span>
+                  {/* Tech corner ticks */}
+                  <span aria-hidden className="absolute top-3 left-3 w-3 h-3 border-t border-l border-paper/40" />
+                  <span aria-hidden className="absolute top-3 right-3 w-3 h-3 border-t border-r border-paper/40" />
+                  <span aria-hidden className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-paper/40" />
+                  <span aria-hidden className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-paper/40" />
                 </div>
 
-                {/* Bottom content */}
-                <div className="px-4 pb-6 pt-4 flex flex-col gap-3" style={{ background: 'linear-gradient(to top, rgba(6,9,31,0.97) 0%, rgba(6,9,31,0.7) 70%, transparent 100%)' }}>
-                  {/* Badges */}
-                  <div className="grid grid-cols-4 gap-2">
-                    {[
-                      { value: "5-Day", label: "First Draft" },
-                      { value: "5+", label: "Years Exp." },
-                      { value: "100%", label: "Satisfaction" },
-                      { value: "5.0★", label: "Avg. Rating" },
-                    ].map((badge) => (
-                      <div key={badge.label} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl py-3 text-center">
-                        <p className="text-white font-black text-lg leading-none">{badge.value}</p>
-                        <p className="text-white/50 text-[9px] uppercase tracking-widest mt-1.5 font-medium">{badge.label}</p>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Name + title + LinkedIn */}
-                  <div className="flex flex-col items-center gap-1.5 text-center pt-1">
-                    <p className="text-white font-black text-2xl tracking-tight">Brian Whirlow</p>
-                    <p className="text-white/50 text-[15px]">Web Designer & Developer</p>
-                    <div className="flex items-center gap-3 mt-1">
-                      <a
-                        href={siteConfig.social.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="LinkedIn"
-                        className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#2563EB] hover:border-[#2563EB] transition-all"
-                      >
-                        <Linkedin size={20} className="text-white" />
-                      </a>
-                      <a
-                        href="https://www.facebook.com/marketplace/profile/100001427946097/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Facebook Marketplace"
-                        className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#1877F2] hover:border-[#1877F2] transition-all"
-                      >
-                        <Facebook size={20} className="text-white" />
-                      </a>
-                      <a
-                        href="mailto:briwhirlow@gmail.com"
-                        aria-label="Email"
-                        className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#2563EB] hover:border-[#2563EB] transition-all"
-                      >
-                        <Mail size={20} className="text-white" />
-                      </a>
+                {/* Badges */}
+                <div className="grid grid-cols-4 gap-px bg-rule border-t border-rule">
+                  {badges.map((b) => (
+                    <div key={b.label} className="bg-paper-soft px-2 py-3 text-center">
+                      <p className="font-sans font-bold text-ink text-[15px] leading-none">{b.value}</p>
+                      <p className="font-mono text-[8px] tracking-[0.18em] uppercase text-ink-muted mt-1.5">{b.label}</p>
                     </div>
+                  ))}
+                </div>
+
+                {/* Name / role / social */}
+                <div className="p-5 border-t border-rule">
+                  <p className="font-mono text-[9.5px] tracking-[0.22em] uppercase text-ink-muted">The designer</p>
+                  <p className="font-serif text-[28px] leading-tight tracking-tight mt-2 text-ink">
+                    Brian <span className="italic">Whirlow</span>
+                  </p>
+                  <p className="text-ink-soft text-[13px] mt-1 font-medium">Designer & Developer · Phila / NJ</p>
+
+                  <div className="flex items-center gap-2 mt-4">
+                    <a
+                      href={siteConfig.social.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="LinkedIn"
+                      className="w-9 h-9 rounded-[6px] border border-rule bg-paper flex items-center justify-center text-ink-soft hover:text-forest hover:border-forest transition-colors"
+                    >
+                      <Linkedin size={16} strokeWidth={1.75} />
+                    </a>
+                    <a
+                      href="https://www.facebook.com/marketplace/profile/100001427946097/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Facebook"
+                      className="w-9 h-9 rounded-[6px] border border-rule bg-paper flex items-center justify-center text-ink-soft hover:text-forest hover:border-forest transition-colors"
+                    >
+                      <Facebook size={16} strokeWidth={1.75} />
+                    </a>
+                    <a
+                      href={`mailto:${siteConfig.email}`}
+                      aria-label="Email"
+                      className="w-9 h-9 rounded-[6px] border border-rule bg-paper flex items-center justify-center text-ink-soft hover:text-forest hover:border-forest transition-colors"
+                    >
+                      <Mail size={16} strokeWidth={1.75} />
+                    </a>
                   </div>
                 </div>
               </div>
@@ -96,36 +115,42 @@ export default function About() {
           </Reveal>
 
           {/* Right — bio + skills */}
-          <Reveal direction="right" delay={100}>
-            <p className="text-[#2563EB] text-[13px] font-semibold tracking-widest uppercase mb-3">
-              About Me
-            </p>
-            <h2 className="text-[clamp(24px,2.8vw,38px)] font-black text-[#1A1A1A] leading-tight tracking-tight mb-4">
-              I build websites that
-              <br />
-              <span className="text-[#2563EB]">actually work.</span>
+          <Reveal direction="right" delay={100} className="md:col-span-7">
+            <h2 className="font-serif text-[clamp(32px,5.5vw,64px)] leading-[0.95] tracking-[-0.025em] text-ink font-normal">
+              I build websites that{" "}
+              <span className="italic text-forest">actually work.</span>
             </h2>
 
-            <div className="space-y-3 text-[#555555] text-[14px] leading-relaxed mb-6">
+            <div className="space-y-4 text-ink-soft text-[15px] sm:text-[16px] leading-[1.65] mt-7 mb-8 font-medium">
               <p>
-                I&apos;m Brian — a web designer and developer based in the Philadelphia/South Jersey area. With 5 years of building websites under my belt, I turned that passion into a business helping local brands grow online.
+                I&apos;m Brian — a web designer and developer based in the Philadelphia / South Jersey area.
+                With <span className="text-ink font-semibold">5 years of building websites</span> under my belt,
+                I turned that passion into a business helping local brands grow online.
               </p>
               <p>
-                I&apos;ve worked with restaurants, e-commerce brands, photographers, and service businesses — turning slow, outdated sites into their <span className="text-[#1A1A1A] font-semibold">best-performing sales tool</span>. You&apos;ll always know where your project stands — no ghosting, no vague timelines, just clean work, delivered fast.
+                I&apos;ve worked with restaurants, e-commerce brands, photographers, and service businesses —
+                turning slow, outdated sites into their{" "}
+                <span className="text-ink font-semibold">best-performing sales tool</span>.
+                You&apos;ll always know where your project stands — no ghosting, no vague timelines,
+                just clean work, delivered fast.
               </p>
               <p>
-                I hold a degree in Management Information Systems and am currently finishing my MBA in Sustainable Business and Management. When I&apos;m not building websites, I&apos;m hiking, working out, traveling, and spending time with family and friends.
+                I hold a degree in Management Information Systems and am currently finishing my MBA
+                in Sustainable Business and Management. When I&apos;m not building websites, I&apos;m
+                hiking, working out, traveling, and spending time with family and friends.
               </p>
             </div>
 
-            {/* Skills chips */}
-            <div className="mb-5">
-              <p className="text-[11px] text-[#AEACA6] uppercase tracking-widest font-semibold mb-2.5">Tools & Technologies</p>
+            {/* Skills */}
+            <div className="mb-8 pb-8 border-b border-rule">
+              <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-muted mb-3">
+                Tools & Technologies
+              </p>
               <div className="flex flex-wrap gap-1.5">
                 {skills.map((skill) => (
                   <span
                     key={skill}
-                    className="bg-white border border-[#E5E4DF] text-[#4A4A4A] text-[11px] font-semibold px-2.5 py-1 rounded-full hover:border-[#2563EB] hover:text-[#2563EB] transition-colors cursor-default"
+                    className="font-mono text-[11px] tracking-wide bg-paper-soft border border-rule text-ink-soft px-2.5 py-1.5 rounded-[3px] hover:border-forest hover:text-forest transition-colors"
                   >
                     {skill}
                   </span>
@@ -136,16 +161,15 @@ export default function About() {
             <div className="flex flex-wrap gap-3">
               <a
                 href="/contact"
-                className="inline-flex items-center gap-2 bg-[#2563EB] text-white font-semibold px-5 py-3 rounded-full hover:bg-[#1D4ED8] transition-all hover:scale-[1.03] active:scale-[0.97] text-[13px]"
+                className="group inline-flex items-center gap-2 bg-forest text-paper font-semibold px-6 py-3.5 rounded-[6px] hover:bg-forest-deep transition-colors text-[14px]"
+                style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.5)" }}
               >
                 Work with me
-                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                </svg>
+                <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-[2px] group-hover:-translate-y-[2px]" />
               </a>
               <a
                 href="/services"
-                className="inline-flex items-center gap-2 text-[#737373] font-semibold px-5 py-3 rounded-full border border-[#E5E4DF] hover:border-[#2563EB]/40 hover:text-[#2563EB] transition-all text-[13px]"
+                className="inline-flex items-center gap-2 text-ink font-semibold px-6 py-3.5 rounded-[6px] border border-rule hover:border-forest hover:text-forest transition-colors text-[14px]"
               >
                 View services
               </a>

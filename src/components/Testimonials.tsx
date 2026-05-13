@@ -49,7 +49,7 @@ const reviews = [
   {
     name: "Rocco S.",
     date: "January 2026",
-    avatar: "RF",
+    avatar: "RS",
     rating: 5,
     text: null,
     highlight: null,
@@ -61,7 +61,7 @@ function StarRating({ count }: { count: number }) {
   return (
     <div className="flex gap-0.5">
       {Array.from({ length: count }).map((_, i) => (
-        <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="#2563EB" className="flex-shrink-0">
+        <svg key={i} width="13" height="13" viewBox="0 0 24 24" fill="#E8B85F" className="flex-shrink-0">
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
         </svg>
       ))}
@@ -71,70 +71,89 @@ function StarRating({ count }: { count: number }) {
 
 export default function Testimonials() {
   return (
-    <section id="reviews" className="bg-white py-28">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+    <section id="reviews" className="relative bg-paper text-ink pt-20 pb-24">
+      <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12">
 
+        {/* Section header */}
         <Reveal>
-          <div className="text-center mb-16">
-            <p className="text-[#2563EB] text-[12px] font-semibold tracking-widest uppercase mb-4">Client Reviews</p>
-            <h2 className="text-[clamp(32px,4vw,52px)] font-black text-[#1A1A1A] leading-tight tracking-tight">
-              Don&apos;t take my word for it.
-            </h2>
-            <p className="text-[#737373] text-[16px] mt-4 max-w-xl mx-auto leading-relaxed">
-              Here&apos;s what real clients have said after working with me.
-            </p>
+          <div className="flex items-baseline justify-between pb-4 border-b border-rule mb-12">
+            <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase flex items-center gap-2.5">
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
+              Client Reviews
+            </span>
+            <span className="hidden sm:inline font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
+              Index / 004
+            </span>
           </div>
         </Reveal>
 
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6" style={{ gridAutoRows: '1fr' }}>
-          {reviews.map((review, i) => (
-            <Reveal key={review.name} delay={i * 100} className="h-full">
-              <div className="group relative bg-[#FAFAF7] border border-[#E5E4DF] rounded-2xl p-5 flex flex-col h-full hover:border-[#2563EB]/30 hover:shadow-[0_8px_40px_rgba(37,99,235,0.08)] transition-all duration-300">
+        <Reveal className="max-w-3xl mb-14">
+          <h2 className="font-serif text-[clamp(36px,6vw,72px)] leading-[0.95] tracking-[-0.025em] text-ink font-normal">
+            Don&apos;t take my word{" "}
+            <span className="italic text-forest">for it.</span>
+          </h2>
+          <p className="text-ink-soft text-[17px] mt-5 leading-relaxed font-medium">
+            Here&apos;s what real clients have said after working with me.
+          </p>
+        </Reveal>
 
-                {/* Tag + rating row */}
+        {/* Review grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" style={{ gridAutoRows: "1fr" }}>
+          {reviews.map((review, i) => (
+            <Reveal key={review.name} delay={i * 80} className="h-full">
+              <div className="group relative bg-paper-soft border border-rule rounded-[6px] p-5 flex flex-col h-full hover:border-forest/40 transition-colors">
+
+                {/* Top row — tag + rating */}
                 <div className="flex items-center justify-between mb-4">
                   {review.tag ? (
-                    <span className="text-[10px] font-bold tracking-widest uppercase text-[#2563EB] bg-[#EFF6FF] px-2.5 py-1 rounded-full">
+                    <span className="font-mono text-[10px] font-semibold tracking-[0.18em] uppercase text-forest bg-forest/10 px-2 py-1 rounded-[3px]">
                       {review.tag}
                     </span>
                   ) : (
-                    <span className="text-[10px] font-semibold text-[#AEACA6]">Verified client</span>
+                    <span className="font-mono text-[10px] tracking-[0.18em] uppercase text-ink-muted">
+                      Verified client
+                    </span>
                   )}
                   <StarRating count={review.rating} />
                 </div>
 
                 {/* Quote or stars-only */}
-                <div className="flex-1 flex flex-col justify-center">
+                <div className="flex-1 flex flex-col justify-start">
                   {review.text ? (
                     <>
-                      <svg width="22" height="16" viewBox="0 0 28 20" fill="none" className="mb-2 text-[#2563EB]/20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0 20V12.8C0 9.06667 0.933333 5.93333 2.8 3.4C4.66667 0.866667 7.46667 0 11.2 0V3.6C9.33333 3.6 7.93333 4.33333 7 5.8C6.06667 7.26667 5.6 9.06667 5.6 11.2H11.2V20H0ZM16.8 20V12.8C16.8 9.06667 17.7333 5.93333 19.6 3.4C21.4667 0.866667 24.2667 0 28 0V3.6C26.1333 3.6 24.7333 4.33333 23.8 5.8C22.8667 7.26667 22.4 9.06667 22.4 11.2H28V20H16.8Z" fill="currentColor"/>
-                      </svg>
-                      <p className="text-[#555555] text-[13px] leading-relaxed">{review.text}</p>
+                      <span className="font-serif italic text-forest text-[40px] leading-none mb-1">“</span>
+                      <p className="text-ink text-[13.5px] leading-[1.65] font-medium -mt-2">
+                        {review.text}
+                      </p>
                     </>
                   ) : (
-                    <div className="flex flex-col items-center justify-center py-4 gap-3">
+                    <div className="flex flex-col items-center justify-center py-8 gap-3">
                       <StarRating count={5} />
-                      <p className="text-[#AEACA6] text-[12px]">Left a 5-star rating</p>
+                      <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-ink-muted">
+                        Left a 5-star rating
+                      </p>
                     </div>
                   )}
                 </div>
 
-                {/* Highlight callout */}
+                {/* Highlight */}
                 {review.highlight && (
-                  <div className="bg-[#EFF6FF] border border-[#2563EB]/10 rounded-xl px-3 py-2 mb-4 mt-3">
-                    <p className="text-[#2563EB] text-[11px] font-semibold">✦ {review.highlight}</p>
+                  <div className="bg-forest/5 border border-forest/15 rounded-[4px] px-3 py-2 mt-4 mb-1">
+                    <p className="font-mono text-[10.5px] tracking-wide text-forest font-medium leading-snug">
+                      <span className="text-clay mr-1.5">✦</span>
+                      {review.highlight}
+                    </p>
                   </div>
                 )}
 
                 {/* Author */}
-                <div className="flex items-center gap-3 pt-4 mt-3 border-t border-[#E5E4DF]">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#1E3A8A] to-[#2563EB] flex items-center justify-center flex-shrink-0">
-                    <span className="text-white text-[10px] font-black tracking-wide">{review.avatar}</span>
+                <div className="flex items-center gap-3 pt-4 mt-4 border-t border-rule">
+                  <div className="w-9 h-9 rounded-full bg-forest flex items-center justify-center flex-shrink-0">
+                    <span className="text-paper text-[10px] font-bold tracking-wide font-mono">{review.avatar}</span>
                   </div>
                   <div>
-                    <p className="text-[#1A1A1A] text-[12px] font-bold leading-tight">{review.name}</p>
-                    <p className="text-[#AEACA6] text-[10px] mt-0.5">{review.date}</p>
+                    <p className="text-ink text-[12.5px] font-semibold leading-tight">{review.name}</p>
+                    <p className="font-mono text-[10px] text-ink-muted mt-0.5 tracking-wide">{review.date}</p>
                   </div>
                 </div>
 
@@ -145,21 +164,13 @@ export default function Testimonials() {
 
         {/* Bottom trust bar */}
         <Reveal delay={300}>
-          <div className="mt-10 sm:mt-14 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-center">
+          <div className="mt-14 pt-8 border-t border-rule grid grid-cols-1 sm:grid-cols-3 gap-y-5 gap-x-8">
             <div className="flex items-center gap-2">
-              <div className="flex gap-0.5">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <svg key={i} width="16" height="16" viewBox="0 0 24 24" fill="#2563EB">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                  </svg>
-                ))}
-              </div>
-              <span className="text-[#1A1A1A] text-[14px] font-bold">5.0 average rating</span>
+              <StarRating count={5} />
+              <span className="text-ink text-[13px] font-semibold">5.0 average rating</span>
             </div>
-            <div className="hidden sm:block w-px h-5 bg-[#E5E4DF]" />
-            <p className="text-[#737373] text-[14px]">5-day average first draft delivery — every project</p>
-            <div className="hidden sm:block w-px h-5 bg-[#E5E4DF]" />
-            <p className="text-[#737373] text-[14px]">No project too small or too ambitious</p>
+            <p className="text-ink-soft text-[13px] font-medium">5-day average first draft — every project</p>
+            <p className="text-ink-soft text-[13px] font-medium">No project too small or too ambitious</p>
           </div>
         </Reveal>
 

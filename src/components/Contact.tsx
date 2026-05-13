@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Mail, CalendarDays, Phone } from "lucide-react";
+import { Mail, CalendarDays, ClipboardList, Phone, Zap, Rocket, Check, ChevronDown } from "lucide-react";
 import { budgetOptions, launchOptions, siteConfig } from "@/lib/data";
 import Reveal from "./Reveal";
 
@@ -97,117 +97,145 @@ export default function Contact() {
   };
 
   const inputClass = (hasError?: boolean) =>
-    `w-full bg-white border ${hasError ? "border-red-400" : "border-[#E5E4DF]"} rounded-xl px-4 py-3.5 text-[14px] text-[#1A1A1A] placeholder-[#CECCC6] focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition`;
+    `w-full bg-paper border ${
+      hasError ? "border-clay" : "border-rule"
+    } rounded-[6px] px-4 py-3 text-[14px] text-ink placeholder:text-ink-muted focus:outline-none focus:border-forest focus:ring-2 focus:ring-forest/20 transition font-medium`;
 
   const hasCalendly = false;
 
-  return (
-    <section id="contact" className="bg-[#FAFAF7] py-16 sm:py-28">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-12">
+  const steps = [
+    { Icon: ClipboardList, title: "Fill out this form", time: "2 min", desc: "Tell me what you need, your timeline, and budget.", active: true },
+    { Icon: Phone, title: "Free 30-min discovery call", time: "Free", desc: "We align on goals, design direction, and scope — I answer everything.", active: false },
+    { Icon: Zap, title: "I build your site", time: "2–4 weeks", desc: "Regular check-ins so you always know where things stand.", active: false },
+    { Icon: Rocket, title: "Launch your way", time: "Go live", desc: "Take your files and host anywhere — or let me manage hosting for $49/mo. Either way, you own it.", active: false },
+  ];
 
-        {/* Header banner */}
+  return (
+    <section id="contact" className="relative bg-paper text-ink pt-20 pb-24">
+      <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12">
+
+        {/* Section header */}
         <Reveal>
-          <div className="bg-[#2563EB] rounded-2xl px-5 sm:px-8 md:px-12 py-8 sm:py-10 mb-10 sm:mb-16">
-            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-5 sm:gap-6">
+          <div className="flex items-baseline justify-between pb-4 border-b border-rule mb-12">
+            <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase flex items-center gap-2.5">
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
+              Start a project
+            </span>
+            <span className="hidden sm:inline font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
+              Index / 006
+            </span>
+          </div>
+        </Reveal>
+
+        {/* Banner — paper-deep for consistency */}
+        <Reveal>
+          <div className="bg-paper-soft border border-rule rounded-[8px] px-5 sm:px-8 md:px-10 py-8 sm:py-10 mb-12">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5">
               <div>
-                <p className="text-white/60 text-[12px] font-semibold tracking-widest uppercase mb-2">Get In Touch</p>
-                <h2 className="text-[clamp(28px,4vw,48px)] font-black text-white leading-tight tracking-tight mb-4">
-                  Let&apos;s build something great.
+                <p className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-ink-muted mb-3">
+                  Get in touch
+                </p>
+                <h2 className="font-serif text-[clamp(28px,4.5vw,52px)] leading-[0.95] tracking-[-0.025em] text-ink font-normal">
+                  Let&apos;s build something{" "}
+                  <span className="italic text-forest">great.</span>
                 </h2>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 mt-5">
                   {["Starting at $750", "First draft in 5 days", "Free quote — no commitment"].map((tag) => (
-                    <span key={tag} className="bg-white/15 text-white text-[12px] font-semibold px-3 py-1 rounded-full border border-white/20">
+                    <span key={tag} className="font-mono text-[10.5px] tracking-wide bg-paper border border-rule text-ink-soft px-3 py-1.5 rounded-[3px]">
                       {tag}
                     </span>
                   ))}
                 </div>
               </div>
-              <p className="text-white/70 text-[15px] leading-relaxed md:max-w-xs md:text-right">
-                Fill out the form below and I&apos;ll get back to you within 24 hours — usually sooner.
+              <p className="text-ink-soft text-[14px] leading-relaxed md:max-w-xs md:text-right font-medium">
+                Fill out the form and I&apos;ll get back to you within 24 hours — usually sooner.
               </p>
             </div>
           </div>
         </Reveal>
 
-        <div className="grid md:grid-cols-2 gap-10 sm:gap-16 items-start">
+        <div className="grid md:grid-cols-2 gap-10 sm:gap-12 items-start">
 
           {/* Left column */}
           <Reveal delay={100}>
-
-            {/* Strong opening copy */}
-            <p className="text-[#737373] text-[15px] leading-relaxed mb-8">
+            <p className="text-ink-soft text-[15px] leading-relaxed mb-8 font-medium">
               Tell me what you need. I&apos;ll review your project and reach out personally — no commitment, no fluff.
             </p>
 
             {/* Contact options */}
-            <div className="space-y-3 mb-10">
-              <a href={`mailto:${siteConfig.email}`}
-                className="flex items-center gap-4 group p-4 rounded-xl hover:bg-[#F2F1EC] transition-colors border border-transparent hover:border-[#E5E4DF]">
-                <div className="w-10 h-10 rounded-full bg-[#EFF6FF] flex items-center justify-center group-hover:bg-[#2563EB] transition-colors flex-shrink-0">
-                  <Mail size={16} className="text-[#2563EB] group-hover:text-white transition-colors" />
+            <div className="space-y-2 mb-10">
+              <a
+                href={`mailto:${siteConfig.email}`}
+                className="flex items-center gap-4 group p-4 rounded-[6px] hover:bg-paper-soft border border-transparent hover:border-rule transition-colors"
+              >
+                <div className="w-10 h-10 rounded-[6px] border border-rule bg-paper-soft flex items-center justify-center group-hover:bg-forest group-hover:border-forest transition-colors flex-shrink-0">
+                  <Mail size={15} className="text-forest group-hover:text-paper transition-colors" strokeWidth={1.75} />
                 </div>
                 <div>
-                  <p className="text-[11px] text-[#AEACA6] uppercase tracking-wide font-medium">Email Me Directly</p>
-                  <p className="text-[#1A1A1A] text-[14px] font-medium">{siteConfig.email}</p>
+                  <p className="font-mono text-[10px] text-ink-muted uppercase tracking-[0.18em] font-semibold">Email Directly</p>
+                  <p className="text-ink text-[14px] font-semibold mt-0.5">{siteConfig.email}</p>
                 </div>
               </a>
 
               {hasCalendly ? (
-                <a href={siteConfig.calendlyUrl}
-                  target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-4 group p-4 rounded-xl hover:bg-[#F2F1EC] transition-colors border border-transparent hover:border-[#E5E4DF]">
-                  <div className="w-10 h-10 rounded-full bg-[#EFF6FF] flex items-center justify-center group-hover:bg-[#2563EB] transition-colors flex-shrink-0">
-                    <CalendarDays size={16} className="text-[#2563EB] group-hover:text-white transition-colors" />
+                <a
+                  href={siteConfig.calendlyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 group p-4 rounded-[6px] hover:bg-paper-soft border border-transparent hover:border-rule transition-colors"
+                >
+                  <div className="w-10 h-10 rounded-[6px] border border-rule bg-paper-soft flex items-center justify-center group-hover:bg-forest group-hover:border-forest transition-colors flex-shrink-0">
+                    <CalendarDays size={15} className="text-forest group-hover:text-paper transition-colors" strokeWidth={1.75} />
                   </div>
                   <div>
-                    <p className="text-[11px] text-[#AEACA6] uppercase tracking-wide font-medium">Skip the Form</p>
-                    <p className="text-[#1A1A1A] text-[14px] font-medium">Book a free 30-min discovery call →</p>
+                    <p className="font-mono text-[10px] text-ink-muted uppercase tracking-[0.18em] font-semibold">Skip the form</p>
+                    <p className="text-ink text-[14px] font-semibold mt-0.5">Book a free 30-min discovery call →</p>
                   </div>
                 </a>
               ) : (
-                <div className="flex items-center gap-4 p-4 rounded-xl bg-[#F2F1EC] border border-[#E5E4DF]">
-                  <div className="w-10 h-10 rounded-full bg-[#EFF6FF] flex items-center justify-center flex-shrink-0">
-                    <CalendarDays size={16} className="text-[#2563EB]" />
+                <div className="flex items-center gap-4 p-4 rounded-[6px] bg-paper-soft border border-rule">
+                  <div className="w-10 h-10 rounded-[6px] border border-rule bg-paper flex items-center justify-center flex-shrink-0">
+                    <CalendarDays size={15} className="text-forest" strokeWidth={1.75} />
                   </div>
                   <div>
-                    <p className="text-[11px] text-[#AEACA6] uppercase tracking-wide font-medium">Response Time</p>
-                    <p className="text-[#1A1A1A] text-[14px] font-medium">Within 24 hours — usually same day</p>
+                    <p className="font-mono text-[10px] text-ink-muted uppercase tracking-[0.18em] font-semibold">Response Time</p>
+                    <p className="text-ink text-[14px] font-semibold mt-0.5">Within 24 hours — usually same day</p>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* How it works — with timeframes */}
+            {/* How it works */}
             <div className="mb-10">
-              <p className="text-[11px] text-[#AEACA6] uppercase tracking-widest font-semibold mb-6">How It Works</p>
+              <p className="font-mono text-[10px] text-ink-muted uppercase tracking-[0.22em] font-semibold mb-6">
+                How it works
+              </p>
               <div className="relative">
-                <div className="absolute left-[19px] top-8 bottom-8 w-px bg-gradient-to-b from-[#2563EB] via-[#2563EB]/30 to-[#2563EB]/10" />
+                <div className="absolute left-[19px] top-8 bottom-8 w-px bg-rule" />
                 <div className="space-y-1">
-                  {[
-                    { icon: "✍️", title: "Fill Out This Form", time: "2 min", desc: "Tell me what you need, your timeline, and budget.", active: true },
-                    { icon: "📞", title: "Free 30-Min Discovery Call", time: "Free", desc: "We align on goals, design direction, and scope — I answer everything.", active: false },
-                    { icon: "⚡", title: "I Build Your Site", time: "2–4 weeks", desc: "Regular check-ins so you always know where things stand.", active: false },
-                    { icon: "🚀", title: "Launch Your Way", time: "You go live", desc: "Take your files and host anywhere — or let me manage hosting for $49/mo. Either way, you own it.", active: false },
-                  ].map((item, i) => (
+                  {steps.map((item, i) => (
                     <div key={i} className="flex items-start gap-4 group relative">
-                      <div className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-[15px] border-2 transition-all duration-300 ${
-                        item.active
-                          ? "bg-[#2563EB] border-[#2563EB] shadow-[0_0_16px_rgba(37,99,235,0.35)]"
-                          : "bg-white border-[#E5E4DF] group-hover:border-[#2563EB]/50"
-                      }`}>
-                        {item.icon}
+                      <div
+                        className={`relative z-10 w-10 h-10 rounded-[6px] flex items-center justify-center flex-shrink-0 border transition-all duration-300 ${
+                          item.active ? "bg-forest border-forest" : "bg-paper border-rule group-hover:border-forest/50"
+                        }`}
+                        style={item.active ? { boxShadow: "0 0 0 4px rgba(37,99,235,0.1)" } : undefined}
+                      >
+                        <item.Icon size={15} className={item.active ? "text-paper" : "text-ink-soft"} strokeWidth={1.75} />
                       </div>
-                      <div className={`flex-1 mb-1 px-4 py-3 rounded-xl transition-all duration-300 ${
-                        item.active ? "bg-[#EFF6FF] border border-[#2563EB]/20" : "bg-transparent group-hover:bg-[#F2F1EC]"
-                      }`}>
-                        <div className="flex items-center gap-2 mb-0.5">
-                          <span className={`text-[10px] font-bold tracking-widest uppercase ${item.active ? "text-[#2563EB]" : "text-[#AEACA6]"}`}>
-                            Step {i + 1}
+                      <div
+                        className={`flex-1 mb-1 px-4 py-3 rounded-[6px] transition-all duration-300 ${
+                          item.active ? "bg-forest/5 border border-forest/20" : "bg-transparent group-hover:bg-paper-soft"
+                        }`}
+                      >
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className={`font-mono text-[9.5px] font-semibold tracking-[0.22em] uppercase ${item.active ? "text-forest" : "text-ink-muted"}`}>
+                            Step 0{i + 1}
                           </span>
-                          <span className="text-[10px] font-semibold text-[#2563EB]/60 bg-[#2563EB]/8 px-2 py-0.5 rounded-full">{item.time}</span>
+                          <span className="font-mono text-[9.5px] font-medium text-forest bg-forest/10 px-1.5 py-0.5 rounded-[3px]">{item.time}</span>
                         </div>
-                        <p className="text-[13px] font-bold text-[#1A1A1A] leading-snug">{item.title}</p>
-                        <p className="text-[12px] text-[#737373] leading-relaxed mt-0.5">{item.desc}</p>
+                        <p className="text-[13.5px] font-semibold text-ink leading-snug">{item.title}</p>
+                        <p className="text-[12px] text-ink-soft leading-relaxed mt-0.5 font-medium">{item.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -217,26 +245,27 @@ export default function Contact() {
 
             {/* FAQ */}
             <div>
-              <p className="text-[11px] text-[#AEACA6] uppercase tracking-widest font-semibold mb-4">Common Questions</p>
+              <p className="font-mono text-[10px] text-ink-muted uppercase tracking-[0.22em] font-semibold mb-3">
+                Common questions
+              </p>
               <div className="space-y-2">
                 {faqs.map((faq, i) => (
-                  <div key={i} className="border border-[#E5E4DF] rounded-xl overflow-hidden bg-white">
+                  <div key={i} className="border border-rule rounded-[6px] overflow-hidden bg-paper-soft">
                     <button
                       type="button"
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}
                       className="w-full flex items-center justify-between px-4 py-3.5 text-left gap-3"
                     >
-                      <span className="text-[13px] font-semibold text-[#1A1A1A] leading-snug">{faq.q}</span>
-                      <svg
-                        width="14" height="14" fill="none" stroke="#AEACA6" viewBox="0 0 24 24"
-                        className={`flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                      </svg>
+                      <span className="text-[13px] font-semibold text-ink leading-snug">{faq.q}</span>
+                      <ChevronDown
+                        size={14}
+                        strokeWidth={2}
+                        className={`text-ink-muted flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`}
+                      />
                     </button>
                     {openFaq === i && (
                       <div className="px-4 pb-4">
-                        <p className="text-[13px] text-[#737373] leading-relaxed">{faq.a}</p>
+                        <p className="text-[13px] text-ink-soft leading-relaxed font-medium">{faq.a}</p>
                       </div>
                     )}
                   </div>
@@ -249,98 +278,95 @@ export default function Contact() {
           {/* Right — form */}
           <Reveal delay={200}>
             {status === "success" ? (
-              <div className="bg-white border border-[#E5E4DF] rounded-2xl p-8 sm:p-10 text-center">
-                <div className="w-16 h-16 bg-[#2563EB] rounded-full flex items-center justify-center mx-auto mb-5">
-                  <svg width="26" height="26" fill="none" stroke="white" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7"/>
-                  </svg>
+              <div className="bg-paper-soft border border-rule rounded-[8px] p-8 sm:p-10 text-center">
+                <div className="w-14 h-14 bg-forest rounded-full flex items-center justify-center mx-auto mb-5">
+                  <Check size={24} className="text-paper" strokeWidth={2.5} />
                 </div>
-                <h3 className="text-[22px] font-black text-[#1A1A1A] mb-2">You&apos;re in!</h3>
-                <p className="text-[#737373] text-[14px] mb-6">
-                  I&apos;ll be in touch by <span className="font-bold text-[#1A1A1A]">{getTomorrow()}</span> — usually sooner. Here&apos;s what happens next:
+                <h3 className="font-serif text-[28px] text-ink mb-2 leading-tight">You&apos;re <span className="italic text-forest">in.</span></h3>
+                <p className="text-ink-soft text-[14px] mb-6 font-medium">
+                  I&apos;ll be in touch by <span className="font-semibold text-ink">{getTomorrow()}</span> — usually sooner. Here&apos;s what happens next:
                 </p>
-                <div className="space-y-3 text-left mb-8">
+                <div className="space-y-2 text-left mb-8">
                   {[
-                    { icon: "📋", text: "I review your project details" },
-                    { icon: "📬", text: "You get a personal response within 24 hrs" },
-                    { icon: "📞", text: "We book a free 30-min discovery call" },
-                    { icon: "📄", text: "I send a custom proposal with exact pricing" },
+                    { Icon: ClipboardList, text: "I review your project details" },
+                    { Icon: Mail, text: "You get a personal response within 24 hrs" },
+                    { Icon: Phone, text: "We book a free 30-min discovery call" },
+                    { Icon: Check, text: "I send a custom proposal with exact pricing" },
                   ].map((step, i) => (
-                    <div key={i} className="flex items-center gap-3 bg-[#FAFAF7] rounded-xl px-4 py-3">
-                      <span className="text-lg flex-shrink-0">{step.icon}</span>
-                      <p className="text-[13px] font-medium text-[#1A1A1A]">{step.text}</p>
+                    <div key={i} className="flex items-center gap-3 bg-paper rounded-[6px] px-4 py-3 border border-rule">
+                      <step.Icon size={15} className="text-forest flex-shrink-0" strokeWidth={1.75} />
+                      <p className="text-[13px] font-medium text-ink">{step.text}</p>
                     </div>
                   ))}
                 </div>
-                <a href="/work" className="inline-flex items-center gap-1.5 text-[#2563EB] text-[13px] font-semibold hover:underline">
-                  In the meantime, check out examples of my work →
+                <a href="/work" className="inline-flex items-center gap-1.5 text-forest text-[13px] font-semibold hover:text-forest-bright border-b border-forest/30 pb-0.5">
+                  In the meantime, check out my work →
                 </a>
               </div>
             ) : (
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 bg-paper-soft border border-rule rounded-[8px] p-6 sm:p-7">
 
                 {/* Step indicator */}
-                <div className="flex items-center gap-2 mb-1">
+                <div className="flex items-center gap-2 mb-2">
                   {[1, 2].map((s) => (
                     <div key={s} className="flex items-center gap-2">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-black transition-all ${formStep >= s ? "bg-[#2563EB] text-white" : "bg-[#E5E4DF] text-[#AEACA6]"}`}>{s}</div>
-                      {s < 2 && <div className={`h-px w-8 transition-all ${formStep >= 2 ? "bg-[#2563EB]" : "bg-[#E5E4DF]"}`} />}
+                      <div className={`w-6 h-6 rounded-[4px] flex items-center justify-center text-[11px] font-bold font-mono transition-all ${formStep >= s ? "bg-forest text-paper" : "bg-paper border border-rule text-ink-muted"}`}>{s}</div>
+                      {s < 2 && <div className={`h-px w-8 transition-all ${formStep >= 2 ? "bg-forest" : "bg-rule"}`} />}
                     </div>
                   ))}
-                  <span className="text-[11px] text-[#AEACA6] ml-1">{formStep === 1 ? "The basics" : "A few more details"}</span>
+                  <span className="font-mono text-[10px] tracking-[0.18em] uppercase text-ink-muted ml-1">
+                    {formStep === 1 ? "The basics" : "A few more details"}
+                  </span>
                 </div>
 
-                {/* ── Step 1 ── */}
+                {/* Step 1 */}
                 {formStep === 1 && (
                   <>
-                    {/* Name + Email row */}
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Your Name</label>
+                        <label className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Your Name</label>
                         <input type="text" placeholder="Jane Smith" className={inputClass(!!errors.name)}
                           {...register("name", { required: "Name is required" })} />
-                        {errors.name && <p className="text-red-500 text-[12px] mt-1">{errors.name.message}</p>}
+                        {errors.name && <p className="text-clay text-[12px] mt-1">{errors.name.message}</p>}
                       </div>
                       <div>
-                        <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Email Address</label>
+                        <label className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Email</label>
                         <input type="email" placeholder="jane@example.com" className={inputClass(!!errors.email)}
                           {...register("email", { required: "Email is required", pattern: { value: /^\S+@\S+$/i, message: "Invalid email" } })} />
-                        {errors.email && <p className="text-red-500 text-[12px] mt-1">{errors.email.message}</p>}
+                        {errors.email && <p className="text-clay text-[12px] mt-1">{errors.email.message}</p>}
                       </div>
                     </div>
 
-                    {/* Phone (optional) */}
                     <div>
-                      <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">
-                        Phone <span className="text-[#AEACA6] normal-case font-medium tracking-normal">— optional</span>
+                      <label className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">
+                        Phone <span className="text-ink-muted normal-case font-medium tracking-normal">— optional</span>
                       </label>
                       <input type="tel" placeholder="(555) 000-0000" className={inputClass()}
                         {...register("phone")} />
                     </div>
 
-                    {/* Message */}
                     <div>
-                      <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Tell Me About Your Project</label>
+                      <label className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Tell Me About Your Project</label>
                       <textarea rows={5} placeholder="What do you need built? What's the goal? Any details help."
-                        className={`w-full bg-white border ${errors.message ? "border-red-400" : "border-[#E5E4DF]"} rounded-xl px-4 py-3.5 text-[14px] text-[#1A1A1A] placeholder-[#CECCC6] focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition resize-none`}
+                        className={`${inputClass(!!errors.message)} resize-none`}
                         {...register("message", { required: "Please describe your project" })} />
-                      {errors.message && <p className="text-red-500 text-[12px] mt-1">{errors.message.message}</p>}
+                      {errors.message && <p className="text-clay text-[12px] mt-1">{errors.message.message}</p>}
                     </div>
 
                     <button type="button" onClick={goToStep2}
-                      className="w-full bg-[#2563EB] text-white font-bold py-4 px-6 rounded-xl hover:bg-[#1D4ED8] transition-all text-[15px] tracking-wide hover:scale-[1.01] active:scale-[0.99]">
+                      className="w-full bg-forest text-paper font-semibold py-3.5 px-6 rounded-[6px] hover:bg-forest-deep transition-colors text-[14px] tracking-wide"
+                      style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.4)" }}>
                       Next — Choose Your Budget →
                     </button>
-                    <p className="text-center text-[12px] text-[#AEACA6] -mt-2">Free quote · No commitment</p>
+                    <p className="text-center text-[11px] text-ink-muted font-mono tracking-wide -mt-1">FREE QUOTE · NO COMMITMENT</p>
                   </>
                 )}
 
-                {/* ── Step 2 ── */}
+                {/* Step 2 */}
                 {formStep === 2 && (
                   <>
-                    {/* Type of Website */}
                     <div>
-                      <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Type of Website</label>
+                      <label className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Type of Website</label>
                       <select
                         className={inputClass(!!errors.websiteType)}
                         {...register("websiteType", { required: "Please select a website type" })}
@@ -358,7 +384,7 @@ export default function Contact() {
                         <option value="Non-Profit / Community">Non-Profit / Community</option>
                         <option value="custom">Other — I&apos;ll describe it below</option>
                       </select>
-                      {errors.websiteType && <p className="text-red-500 text-[12px] mt-1">{errors.websiteType.message}</p>}
+                      {errors.websiteType && <p className="text-clay text-[12px] mt-1">{errors.websiteType.message}</p>}
                       {websiteTypeValue === "custom" && (
                         <input type="text" placeholder="Describe your website type…"
                           className={`${inputClass(!!errors.websiteTypeCustom)} mt-2`}
@@ -366,34 +392,32 @@ export default function Contact() {
                             validate: (val) => websiteTypeValue !== "custom" || !!val || "Please describe your website type",
                           })} />
                       )}
-                      {errors.websiteTypeCustom && <p className="text-red-500 text-[12px] mt-1">{errors.websiteTypeCustom.message}</p>}
+                      {errors.websiteTypeCustom && <p className="text-clay text-[12px] mt-1">{errors.websiteTypeCustom.message}</p>}
                     </div>
 
-                    {/* Budget */}
                     <div>
-                      <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-2">Budget Range</label>
+                      <label className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Budget Range</label>
                       <select className={inputClass(!!errors.budget)} {...register("budget", { required: "Please select a budget" })}>
                         <option value="">Select a range…</option>
                         {budgetOptions.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
                       </select>
-                      {errors.budget && <p className="text-red-500 text-[12px] mt-1">{errors.budget.message}</p>}
+                      {errors.budget && <p className="text-clay text-[12px] mt-1">{errors.budget.message}</p>}
                     </div>
 
-                    {/* Launch Date */}
                     <div>
-                      <label className="block text-[12px] font-semibold text-[#1A1A1A] tracking-wide uppercase mb-3">Expected Launch Date</label>
+                      <label className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-3">Expected Launch Date</label>
                       <input type="hidden" {...register("launchDate")} />
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
                         {launchOptions.map((opt) => (
                           <button key={opt.value} type="button" onClick={() => selectLaunch(opt.value)}
-                            className={`py-2.5 px-3 rounded-xl border text-left transition-all ${
+                            className={`py-2.5 px-3 rounded-[6px] border text-left transition-all ${
                               launchOption === opt.value
-                                ? "border-[#2563EB] bg-[#EFF6FF] text-[#2563EB]"
-                                : "border-[#E5E4DF] text-[#737373] hover:border-[#2563EB]/40 bg-white"
+                                ? "border-forest bg-forest/10 text-forest"
+                                : "border-rule text-ink-soft hover:border-forest/40 bg-paper"
                             }`}>
-                            <span className="block text-[12px] sm:text-[13px] font-semibold">{opt.label}</span>
+                            <span className="block text-[12.5px] font-semibold">{opt.label}</span>
                             {launchOption === opt.value && opt.value !== "custom" && (
-                              <span className="block text-[10px] mt-0.5 opacity-70">{getDateFromOption(opt.value)}</span>
+                              <span className="block font-mono text-[10px] mt-0.5 opacity-70 tracking-wide">{getDateFromOption(opt.value)}</span>
                             )}
                           </button>
                         ))}
@@ -405,19 +429,19 @@ export default function Contact() {
                       )}
                     </div>
 
-                    {/* Mini testimonial */}
-                    <div className="bg-[#F2F1EC] border border-[#E5E4DF] rounded-xl p-4 flex gap-3 items-start">
-                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#1E3A8A] to-[#2563EB] flex items-center justify-center flex-shrink-0">
-                        <span className="text-white text-[10px] font-black">PS</span>
+                    {/* Testimonial proof */}
+                    <div className="bg-paper border border-rule rounded-[6px] p-4 flex gap-3 items-start">
+                      <div className="w-9 h-9 rounded-full bg-forest flex items-center justify-center flex-shrink-0">
+                        <span className="text-paper text-[10px] font-bold font-mono">PS</span>
                       </div>
                       <div>
-                        <p className="text-[12px] text-[#555555] leading-relaxed italic">&ldquo;He designed every page from scratch, handled our SEO setup, and we started showing up in Google searches we never ranked for before. Super professional.&rdquo;</p>
-                        <p className="text-[11px] font-bold text-[#1A1A1A] mt-1.5">Priya S. — E-Commerce Client</p>
+                        <p className="text-[12px] text-ink-soft leading-relaxed italic font-medium">&ldquo;He designed every page from scratch, handled our SEO setup, and we started showing up in Google searches we never ranked for before. Super professional.&rdquo;</p>
+                        <p className="text-[11px] font-semibold text-ink mt-1.5">Priya S. — E-Commerce Client</p>
                       </div>
                     </div>
 
                     {status === "error" && (
-                      <p className="text-red-500 text-[13px]">
+                      <p className="text-clay text-[13px] font-medium">
                         Something went wrong. Email me directly at{" "}
                         <a href={`mailto:${siteConfig.email}`} className="underline">{siteConfig.email}</a>.
                       </p>
@@ -425,16 +449,17 @@ export default function Contact() {
 
                     <div>
                       <button type="submit" disabled={status === "loading"}
-                        className="w-full bg-[#2563EB] text-white font-bold py-4 px-6 rounded-xl hover:bg-[#1D4ED8] disabled:opacity-50 disabled:cursor-not-allowed transition-all text-[15px] tracking-wide hover:scale-[1.01] active:scale-[0.99]">
+                        className="w-full bg-forest text-paper font-semibold py-3.5 px-6 rounded-[6px] hover:bg-forest-deep disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-[14px] tracking-wide"
+                        style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.4)" }}>
                         {status === "loading" ? "Sending…" : "Get My Free Quote →"}
                       </button>
-                      <p className="text-center text-[12px] text-[#AEACA6] mt-2.5">
-                        No commitment. I&apos;ll respond within 24 hours.
+                      <p className="text-center text-[11px] text-ink-muted font-mono tracking-wide mt-2.5">
+                        NO COMMITMENT · 24-HOUR RESPONSE
                       </p>
                     </div>
 
                     <button type="button" onClick={() => setFormStep(1)}
-                      className="w-full text-center text-[12px] text-[#AEACA6] hover:text-[#737373] transition">
+                      className="w-full text-center text-[12px] text-ink-muted hover:text-ink-soft transition font-medium">
                       ← Back
                     </button>
                   </>

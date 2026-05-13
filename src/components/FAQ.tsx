@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Plus } from "lucide-react";
 import Reveal from "./Reveal";
 
 const faqs = [
@@ -42,40 +43,59 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="bg-[#FAFAF7] py-28">
-      <div className="max-w-3xl mx-auto px-6 md:px-12">
+    <section id="faq" className="relative bg-paper text-ink pt-16 pb-24">
+      <div className="relative max-w-3xl mx-auto px-5 sm:px-8 md:px-12">
+
+        {/* Section header */}
         <Reveal>
-          <div className="text-center mb-14">
-            <p className="text-[#2563EB] text-[12px] font-semibold tracking-widest uppercase mb-4">FAQ</p>
-            <h2 className="text-[clamp(30px,4vw,48px)] font-black text-[#1A1A1A] leading-tight tracking-tight">
-              Questions people actually ask.
-            </h2>
+          <div className="flex items-baseline justify-between pb-4 border-b border-rule mb-12">
+            <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
+              Frequently Asked
+            </span>
+            <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
+              Index / 005
+            </span>
           </div>
         </Reveal>
 
-        <div className="space-y-3">
+        <Reveal className="mb-12">
+          <h2 className="font-serif text-[clamp(36px,5.5vw,64px)] leading-[0.95] tracking-[-0.025em] text-ink font-normal">
+            Questions people{" "}
+            <span className="italic text-forest">actually ask.</span>
+          </h2>
+        </Reveal>
+
+        <div className="space-y-2">
           {faqs.map((faq, i) => (
             <Reveal key={i} delay={i * 40}>
               <div
-                className={`border rounded-2xl overflow-hidden transition-all duration-300 ${
-                  open === i ? "border-[#2563EB]/30 bg-white shadow-[0_4px_24px_rgba(37,99,235,0.06)]" : "border-[#E5E4DF] bg-white hover:border-[#2563EB]/20"
+                className={`border rounded-[6px] overflow-hidden transition-all duration-300 ${
+                  open === i ? "border-forest/40 bg-paper-soft" : "border-rule bg-paper-soft/40 hover:border-rule-bright"
                 }`}
               >
                 <button
-                  className="w-full flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 text-left gap-3 sm:gap-4"
+                  type="button"
+                  className="w-full flex items-center justify-between px-5 py-4 sm:px-6 sm:py-5 text-left gap-4"
                   onClick={() => setOpen(open === i ? null : i)}
                 >
-                  <span className="text-[13px] sm:text-[15px] font-bold text-[#1A1A1A] leading-snug">{faq.q}</span>
-                  <span className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center border transition-all duration-300 ${
-                    open === i ? "bg-[#2563EB] border-[#2563EB] rotate-45" : "border-[#E5E4DF] text-[#737373]"
-                  }`}>
-                    <svg width="12" height="12" fill="none" stroke={open === i ? "white" : "currentColor"} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 5v14M5 12h14" />
-                    </svg>
+                  <span className="flex items-baseline gap-3">
+                    <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-clay font-semibold flex-shrink-0">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-[14px] sm:text-[15px] font-semibold text-ink leading-snug">{faq.q}</span>
+                  </span>
+                  <span
+                    className={`flex-shrink-0 w-7 h-7 rounded-[4px] flex items-center justify-center border transition-all duration-300 ${
+                      open === i ? "bg-forest border-forest rotate-45" : "border-rule text-ink-soft"
+                    }`}
+                  >
+                    <Plus size={13} strokeWidth={2.5} className={open === i ? "text-paper" : ""} />
                   </span>
                 </button>
                 <div className={`transition-all duration-300 ease-in-out overflow-hidden ${open === i ? "max-h-96" : "max-h-0"}`}>
-                  <p className="px-4 sm:px-6 pb-4 sm:pb-5 text-[#737373] text-[13px] sm:text-[14px] leading-relaxed">{faq.a}</p>
+                  <p className="px-5 sm:px-6 pb-5 pl-12 sm:pl-14 text-ink-soft text-[13.5px] sm:text-[14.5px] leading-relaxed font-medium">
+                    {faq.a}
+                  </p>
                 </div>
               </div>
             </Reveal>
@@ -83,9 +103,9 @@ export default function FAQ() {
         </div>
 
         <Reveal delay={200}>
-          <p className="text-center text-[#AEACA6] text-[13px] mt-10">
+          <p className="text-center text-ink-muted text-[13px] mt-12 font-medium">
             Still have questions?{" "}
-            <a href="/contact" className="text-[#2563EB] font-semibold hover:underline">
+            <a href="/contact" className="text-forest font-semibold hover:text-forest-bright transition-colors border-b border-forest/30 hover:border-forest pb-0.5">
               Send me a message →
             </a>
           </p>

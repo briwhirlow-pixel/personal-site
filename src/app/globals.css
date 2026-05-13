@@ -1,8 +1,61 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/forms";
 
+@theme {
+  /* Surfaces — cool slate & near-white */
+  --color-paper: #FAFAFA;
+  --color-paper-soft: #FFFFFF;
+  --color-paper-deep: #F1F5F9;
+
+  /* Text — navy heading + slate body */
+  --color-ink: #1A1A2E;
+  --color-ink-soft: #475569;
+  --color-ink-muted: #64748B;
+
+  /* Rules */
+  --color-rule: #E2E8F0;
+  --color-rule-bright: #CBD5E1;
+
+  /* PRIMARY — electric blue (named "forest" historically; value is blue) */
+  --color-forest: #2563EB;
+  --color-forest-deep: #1E40AF;
+  --color-forest-bright: #3B82F6;
+
+  /* SECONDARY — sky blue (named "clay" historically; value is sky) */
+  --color-clay: #0EA5E9;
+  --color-clay-soft: #38BDF8;
+
+  /* HIGHLIGHT — gold for star ratings only */
+  --color-butter: #FACC15;
+  --color-butter-soft: #FDE047;
+
+  /* Tailwind class mappings */
+  --color-canvas: #FAFAFA;
+  --color-canvas-soft: #FFFFFF;
+  --color-surface: #F1F5F9;
+  --color-surface-2: #E2E8F0;
+  --color-line: #E2E8F0;
+  --color-line-bright: #CBD5E1;
+  --color-fg: #1A1A2E;
+  --color-fg-soft: #475569;
+  --color-fg-muted: #64748B;
+  --color-accent: #2563EB;
+  --color-accent-bright: #3B82F6;
+  --color-accent-deep: #1E40AF;
+  --color-coral: #0EA5E9;
+  --color-coral-soft: #38BDF8;
+  --color-mint: #3B82F6;
+  --color-gold: #FACC15;
+
+  /* Type */
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument), ui-serif, Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
 html {
   scroll-behavior: smooth;
+  background: #FAFAFA;
 }
 
 @keyframes shimmer {
@@ -14,6 +67,35 @@ html {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+
+@keyframes editorial-rise {
+  0% { opacity: 0; transform: translateY(14px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.85); }
+}
+
+.editorial-rise { animation: editorial-rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+/* Dot-grid background — subtle technical drawing feel */
+.dot-grid {
+  background-image: radial-gradient(circle, rgba(26,26,46,0.10) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Hairline grid */
+.hairline-grid {
+  background-image:
+    linear-gradient(to right, rgba(26,26,46,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(26,26,46,0.05) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+::selection { background: rgba(37, 99, 235, 0.20); color: #1A1A2E; }
 
 /* Gym tracker — rest timer range slider */
 .rest-slider {
@@ -49,27 +131,20 @@ html {
   cursor: pointer;
   box-shadow: 0 0 0 5px rgba(48,209,88,0.18);
 }
-.rest-slider::-webkit-slider-runnable-track {
-  border-radius: 9999px;
-}
+.rest-slider::-webkit-slider-runnable-track { border-radius: 9999px; }
 
-/* Gym tracker — stepper input (no spinner arrows) */
 .stepper-input::-webkit-inner-spin-button,
 .stepper-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.stepper-input {
-  -moz-appearance: textfield;
-}
+.stepper-input { -moz-appearance: textfield; }
 
 @layer base {
   body {
-    @apply bg-white text-zinc-900 antialiased;
+    @apply bg-paper text-ink antialiased font-sans;
+    font-feature-settings: "ss01", "cv11";
   }
 
-  /* Eliminate 300ms tap delay on mobile */
-  a, button {
-    touch-action: manipulation;
-  }
+  a, button { touch-action: manipulation; }
 }

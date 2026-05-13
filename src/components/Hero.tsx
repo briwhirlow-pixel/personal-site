@@ -1,200 +1,131 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { ArrowRight } from 'lucide-react';
-import AnimatedCounter from './AnimatedCounter';
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
 
-const words = ['grow', 'convert', 'scale', 'elevate'];
+const industries = [
+  "E-Commerce", "Restaurant", "Photography", "Portfolio", "Real Estate",
+  "Salon & Spa", "Fitness", "Construction", "SaaS / App", "Education",
+];
 
 export default function Hero() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [loaded, setLoaded] = useState(false);
-  const [wordIndex, setWordIndex] = useState(0);
-  const [fade, setFade] = useState(true);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFade(false);
-      setTimeout(() => {
-        setWordIndex(i => (i + 1) % words.length);
-        setFade(true);
-      }, 400);
-    }, 2500);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => { setLoaded(true); }, []);
-
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    const isMobile = window.innerWidth < 768;
-    const particleCount = isMobile ? 20 : 55;
-
-    type Particle = { x: number; y: number; r: number; vx: number; vy: number; opacity: number; color: string };
-    const colors = ['rgba(37,99,235,', 'rgba(99,102,241,', 'rgba(147,197,253,'];
-    const particles: Particle[] = Array.from({ length: particleCount }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 2.5 + 0.5,
-      vx: (Math.random() - 0.5) * 0.25,
-      vy: (Math.random() - 0.5) * 0.25,
-      opacity: Math.random() * 0.45 + 0.05,
-      color: colors[Math.floor(Math.random() * colors.length)],
-    }));
-
-    let animId: number;
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // Skip O(n²) line drawing on mobile — too GPU-heavy
-      if (!isMobile) {
-        particles.forEach((p, i) => {
-          particles.slice(i + 1).forEach(q => {
-            const dist = Math.hypot(p.x - q.x, p.y - q.y);
-            if (dist < 120) {
-              ctx.beginPath();
-              ctx.moveTo(p.x, p.y);
-              ctx.lineTo(q.x, q.y);
-              ctx.strokeStyle = `rgba(147,197,253,${(1 - dist / 120) * 0.06})`;
-              ctx.lineWidth = 0.5;
-              ctx.stroke();
-            }
-          });
-        });
-      }
-      particles.forEach(p => {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `${p.color}${p.opacity})`;
-        ctx.fill();
-      });
-      animId = requestAnimationFrame(draw);
-    };
-    draw();
-    return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize); };
-  }, []);
-
   return (
-    <section
-
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, #0A1230 0%, #122558 45%, #0C1835 100%)' }}
-    >
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
-
+    <section className="relative bg-paper text-ink overflow-hidden">
+      {/* Dot-grid background, masked to top */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        aria-hidden
+        className="absolute inset-0 dot-grid pointer-events-none"
         style={{
-          opacity: 0.045,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          backgroundRepeat: 'repeat',
-          backgroundSize: '200px 200px',
+          maskImage: "radial-gradient(ellipse at top, black 35%, transparent 80%)",
+          WebkitMaskImage: "radial-gradient(ellipse at top, black 35%, transparent 80%)",
         }}
       />
 
-
-      <div className="hidden sm:block absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full blur-[130px] opacity-[0.15] pointer-events-none" style={{ background: '#2563EB' }} />
-      <div className="hidden sm:block absolute bottom-1/4 left-1/5 w-[400px] h-[400px] rounded-full blur-[110px] opacity-[0.10] pointer-events-none" style={{ background: '#6366F1' }} />
-
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 md:px-12 pt-24 sm:pt-28 pb-14 sm:pb-16 w-full">
-        {/* Pill badge */}
-        <div className={`inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.08] rounded-full px-3 sm:px-4 py-1.5 mb-6 sm:mb-8 transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
-          <span className="w-1.5 h-1.5 rounded-full bg-[#60A5FA] animate-pulse" />
-          <span className="text-white/50 text-[11px] sm:text-[12px] tracking-wide font-medium">Now accepting new projects — limited spots available</span>
-        </div>
-
-        {/* Headline with rotating word */}
-        <h1 className={`text-[clamp(36px,8vw,88px)] font-black text-white leading-[1.05] tracking-tight mb-6 sm:mb-8 transition-opacity duration-700 delay-100 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
-          Websites that
-          <br />
-          <span
-            className="text-[#60A5FA] inline-block"
-            style={{
-              opacity: fade ? 1 : 0,
-              transform: fade ? 'translateY(0)' : 'translateY(-12px)',
-              transition: 'opacity 0.35s ease, transform 0.35s ease',
-              filter: fade ? 'drop-shadow(0 0 24px rgba(96,165,250,0.5))' : 'none',
-            }}
-          >
-            {words[wordIndex]}
+      {/* Top editorial meta */}
+      <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12 pt-28 md:pt-32">
+        <div className="flex items-center justify-between pb-4 border-b border-rule">
+          <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase flex items-center gap-2.5">
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
+            Now accepting new projects — limited spots
           </span>
+          <span className="hidden sm:inline font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
+            Index / 001
+          </span>
+        </div>
+      </div>
+
+      {/* Headline + content */}
+      <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12 pt-14 sm:pt-16 pb-16 w-full">
+
+        <h1 className="font-serif text-[clamp(48px,9vw,120px)] leading-[0.92] tracking-[-0.025em] text-ink font-normal editorial-rise">
+          Small business
           <br />
-          your business.
+          websites,
+          <br />
+          <span className="relative inline-block italic text-forest">
+            built like they matter.
+            <WavyUnderline />
+          </span>
         </h1>
 
-        <p className={`text-white/45 text-[15px] sm:text-[17px] leading-relaxed max-w-sm sm:max-w-lg mb-8 sm:mb-10 transition-opacity duration-700 delay-200 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
-          I design and build websites that turn visitors into paying customers — fast.
+        <p className="mt-10 md:mt-12 text-ink-soft text-[17px] sm:text-[19px] leading-[1.55] max-w-2xl font-medium editorial-rise" style={{ animationDelay: '0.1s' }}>
+          I design and build websites for restaurants, shops, studios, and the
+          local businesses that put their name on the door.{" "}
+          <span className="text-ink font-semibold">Five-day first drafts. One person, start to finish.</span>
         </p>
 
         {/* CTAs */}
-        <div className={`flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mb-3 sm:mb-4 transition-opacity duration-700 delay-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
-          <a href="/contact" className="group inline-flex items-center justify-center gap-2 bg-[#2563EB] text-white font-semibold px-6 sm:px-7 py-3.5 sm:py-4 rounded-full hover:bg-[#1D4ED8] transition-all text-[14px] sm:text-[15px] hover:scale-[1.03] active:scale-[0.97]">
-            Get a free quote
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </a>
-          <a href="/work" className="inline-flex items-center justify-center gap-2 text-white/60 font-semibold px-6 sm:px-7 py-3.5 sm:py-4 rounded-full border border-white/10 hover:border-white/30 hover:text-white transition-all text-[14px] sm:text-[15px] hover:scale-[1.03] active:scale-[0.97]">
-            See what I build →
-          </a>
+        <div className="mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-5 items-start sm:items-center editorial-rise" style={{ animationDelay: '0.2s' }}>
+          <Link
+            href="/contact"
+            className="group inline-flex items-center gap-2.5 bg-forest text-paper px-6 sm:px-7 py-3.5 sm:py-4 rounded-[6px] font-semibold text-[14px] sm:text-[15px] hover:bg-forest-deep transition-colors"
+            style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.5)" }}
+          >
+            Start a project
+            <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-[2px] group-hover:-translate-y-[2px]" />
+          </Link>
+          <Link
+            href="/work"
+            className="group inline-flex items-baseline gap-2 text-ink text-[14px] sm:text-[15px] font-semibold tracking-wide"
+          >
+            <span className="border-b border-ink/40 group-hover:border-clay group-hover:text-clay pb-0.5 transition-colors">
+              See what I build
+            </span>
+            <span className="transition-transform group-hover:translate-x-1">→</span>
+          </Link>
         </div>
 
-
-        {/* Website type pills — 2 rows of 5, full width */}
-        <div className={`grid grid-cols-2 sm:grid-cols-5 gap-2 mb-8 sm:mb-12 transition-opacity duration-700 delay-400 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
-          {[
-            { emoji: '🛍️', label: 'E-Commerce' },
-            { emoji: '🍕', label: 'Restaurant' },
-            { emoji: '📸', label: 'Photography' },
-            { emoji: '💼', label: 'Portfolio' },
-            { emoji: '🏠', label: 'Real Estate' },
-            { emoji: '💈', label: 'Salon & Spa' },
-            { emoji: '🏋️', label: 'Fitness' },
-            { emoji: '🏗️', label: 'Construction' },
-            { emoji: '📱', label: 'SaaS / App' },
-            { emoji: '🎓', label: 'Education' },
-          ].map((item) => (
+        {/* Industry chips — 2 rows of 5 */}
+        <div className="mt-12 grid grid-cols-2 sm:grid-cols-5 gap-2 editorial-rise" style={{ animationDelay: '0.3s' }}>
+          {industries.map((label) => (
             <span
-              key={item.label}
-              className="flex items-center justify-center gap-1.5 text-[12px] sm:text-[13px] font-semibold text-white/70 border border-white/20 bg-white/[0.06] rounded-full py-2 px-3"
+              key={label}
+              className="inline-flex items-center justify-center font-mono text-[11px] sm:text-[12px] tracking-wide bg-paper-soft border border-rule text-ink-soft px-3 py-2 rounded-[4px] hover:border-forest hover:text-forest transition-colors"
             >
-              <span>{item.emoji}</span>
-              <span>{item.label}</span>
+              {label}
             </span>
           ))}
         </div>
 
-        {/* Stats */}
-        <div className={`flex flex-wrap justify-center gap-8 sm:gap-12 pt-6 sm:pt-8 border-t border-white/[0.08] transition-all duration-700 delay-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
+        {/* Stats — 3 across, mono numbers for tech feel */}
+        <div className="mt-14 sm:mt-16 grid grid-cols-3 gap-y-8 gap-x-6 pt-10 border-t-2 border-ink editorial-rise" style={{ animationDelay: '0.4s' }}>
           {[
-            { target: 5, suffix: '-Day', label: 'First Draft' },
-            { target: 100, suffix: '%', label: 'Client Satisfaction' },
-            { target: 5, suffix: '.0★', label: 'Avg. Rating' },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center">
-              <p className="text-[28px] sm:text-[36px] font-black text-white leading-none tabular-nums">
-                <AnimatedCounter target={stat.target} suffix={stat.suffix} />
+            { label: "First draft", value: "5", unit: "days" },
+            { label: "Client rating", value: "5.0", unit: "★" },
+            { label: "Starting at", value: "$750", unit: "" },
+          ].map((s, i) => (
+            <div key={s.label}>
+              <p className="font-mono text-[10px] tracking-[0.22em] text-ink-muted uppercase">
+                <span className="text-clay mr-2">0{i + 1}</span>
+                {s.label}
               </p>
-              <p className="text-white/35 text-[11px] sm:text-[13px] mt-1 sm:mt-1.5 font-medium">{stat.label}</p>
+              <p className="font-sans text-[clamp(32px,5vw,56px)] text-ink leading-none tracking-tight font-bold mt-3 tabular-nums">
+                {s.value}
+                {s.unit && <span className="text-ink-soft text-[clamp(18px,3vw,28px)] ml-2 font-semibold">{s.unit}</span>}
+              </p>
             </div>
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+function WavyUnderline() {
+  return (
+    <svg
+      aria-hidden
+      className="absolute left-0 right-0 -bottom-2 w-full h-3"
+      viewBox="0 0 400 12"
+      preserveAspectRatio="none"
+    >
+      <path
+        d="M 2 6 Q 50 1 100 6 T 200 6 T 300 6 T 398 6"
+        stroke="#0EA5E9"
+        strokeWidth="3.5"
+        fill="none"
+        strokeLinecap="round"
+      />
+    </svg>
   );
 }

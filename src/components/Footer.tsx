@@ -1,6 +1,5 @@
 import { siteConfig } from "@/lib/data";
-import { Linkedin, ArrowRight } from "lucide-react";
-import Logo from "./Logo";
+import { Linkedin, ArrowUpRight, Settings } from "lucide-react";
 
 const footerLinks = [
   { label: "About", href: "/about" },
@@ -13,46 +12,80 @@ const footerLinks = [
 export default function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer style={{ background: 'linear-gradient(135deg, #06091F 0%, #0D1B45 100%)' }}>
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-12 pt-12 sm:pt-16 pb-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 mb-10 sm:mb-14 pb-10 sm:pb-14 border-b border-white/[0.08]">
+    <footer className="relative bg-paper text-ink border-t border-rule">
+      <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12 pt-20 pb-10">
+
+        {/* Top — large editorial signature */}
+        <div className="pb-12 mb-12 border-b border-rule">
+          <p className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-ink-muted mb-4 flex items-center gap-2.5">
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay" aria-hidden />
+            Studio of one · Philadelphia / South Jersey
+          </p>
+          <h2 className="font-serif text-[clamp(40px,7vw,84px)] leading-[0.95] tracking-[-0.025em] text-ink font-normal max-w-3xl">
+            Let&apos;s build something <span className="italic text-forest">together.</span>
+          </h2>
+          <a
+            href="/contact"
+            className="group inline-flex items-center gap-2 bg-forest text-paper font-semibold px-6 py-3.5 rounded-[6px] hover:bg-forest-deep transition-colors text-[14px] mt-8"
+            style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.5)" }}
+          >
+            Start a project
+            <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-[2px] group-hover:-translate-y-[2px]" />
+          </a>
+        </div>
+
+        {/* Mid grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 pb-10 mb-10 border-b border-rule">
           <div>
-            <a href="/">
-              <Logo light />
-            </a>
-            <p className="text-white/30 text-[13px] mt-2 leading-relaxed">
-              {siteConfig.tagline}<br />Based remotely · Available worldwide.
+            <div className="inline-flex items-baseline gap-2">
+              <span aria-hidden className="inline-block w-1.5 h-1.5 rounded-full bg-forest translate-y-[-2px]" />
+              <span className="font-serif text-[22px] leading-none tracking-tight text-ink">
+                Built<span className="italic text-clay px-[1px]">by</span>Brian
+              </span>
+            </div>
+            <p className="text-ink-soft text-[13px] mt-3 leading-relaxed font-medium max-w-xs">
+              {siteConfig.tagline}.<br />
+              Hand-built websites for small businesses.
             </p>
           </div>
           <div>
-            <p className="text-white/30 text-[11px] uppercase tracking-widest font-semibold mb-4">Navigation</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] font-semibold text-ink-muted mb-4">Navigation</p>
             <nav className="flex flex-col gap-2.5">
               {footerLinks.map((link) => (
-                <a key={link.label} href={link.href} className="text-[14px] text-white/50 hover:text-white transition-colors">
+                <a key={link.label} href={link.href} className="text-[14px] text-ink-soft hover:text-forest transition-colors font-medium w-fit">
                   {link.label}
                 </a>
               ))}
             </nav>
           </div>
           <div>
-            <p className="text-white/30 text-[11px] uppercase tracking-widest font-semibold mb-4">Start A Project</p>
-            <p className="text-white/40 text-[13px] leading-relaxed mb-5">
-              Ready to work together? I&apos;d love to hear about your project.
-            </p>
-            <a href="/contact" className="inline-flex items-center gap-2 bg-[#2563EB] text-white font-semibold px-5 py-2.5 rounded-full hover:bg-[#1D4ED8] transition-colors text-[13px]">
-              Get in touch
-              <ArrowRight size={13} />
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] font-semibold text-ink-muted mb-4">Get in touch</p>
+            <a href={`mailto:${siteConfig.email}`} className="text-[14px] text-ink hover:text-forest transition-colors font-semibold block">
+              {siteConfig.email}
             </a>
+            <p className="text-ink-muted text-[12.5px] mt-2 font-medium leading-relaxed">
+              Response within 24 hours — usually same day.
+            </p>
           </div>
         </div>
+
+        {/* Bottom */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-white/25 text-[12px]">© {year} {siteConfig.name}. All rights reserved.</p>
-          <div className="flex items-center gap-5">
-            <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-white/25 hover:text-white transition-colors"><Linkedin size={16} /></a>
-            <a href="/admin" aria-label="Admin" className="text-white/15 hover:text-white/40 transition-colors">
-              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3" strokeWidth={2}/>
-              </svg>
+          <p className="font-mono text-[11px] text-ink-muted tracking-wide">
+            © {year} {siteConfig.name}. All rights reserved.
+          </p>
+          <div className="flex items-center gap-4">
+            <a
+              href={siteConfig.social.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="text-ink-muted hover:text-forest transition-colors"
+            >
+              <Linkedin size={15} strokeWidth={1.75} />
+            </a>
+            <a href="/admin" aria-label="Admin" className="text-ink-muted/60 hover:text-ink-muted transition-colors">
+              <Settings size={15} strokeWidth={1.75} />
             </a>
           </div>
         </div>

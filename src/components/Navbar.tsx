@@ -6,124 +6,88 @@ import Link from "next/link";
 import Logo from "./Logo";
 
 const navLinks = [
-  { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Reviews", href: "/reviews" },
   { label: "Work", href: "/work" },
+  { label: "Services", href: "/services" },
+  { label: "About", href: "/about" },
+  { label: "Reviews", href: "/reviews" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 60);
-      const doc = document.documentElement;
-      const scrollTop = doc.scrollTop || document.body.scrollTop;
-      const total = doc.scrollHeight - doc.clientHeight;
-      setProgress(total > 0 ? (scrollTop / total) * 100 : 0);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close menu on route change
   useEffect(() => { setMenuOpen(false); }, [pathname]);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
-
-  const isHome = pathname === "/";
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled || !isHome || menuOpen
-          ? "bg-[#FAFAF7]/95 backdrop-blur-md border-b border-[#E5E4DF]"
-          : "bg-transparent"
+        scrolled || menuOpen
+          ? "bg-paper/90 backdrop-blur-md border-b border-rule"
+          : "bg-paper/60 backdrop-blur-sm border-b border-transparent"
       }`}
     >
-      {/* Scroll progress bar */}
-      <div className="absolute bottom-0 left-0 h-[2px] bg-[#2563EB] transition-all duration-100 ease-out" style={{ width: `${progress}%` }} />
-
-      <nav className="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center">
-          <Logo light={!scrolled && isHome && !menuOpen} />
+      <nav className="max-w-6xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+        <Link href="/" className="flex items-center" aria-label="BuiltByBrian — home">
+          <Logo />
         </Link>
 
-        {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-10">
+        <div className="hidden md:flex items-center gap-9">
           {navLinks.map((link) => {
-            const active = pathname === link.href;
+            const active = pathname === link.href || pathname.startsWith(link.href + "/");
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[13px] tracking-wide font-medium transition-all relative ${
-                  active
-                    ? "text-[#2563EB]"
-                    : scrolled || !isHome
-                    ? "text-[#737373] hover:text-[#1A1A1A]"
-                    : "text-white/70 hover:text-white"
+                className={`text-[13px] tracking-wide transition-colors ${
+                  active ? "text-ink font-semibold" : "text-ink-muted hover:text-ink"
                 }`}
               >
                 {link.label}
-                {active && (
-                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#2563EB] rounded-full" />
-                )}
               </Link>
             );
           })}
           <Link
             href="/contact"
-            className="text-[13px] font-semibold bg-[#2563EB] text-white px-5 py-2.5 rounded-full hover:bg-[#1D4ED8] transition-all hover:scale-[1.04] active:scale-[0.97]"
+            className="group inline-flex items-center gap-2 text-[13px] font-semibold bg-forest text-paper px-5 py-2.5 rounded-[6px] hover:bg-forest-deep transition-colors"
+            style={{ boxShadow: "0 4px 16px -6px rgba(37,99,235,0.45)" }}
           >
-            Contact
+            Start a project
+            <span aria-hidden className="text-paper/70 font-mono text-[11px]">↵</span>
           </Link>
         </div>
 
-        {/* Mobile: hamburger button */}
         <button
           className="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-[5px]"
           onClick={() => setMenuOpen((v) => !v)}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
         >
-          <span
-            className={`block h-0.5 w-6 rounded transition-all duration-200 ${!scrolled && isHome && !menuOpen ? "bg-white" : "bg-[#1A1A1A]"} ${
-              menuOpen ? "rotate-45 translate-y-[7px]" : ""
-            }`}
-          />
-          <span
-            className={`block h-0.5 w-6 rounded transition-all duration-200 ${!scrolled && isHome && !menuOpen ? "bg-white" : "bg-[#1A1A1A]"} ${
-              menuOpen ? "opacity-0" : ""
-            }`}
-          />
-          <span
-            className={`block h-0.5 w-6 rounded transition-all duration-200 ${!scrolled && isHome && !menuOpen ? "bg-white" : "bg-[#1A1A1A]"} ${
-              menuOpen ? "-rotate-45 -translate-y-[7px]" : ""
-            }`}
-          />
+          <span className={`block h-px w-6 bg-ink transition-all duration-200 ${menuOpen ? "rotate-45 translate-y-[6px]" : ""}`} />
+          <span className={`block h-px w-6 bg-ink transition-all duration-200 ${menuOpen ? "opacity-0" : ""}`} />
+          <span className={`block h-px w-6 bg-ink transition-all duration-200 ${menuOpen ? "-rotate-45 -translate-y-[6px]" : ""}`} />
         </button>
       </nav>
 
-      {/* Mobile menu dropdown */}
       {menuOpen && (
-        <div className="md:hidden bg-[#FAFAF7]/95 backdrop-blur-md border-t border-[#E5E4DF] px-6 py-4 flex flex-col gap-1">
+        <div className="md:hidden bg-paper border-t border-rule px-6 py-2 flex flex-col">
           {navLinks.map((link) => {
-            const active = pathname === link.href;
+            const active = pathname === link.href || pathname.startsWith(link.href + "/");
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[15px] font-medium py-3 border-b border-[#E5E4DF] transition-colors ${
-                  active ? "text-[#2563EB]" : "text-[#1A1A1A]"
-                }`}
+                className={`text-[16px] py-4 border-b border-rule font-serif ${active ? "text-ink" : "text-ink-soft"}`}
               >
                 {link.label}
               </Link>
@@ -131,9 +95,9 @@ export default function Navbar() {
           })}
           <Link
             href="/contact"
-            className="mt-3 text-center text-[14px] font-semibold bg-[#2563EB] text-white px-5 py-3 rounded-full hover:bg-[#1D4ED8] transition-colors"
+            className="mt-5 mb-3 text-center text-[14px] font-semibold bg-forest text-paper px-5 py-3.5 rounded-[6px]"
           >
-            Contact
+            Start a project
           </Link>
         </div>
       )}

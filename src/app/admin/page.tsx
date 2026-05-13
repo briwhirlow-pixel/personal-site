@@ -64,7 +64,11 @@ const LEAD_STATUSES: { key: LeadStatus; label: string; color: string; bg: string
   { key: "proposal_sent", label: "Proposal Sent",   color: "#FB923C", bg: "#3D200A" },
   { key: "won",           label: "Won",             color: "#34D399", bg: "#0D3D2A" },
   { key: "lost",          label: "Lost",            color: "#9CA3AF", bg: "#1F2937" },
+  { key: "archived",      label: "Archived",        color: "#6B7280", bg: "#111827" },
 ];
+
+const LEAD_STATUS_FALLBACK = { key: "new" as LeadStatus, label: "Unknown", color: "#9CA3AF", bg: "#1F2937" };
+const PROJECT_STATUS_FALLBACK = { key: "discovery" as ProjectStatus, label: "Unknown", color: "#9CA3AF" };
 
 const PROJECT_STATUSES: { key: ProjectStatus; label: string; color: string }[] = [
   { key: "discovery", label: "Discovery",  color: "#60A5FA" },
@@ -87,7 +91,7 @@ function timeAgo(dateStr: string) {
 }
 
 function StatusBadge({ status }: { status: LeadStatus }) {
-  const s = LEAD_STATUSES.find(x => x.key === status)!;
+  const s = LEAD_STATUSES.find(x => x.key === status) ?? LEAD_STATUS_FALLBACK;
   return (
     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold"
       style={{ color: s.color, background: s.bg }}>
@@ -98,7 +102,7 @@ function StatusBadge({ status }: { status: LeadStatus }) {
 }
 
 function ProjectBadge({ status }: { status: ProjectStatus }) {
-  const s = PROJECT_STATUSES.find(x => x.key === status)!;
+  const s = PROJECT_STATUSES.find(x => x.key === status) ?? PROJECT_STATUS_FALLBACK;
   return (
     <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold"
       style={{ color: s.color, background: s.color + "22" }}>
@@ -431,7 +435,7 @@ function ProjectCard({ p, token, invoices, onStatusChange, onUpdate, onInvoiceCr
                       </div>
                       <div className="flex items-center gap-3">
                         <p className="text-white font-bold text-[14px]">{fmt(invoiceTotal(inv))}</p>
-                        <a href={`/invoice/${inv.id}`} target="_blank" rel="noopener noreferrer"
+                        <a href={invoiceLink(inv)} target="_blank" rel="noopener noreferrer"
                           className="text-[11px] font-semibold text-[#60A5FA] hover:text-white transition px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10">
                           View →
                         </a>
@@ -484,32 +488,62 @@ function LoginScreen({ onLogin }: { onLogin: (token: string) => void }) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center" style={{ background: "#0A0D14" }}>
-      <div className="w-full max-w-sm mx-4">
-        <div className="text-center mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-[#2563EB] flex items-center justify-center mx-auto mb-4">
-            <svg width="24" height="24" fill="none" stroke="white" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-            </svg>
-          </div>
-          <h1 className="text-white font-black text-2xl">byBrian Admin</h1>
-          <p className="text-white/40 text-sm mt-1">Enter your password to continue</p>
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "#0A0D14" }}>
+      <div className="w-full max-w-sm">
+        {/* Editorial meta */}
+        <div className="flex items-baseline justify-between pb-3 border-b border-[#2A2D3A] mb-10">
+          <span className="font-mono text-[10px] tracking-[0.22em] text-white/30 uppercase flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#0EA5E9] pulse-dot" />
+            Admin · Restricted
+          </span>
+          <span className="font-mono text-[10px] tracking-[0.22em] text-white/30 uppercase">v.2026</span>
         </div>
-        <form onSubmit={submit} className="space-y-4">
+
+        {/* Brand */}
+        <div className="mb-10">
+          <span className="inline-flex items-baseline gap-2 select-none">
+            <span aria-hidden className="inline-block w-1.5 h-1.5 rounded-full bg-[#34D399]" />
+            <span className="font-serif text-[28px] leading-none text-white tracking-tight">
+              Built<span className="italic text-[#38BDF8] px-[1px]">by</span>Brian
+            </span>
+          </span>
+          <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-white/30 mt-3 ml-[14px]">
+            CRM &middot; Lead &amp; Project Management
+          </p>
+        </div>
+
+        <form onSubmit={submit} className="space-y-3">
+          <label className="block font-mono text-[10px] tracking-[0.22em] text-white/40 uppercase">
+            Password
+          </label>
           <input
             type="password"
-            placeholder="Admin password"
+            placeholder="Enter admin password"
             value={pw}
             onChange={e => setPw(e.target.value)}
-            className="w-full bg-[#1A1D27] border border-[#2A2D3A] rounded-xl px-4 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-[#2563EB] text-[15px]"
+            className="w-full bg-[#13161F] border border-[#2A2D3A] rounded-[6px] px-4 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 text-[15px] transition"
             autoFocus
           />
-          {error && <p className="text-red-400 text-sm">{error}</p>}
-          <button type="submit" disabled={loading}
-            className="w-full bg-[#2563EB] text-white font-semibold py-3.5 rounded-xl hover:bg-[#1D4ED8] transition disabled:opacity-50 text-[15px]">
-            {loading ? "Checking…" : "Sign In"}
+          {error && (
+            <p className="font-mono text-[12px] tracking-wide text-[#F87171] flex items-center gap-2">
+              <span className="w-1 h-1 rounded-full bg-[#F87171]" />
+              {error}
+            </p>
+          )}
+          <button
+            type="submit"
+            disabled={loading || !pw}
+            className="w-full bg-[#2563EB] text-white font-semibold py-3.5 rounded-[6px] hover:bg-[#1D4ED8] disabled:bg-[#1A1D27] disabled:text-white/30 disabled:cursor-not-allowed transition text-[14px] mt-2 inline-flex items-center justify-center gap-2"
+            style={{ boxShadow: loading || !pw ? undefined : "0 8px 24px -8px rgba(37,99,235,0.5)" }}
+          >
+            {loading ? "Verifying…" : "Sign in"}
+            {!loading && <span aria-hidden className="text-white/70 font-mono text-[11px]">↵</span>}
           </button>
         </form>
+
+        <p className="font-mono text-[10px] tracking-[0.22em] text-white/20 uppercase mt-8 text-center">
+          5 attempts per minute &middot; rate-limited
+        </p>
       </div>
     </div>
   );
@@ -905,36 +939,43 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#0A0D14", color: "white" }}>
-      {/* Top bar */}
-      <div className="border-b border-[#2A2D3A] px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-[#2563EB] flex items-center justify-center text-[13px] font-black">B</div>
-          <div>
-            <p className="text-white font-bold text-[15px] leading-none">byBrian Admin</p>
-            <p className="text-white/30 text-[11px] mt-0.5">CRM Dashboard</p>
-          </div>
+      {/* Top bar — editorial brand lockup */}
+      <div className="border-b border-[#2A2D3A] px-5 sm:px-7 py-4 flex items-center justify-between sticky top-0 z-40" style={{ background: "rgba(10,13,20,0.85)", backdropFilter: "blur(20px)" }}>
+        <div className="flex items-baseline gap-3">
+          <span className="inline-flex items-baseline gap-2 select-none">
+            <span aria-hidden className="inline-block w-1.5 h-1.5 rounded-full bg-[#34D399]" />
+            <span className="font-serif text-[20px] leading-none text-white tracking-tight">
+              Built<span className="italic text-[#38BDF8] px-[1px]">by</span>Brian
+            </span>
+          </span>
+          <span className="font-mono text-[9.5px] tracking-[0.28em] uppercase text-white/30 hidden sm:inline-block">
+            / Admin
+          </span>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-3">
           <button onClick={() => fetchData(token)}
-            className="flex items-center gap-1.5 text-white/30 hover:text-white text-[13px] transition">
-            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            title="Refresh"
+            className="flex items-center gap-1.5 text-white/40 hover:text-white text-[12px] font-medium transition px-3 py-1.5 rounded-[6px] hover:bg-white/5">
+            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
             </svg>
-            Refresh
+            <span className="hidden sm:inline">Refresh</span>
           </button>
           <a href="https://builtbybwhirl.com" target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-white/30 hover:text-white text-[13px] transition">
-            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            title="View live site"
+            className="flex items-center gap-1.5 text-white/40 hover:text-white text-[12px] font-medium transition px-3 py-1.5 rounded-[6px] hover:bg-white/5">
+            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
             </svg>
-            <span className="hidden sm:inline">View Site</span>
+            <span className="hidden sm:inline">Live site</span>
           </a>
           <button onClick={() => { localStorage.removeItem("admin_token"); setToken(null); }}
-            className="flex items-center gap-1.5 text-white/30 hover:text-red-400 text-[13px] transition">
-            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            title="Sign out"
+            className="flex items-center gap-1.5 text-white/40 hover:text-[#F87171] text-[12px] font-medium transition px-3 py-1.5 rounded-[6px] hover:bg-white/5">
+            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
             </svg>
-            Sign out
+            <span className="hidden sm:inline">Sign out</span>
           </button>
         </div>
       </div>
@@ -942,40 +983,65 @@ export default function AdminPage() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* DB error banner */}
         {fetchError && (
-          <div className="mb-6 bg-yellow-500/10 border border-yellow-500/30 rounded-xl px-5 py-4 text-yellow-300 text-[13px]">
-            ⚠️ {fetchError}
+          <div className="mb-6 bg-[#3D2E0A]/40 border border-[#FBBF24]/30 rounded-[8px] px-5 py-4 text-[#FBBF24] text-[13px] font-medium flex items-start gap-3">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5">
+              <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <span>{fetchError}</span>
           </div>
         )}
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        {/* Stats — editorial cards with Lucide icons + accent stripes */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
           {[
-            { label: "New Leads", value: newCount, icon: "🔵", note: "Need response" },
-            { label: "Total Leads", value: leads.length, icon: "📋", note: "All time" },
-            { label: "Deals Won", value: wonCount, icon: "✅", note: "Converted" },
-            { label: "Active Projects", value: activeProjects, icon: "⚡", note: "In progress" },
+            { label: "New Leads",       value: newCount,        note: "Need response", color: "#60A5FA", iconPath: "M22 11.08V12a10 10 0 11-5.93-9.14 M22 4L12 14.01l-3-3" },
+            { label: "Total Leads",     value: leads.length,    note: "All time",      color: "#A78BFA", iconPath: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2 M9 5a2 2 0 002 2h2a2 2 0 002-2 M9 5a2 2 0 012-2h2a2 2 0 012 2 M12 11h4 M12 16h4 M8 11h.01 M8 16h.01" },
+            { label: "Deals Won",       value: wonCount,        note: "Converted",     color: "#34D399", iconPath: "M20 6L9 17l-5-5" },
+            { label: "Active Projects", value: activeProjects,  note: "In progress",   color: "#FBBF24", iconPath: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" },
           ].map(stat => (
-            <div key={stat.label} className="bg-[#1A1D27] rounded-2xl p-5 border border-[#2A2D3A]">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xl">{stat.icon}</span>
-                <span className="text-white/20 text-[11px] uppercase tracking-widest">{stat.note}</span>
+            <div key={stat.label} className="relative bg-[#13161F] rounded-[8px] p-5 border border-[#2A2D3A] hover:border-[#3D4356] transition-colors overflow-hidden">
+              {/* Accent stripe on left */}
+              <span className="absolute left-0 top-3 bottom-3 w-[2px] rounded-full" style={{ background: stat.color }} aria-hidden />
+              <div className="flex items-start justify-between mb-3 pl-2">
+                <div className="w-8 h-8 rounded-[6px] flex items-center justify-center flex-shrink-0" style={{ background: stat.color + "18", color: stat.color }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+                    <path d={stat.iconPath} />
+                  </svg>
+                </div>
+                <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-white/30 mt-1">{stat.note}</span>
               </div>
-              <p className="text-white font-black text-3xl leading-none">{loading ? "—" : stat.value}</p>
-              <p className="text-white/40 text-[13px] mt-1">{stat.label}</p>
+              <p className="text-white font-bold text-[32px] leading-none pl-2 tabular-nums">{loading ? "—" : stat.value}</p>
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/40 mt-2 pl-2 font-semibold">{stat.label}</p>
             </div>
           ))}
         </div>
 
-        {/* Tabs */}
-        <div className="flex flex-wrap gap-1 mb-6 bg-[#1A1D27] rounded-xl p-1 w-fit border border-[#2A2D3A]">
-          {(["pipeline", "projects", "calendar", "playbook", "budget", "expenses", "templates", "discovery", "marketing", "emails"] as const).map(t => (
-            <button key={t} onClick={() => setTab(t)}
-              className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition ${
-                tab === t ? "bg-[#2563EB] text-white" : "text-white/40 hover:text-white"
-              }`}>
-              {t === "pipeline" ? `Pipeline (${activeLeads.length})` : t === "projects" ? `Projects (${projects.length})` : t === "calendar" ? "📅 Calendar" : t === "playbook" ? "📋 Playbook" : t === "budget" ? "💰 Budget Tiers" : t === "expenses" ? "🧾 Expenses" : t === "templates" ? "🗂️ Templates" : t === "discovery" ? "📞 Discovery Call" : t === "marketing" ? "📣 Marketing" : "📧 Emails"}
-            </button>
-          ))}
+        {/* Tabs — text-only labels, cleaner */}
+        <div className="flex flex-wrap gap-1 mb-6 bg-[#13161F] rounded-[8px] p-1 w-fit border border-[#2A2D3A]">
+          {(["pipeline", "projects", "calendar", "playbook", "budget", "expenses", "templates", "discovery", "marketing", "emails"] as const).map(t => {
+            const labels: Record<typeof t, string> = {
+              pipeline: `Pipeline (${activeLeads.length})`,
+              projects: `Projects (${projects.length})`,
+              calendar: "Calendar",
+              playbook: "Playbook",
+              budget: "Budget Tiers",
+              expenses: "Expenses",
+              templates: "Templates",
+              discovery: "Discovery Call",
+              marketing: "Marketing",
+              emails: "Emails",
+            };
+            return (
+              <button key={t} onClick={() => setTab(t)}
+                className={`px-3.5 py-2 rounded-[6px] text-[12.5px] font-semibold tracking-tight transition ${
+                  tab === t ? "bg-[#2563EB] text-white shadow-[0_4px_12px_-4px_rgba(37,99,235,0.5)]" : "text-white/45 hover:text-white hover:bg-white/5"
+                }`}>
+                {labels[t]}
+              </button>
+            );
+          })}
         </div>
 
         {/* Pipeline view */}
@@ -1213,6 +1279,11 @@ interface Invoice {
   created_at: string;
   paid_at: string | null;
   project_id: string | null;
+  access_token: string;
+}
+
+function invoiceLink(inv: { id: string; access_token?: string }) {
+  return inv.access_token ? `/invoice/${inv.id}?t=${inv.access_token}` : `/invoice/${inv.id}`;
 }
 
 // ─── Invoices Tab ──────────────────────────────────────────────────────────────
@@ -1315,7 +1386,7 @@ function InvoicesTab({ invoices, token, onUpdate, onDelete, onNew }: {
                   {inv.paid_at && <p className="text-green-400/60 text-[11px] mt-0.5">Paid {new Date(inv.paid_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</p>}
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">
-                  <a href={`/invoice/${inv.id}`} target="_blank" rel="noopener noreferrer"
+                  <a href={invoiceLink(inv)} target="_blank" rel="noopener noreferrer"
                     className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white/40 hover:text-white transition" title="View invoice">
                     <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />

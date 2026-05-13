@@ -113,8 +113,18 @@ function BottomTabBar({
     {
       id: 'basketball' as const,
       label: 'Hoops',
-      icon: (_fill: boolean) => (
-        <span className="text-[22px] leading-none">🏀</span>
+      icon: (fill: boolean) => (
+        <svg className="w-6 h-6" viewBox="0 0 24 24" fill={fill ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={fill ? 0 : 1.8}>
+          <circle cx="12" cy="12" r="9" />
+          {!fill && (
+            <>
+              <path d="M3 12 H21" />
+              <path d="M12 3 V21" />
+              <path d="M5.6 5.6 C 9 9, 9 15, 5.6 18.4" />
+              <path d="M18.4 5.6 C 15 9, 15 15, 18.4 18.4" />
+            </>
+          )}
+        </svg>
       ),
     },
     {

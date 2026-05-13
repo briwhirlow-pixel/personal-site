@@ -82,15 +82,37 @@ export default function BrandPage() {
           </div>
         </section>
 
+        {/* Instagram bio */}
+        <section className="mb-12">
+          <div className="flex items-baseline justify-between pb-3 border-b border-rule mb-6">
+            <p className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-ink-muted">
+              Instagram bio — copy / paste
+            </p>
+            <p className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-ink-muted">
+              Brand / 003
+            </p>
+          </div>
+          <div className="bg-paper-soft border border-rule rounded-[6px] p-6 font-sans text-ink leading-[1.55] text-[15px] whitespace-pre-wrap select-text">
+{`Hand-built websites for small businesses
+📍 NJ + PHL · Designer & Developer
+✦ 5-day first drafts · You own the code
+👇 Start a project`}
+          </div>
+          <p className="text-ink-muted text-[12.5px] mt-3 font-medium">
+            Paste into Instagram &rarr; Edit Profile &rarr; Bio. The arrow at the end points to your link sticker / website URL.
+          </p>
+        </section>
+
         {/* Notes */}
         <section className="pt-8 border-t border-rule">
           <p className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-ink-muted mb-3">
             Notes
           </p>
           <ul className="text-ink-soft text-[14px] leading-relaxed space-y-2 font-medium">
-            <li>• Avatar uses primary blue gradient (#2563EB → #1E40AF) with white wordmark.</li>
-            <li>• Instagram crops profile pics to a circle — the avatar is designed to work in both square and circular crops.</li>
-            <li>• If the wordmark needs to appear on a light background (business card, email signature), use the Wordmark version above on white/cream.</li>
+            <li>• Avatar matches the navbar wordmark: white card, forest dot, dark serif wordmark with italic sky-blue &ldquo;by&rdquo;, mono WEB DESIGN tagline.</li>
+            <li>• Instagram crops profile pics to a circle — the centered layout works in both square and circular crops.</li>
+            <li>• Border is subtle slate (#E2E8F0) so the avatar stays defined against Instagram&apos;s white feed without going heavy.</li>
+            <li>• For a darker / branded alternative (e.g. profile pic on a dark social platform like X), use the blue gradient version of the wordmark on builtbybwhirl.com/about.</li>
           </ul>
         </section>
       </div>
@@ -105,6 +127,7 @@ export default function BrandPage() {
 function BrandAvatar({ size = 640, circle = false }: { size?: number; circle?: boolean }) {
   const titleSize = size * 0.155;
   const tagSize = size * 0.042;
+  const dotSize = size * 0.022;
   const dividerWidth = size * 0.20;
   const radius = circle ? size / 2 : size * 0.10;
 
@@ -113,7 +136,8 @@ function BrandAvatar({ size = 640, circle = false }: { size?: number; circle?: b
       style={{
         width: size,
         height: size,
-        background: "linear-gradient(135deg, #2563EB 0%, #1E40AF 100%)",
+        background: "#FFFFFF",
+        border: `${Math.max(1, size * 0.002)}px solid #E2E8F0`,
         borderRadius: radius,
         position: "relative",
         overflow: "hidden",
@@ -122,23 +146,26 @@ function BrandAvatar({ size = 640, circle = false }: { size?: number; circle?: b
         alignItems: "center",
         justifyContent: "center",
         gap: size * 0.025,
-        boxShadow: size > 200 ? "0 12px 40px -8px rgba(37,99,235,0.45)" : undefined,
         flexShrink: 0,
       }}
     >
-      {/* Subtle sparkle accents — only visible at larger sizes */}
-      {size >= 200 && (
-        <>
-          <span style={{ position: "absolute", top: size * 0.075, right: size * 0.10, color: "rgba(255,255,255,0.45)", fontSize: size * 0.04, lineHeight: 1 }} aria-hidden>✦</span>
-          <span style={{ position: "absolute", bottom: size * 0.095, left: size * 0.08, color: "rgba(255,255,255,0.30)", fontSize: size * 0.028, lineHeight: 1 }} aria-hidden>✦</span>
-        </>
-      )}
+      {/* Forest dot — accent above wordmark */}
+      <div
+        style={{
+          width: dotSize,
+          height: dotSize,
+          borderRadius: "50%",
+          background: "#2D6A4F",
+          marginBottom: size * 0.005,
+        }}
+        aria-hidden
+      />
 
       {/* Wordmark */}
       <div
         style={{
           fontFamily: "var(--font-instrument), Georgia, serif",
-          color: "#FFFFFF",
+          color: "#1A1A2E",
           textAlign: "center",
           lineHeight: 0.92,
           letterSpacing: "-0.025em",
@@ -146,7 +173,7 @@ function BrandAvatar({ size = 640, circle = false }: { size?: number; circle?: b
       >
         <div style={{ fontSize: titleSize, fontWeight: 400 }}>Built</div>
         <div style={{ fontSize: titleSize, fontWeight: 400, marginTop: size * 0.01 }}>
-          <span style={{ fontStyle: "italic", opacity: 0.78 }}>by </span>
+          <span style={{ fontStyle: "italic", color: "#0EA5E9" }}>by </span>
           Brian
         </div>
       </div>
@@ -156,7 +183,7 @@ function BrandAvatar({ size = 640, circle = false }: { size?: number; circle?: b
         style={{
           width: dividerWidth,
           height: Math.max(1, size * 0.0035),
-          background: "rgba(255,255,255,0.45)",
+          background: "#CBD5E1",
         }}
         aria-hidden
       />
@@ -168,7 +195,7 @@ function BrandAvatar({ size = 640, circle = false }: { size?: number; circle?: b
           fontSize: tagSize,
           letterSpacing: "0.32em",
           textTransform: "uppercase",
-          color: "rgba(255,255,255,0.95)",
+          color: "#64748B",
           fontWeight: 600,
         }}
       >

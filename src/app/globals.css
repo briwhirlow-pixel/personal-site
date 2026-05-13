@@ -3,9 +3,9 @@
 
 @theme {
   /* Surfaces — cool slate & near-white */
-  --color-paper: #FAFAFA;
+  --color-paper: #E9EDF3;
   --color-paper-soft: #FFFFFF;
-  --color-paper-deep: #F1F5F9;
+  --color-paper-deep: #DBE2EB;
 
   /* Text — navy heading + slate body */
   --color-ink: #1A1A2E;
@@ -30,10 +30,10 @@
   --color-butter-soft: #FDE047;
 
   /* Tailwind class mappings */
-  --color-canvas: #FAFAFA;
+  --color-canvas: #E9EDF3;
   --color-canvas-soft: #FFFFFF;
-  --color-surface: #F1F5F9;
-  --color-surface-2: #E2E8F0;
+  --color-surface: #DBE2EB;
+  --color-surface-2: #CBD5E1;
   --color-line: #E2E8F0;
   --color-line-bright: #CBD5E1;
   --color-fg: #1A1A2E;
@@ -55,7 +55,7 @@
 
 html {
   scroll-behavior: smooth;
-  background: #FAFAFA;
+  background: #E9EDF3;
 }
 
 @keyframes shimmer {

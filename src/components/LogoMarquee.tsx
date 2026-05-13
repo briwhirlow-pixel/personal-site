@@ -3,9 +3,14 @@
 import { useEffect, useState } from 'react';
 
 const items = [
-  "Fast Turnaround", "Mobile-First", "Ranks on Google", "Easy to Update",
-  "Secure", "Custom Design", "You Own the Code", "Built to Convert",
-  "Live in 2–4 Weeks", "First Draft in 5 Days", "SEO Optimized", "No Lock-In", "No Templates", "More Inquiries, More Sales",
+  "5-Day First Drafts",
+  "No Templates",
+  "You Own the Code",
+  "Built for Local Businesses",
+  "More Inquiries · More Sales",
+  "Mobile-First Always",
+  "Live in 2–4 Weeks",
+  "Cancel Hosting Anytime",
 ];
 
 const doubled = [...items, ...items];
@@ -19,17 +24,17 @@ export default function LogoMarquee() {
   }, []);
 
   return (
-    <div className="bg-[#F2F1EC] border-y border-[#E5E4DF] py-4 sm:py-5 overflow-hidden">
+    <div className="bg-paper-soft border-y border-rule py-4 sm:py-5 overflow-hidden">
       <div
-        className="flex gap-8 whitespace-nowrap"
-        style={{ animation: reducedMotion ? 'none' : 'marquee 30s linear infinite', width: 'max-content' }}
+        className="flex gap-12 whitespace-nowrap"
+        style={{ animation: reducedMotion ? 'none' : 'marquee 28s linear infinite', width: 'max-content' }}
       >
         {doubled.map((item, i) => (
           <span
             key={`${item}-${i}`}
-            className="text-[12px] sm:text-[13px] font-semibold text-[#737373] tracking-wide flex items-center gap-3 flex-shrink-0"
+            className="text-[13px] sm:text-[14px] font-medium text-ink-soft tracking-tight flex items-center gap-3 flex-shrink-0"
           >
-            <span className="text-[#CECCC6] text-[8px]">✦</span>
+            <span className="text-clay text-[10px]" aria-hidden>✦</span>
             {item}
           </span>
         ))}

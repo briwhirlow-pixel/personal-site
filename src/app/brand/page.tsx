@@ -1,6 +1,5 @@
 'use client';
 
-import { useRef } from 'react';
 import { Download } from 'lucide-react';
 
 export default function BrandPage() {
@@ -205,78 +204,25 @@ function BrandAvatar({ size = 640, circle = false }: { size?: number; circle?: b
   );
 }
 
-/* Big version with download — uses html-to-canvas via dom-to-image fallback. */
+/* Big preview + server-generated PNG download via /api/brand-avatar */
 function DownloadableAvatar() {
-  const targetRef = useRef<HTMLDivElement>(null);
-
-  const handleDownload = async () => {
-    const node = targetRef.current;
-    if (!node) return;
-
-    // Use html2canvas-style approach via foreignObject + SVG → canvas → PNG.
-    // No external lib: render the DOM node into an SVG <foreignObject>, then
-    // draw the SVG onto a canvas, then export as PNG.
-    const SIZE = 1080;
-    const html = node.outerHTML;
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${SIZE}" height="${SIZE}">
-      <foreignObject width="100%" height="100%">
-        <div xmlns="http://www.w3.org/1999/xhtml" style="width:${SIZE}px;height:${SIZE}px;">
-          ${html}
-        </div>
-      </foreignObject>
-    </svg>`;
-
-    const blob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = SIZE;
-      canvas.height = SIZE;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-      ctx.drawImage(img, 0, 0, SIZE, SIZE);
-      URL.revokeObjectURL(url);
-      canvas.toBlob((pngBlob) => {
-        if (!pngBlob) return;
-        const pngUrl = URL.createObjectURL(pngBlob);
-        const a = document.createElement("a");
-        a.href = pngUrl;
-        a.download = "builtbybrian-avatar.png";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(pngUrl);
-      }, "image/png");
-    };
-    img.onerror = () => {
-      // Fallback: open SVG in a new tab and instruct user to screenshot/save.
-      window.open(url, "_blank");
-    };
-    img.src = url;
-  };
-
   return (
     <div className="flex flex-col gap-6">
       <div className="bg-paper-soft border border-rule rounded-[8px] p-8 flex items-center justify-center overflow-hidden">
-        <div ref={targetRef} style={{ display: "inline-block" }}>
-          <BrandAvatar size={480} circle={false} />
-        </div>
+        <BrandAvatar size={480} circle={false} />
       </div>
       <div className="flex flex-wrap items-center gap-4">
-        <button
-          type="button"
-          onClick={handleDownload}
+        <a
+          href="/api/brand-avatar"
+          download="builtbybrian-avatar.png"
           className="inline-flex items-center gap-2 bg-forest text-paper font-semibold px-6 py-3 rounded-[6px] hover:bg-forest-deep transition-colors text-[14px]"
           style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.5)" }}
         >
           <Download size={15} strokeWidth={2} />
           Download PNG (1080×1080)
-        </button>
+        </a>
         <p className="text-ink-muted text-[13px] font-medium">
-          If the auto-download doesn&apos;t produce a clean PNG, you can also screenshot the preview above at full resolution.
+          The PNG is generated server-side and downloads automatically.
         </p>
       </div>
     </div>

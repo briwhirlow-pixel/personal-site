@@ -88,7 +88,7 @@ export default function Hero() {
         </div>
 
         {/* Stats — 3 across, mono numbers for tech feel */}
-        <div className="mt-14 sm:mt-16 grid grid-cols-3 gap-y-8 gap-x-6 pt-10 border-t-2 border-ink editorial-rise" style={{ animationDelay: '0.4s' }}>
+        <div className="mt-14 sm:mt-16 grid grid-cols-3 gap-y-8 gap-x-3 sm:gap-x-6 pt-10 border-t-2 border-ink editorial-rise" style={{ animationDelay: '0.4s' }}>
           {[
             { label: "First draft", value: "5", unit: "days" },
             { label: "Client rating", value: "5.0", unit: "★" },

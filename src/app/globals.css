@@ -81,6 +81,18 @@ html {
 .editorial-rise { animation: editorial-rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 .pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
 
+/* Horizontal value-prop ticker on the home page */
+.marquee-loop {
+  animation: marquee 22s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editorial-rise,
+  .pulse-dot,
+  .marquee-loop { animation: none; }
+}
+
 /* Dot-grid background — subtle technical drawing feel */
 .dot-grid {
   background-image: radial-gradient(circle, rgba(26,26,46,0.10) 1px, transparent 1px);

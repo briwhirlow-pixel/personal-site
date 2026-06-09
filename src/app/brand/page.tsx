@@ -158,7 +158,7 @@ function BrandAvatar({ size = 640, circle = false }: { size?: number; circle?: b
           padding: bezelPad,
         }}
       >
-        {/* Inner screen */}
+        {/* Inner screen — wordmark stacked over divider + WEB DESIGN tagline */}
         <div
           style={{
             background: "#FFFFFF",
@@ -166,38 +166,79 @@ function BrandAvatar({ size = 640, circle = false }: { size?: number; circle?: b
             width: screenW,
             height: screenH,
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            gap: size * 0.018,
+            gap: size * 0.025,
+            padding: `0 ${size * 0.025}px`,
           }}
         >
-          <span
-            aria-hidden
-            style={{
-              width: dotSize,
-              height: dotSize,
-              borderRadius: dotSize,
-              background: "#2D6A4F",
-              display: "inline-block",
-              flexShrink: 0,
-            }}
-          />
+          {/* Wordmark row */}
           <span
             style={{
-              fontFamily: "var(--font-instrument), Georgia, serif",
-              fontSize: wordSize,
-              color: "#1A1A2E",
-              lineHeight: 1,
-              letterSpacing: "-0.025em",
+              display: "inline-flex",
+              alignItems: "baseline",
+              gap: size * 0.018,
               whiteSpace: "nowrap",
             }}
           >
-            Built
-            <span style={{ fontStyle: "italic", color: "#0EA5E9", padding: "0 0.05em" }}>
-              by
+            <span
+              aria-hidden
+              style={{
+                width: dotSize,
+                height: dotSize,
+                borderRadius: dotSize,
+                background: "#2D6A4F",
+                display: "inline-block",
+                flexShrink: 0,
+                alignSelf: "center",
+              }}
+            />
+            <span
+              style={{
+                fontFamily: "var(--font-instrument), Georgia, serif",
+                fontSize: wordSize,
+                color: "#1A1A2E",
+                lineHeight: 1,
+                letterSpacing: "-0.025em",
+              }}
+            >
+              Built
+              <span style={{ fontStyle: "italic", color: "#0EA5E9", padding: "0 0.05em" }}>
+                by
+              </span>
+              Brian
             </span>
-            Brian
           </span>
+
+          {showTagline && (
+            <>
+              {/* Divider */}
+              <span
+                aria-hidden
+                style={{
+                  width: dividerW,
+                  height: Math.max(1, size * 0.0025),
+                  background: "#CBD5E1",
+                  display: "block",
+                }}
+              />
+              {/* Tagline */}
+              <span
+                style={{
+                  fontFamily: "var(--font-jetbrains-mono), ui-monospace, monospace",
+                  fontSize: tagSize,
+                  fontWeight: 600,
+                  letterSpacing: "0.32em",
+                  textTransform: "uppercase",
+                  color: "#64748B",
+                  display: "inline-block",
+                }}
+              >
+                Web Design
+              </span>
+            </>
+          )}
         </div>
       </div>
 

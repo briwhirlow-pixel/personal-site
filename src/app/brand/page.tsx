@@ -125,12 +125,15 @@ function BrandAvatar({ size = 640, circle = false }: { size?: number; circle?: b
   const screenH = size * 0.42;
   const screenRadius = size * 0.025;
   const bezelPad = size * 0.02;
-  const wordSize = size * 0.12;
+  const wordSize = size * 0.11;
   const dotSize = size * 0.018;
+  const dividerW = size * 0.18;
+  const tagSize = size * 0.032;
   const neckW = size * 0.085;
   const neckH = size * 0.035;
   const baseW = size * 0.25;
   const baseH = size * 0.015;
+  const showTagline = size >= 110; // tagline disappears at tiny avatar sizes
 
   return (
     <div

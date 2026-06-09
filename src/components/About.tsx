@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Linkedin, Facebook, Mail, ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/lib/data";
 import Reveal from "./Reveal";
@@ -33,16 +32,22 @@ export default function About() {
               />
 
               <div className="relative bg-paper-soft border border-rule rounded-[4px] overflow-hidden">
-                {/* Portrait */}
-                <div className="aspect-[4/5] relative overflow-hidden bg-paper-deep">
-                  <Image
-                    src="/images/Brian_Download-removebg-preview.png"
-                    alt="Brian Whirlow"
-                    fill
-                    sizes="(min-width: 768px) 420px, 100vw"
-                    className="object-contain object-bottom"
-                    priority={false}
-                  />
+                {/* Monogram / photo zone */}
+                <div className="aspect-[4/5] relative overflow-hidden" style={{ background: "linear-gradient(135deg, #2563EB, #1E40AF)" }}>
+                  <span
+                    aria-hidden
+                    className="absolute inset-0 flex items-center justify-center font-serif italic text-paper"
+                    style={{ fontSize: 200, lineHeight: 1, opacity: 0.95 }}
+                  >
+                    B
+                  </span>
+                  <span aria-hidden className="absolute top-6 right-7 text-paper text-[22px] opacity-70">✦</span>
+                  <span aria-hidden className="absolute bottom-7 left-6 text-clay-soft text-[14px] opacity-80">✦</span>
+                  {/* Tech corner ticks */}
+                  <span aria-hidden className="absolute top-3 left-3 w-3 h-3 border-t border-l border-paper/40" />
+                  <span aria-hidden className="absolute top-3 right-3 w-3 h-3 border-t border-r border-paper/40" />
+                  <span aria-hidden className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-paper/40" />
+                  <span aria-hidden className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-paper/40" />
                 </div>
 
                 {/* Badges */}

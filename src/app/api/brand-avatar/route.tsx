@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-const TEXT = "Built by Brian";
+const TEXT = "Built by Brian WEB DESIGN";
 
 async function loadGoogleFont(query: string): Promise<ArrayBuffer> {
   const url = `https://fonts.googleapis.com/css2?${query}`;
@@ -17,9 +17,10 @@ async function loadGoogleFont(query: string): Promise<ArrayBuffer> {
 export async function GET() {
   const subset = encodeURIComponent(TEXT);
 
-  const [instrumentRegular, instrumentItalic] = await Promise.all([
+  const [instrumentRegular, instrumentItalic, jetbrainsMono] = await Promise.all([
     loadGoogleFont(`family=Instrument+Serif&text=${subset}`),
     loadGoogleFont(`family=Instrument+Serif:ital@1&text=${subset}`),
+    loadGoogleFont(`family=JetBrains+Mono:wght@600&text=${subset}`),
   ]);
 
   return new ImageResponse(
@@ -45,55 +46,89 @@ export async function GET() {
             boxShadow: "0 40px 100px -36px rgba(26,26,46,0.45)",
           }}
         >
-          {/* Inner screen */}
+          {/* Inner screen — wordmark stacked over tagline */}
           <div
             style={{
               background: "#FFFFFF",
               borderRadius: 20,
-              width: 740,
+              width: 760,
               height: 440,
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              gap: 22,
-              padding: "0 60px",
+              gap: 28,
+              padding: "0 50px",
             }}
           >
-            {/* Forest dot */}
-            <div
-              style={{
-                width: 16,
-                height: 16,
-                borderRadius: 16,
-                background: "#2D6A4F",
-                display: "flex",
-                flexShrink: 0,
-              }}
-            />
-            {/* Wordmark — single line with italic "by" in clay */}
+            {/* Wordmark row — dot + Built[italic by]Brian */}
             <div
               style={{
                 display: "flex",
                 alignItems: "baseline",
-                fontFamily: "Instrument Serif",
-                fontSize: 132,
-                color: "#1A1A2E",
-                lineHeight: 1,
-                letterSpacing: -3,
+                gap: 22,
               }}
             >
-              <span style={{ display: "flex" }}>Built</span>
-              <span
+              <div
+                style={{
+                  width: 16,
+                  height: 16,
+                  borderRadius: 16,
+                  background: "#2D6A4F",
+                  display: "flex",
+                  flexShrink: 0,
+                  alignSelf: "center",
+                }}
+              />
+              <div
                 style={{
                   display: "flex",
-                  fontStyle: "italic",
-                  color: "#0EA5E9",
-                  padding: "0 6px",
+                  alignItems: "baseline",
+                  fontFamily: "Instrument Serif",
+                  fontSize: 118,
+                  color: "#1A1A2E",
+                  lineHeight: 1,
+                  letterSpacing: -3,
                 }}
               >
-                by
-              </span>
-              <span style={{ display: "flex" }}>Brian</span>
+                <span style={{ display: "flex" }}>Built</span>
+                <span
+                  style={{
+                    display: "flex",
+                    fontStyle: "italic",
+                    color: "#0EA5E9",
+                    padding: "0 6px",
+                  }}
+                >
+                  by
+                </span>
+                <span style={{ display: "flex" }}>Brian</span>
+              </div>
+            </div>
+
+            {/* Thin divider */}
+            <div
+              style={{
+                width: 200,
+                height: 2,
+                background: "#CBD5E1",
+                display: "flex",
+              }}
+            />
+
+            {/* WEB DESIGN tagline */}
+            <div
+              style={{
+                fontFamily: "JetBrains Mono",
+                fontSize: 32,
+                fontWeight: 600,
+                letterSpacing: 11,
+                textTransform: "uppercase",
+                color: "#64748B",
+                display: "flex",
+              }}
+            >
+              Web Design
             </div>
           </div>
         </div>
@@ -127,6 +162,7 @@ export async function GET() {
       fonts: [
         { name: "Instrument Serif", data: instrumentRegular, weight: 400, style: "normal" },
         { name: "Instrument Serif", data: instrumentItalic, weight: 400, style: "italic" },
+        { name: "JetBrains Mono", data: jetbrainsMono, weight: 600, style: "normal" },
       ],
       headers: {
         "Content-Disposition": 'attachment; filename="builtbybrian-avatar.png"',

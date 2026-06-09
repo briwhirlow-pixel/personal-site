@@ -12,45 +12,105 @@ const iconByKey: Record<string, React.ComponentType<{ size?: number; strokeWidth
   health: Dumbbell,
 };
 
-const mockupThemes: Record<string, { navBg: string; heroBg: string; headline: string; accent: string; imgBg: string; }> = {
-  ecommerce: { navBg: '#FFFFFF', heroBg: '#F8FFFE', headline: '#0F172A', accent: '#0EA5E9', imgBg: '#BAE6FD' },
-  portfolio:  { navBg: '#0F0F0F', heroBg: '#0F0F0F', headline: '#FFFFFF', accent: '#E5E5E5', imgBg: '#2A2A2A' },
-  restaurant: { navBg: '#2C1A0E', heroBg: '#FDF6EE', headline: '#2C1A0E', accent: '#B45309', imgBg: '#FDE68A' },
-  business:   { navBg: '#0F1F3D', heroBg: '#0F1F3D', headline: '#FFFFFF', accent: '#3B82F6', imgBg: '#1E40AF' },
-  realestate: { navBg: '#1C2B1A', heroBg: '#F5F0E8', headline: '#1C2B1A', accent: '#4A7C59', imgBg: '#BBF7D0' },
-  health:     { navBg: '#ECFDF5', heroBg: '#ECFDF5', headline: '#064E3B', accent: '#10B981', imgBg: '#A7F3D0' },
+// Each mockup is an art-directed editorial preview, not a wireframe.
+// brand = small wordmark in the bar; label = mono kicker; h1/accent = serif headline;
+// cta = pill button text. Placeholder names are fictional but tonally fitting.
+const mockupThemes: Record<
+  string,
+  {
+    navBg: string;
+    heroBg: string;
+    headline: string;
+    accent: string;
+    imgBg: string;
+    brand: string;
+    label: string;
+    h1: string;
+    accentWord: string;
+    cta: string;
+  }
+> = {
+  ecommerce: {
+    navBg: '#FFFFFF', heroBg: '#F8F4EF', headline: '#0F172A', accent: '#1F2937', imgBg: '#E8DCC9',
+    brand: 'BLOOM', label: 'New season', h1: 'Spring pieces,', accentWord: 'now live.', cta: 'Shop',
+  },
+  portfolio: {
+    navBg: '#0F0F0F', heroBg: '#0F0F0F', headline: '#F5F1EA', accent: '#D4B68A', imgBg: '#2A2A2A',
+    brand: 'MARA WONG', label: 'Selected works', h1: 'Photographs,', accentWord: '2024–2026.', cta: 'Archive',
+  },
+  restaurant: {
+    navBg: '#FBF7EF', heroBg: '#FBF7EF', headline: '#2C1A0E', accent: '#B45309', imgBg: '#E9C97A',
+    brand: 'Maison Vert', label: "Tonight's menu", h1: 'Seasonal · local,', accentWord: 'open from five.', cta: 'Reserve',
+  },
+  business: {
+    navBg: '#0F1F3D', heroBg: '#0F1F3D', headline: '#F1F5F9', accent: '#60A5FA', imgBg: '#1E3A8A',
+    brand: 'NORTHCAP', label: 'Advisory', h1: 'Capital strategy,', accentWord: 'made calm.', cta: 'Talk to us',
+  },
+  realestate: {
+    navBg: '#F5F0E8', heroBg: '#F5F0E8', headline: '#1C2B1A', accent: '#4A7C59', imgBg: '#C9D6B8',
+    brand: 'Pinewood', label: 'Featured listings', h1: 'Homes across', accentWord: 'South Jersey.', cta: 'Browse',
+  },
+  health: {
+    navBg: '#FFFFFF', heroBg: '#EFEAE2', headline: '#1A2E22', accent: '#3F6B4A', imgBg: '#C7D3BC',
+    brand: 'STILLWATER', label: 'Pilates studio', h1: 'Strong,', accentWord: 'breath-led classes.', cta: 'Book',
+  },
 };
 
 function BrowserMockup({ mockupKey }: { mockupKey: string }) {
   const t = mockupThemes[mockupKey] ?? mockupThemes.business;
   return (
-    <div className="w-full rounded-[6px] overflow-hidden border border-rule" style={{ aspectRatio: '16/10' }}>
-      <div className="flex items-center gap-1.5 px-3 h-[26px] bg-[#242424]">
-        <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
-        <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
-        <div className="w-2.5 h-2.5 rounded-full bg-[#28CA41]" />
-        <div className="flex-1 mx-3 bg-white/10 rounded-full h-3.5 flex items-center justify-center">
-          <div className="w-20 h-1.5 rounded-full bg-white/20" />
+    <div
+      className="w-full rounded-[6px] overflow-hidden border border-rule"
+      style={{ aspectRatio: '16/10', background: t.heroBg }}
+    >
+      {/* Refined header bar — wordmark + nav, no garish chrome dots */}
+      <div className="flex items-center justify-between h-[22px] px-3" style={{ background: t.navBg }}>
+        <span
+          className="text-[8px] font-mono font-bold tracking-[0.18em] uppercase leading-none"
+          style={{ color: t.headline }}
+        >
+          {t.brand}
+        </span>
+        <div className="flex gap-2">
+          {[10, 8, 10].map((w, i) => (
+            <span
+              key={i}
+              className="h-[2px] rounded-full"
+              style={{ width: w, background: t.headline, opacity: 0.35 }}
+            />
+          ))}
         </div>
       </div>
-      <div className="flex flex-col" style={{ height: 'calc(100% - 26px)', background: t.heroBg }}>
-        <div className="flex items-center justify-between px-4 py-2 flex-shrink-0" style={{ background: t.navBg }}>
-          <div className="w-14 h-2 rounded-sm" style={{ background: t.accent }} />
-          <div className="flex gap-2">
-            {[24, 18, 22, 16].map((w, i) => (
-              <div key={i} className="h-1.5 rounded-full" style={{ width: w, background: t.headline, opacity: 0.25 }} />
-            ))}
+
+      {/* Hero — kicker + serif headline + CTA + thumbnail row */}
+      <div className="px-4 pt-3.5 pb-3 flex flex-col" style={{ height: 'calc(100% - 22px)' }}>
+        <span
+          className="text-[7px] font-mono font-bold tracking-[0.22em] uppercase leading-none"
+          style={{ color: t.accent }}
+        >
+          {t.label}
+        </span>
+        <span
+          className="font-serif tracking-tight mt-2 leading-[1.05]"
+          style={{ color: t.headline, fontSize: 'clamp(15px, 2.2vw, 21px)' }}
+        >
+          {t.h1}
+          <br />
+          <span className="italic" style={{ color: t.accent }}>{t.accentWord}</span>
+        </span>
+
+        <div className="mt-auto flex items-end justify-between gap-2 pt-2">
+          <span
+            className="inline-flex items-center text-[8px] font-semibold font-mono uppercase tracking-[0.15em] px-2.5 py-1 rounded-full leading-none"
+            style={{ background: t.accent, color: t.navBg }}
+          >
+            {t.cta} →
+          </span>
+          <div className="flex gap-1">
+            <span className="w-6 h-6 rounded-[3px]" style={{ background: t.imgBg }} />
+            <span className="w-6 h-6 rounded-[3px]" style={{ background: t.imgBg, opacity: 0.6 }} />
           </div>
-          <div className="w-14 h-5 rounded-full" style={{ background: t.accent }} />
         </div>
-        <div className="flex-1 px-4 pt-4 flex flex-col gap-2">
-          <div className="w-[60%] h-3 rounded-sm" style={{ background: t.headline, opacity: 0.8 }} />
-          <div className="w-[45%] h-3 rounded-sm" style={{ background: t.headline, opacity: 0.5 }} />
-          <div className="w-[75%] h-1.5 rounded-full mt-1" style={{ background: t.headline, opacity: 0.15 }} />
-          <div className="w-[60%] h-1.5 rounded-full" style={{ background: t.headline, opacity: 0.15 }} />
-          <div className="w-16 h-6 rounded-full mt-2" style={{ background: t.accent }} />
-        </div>
-        <div className="mx-4 mb-4 rounded-lg flex-shrink-0" style={{ height: '32%', background: t.imgBg, opacity: 0.6 }} />
       </div>
     </div>
   );
@@ -78,12 +138,10 @@ export default function Portfolio() {
         <div className="grid sm:grid-cols-3 gap-5 mb-5">
           <Reveal className="sm:col-span-2 flex flex-col justify-start">
             <h2 className="font-serif text-[clamp(36px,6vw,72px)] leading-[0.95] tracking-[-0.025em] text-ink font-normal mb-5">
-              Types of websites{" "}
-              <span className="italic text-forest">I specialize in.</span>
+              Types of sites I build.
             </h2>
             <p className="text-ink-soft text-[16px] leading-relaxed font-medium max-w-xl">
-              Every business is different. Here are the most popular types of sites I build —
-              each tailored to your goals.
+              Restaurants, shops, studios, services. Each one needs a different rhythm — these are the categories I take on most.
             </p>
           </Reveal>
 

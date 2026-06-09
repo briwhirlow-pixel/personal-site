@@ -686,7 +686,7 @@ export async function GET(
 
   // ─── MONITOR LAYOUT — special intro post w/ Philly photo ─────
   if (post.customLayout === "monitor") {
-    const skylineUrl = `${origin}/images/philly-skyline.jpg`;
+    const skylineUrl = `${origin}/images/philly-skyline-new.jpg`;
 
     return new ImageResponse(
       (
@@ -700,7 +700,7 @@ export async function GET(
             padding: "70px 50px",
             backgroundImage: `linear-gradient(180deg, rgba(15,23,42,0.25) 0%, rgba(15,23,42,0.55) 100%), url(${skylineUrl})`,
             backgroundSize: "cover",
-            backgroundPosition: "center",
+            backgroundPosition: "center top",
             fontFamily: "Outfit",
           }}
         >

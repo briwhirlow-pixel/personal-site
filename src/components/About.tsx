@@ -24,30 +24,59 @@ export default function About() {
           {/* Left — profile card */}
           <Reveal direction="left" className="md:col-span-5">
             <div className="relative">
-              {/* Forest accent backdrop */}
+              {/* Forest accent backdrop (straight, no rotation) */}
               <div
                 aria-hidden
                 className="absolute -inset-2 bg-forest rounded-[6px]"
-                style={{ transform: "rotate(-1.5deg)" }}
               />
 
               <div className="relative bg-paper-soft border border-rule rounded-[4px] overflow-hidden">
-                {/* Monogram / photo zone */}
-                <div className="aspect-[4/5] relative overflow-hidden" style={{ background: "linear-gradient(135deg, #2563EB, #1E40AF)" }}>
-                  <span
-                    aria-hidden
-                    className="absolute inset-0 flex items-center justify-center font-serif italic text-paper"
-                    style={{ fontSize: 200, lineHeight: 1, opacity: 0.95 }}
-                  >
-                    B
-                  </span>
-                  <span aria-hidden className="absolute top-6 right-7 text-paper text-[22px] opacity-70">✦</span>
-                  <span aria-hidden className="absolute bottom-7 left-6 text-clay-soft text-[14px] opacity-80">✦</span>
+                {/* Designer info — lives inside the blue */}
+                <div
+                  className="aspect-[4/5] relative overflow-hidden flex flex-col justify-center"
+                  style={{ background: "linear-gradient(135deg, #2563EB, #1E40AF)" }}
+                >
                   {/* Tech corner ticks */}
                   <span aria-hidden className="absolute top-3 left-3 w-3 h-3 border-t border-l border-paper/40" />
                   <span aria-hidden className="absolute top-3 right-3 w-3 h-3 border-t border-r border-paper/40" />
                   <span aria-hidden className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-paper/40" />
                   <span aria-hidden className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-paper/40" />
+
+                  <div className="relative px-7 sm:px-8 py-10">
+                    <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-paper/60">The designer</p>
+                    <p className="font-serif text-[clamp(30px,4.5vw,40px)] leading-[1.05] tracking-tight mt-3 text-paper">
+                      Brian <span className="italic">Whirlow</span>
+                    </p>
+                    <p className="text-paper/70 text-[13px] mt-2 font-medium">Lead Designer &amp; Developer · Phila / NJ</p>
+
+                    <div className="flex items-center gap-2 mt-6">
+                      <a
+                        href={siteConfig.social.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="LinkedIn"
+                        className="w-9 h-9 rounded-[6px] border border-paper/25 bg-paper/10 flex items-center justify-center text-paper hover:bg-paper hover:text-forest hover:border-paper transition-colors"
+                      >
+                        <Linkedin size={16} strokeWidth={1.75} />
+                      </a>
+                      <a
+                        href="https://www.facebook.com/marketplace/profile/100001427946097/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Facebook"
+                        className="w-9 h-9 rounded-[6px] border border-paper/25 bg-paper/10 flex items-center justify-center text-paper hover:bg-paper hover:text-forest hover:border-paper transition-colors"
+                      >
+                        <Facebook size={16} strokeWidth={1.75} />
+                      </a>
+                      <a
+                        href={`mailto:${siteConfig.email}`}
+                        aria-label="Email"
+                        className="w-9 h-9 rounded-[6px] border border-paper/25 bg-paper/10 flex items-center justify-center text-paper hover:bg-paper hover:text-forest hover:border-paper transition-colors"
+                      >
+                        <Mail size={16} strokeWidth={1.75} />
+                      </a>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Badges */}
@@ -58,43 +87,6 @@ export default function About() {
                       <p className="font-mono text-[8px] tracking-[0.18em] uppercase text-ink-muted mt-1.5">{b.label}</p>
                     </div>
                   ))}
-                </div>
-
-                {/* Name / role / social */}
-                <div className="p-5 border-t border-rule">
-                  <p className="font-mono text-[9.5px] tracking-[0.22em] uppercase text-ink-muted">The designer</p>
-                  <p className="font-serif text-[28px] leading-tight tracking-tight mt-2 text-ink">
-                    Brian <span className="italic">Whirlow</span>
-                  </p>
-                  <p className="text-ink-soft text-[13px] mt-1 font-medium">Designer & Developer · Phila / NJ</p>
-
-                  <div className="flex items-center gap-2 mt-4">
-                    <a
-                      href={siteConfig.social.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="LinkedIn"
-                      className="w-9 h-9 rounded-[6px] border border-rule bg-paper flex items-center justify-center text-ink-soft hover:text-forest hover:border-forest transition-colors"
-                    >
-                      <Linkedin size={16} strokeWidth={1.75} />
-                    </a>
-                    <a
-                      href="https://www.facebook.com/marketplace/profile/100001427946097/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Facebook"
-                      className="w-9 h-9 rounded-[6px] border border-rule bg-paper flex items-center justify-center text-ink-soft hover:text-forest hover:border-forest transition-colors"
-                    >
-                      <Facebook size={16} strokeWidth={1.75} />
-                    </a>
-                    <a
-                      href={`mailto:${siteConfig.email}`}
-                      aria-label="Email"
-                      className="w-9 h-9 rounded-[6px] border border-rule bg-paper flex items-center justify-center text-ink-soft hover:text-forest hover:border-forest transition-colors"
-                    >
-                      <Mail size={16} strokeWidth={1.75} />
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>

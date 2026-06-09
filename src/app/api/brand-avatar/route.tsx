@@ -1,9 +1,8 @@
-import { ImageResponse } from 'next/og';
+import { ImageResponse } from "next/og";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
-// Subset of characters actually rendered — keeps font payloads small.
-const TEXT = 'Built by Brian WEB DESIGN';
+const TEXT = "Built by Brian";
 
 async function loadGoogleFont(query: string): Promise<ArrayBuffer> {
   const url = `https://fonts.googleapis.com/css2?${query}`;
@@ -18,122 +17,120 @@ async function loadGoogleFont(query: string): Promise<ArrayBuffer> {
 export async function GET() {
   const subset = encodeURIComponent(TEXT);
 
-  const [instrumentRegular, instrumentItalic, jetbrainsMono] = await Promise.all([
+  const [instrumentRegular, instrumentItalic] = await Promise.all([
     loadGoogleFont(`family=Instrument+Serif&text=${subset}`),
     loadGoogleFont(`family=Instrument+Serif:ital@1&text=${subset}`),
-    loadGoogleFont(`family=JetBrains+Mono:wght@600&text=${subset}`),
   ]);
 
   return new ImageResponse(
     (
       <div
         style={{
-          width: '100%',
-          height: '100%',
-          background: '#FFFFFF',
-          border: '4px solid #E2E8F0',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontFamily: 'Instrument Serif',
+          width: "100%",
+          height: "100%",
+          background: "#E9EDF3",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        {/* Forest dot */}
+        {/* Monitor bezel */}
         <div
           style={{
-            width: 26,
-            height: 26,
-            borderRadius: 26,
-            background: '#2D6A4F',
-            marginBottom: 34,
-            display: 'flex',
-          }}
-        />
-
-        {/* "Built" */}
-        <div
-          style={{
-            fontFamily: 'Instrument Serif',
-            fontSize: 172,
-            color: '#1A1A2E',
-            lineHeight: 1,
-            letterSpacing: -4,
-            display: 'flex',
+            background: "#1A1A2E",
+            borderRadius: 36,
+            padding: 22,
+            display: "flex",
+            boxShadow: "0 40px 100px -36px rgba(26,26,46,0.45)",
           }}
         >
-          Built
-        </div>
-
-        {/* "by Brian" */}
-        <div
-          style={{
-            fontSize: 172,
-            lineHeight: 1,
-            letterSpacing: -4,
-            marginTop: 10,
-            display: 'flex',
-          }}
-        >
-          <span
+          {/* Inner screen */}
+          <div
             style={{
-              fontFamily: 'Instrument Serif',
-              fontStyle: 'italic',
-              color: '#0EA5E9',
-              display: 'flex',
+              background: "#FFFFFF",
+              borderRadius: 20,
+              width: 740,
+              height: 440,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 22,
+              padding: "0 60px",
             }}
           >
-            by&nbsp;
-          </span>
-          <span
-            style={{
-              fontFamily: 'Instrument Serif',
-              color: '#1A1A2E',
-              display: 'flex',
-            }}
-          >
-            Brian
-          </span>
+            {/* Forest dot */}
+            <div
+              style={{
+                width: 16,
+                height: 16,
+                borderRadius: 16,
+                background: "#2D6A4F",
+                display: "flex",
+                flexShrink: 0,
+              }}
+            />
+            {/* Wordmark — single line with italic "by" in clay */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "baseline",
+                fontFamily: "Instrument Serif",
+                fontSize: 132,
+                color: "#1A1A2E",
+                lineHeight: 1,
+                letterSpacing: -3,
+              }}
+            >
+              <span style={{ display: "flex" }}>Built</span>
+              <span
+                style={{
+                  display: "flex",
+                  fontStyle: "italic",
+                  color: "#0EA5E9",
+                  padding: "0 6px",
+                }}
+              >
+                by
+              </span>
+              <span style={{ display: "flex" }}>Brian</span>
+            </div>
+          </div>
         </div>
 
-        {/* Divider */}
+        {/* Stand neck */}
         <div
           style={{
-            width: 220,
-            height: 4,
-            background: '#CBD5E1',
-            marginTop: 56,
-            marginBottom: 32,
-            display: 'flex',
+            width: 90,
+            height: 36,
+            background: "#1A1A2E",
+            display: "flex",
+            marginTop: 4,
           }}
         />
-
-        {/* Tagline */}
+        {/* Stand base */}
         <div
           style={{
-            fontFamily: 'JetBrains Mono',
-            fontSize: 46,
-            letterSpacing: 14,
-            color: '#64748B',
-            fontWeight: 600,
-            display: 'flex',
+            width: 260,
+            height: 16,
+            background: "#1A1A2E",
+            borderRadius: 12,
+            marginTop: 2,
+            display: "flex",
           }}
-        >
-          WEB DESIGN
-        </div>
+        />
       </div>
     ),
     {
       width: 1080,
       height: 1080,
       fonts: [
-        { name: 'Instrument Serif', data: instrumentRegular, weight: 400, style: 'normal' },
-        { name: 'Instrument Serif', data: instrumentItalic, weight: 400, style: 'italic' },
-        { name: 'JetBrains Mono', data: jetbrainsMono, weight: 600, style: 'normal' },
+        { name: "Instrument Serif", data: instrumentRegular, weight: 400, style: "normal" },
+        { name: "Instrument Serif", data: instrumentItalic, weight: 400, style: "italic" },
       ],
       headers: {
-        'Content-Disposition': 'attachment; filename="builtbybrian-avatar.png"',
-        'Cache-Control': 'public, max-age=3600, immutable',
+        "Content-Disposition": 'attachment; filename="builtbybrian-avatar.png"',
+        "Cache-Control": "public, max-age=3600, immutable",
       },
     }
   );

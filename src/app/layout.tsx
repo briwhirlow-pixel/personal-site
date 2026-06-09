@@ -27,20 +27,20 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://builtbybwhirl.com"),
   title: {
-    default: `Brian Whirlow (bwhirl) — Web Designer & Developer`,
-    template: `%s | BuiltByBrian`,
+    default: "BuiltbyBrian — Web Designer & Developer",
+    template: "%s · BuiltbyBrian",
   },
   description: siteConfig.description,
   openGraph: {
-    title: `Brian Whirlow (bwhirl) — Web Designer & Developer`,
+    title: "BuiltbyBrian — Web Designer & Developer",
     description: siteConfig.description,
     url: "https://builtbybwhirl.com",
-    siteName: "BuiltByBrian",
+    siteName: "BuiltbyBrian",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: `Brian Whirlow (bwhirl) — Web Designer & Developer`,
+    title: "BuiltbyBrian — Web Designer & Developer",
     description: siteConfig.description,
   },
 };

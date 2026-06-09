@@ -4,8 +4,7 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 
 const industries = [
-  "E-Commerce", "Restaurant", "Photography", "Portfolio", "Real Estate",
-  "Salon & Spa", "Fitness", "Construction", "SaaS / App", "Education",
+  "Restaurant", "E-Commerce", "Portfolio", "Photography",
 ];
 
 export default function Hero() {
@@ -75,8 +74,8 @@ export default function Hero() {
           </Link>
         </div>
 
-        {/* Industry chips — 2 rows of 5 */}
-        <div className="mt-12 grid grid-cols-2 sm:grid-cols-5 gap-2 editorial-rise" style={{ animationDelay: '0.3s' }}>
+        {/* Industry chips — 4 verticals I've actually built for */}
+        <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-2 editorial-rise" style={{ animationDelay: '0.3s' }}>
           {industries.map((label) => (
             <span
               key={label}
@@ -87,10 +86,9 @@ export default function Hero() {
           ))}
         </div>
 
-        {/* Stats — 3 across, mono numbers for tech feel */}
-        <div className="mt-14 sm:mt-16 grid grid-cols-3 gap-y-8 gap-x-3 sm:gap-x-6 pt-10 border-t-2 border-ink editorial-rise" style={{ animationDelay: '0.4s' }}>
+        {/* Stats — 2 across, just the verifiable ones */}
+        <div className="mt-14 sm:mt-16 grid grid-cols-2 gap-y-8 gap-x-6 sm:gap-x-10 pt-10 border-t-2 border-ink editorial-rise" style={{ animationDelay: '0.4s' }}>
           {[
-            { label: "First draft", value: "5", unit: "days" },
             { label: "Client rating", value: "5.0", unit: "★" },
             { label: "Starting at", value: "$750", unit: "" },
           ].map((s, i) => (

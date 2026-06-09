@@ -4,19 +4,19 @@ import LogoMarquee from "@/components/LogoMarquee";
 import SocialProof from "@/components/SocialProof";
 
 export const metadata: Metadata = {
-  title: "byBrian — Web Designer & Developer",
-  description: "I design and build fast, beautiful websites that help businesses grow. From simple brochure sites to full e-commerce stores — delivered in 5 days.",
+  title: "BuiltbyBrian — Web Designer & Developer",
+  description: "Hand-built websites for restaurants, shops, and studios in Philadelphia and South Jersey. First draft in 5 days.",
   openGraph: {
-    title: "byBrian — Web Designer & Developer",
-    description: "Fast, beautiful websites that convert visitors into customers. First draft in 5 days.",
+    title: "BuiltbyBrian — Web Designer & Developer",
+    description: "Hand-built websites for restaurants, shops, and studios. First draft in 5 days.",
     url: "https://builtbybwhirl.com",
-    siteName: "byBrian",
+    siteName: "BuiltbyBrian",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "byBrian — Web Designer & Developer",
-    description: "Fast, beautiful websites that convert visitors into customers. First draft in 5 days.",
+    title: "BuiltbyBrian — Web Designer & Developer",
+    description: "Hand-built websites for restaurants, shops, and studios. First draft in 5 days.",
   },
 };
 

@@ -3,20 +3,30 @@ interface LogoProps {
   showTagline?: boolean;
 }
 
-export default function Logo({ light: _light = false, showTagline = true }: LogoProps) {
+// The logo is the existing BuiltByBrian wordmark, displayed as if it were
+// rendered on a small computer monitor. The bezel + neck + base read as a
+// screen, which is the meta-cute brand move for a web designer.
+export default function Logo({ light: _light = false, showTagline: _showTagline = false }: LogoProps) {
   return (
-    <span className="inline-flex items-center gap-2 select-none">
-      <span aria-hidden className="inline-block w-1.5 h-1.5 rounded-full bg-forest" />
-      <span className="flex flex-col items-start leading-none gap-1">
-        <span className="font-serif text-[20px] sm:text-[22px] leading-none text-ink tracking-tight">
-          Built<span className="italic text-clay px-[1px]">by</span>Brian
-        </span>
-        {showTagline && (
-          <span className="font-mono text-[8px] sm:text-[8.5px] tracking-[0.28em] uppercase text-ink-muted leading-none font-semibold">
-            Web Design
+    <span className="inline-flex flex-col items-center select-none">
+      {/* Monitor screen with bezel */}
+      <span
+        className="bg-ink rounded-[6px] p-[2.5px] block"
+        style={{ boxShadow: "0 2px 6px -2px rgba(26,26,46,0.18)" }}
+      >
+        <span className="bg-paper-soft rounded-[4px] px-2.5 py-[7px] block">
+          <span className="flex items-center gap-1.5">
+            <span aria-hidden className="w-1 h-1 rounded-full bg-forest flex-shrink-0" />
+            <span className="font-serif text-[15px] sm:text-[16px] leading-none text-ink tracking-tight whitespace-nowrap">
+              Built<span className="italic text-clay px-[1px]">by</span>Brian
+            </span>
           </span>
-        )}
+        </span>
       </span>
+
+      {/* Monitor stand — neck + base */}
+      <span aria-hidden className="block w-[10px] h-[3px] bg-ink/80" />
+      <span aria-hidden className="block w-[28px] h-[2px] bg-ink/80 rounded-full mt-[0.5px]" />
     </span>
   );
 }

@@ -80,12 +80,6 @@ export default function Services() {
                       : undefined
                   }
                 >
-                  {isHighlighted && (
-                    <span className="absolute -top-2.5 left-6 bg-forest text-paper font-mono text-[10px] tracking-[0.22em] uppercase font-semibold px-2.5 py-1 rounded-[3px]">
-                      Most Popular
-                    </span>
-                  )}
-
                   <div className="mb-5">
                     <p className={`font-mono text-[10px] tracking-[0.22em] uppercase ${accent.color}`}>
                       {accent.label}

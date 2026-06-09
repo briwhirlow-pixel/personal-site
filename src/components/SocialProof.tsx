@@ -1,27 +1,20 @@
-import { ShieldCheck, Clock, Layers, ArrowUpRight } from "lucide-react";
+import { ShieldCheck, Clock, ArrowUpRight } from "lucide-react";
 import Reveal from "./Reveal";
 
 const stats = [
   {
-    value: "100",
-    suffix: "%",
-    label: "Client Satisfaction",
-    sub: "Every client I've worked with has been happy with the final result — no exceptions.",
+    value: "5.0",
+    suffix: "★",
+    label: "Average review",
+    sub: "Every project to date has shipped with a five-star rating.",
     Icon: ShieldCheck,
   },
   {
     value: "24",
     suffix: "hr",
-    label: "Response Guaranteed",
-    sub: "You'll hear back within 24 hours — usually the same day.",
+    label: "Response time",
+    sub: "You'll hear back within a day — usually the same one.",
     Icon: Clock,
-  },
-  {
-    value: "15",
-    suffix: "+",
-    label: "Industries Served",
-    sub: "Restaurants, e-commerce, portfolios, agencies, and more.",
-    Icon: Layers,
   },
 ];
 
@@ -35,7 +28,7 @@ export default function SocialProof() {
           <div className="flex items-baseline justify-between pb-4 border-b border-rule mb-10">
             <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase flex items-center gap-2.5">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
-              Why clients choose BuiltByBrian
+              Why clients choose BuiltbyBrian
             </span>
             <span className="hidden sm:inline font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
               Index / 001b
@@ -44,7 +37,7 @@ export default function SocialProof() {
         </Reveal>
 
         {/* Stat cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
           {stats.map((stat, i) => (
             <Reveal key={stat.label} delay={i * 80}>
               <div className="group bg-paper-soft border border-rule rounded-[6px] p-6 sm:p-7 flex flex-col gap-4 h-full hover:border-forest/40 transition-colors">

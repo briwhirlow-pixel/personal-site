@@ -101,7 +101,7 @@ export default function Contact() {
       hasError ? "border-clay" : "border-rule"
     } rounded-[6px] px-4 py-3 text-[14px] text-ink placeholder:text-ink-muted focus:outline-none focus:border-forest focus:ring-2 focus:ring-forest/20 transition font-medium`;
 
-  const hasCalendly = false;
+  const hasCalendly = Boolean(siteConfig.calendlyUrl);
 
   const steps = [
     { Icon: ClipboardList, title: "Fill out this form", time: "2 min", desc: "Tell me what you need, your timeline, and budget.", active: true },
@@ -114,43 +114,15 @@ export default function Contact() {
     <section id="contact" className="relative bg-paper text-ink pt-20 pb-24">
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12">
 
-        {/* Section header */}
+        {/* Opening — no kicker. Just the headline. */}
         <Reveal>
-          <div className="flex items-baseline justify-between pb-4 border-b border-rule mb-12">
-            <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase flex items-center gap-2.5">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
-              Start a project
-            </span>
-            <span className="hidden sm:inline font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
-              Index / 006
-            </span>
-          </div>
-        </Reveal>
-
-        {/* Banner — paper-deep for consistency */}
-        <Reveal>
-          <div className="bg-paper-soft border border-rule rounded-[8px] px-5 sm:px-8 md:px-10 py-8 sm:py-10 mb-12">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5">
-              <div>
-                <p className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-ink-muted mb-3">
-                  Get in touch
-                </p>
-                <h2 className="font-serif text-[clamp(28px,4.5vw,52px)] leading-[0.95] tracking-[-0.025em] text-ink font-normal">
-                  Let&apos;s build something{" "}
-                  <span className="italic text-forest">great.</span>
-                </h2>
-                <div className="flex flex-wrap gap-2 mt-5">
-                  {["Starting at $750", "First draft in 5 days", "Free quote — no commitment"].map((tag) => (
-                    <span key={tag} className="font-mono text-[10.5px] tracking-wide bg-paper border border-rule text-ink-soft px-3 py-1.5 rounded-[3px]">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <p className="text-ink-soft text-[14px] leading-relaxed md:max-w-xs md:text-right font-medium">
-                Fill out the form and I&apos;ll get back to you within 24 hours — usually sooner.
-              </p>
-            </div>
+          <div className="max-w-3xl mb-14 pt-4">
+            <h2 className="font-serif text-[clamp(36px,6vw,72px)] leading-[0.95] tracking-[-0.025em] text-ink font-normal">
+              Tell me what you&apos;re building.
+            </h2>
+            <p className="text-ink-soft text-[16px] sm:text-[17px] mt-5 leading-relaxed font-medium max-w-2xl">
+              Fill out the form and I&apos;ll email you back within a day — usually within a few hours. No commitment.
+            </p>
           </div>
         </Reveal>
 
@@ -278,29 +250,28 @@ export default function Contact() {
           {/* Right — form */}
           <Reveal delay={200}>
             {status === "success" ? (
-              <div className="bg-paper-soft border border-rule rounded-[8px] p-8 sm:p-10 text-center">
-                <div className="w-14 h-14 bg-forest rounded-full flex items-center justify-center mx-auto mb-5">
-                  <Check size={24} className="text-paper" strokeWidth={2.5} />
+              <div className="bg-paper-soft border border-rule rounded-[8px] p-8 sm:p-10" role="status" aria-live="polite">
+                <div className="w-12 h-12 bg-forest rounded-full flex items-center justify-center mb-5">
+                  <Check size={20} className="text-paper" strokeWidth={2.5} />
                 </div>
-                <h3 className="font-serif text-[28px] text-ink mb-2 leading-tight">You&apos;re <span className="italic text-forest">in.</span></h3>
-                <p className="text-ink-soft text-[14px] mb-6 font-medium">
-                  I&apos;ll be in touch by <span className="font-semibold text-ink">{getTomorrow()}</span> — usually sooner. Here&apos;s what happens next:
+                <h3 className="font-serif text-[28px] text-ink mb-3 leading-tight">Got it.</h3>
+                <p className="text-ink-soft text-[15px] leading-relaxed mb-2 font-medium">
+                  I&apos;ll email you back from <span className="font-semibold text-ink">brianwhirlowbusiness@gmail.com</span> by{" "}
+                  <span className="font-semibold text-ink">{getTomorrow()}</span> — usually within a few hours.
                 </p>
-                <div className="space-y-2 text-left mb-8">
-                  {[
-                    { Icon: ClipboardList, text: "I review your project details" },
-                    { Icon: Mail, text: "You get a personal response within 24 hrs" },
-                    { Icon: Phone, text: "We book a free 30-min discovery call" },
-                    { Icon: Check, text: "I send a custom proposal with exact pricing" },
-                  ].map((step, i) => (
-                    <div key={i} className="flex items-center gap-3 bg-paper rounded-[6px] px-4 py-3 border border-rule">
-                      <step.Icon size={15} className="text-forest flex-shrink-0" strokeWidth={1.75} />
-                      <p className="text-[13px] font-medium text-ink">{step.text}</p>
-                    </div>
-                  ))}
-                </div>
+                <p className="text-ink-soft text-[14px] mb-7 font-medium">— Brian</p>
+                {hasCalendly && (
+                  <a
+                    href={siteConfig.calendlyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-forest text-paper font-semibold px-5 py-3 rounded-[6px] hover:bg-forest-deep transition-colors text-[13px] mr-3"
+                  >
+                    Or grab a call slot →
+                  </a>
+                )}
                 <a href="/work" className="inline-flex items-center gap-1.5 text-forest text-[13px] font-semibold hover:text-forest-bright border-b border-forest/30 pb-0.5">
-                  In the meantime, check out my work →
+                  See recent work
                 </a>
               </div>
             ) : (

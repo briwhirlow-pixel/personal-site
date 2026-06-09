@@ -74,26 +74,12 @@ export default function Testimonials() {
     <section id="reviews" className="relative bg-paper text-ink pt-20 pb-24">
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12">
 
-        {/* Section header */}
-        <Reveal>
-          <div className="flex items-baseline justify-between pb-4 border-b border-rule mb-12">
-            <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase flex items-center gap-2.5">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
-              Client Reviews
-            </span>
-            <span className="hidden sm:inline font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
-              Index / 004
-            </span>
-          </div>
-        </Reveal>
-
-        <Reveal className="max-w-3xl mb-14">
+        <Reveal className="max-w-3xl mb-14 pt-4">
           <h2 className="font-serif text-[clamp(36px,6vw,72px)] leading-[0.95] tracking-[-0.025em] text-ink font-normal">
-            Don&apos;t take my word{" "}
-            <span className="italic text-forest">for it.</span>
+            What clients have said.
           </h2>
-          <p className="text-ink-soft text-[17px] mt-5 leading-relaxed font-medium">
-            Here&apos;s what real clients have said after working with me.
+          <p className="text-ink-soft text-[16px] sm:text-[17px] mt-5 leading-relaxed font-medium">
+            Real quotes from people I&apos;ve shipped work for.
           </p>
         </Reveal>
 
@@ -136,16 +122,6 @@ export default function Testimonials() {
                   )}
                 </div>
 
-                {/* Highlight */}
-                {review.highlight && (
-                  <div className="bg-forest/5 border border-forest/15 rounded-[4px] px-3 py-2 mt-4 mb-1">
-                    <p className="font-mono text-[10.5px] tracking-wide text-forest font-medium leading-snug">
-                      <span className="text-clay mr-1.5">✦</span>
-                      {review.highlight}
-                    </p>
-                  </div>
-                )}
-
                 {/* Author */}
                 <div className="flex items-center gap-3 pt-4 mt-4 border-t border-rule">
                   <div className="w-9 h-9 rounded-full bg-forest flex items-center justify-center flex-shrink-0">
@@ -164,13 +140,9 @@ export default function Testimonials() {
 
         {/* Bottom trust bar */}
         <Reveal delay={300}>
-          <div className="mt-14 pt-8 border-t border-rule grid grid-cols-1 sm:grid-cols-3 gap-y-5 gap-x-8">
-            <div className="flex items-center gap-2">
-              <StarRating count={5} />
-              <span className="text-ink text-[13px] font-semibold">5.0 average rating</span>
-            </div>
-            <p className="text-ink-soft text-[13px] font-medium">5-day average first draft — every project</p>
-            <p className="text-ink-soft text-[13px] font-medium">No project too small or too ambitious</p>
+          <div className="mt-14 pt-8 border-t border-rule flex items-center gap-3">
+            <StarRating count={5} />
+            <span className="text-ink text-[13px] font-semibold">5.0 average across {reviews.length} client reviews</span>
           </div>
         </Reveal>
 

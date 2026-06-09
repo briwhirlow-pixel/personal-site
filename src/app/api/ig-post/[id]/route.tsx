@@ -892,8 +892,8 @@ export async function GET(
           <div
             style={{
               position: "absolute",
-              bottom: 50,
-              left: 50,
+              bottom: 40,
+              left: 40,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -903,17 +903,18 @@ export async function GET(
             <div
               style={{
                 background: "#1A1A2E",
-                borderRadius: 9,
-                padding: 4,
+                borderRadius: 14,
+                padding: 7,
                 display: "flex",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
               }}
             >
               {/* Screen */}
               <div
                 style={{
                   background: "#FFFFFF",
-                  borderRadius: 6,
-                  padding: "8px 16px 7px",
+                  borderRadius: 9,
+                  padding: "14px 24px 12px",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
@@ -923,12 +924,12 @@ export async function GET(
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <div
                     style={{
-                      width: 8,
-                      height: 8,
-                      borderRadius: 8,
+                      width: 12,
+                      height: 12,
+                      borderRadius: 12,
                       background: "#2563EB",
                       display: "flex",
-                      marginRight: 8,
+                      marginRight: 10,
                     }}
                   />
                   <div
@@ -936,13 +937,13 @@ export async function GET(
                       display: "flex",
                       alignItems: "baseline",
                       fontFamily: "Instrument Serif",
-                      fontSize: 30,
+                      fontSize: 42,
                       color: "#1A1A2E",
                       lineHeight: 1,
                     }}
                   >
                     <div style={{ display: "flex" }}>Built</div>
-                    <div style={{ fontStyle: "italic", color: "#0EA5E9", padding: "0 2px", display: "flex" }}>by</div>
+                    <div style={{ fontStyle: "italic", color: "#0EA5E9", padding: "0 3px", display: "flex" }}>by</div>
                     <div style={{ display: "flex" }}>Brian</div>
                   </div>
                 </div>
@@ -950,12 +951,12 @@ export async function GET(
                 <div
                   style={{
                     fontFamily: "JetBrains Mono",
-                    fontSize: 9,
-                    letterSpacing: 3,
+                    fontSize: 12,
+                    letterSpacing: 4,
                     textTransform: "uppercase",
                     color: "#64748B",
                     fontWeight: 600,
-                    marginTop: 5,
+                    marginTop: 6,
                     display: "flex",
                   }}
                 >
@@ -964,8 +965,8 @@ export async function GET(
               </div>
             </div>
             {/* Mini stand */}
-            <div style={{ width: 16, height: 4, background: "#1A1A2E", marginTop: 1, display: "flex" }} />
-            <div style={{ width: 40, height: 3, background: "#1A1A2E", borderRadius: 4, marginTop: 1, display: "flex" }} />
+            <div style={{ width: 24, height: 6, background: "#1A1A2E", marginTop: 2, display: "flex" }} />
+            <div style={{ width: 60, height: 5, background: "#1A1A2E", borderRadius: 6, marginTop: 1, display: "flex" }} />
           </div>
         </div>
       ),

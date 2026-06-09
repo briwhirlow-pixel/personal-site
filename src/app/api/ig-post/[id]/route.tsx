@@ -1,0 +1,1574 @@
+import { ImageResponse } from "next/og";
+import { igPosts } from "@/lib/igPosts";
+
+export const runtime = "edge";
+
+async function loadGoogleFont(query: string): Promise<ArrayBuffer> {
+  const url = `https://fonts.googleapis.com/css2?${query}`;
+  const css = await (await fetch(url)).text();
+  const match = css.match(/src:\s*url\(([^)]+)\)\s*format\('([^']+)'\)/);
+  if (!match) throw new Error(`No font URL parsed from CSS for ${query}`);
+  const res = await fetch(match[1]);
+  if (!res.ok) throw new Error(`Failed to fetch font (${res.status})`);
+  return res.arrayBuffer();
+}
+
+type Palette = {
+  bg: string;
+  bgGradient?: string;
+  ink: string;
+  inkSoft: string;
+  inkMuted: string;
+  accent: string;
+  italicAccent: string;
+  chipBg: string;
+  chipText: string;
+  ruleColor: string;
+  numBg: string;
+  numText: string;
+};
+
+function getPalette(variant: string): Palette {
+  switch (variant) {
+    case "dark":
+      return {
+        bg: "#1A1A2E",
+        ink: "#FFFFFF",
+        inkSoft: "rgba(255,255,255,0.78)",
+        inkMuted: "rgba(255,255,255,0.6)",
+        accent: "#38BDF8",
+        italicAccent: "#38BDF8",
+        chipBg: "rgba(255,255,255,0.14)",
+        chipText: "#FFFFFF",
+        ruleColor: "rgba(255,255,255,0.18)",
+        numBg: "rgba(255,255,255,0.16)",
+        numText: "#FFFFFF",
+      };
+    case "blue":
+      return {
+        bg: "#2563EB",
+        bgGradient: "linear-gradient(160deg, #2563EB 0%, #1E40AF 100%)",
+        ink: "#FFFFFF",
+        inkSoft: "rgba(255,255,255,0.85)",
+        inkMuted: "rgba(255,255,255,0.7)",
+        accent: "#FDE047",
+        italicAccent: "#FDE047",
+        chipBg: "rgba(255,255,255,0.18)",
+        chipText: "#FFFFFF",
+        ruleColor: "rgba(255,255,255,0.25)",
+        numBg: "rgba(255,255,255,0.18)",
+        numText: "#FFFFFF",
+      };
+    case "cream":
+      return {
+        bg: "#E9EDF3",
+        ink: "#1A1A2E",
+        inkSoft: "#475569",
+        inkMuted: "#64748B",
+        accent: "#2563EB",
+        italicAccent: "#2563EB",
+        chipBg: "rgba(37,99,235,0.1)",
+        chipText: "#2563EB",
+        ruleColor: "#CBD5E1",
+        numBg: "rgba(37,99,235,0.12)",
+        numText: "#2563EB",
+      };
+    case "eagles":
+      return {
+        bg: "#004C54",
+        bgGradient: "linear-gradient(180deg, #004C54 0%, #003B40 100%)",
+        ink: "#FFFFFF",
+        inkSoft: "rgba(255,255,255,0.86)",
+        inkMuted: "rgba(255,255,255,0.65)",
+        accent: "#A5ACAF",
+        italicAccent: "#A5ACAF",
+        chipBg: "rgba(165,172,175,0.18)",
+        chipText: "#FFFFFF",
+        ruleColor: "rgba(165,172,175,0.3)",
+        numBg: "rgba(165,172,175,0.2)",
+        numText: "#FFFFFF",
+      };
+    case "phillies":
+      return {
+        bg: "#E81828",
+        bgGradient: "linear-gradient(180deg, #E81828 0%, #B81020 100%)",
+        ink: "#FFFFFF",
+        inkSoft: "rgba(255,255,255,0.9)",
+        inkMuted: "rgba(255,255,255,0.7)",
+        accent: "#FEF3C7",
+        italicAccent: "#FEF3C7",
+        chipBg: "rgba(255,255,255,0.18)",
+        chipText: "#FFFFFF",
+        ruleColor: "rgba(255,255,255,0.28)",
+        numBg: "rgba(255,255,255,0.2)",
+        numText: "#FFFFFF",
+      };
+    case "amber":
+      return {
+        bg: "#F59E0B",
+        bgGradient: "linear-gradient(180deg, #F59E0B 0%, #D97706 100%)",
+        ink: "#1A1A2E",
+        inkSoft: "rgba(26,26,46,0.82)",
+        inkMuted: "rgba(26,26,46,0.6)",
+        accent: "#1A1A2E",
+        italicAccent: "#7C2D12",
+        chipBg: "rgba(26,26,46,0.12)",
+        chipText: "#1A1A2E",
+        ruleColor: "rgba(26,26,46,0.22)",
+        numBg: "rgba(26,26,46,0.14)",
+        numText: "#1A1A2E",
+      };
+    case "plum":
+      return {
+        bg: "#6B21A8",
+        bgGradient: "linear-gradient(180deg, #6B21A8 0%, #4C1D95 100%)",
+        ink: "#FFFFFF",
+        inkSoft: "rgba(255,255,255,0.88)",
+        inkMuted: "rgba(255,255,255,0.65)",
+        accent: "#FCD34D",
+        italicAccent: "#FCD34D",
+        chipBg: "rgba(252,211,77,0.18)",
+        chipText: "#FCD34D",
+        ruleColor: "rgba(252,211,77,0.3)",
+        numBg: "rgba(252,211,77,0.18)",
+        numText: "#FCD34D",
+      };
+    case "studio":
+    default:
+      return {
+        bg: "#FFFFFF",
+        bgGradient: "linear-gradient(180deg, #FFFFFF 0%, #E9EDF3 100%)",
+        ink: "#1A1A2E",
+        inkSoft: "#475569",
+        inkMuted: "#64748B",
+        accent: "#2563EB",
+        italicAccent: "#2563EB",
+        chipBg: "rgba(37,99,235,0.1)",
+        chipText: "#2563EB",
+        ruleColor: "#E2E8F0",
+        numBg: "rgba(37,99,235,0.12)",
+        numText: "#2563EB",
+      };
+  }
+}
+
+export async function GET(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  const post = igPosts.find((p) => p.id === id);
+
+  if (!post) {
+    return new Response(`Post ${id} not found`, { status: 404 });
+  }
+
+  // Slide handling: cover is slide 1; spotlight slides are 2..(numList+1); CTA is last
+  const reqUrl = new URL(req.url);
+  const totalSlides = post.numList ? post.numList.length + 2 : 1;
+  const slideRaw = parseInt(reqUrl.searchParams.get("slide") || "1", 10);
+  const slideNum = Math.max(1, Math.min(totalSlides, isNaN(slideRaw) ? 1 : slideRaw));
+  const isCover = slideNum === 1;
+  const isClosing = slideNum === totalSlides && totalSlides > 1;
+  const spotlightIdx = !isCover && !isClosing ? slideNum - 2 : -1;
+  const spotlightItem = spotlightIdx >= 0 && post.numList ? post.numList[spotlightIdx] : null;
+
+  const origin = reqUrl.origin;
+  const bottomImageSrc = post.bottomImage
+    ? (post.bottomImage.src.startsWith("http")
+        ? post.bottomImage.src
+        : `${origin}${post.bottomImage.src}`)
+    : null;
+
+  const [instrumentRegular, instrumentItalic, outfitMedium, outfitBold, jetbrainsMono] =
+    await Promise.all([
+      loadGoogleFont("family=Instrument+Serif"),
+      loadGoogleFont("family=Instrument+Serif:ital@1"),
+      loadGoogleFont("family=Outfit:wght@500"),
+      loadGoogleFont("family=Outfit:wght@700"),
+      loadGoogleFont("family=JetBrains+Mono:wght@600"),
+    ]);
+
+  const p = getPalette(post.variant);
+
+  // Layout constants for 1080x1350 canvas
+  const PAD_X = 80;
+  const PAD_Y = 70;
+
+  const responseOpts = {
+    width: 1080,
+    height: 1350,
+    fonts: [
+      { name: "Instrument Serif", data: instrumentRegular, weight: 400 as const, style: "normal" as const },
+      { name: "Instrument Serif", data: instrumentItalic, weight: 400 as const, style: "italic" as const },
+      { name: "Outfit", data: outfitMedium, weight: 500 as const, style: "normal" as const },
+      { name: "Outfit", data: outfitBold, weight: 700 as const, style: "normal" as const },
+      { name: "JetBrains Mono", data: jetbrainsMono, weight: 600 as const, style: "normal" as const },
+    ],
+    headers: {
+      "Content-Disposition": `inline; filename="builtbybrian-ig-post-${id}-slide-${slideNum}.png"`,
+      "Cache-Control": "public, max-age=600",
+    },
+  };
+
+  // ─── SPOTLIGHT SLIDE — one numList item, big ─────────────────
+  if (spotlightItem) {
+    const slideLabel = `${String(slideNum).padStart(2, "0")} / ${String(totalSlides).padStart(2, "0")}`;
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            background: p.bgGradient ?? p.bg,
+            color: p.ink,
+            padding: `${PAD_Y}px ${PAD_X}px`,
+            fontFamily: "Outfit",
+          }}
+        >
+          {/* TOP ROW */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                fontFamily: "JetBrains Mono",
+                fontSize: 18,
+                letterSpacing: 4,
+                textTransform: "uppercase",
+                color: p.inkMuted,
+                fontWeight: 600,
+              }}
+            >
+              <div
+                style={{
+                  width: 12,
+                  height: 12,
+                  borderRadius: 12,
+                  background: p.accent,
+                  marginRight: 14,
+                  display: "flex",
+                }}
+              />
+              {post.topLeftLabel}
+            </div>
+            <div
+              style={{
+                fontFamily: "JetBrains Mono",
+                fontSize: 18,
+                letterSpacing: 4,
+                textTransform: "uppercase",
+                color: p.inkMuted,
+                fontWeight: 600,
+                display: "flex",
+              }}
+            >
+              {slideLabel}
+            </div>
+          </div>
+
+          {/* SPOTLIGHT BODY */}
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            {/* HUGE number */}
+            <div
+              style={{
+                fontFamily: "Instrument Serif",
+                fontSize: 260,
+                lineHeight: 0.9,
+                color: p.italicAccent,
+                fontStyle: "italic",
+                letterSpacing: -6,
+                marginBottom: 8,
+                display: "flex",
+              }}
+            >
+              {spotlightItem.n}
+            </div>
+            {/* Tip text */}
+            <div
+              style={{
+                fontFamily: "Instrument Serif",
+                fontSize: 88,
+                lineHeight: 1.04,
+                letterSpacing: -2.2,
+                color: p.ink,
+                maxWidth: 880,
+                display: "flex",
+              }}
+            >
+              {spotlightItem.text}
+            </div>
+          </div>
+
+          {/* BOTTOM ROW — same monitor logo + swipe */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingTop: 24,
+              borderTop: `1px solid ${p.ruleColor}`,
+              width: "100%",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <div
+                style={{
+                  background: "#1A1A2E",
+                  borderRadius: 9,
+                  padding: 4,
+                  display: "flex",
+                }}
+              >
+                <div
+                  style={{
+                    background: "#FFFFFF",
+                    borderRadius: 6,
+                    padding: "8px 16px 7px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <div
+                      style={{
+                        width: 8,
+                        height: 8,
+                        borderRadius: 8,
+                        background: "#2563EB",
+                        display: "flex",
+                        marginRight: 8,
+                      }}
+                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "baseline",
+                        fontFamily: "Instrument Serif",
+                        fontSize: 30,
+                        color: "#1A1A2E",
+                        lineHeight: 1,
+                      }}
+                    >
+                      <div style={{ display: "flex" }}>Built</div>
+                      <div
+                        style={{
+                          fontStyle: "italic",
+                          color: "#0EA5E9",
+                          padding: "0 2px",
+                          display: "flex",
+                        }}
+                      >
+                        by
+                      </div>
+                      <div style={{ display: "flex" }}>Brian</div>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: 9,
+                      letterSpacing: 3,
+                      textTransform: "uppercase",
+                      color: "#64748B",
+                      fontWeight: 600,
+                      marginTop: 5,
+                      display: "flex",
+                    }}
+                  >
+                    Web Design
+                  </div>
+                </div>
+              </div>
+              <div style={{ width: 16, height: 4, background: "#1A1A2E", marginTop: 1, display: "flex" }} />
+              <div style={{ width: 42, height: 3, background: "#1A1A2E", borderRadius: 4, marginTop: 1, display: "flex" }} />
+            </div>
+            <div
+              style={{
+                fontFamily: "JetBrains Mono",
+                fontSize: 18,
+                letterSpacing: 4,
+                textTransform: "uppercase",
+                color: p.inkMuted,
+                fontWeight: 600,
+                display: "flex",
+              }}
+            >
+              Swipe
+              <div style={{ marginLeft: 10, display: "flex" }}>→</div>
+            </div>
+          </div>
+        </div>
+      ),
+      responseOpts
+    );
+  }
+
+  // ─── CLOSING CTA SLIDE — last slide of a carousel ────────────
+  if (isClosing) {
+    const slideLabel = `${String(slideNum).padStart(2, "0")} / ${String(totalSlides).padStart(2, "0")}`;
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            background: p.bgGradient ?? p.bg,
+            color: p.ink,
+            padding: `${PAD_Y}px ${PAD_X}px`,
+            fontFamily: "Outfit",
+          }}
+        >
+          {/* TOP */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                fontFamily: "JetBrains Mono",
+                fontSize: 18,
+                letterSpacing: 4,
+                textTransform: "uppercase",
+                color: p.inkMuted,
+                fontWeight: 600,
+              }}
+            >
+              <div
+                style={{
+                  width: 12,
+                  height: 12,
+                  borderRadius: 12,
+                  background: p.accent,
+                  marginRight: 14,
+                  display: "flex",
+                }}
+              />
+              YOUR MOVE
+            </div>
+            <div
+              style={{
+                fontFamily: "JetBrains Mono",
+                fontSize: 18,
+                letterSpacing: 4,
+                textTransform: "uppercase",
+                color: p.inkMuted,
+                fontWeight: 600,
+                display: "flex",
+              }}
+            >
+              {slideLabel}
+            </div>
+          </div>
+
+          {/* BODY */}
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{
+                fontFamily: "JetBrains Mono",
+                fontSize: 20,
+                letterSpacing: 4.4,
+                textTransform: "uppercase",
+                color: p.inkMuted,
+                fontWeight: 600,
+                marginBottom: 24,
+                display: "flex",
+              }}
+            >
+              READY WHEN YOU ARE
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", marginBottom: 26 }}>
+              <div
+                style={{
+                  fontFamily: "Instrument Serif",
+                  fontSize: 110,
+                  lineHeight: 1,
+                  letterSpacing: -3,
+                  color: p.ink,
+                  display: "flex",
+                }}
+              >
+                Let&apos;s
+              </div>
+              <div
+                style={{
+                  fontFamily: "Instrument Serif",
+                  fontSize: 110,
+                  lineHeight: 1,
+                  letterSpacing: -3,
+                  color: p.italicAccent,
+                  fontStyle: "italic",
+                  display: "flex",
+                }}
+              >
+                build it.
+              </div>
+            </div>
+            <div
+              style={{
+                fontFamily: "Outfit",
+                fontSize: 28,
+                lineHeight: 1.5,
+                color: p.inkSoft,
+                fontWeight: 500,
+                maxWidth: 820,
+                marginBottom: 28,
+                display: "flex",
+              }}
+            >
+              Free 30-min discovery call. No hard sell. Just see if we&apos;re a fit.
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap" }}>
+              {["DM TO START", "LINK IN BIO", "5-DAY DRAFT"].map((t) => (
+                <div
+                  key={t}
+                  style={{
+                    fontFamily: "JetBrains Mono",
+                    fontSize: 17,
+                    letterSpacing: 1.8,
+                    background: p.chipBg,
+                    color: p.chipText,
+                    padding: "10px 16px",
+                    borderRadius: 5,
+                    marginRight: 10,
+                    marginBottom: 10,
+                    fontWeight: 600,
+                    display: "flex",
+                  }}
+                >
+                  {t}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* BOTTOM — monitor logo */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingTop: 24,
+              borderTop: `1px solid ${p.ruleColor}`,
+              width: "100%",
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <div
+                style={{
+                  background: "#1A1A2E",
+                  borderRadius: 9,
+                  padding: 4,
+                  display: "flex",
+                }}
+              >
+                <div
+                  style={{
+                    background: "#FFFFFF",
+                    borderRadius: 6,
+                    padding: "8px 16px 7px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <div
+                      style={{
+                        width: 8,
+                        height: 8,
+                        borderRadius: 8,
+                        background: "#2563EB",
+                        display: "flex",
+                        marginRight: 8,
+                      }}
+                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "baseline",
+                        fontFamily: "Instrument Serif",
+                        fontSize: 30,
+                        color: "#1A1A2E",
+                        lineHeight: 1,
+                      }}
+                    >
+                      <div style={{ display: "flex" }}>Built</div>
+                      <div
+                        style={{
+                          fontStyle: "italic",
+                          color: "#0EA5E9",
+                          padding: "0 2px",
+                          display: "flex",
+                        }}
+                      >
+                        by
+                      </div>
+                      <div style={{ display: "flex" }}>Brian</div>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: 9,
+                      letterSpacing: 3,
+                      textTransform: "uppercase",
+                      color: "#64748B",
+                      fontWeight: 600,
+                      marginTop: 5,
+                      display: "flex",
+                    }}
+                  >
+                    Web Design
+                  </div>
+                </div>
+              </div>
+              <div style={{ width: 16, height: 4, background: "#1A1A2E", marginTop: 1, display: "flex" }} />
+              <div style={{ width: 42, height: 3, background: "#1A1A2E", borderRadius: 4, marginTop: 1, display: "flex" }} />
+            </div>
+            <div
+              style={{
+                fontFamily: "JetBrains Mono",
+                fontSize: 18,
+                letterSpacing: 4,
+                textTransform: "uppercase",
+                color: p.inkMuted,
+                fontWeight: 600,
+                display: "flex",
+              }}
+            >
+              {post.cta}
+            </div>
+          </div>
+        </div>
+      ),
+      responseOpts
+    );
+  }
+
+  // ─── MONITOR LAYOUT — special intro post w/ Philly skyline ───
+  if (post.customLayout === "monitor") {
+    // Stylized Philly skyline silhouette — buildings + spires + City Hall
+    type Bldg = { w: number; h: number; spire?: number; taper?: boolean; cityhall?: boolean };
+    const buildings: Bldg[] = [
+      { w: 55, h: 95 },
+      { w: 80, h: 150 },
+      { w: 65, h: 190 },
+      { w: 90, h: 230, taper: true },
+      { w: 80, h: 210, taper: true },
+      { w: 95, h: 255 },
+      { w: 75, h: 290 },
+      { w: 85, h: 335, spire: 60 },
+      { w: 70, h: 215 },
+      { w: 80, h: 195, cityhall: true },
+      { w: 65, h: 160 },
+      { w: 75, h: 130 },
+      { w: 80, h: 155 },
+      { w: 65, h: 120 },
+    ];
+    const SILHOUETTE = "#0B1220";
+
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            background:
+              "linear-gradient(180deg, #1E3A8A 0%, #6D28D9 30%, #DB2777 60%, #F97316 88%, #FBBF24 100%)",
+            fontFamily: "Outfit",
+          }}
+        >
+          {/* SKY SECTION — gradient with monitor */}
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              padding: "70px 50px 30px",
+            }}
+          >
+            {/* MONITOR */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+            {/* Bezel */}
+            <div
+              style={{
+                background: "#1A1A2E",
+                borderRadius: 28,
+                padding: 22,
+                display: "flex",
+              }}
+            >
+              {/* Screen */}
+              <div
+                style={{
+                  background: "#FFFFFF",
+                  borderRadius: 14,
+                  padding: "56px 64px 50px",
+                  display: "flex",
+                  flexDirection: "column",
+                  width: 860,
+                }}
+              >
+                {/* Top row inside screen: dot + label */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: 36,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 14,
+                      height: 14,
+                      borderRadius: 14,
+                      background: "#22C55E",
+                      marginRight: 14,
+                      display: "flex",
+                    }}
+                  />
+                  <div
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: 16,
+                      letterSpacing: 4.5,
+                      textTransform: "uppercase",
+                      color: "#64748B",
+                      fontWeight: 600,
+                      display: "flex",
+                    }}
+                  >
+                    {post.topLeftLabel}
+                  </div>
+                </div>
+
+                {/* Kicker */}
+                <div
+                  style={{
+                    fontFamily: "JetBrains Mono",
+                    fontSize: 18,
+                    letterSpacing: 5,
+                    textTransform: "uppercase",
+                    color: "#94A3B8",
+                    fontWeight: 600,
+                    marginBottom: 22,
+                    display: "flex",
+                  }}
+                >
+                  {post.kicker}
+                </div>
+
+                {/* Title */}
+                <div style={{ display: "flex", flexDirection: "column", marginBottom: 26 }}>
+                  {post.titleLines.map((line, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        fontFamily: "Instrument Serif",
+                        fontSize: 92,
+                        lineHeight: 1.02,
+                        letterSpacing: -2.4,
+                        color: line.italic ? "#2563EB" : "#1A1A2E",
+                        fontStyle: line.italic ? "italic" : "normal",
+                        display: "flex",
+                      }}
+                    >
+                      {line.text}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Sub */}
+                {post.sub && (
+                  <div
+                    style={{
+                      fontFamily: "Outfit",
+                      fontSize: 24,
+                      lineHeight: 1.5,
+                      color: "#475569",
+                      fontWeight: 500,
+                      maxWidth: 740,
+                      marginBottom: 24,
+                      display: "flex",
+                    }}
+                  >
+                    {post.sub}
+                  </div>
+                )}
+
+                {/* Tag row */}
+                {post.tagRow && (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      marginBottom: 30,
+                    }}
+                  >
+                    {post.tagRow.map((tag, i) => (
+                      <div
+                        key={i}
+                        style={{
+                          fontFamily: "JetBrains Mono",
+                          fontSize: 15,
+                          letterSpacing: 1.8,
+                          background: "rgba(37,99,235,0.1)",
+                          color: "#2563EB",
+                          padding: "9px 14px",
+                          borderRadius: 5,
+                          marginRight: 8,
+                          marginBottom: 8,
+                          fontWeight: 600,
+                          display: "flex",
+                        }}
+                      >
+                        {tag}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Bottom row inside screen */}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    paddingTop: 22,
+                    borderTop: "1px solid #E2E8F0",
+                    marginTop: "auto",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "baseline",
+                      fontFamily: "Instrument Serif",
+                      fontSize: 30,
+                      color: "#1A1A2E",
+                    }}
+                  >
+                    <div style={{ display: "flex" }}>Built</div>
+                    <div
+                      style={{
+                        fontStyle: "italic",
+                        color: "#0EA5E9",
+                        padding: "0 3px",
+                        display: "flex",
+                      }}
+                    >
+                      by
+                    </div>
+                    <div style={{ display: "flex" }}>Brian</div>
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: 13,
+                      letterSpacing: 3.5,
+                      textTransform: "uppercase",
+                      color: "#64748B",
+                      fontWeight: 600,
+                      display: "flex",
+                    }}
+                  >
+                    {post.cta}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Stand neck */}
+            <div
+              style={{
+                width: 60,
+                height: 18,
+                background: "#1A1A2E",
+                display: "flex",
+              }}
+            />
+            {/* Stand base */}
+            <div
+              style={{
+                width: 220,
+                height: 8,
+                background: "#1A1A2E",
+                borderRadius: 8,
+                marginTop: 2,
+                display: "flex",
+              }}
+            />
+          </div>
+          </div>
+
+          {/* SKYLINE SECTION — Philadelphia silhouette */}
+          <div
+            style={{
+              height: 240,
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "center",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-end",
+                width: "100%",
+                paddingLeft: 30,
+                paddingRight: 30,
+              }}
+            >
+              {buildings.map((b, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                    marginRight: i < buildings.length - 1 ? 3 : 0,
+                  }}
+                >
+                  {/* Antenna spire */}
+                  {b.spire ? (
+                    <div
+                      style={{
+                        width: 3,
+                        height: b.spire,
+                        background: SILHOUETTE,
+                        display: "flex",
+                      }}
+                    />
+                  ) : null}
+                  {/* City Hall: William Penn statue */}
+                  {b.cityhall ? (
+                    <div
+                      style={{
+                        width: 6,
+                        height: 10,
+                        background: SILHOUETTE,
+                        display: "flex",
+                      }}
+                    />
+                  ) : null}
+                  {/* City Hall: thin tower pole */}
+                  {b.cityhall ? (
+                    <div
+                      style={{
+                        width: 2,
+                        height: 22,
+                        background: SILHOUETTE,
+                        display: "flex",
+                      }}
+                    />
+                  ) : null}
+                  {/* City Hall: tower upper */}
+                  {b.cityhall ? (
+                    <div
+                      style={{
+                        width: b.w * 0.4,
+                        height: 20,
+                        background: SILHOUETTE,
+                        display: "flex",
+                      }}
+                    />
+                  ) : null}
+                  {/* City Hall: tower lower */}
+                  {b.cityhall ? (
+                    <div
+                      style={{
+                        width: b.w * 0.7,
+                        height: 30,
+                        background: SILHOUETTE,
+                        display: "flex",
+                      }}
+                    />
+                  ) : null}
+                  {/* Pyramid top — narrow piece */}
+                  {b.taper ? (
+                    <div
+                      style={{
+                        width: b.w * 0.5,
+                        height: 16,
+                        background: SILHOUETTE,
+                        display: "flex",
+                      }}
+                    />
+                  ) : null}
+                  {/* Pyramid top — wider piece */}
+                  {b.taper ? (
+                    <div
+                      style={{
+                        width: b.w * 0.75,
+                        height: 18,
+                        background: SILHOUETTE,
+                        display: "flex",
+                      }}
+                    />
+                  ) : null}
+                  {/* Main building body */}
+                  <div
+                    style={{
+                      width: b.w,
+                      height: b.h,
+                      background: SILHOUETTE,
+                      display: "flex",
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ),
+      responseOpts
+    );
+  }
+
+  // ─── STANDARD LAYOUT — every other post ──────────────────────
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          background: p.bgGradient ?? p.bg,
+          color: p.ink,
+          padding: `${PAD_Y}px ${PAD_X}px`,
+          fontFamily: "Outfit",
+        }}
+      >
+        {/* TOP ROW — small mono labels */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              fontFamily: "JetBrains Mono",
+              fontSize: 18,
+              letterSpacing: 4,
+              textTransform: "uppercase",
+              color: p.inkMuted,
+              fontWeight: 600,
+            }}
+          >
+            <div
+              style={{
+                width: 12,
+                height: 12,
+                borderRadius: 12,
+                background: p.accent,
+                marginRight: 14,
+                display: "flex",
+              }}
+            />
+            {post.topLeftLabel}
+          </div>
+          <div
+            style={{
+              fontFamily: "JetBrains Mono",
+              fontSize: 18,
+              letterSpacing: 4,
+              textTransform: "uppercase",
+              color: p.inkMuted,
+              fontWeight: 600,
+              display: "flex",
+            }}
+          >
+            {post.topRightLabel}
+          </div>
+        </div>
+
+        {/* MIDDLE BODY — flex-1, centered */}
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "30px 0",
+          }}
+        >
+          {/* Kicker */}
+          <div
+            style={{
+              fontFamily: "JetBrains Mono",
+              fontSize: 20,
+              letterSpacing: 4.4,
+              textTransform: "uppercase",
+              color: p.inkMuted,
+              fontWeight: 600,
+              marginBottom: 24,
+              display: "flex",
+            }}
+          >
+            {post.kicker}
+          </div>
+
+          {/* Price (optional) */}
+          {post.price && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "baseline",
+                marginBottom: 20,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "Instrument Serif",
+                  fontSize: 140,
+                  lineHeight: 1,
+                  color: p.italicAccent,
+                  display: "flex",
+                }}
+              >
+                {post.price.v}
+              </div>
+              <div
+                style={{
+                  fontFamily: "Instrument Serif",
+                  fontSize: 60,
+                  lineHeight: 1,
+                  color: p.italicAccent,
+                  opacity: 0.85,
+                  marginLeft: 6,
+                  display: "flex",
+                }}
+              >
+                {post.price.s}
+              </div>
+            </div>
+          )}
+
+          {/* Title — stacked lines */}
+          <div style={{ display: "flex", flexDirection: "column", marginBottom: 26 }}>
+            {post.titleLines.map((line, i) => (
+              <div
+                key={i}
+                style={{
+                  fontFamily: "Instrument Serif",
+                  fontSize: 96,
+                  lineHeight: 1.02,
+                  letterSpacing: -2.4,
+                  color: line.italic ? p.italicAccent : p.ink,
+                  fontStyle: line.italic ? "italic" : "normal",
+                  display: "flex",
+                }}
+              >
+                {line.text}
+              </div>
+            ))}
+          </div>
+
+          {/* Sub text (optional) */}
+          {post.sub && (
+            <div
+              style={{
+                fontFamily: "Outfit",
+                fontSize: 26,
+                lineHeight: 1.45,
+                color: p.inkSoft,
+                fontWeight: 500,
+                maxWidth: 820,
+                marginBottom: 22,
+                display: "flex",
+              }}
+            >
+              {post.sub}
+            </div>
+          )}
+
+          {/* Num list (optional) */}
+          {post.numList && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                marginTop: 6,
+                marginBottom: 18,
+              }}
+            >
+              {post.numList.map((item, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    marginBottom: 14,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: 22,
+                      background: p.numBg,
+                      color: p.numText,
+                      width: 44,
+                      height: 44,
+                      borderRadius: 8,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                      marginRight: 22,
+                      fontWeight: 700,
+                    }}
+                  >
+                    {item.n}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Outfit",
+                      fontSize: 28,
+                      lineHeight: 1.4,
+                      color: p.ink,
+                      fontWeight: 500,
+                      paddingTop: 4,
+                      display: "flex",
+                      flex: 1,
+                    }}
+                  >
+                    {item.text}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Tag row (optional) */}
+          {post.tagRow && (
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                marginTop: 8,
+              }}
+            >
+              {post.tagRow.map((tag, i) => (
+                <div
+                  key={i}
+                  style={{
+                    fontFamily: "JetBrains Mono",
+                    fontSize: 17,
+                    letterSpacing: 1.8,
+                    background: p.chipBg,
+                    color: p.chipText,
+                    padding: "10px 16px",
+                    borderRadius: 5,
+                    marginRight: 10,
+                    marginBottom: 10,
+                    fontWeight: 600,
+                    display: "flex",
+                  }}
+                >
+                  {tag}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Bottom sub (optional) */}
+          {post.subBottom && (
+            <div
+              style={{
+                fontFamily: "Outfit",
+                fontSize: 24,
+                lineHeight: 1.5,
+                color: p.inkSoft,
+                fontWeight: 500,
+                maxWidth: 800,
+                marginTop: 22,
+                display: "flex",
+              }}
+            >
+              {post.subBottom}
+            </div>
+          )}
+        </div>
+
+        {/* BOTTOM IMAGE — Eagles logo etc. */}
+        {post.bottomImage && bottomImageSrc && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              gap: 28,
+              paddingBottom: 30,
+            }}
+          >
+            {post.bottomImage.tagline && (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  gap: 4,
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "JetBrains Mono",
+                    fontSize: 22,
+                    letterSpacing: 5,
+                    textTransform: "uppercase",
+                    color: p.ink,
+                    fontWeight: 700,
+                    display: "flex",
+                  }}
+                >
+                  {post.bottomImage.tagline}
+                </div>
+                <div
+                  style={{
+                    fontFamily: "JetBrains Mono",
+                    fontSize: 14,
+                    letterSpacing: 3,
+                    textTransform: "uppercase",
+                    color: p.inkMuted,
+                    fontWeight: 600,
+                    display: "flex",
+                  }}
+                >
+                  {post.bottomImage.alt}
+                </div>
+              </div>
+            )}
+            {post.bottomImage.background === "circle-white" ? (
+              <div
+                style={{
+                  width: 200,
+                  height: 200,
+                  background: "#FFFFFF",
+                  borderRadius: 200,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={bottomImageSrc}
+                  alt={post.bottomImage.alt}
+                  width={140}
+                  height={140}
+                  style={{ display: "flex", width: 140, height: 140, objectFit: "contain" }}
+                />
+              </div>
+            ) : (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src={bottomImageSrc}
+                alt={post.bottomImage.alt}
+                width={180}
+                height={180}
+                style={{ display: "flex", width: 180, height: 180, objectFit: "contain" }}
+              />
+            )}
+          </div>
+        )}
+
+        {/* BOTTOM ROW — monitor logo + CTA */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingTop: 24,
+            borderTop: `1px solid ${p.ruleColor}`,
+            width: "100%",
+          }}
+        >
+          {/* Brand monitor logo */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {/* Bezel */}
+            <div
+              style={{
+                background: "#1A1A2E",
+                borderRadius: 9,
+                padding: 4,
+                display: "flex",
+              }}
+            >
+              {/* Screen */}
+              <div
+                style={{
+                  background: "#FFFFFF",
+                  borderRadius: 6,
+                  padding: "8px 16px 7px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                {/* Wordmark */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: 8,
+                      background: "#2563EB",
+                      display: "flex",
+                      marginRight: 8,
+                    }}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "baseline",
+                      fontFamily: "Instrument Serif",
+                      fontSize: 30,
+                      color: "#1A1A2E",
+                      lineHeight: 1,
+                    }}
+                  >
+                    <div style={{ display: "flex" }}>Built</div>
+                    <div
+                      style={{
+                        fontStyle: "italic",
+                        color: "#0EA5E9",
+                        padding: "0 2px",
+                        display: "flex",
+                      }}
+                    >
+                      by
+                    </div>
+                    <div style={{ display: "flex" }}>Brian</div>
+                  </div>
+                </div>
+                {/* Tagline */}
+                <div
+                  style={{
+                    fontFamily: "JetBrains Mono",
+                    fontSize: 9,
+                    letterSpacing: 3,
+                    textTransform: "uppercase",
+                    color: "#64748B",
+                    fontWeight: 600,
+                    marginTop: 5,
+                    display: "flex",
+                  }}
+                >
+                  Web Design
+                </div>
+              </div>
+            </div>
+            {/* Stand neck */}
+            <div
+              style={{
+                width: 16,
+                height: 4,
+                background: "#1A1A2E",
+                marginTop: 1,
+                display: "flex",
+              }}
+            />
+            {/* Stand base */}
+            <div
+              style={{
+                width: 42,
+                height: 3,
+                background: "#1A1A2E",
+                borderRadius: 4,
+                marginTop: 1,
+                display: "flex",
+              }}
+            />
+          </div>
+
+          {/* CTA */}
+          <div
+            style={{
+              fontFamily: "JetBrains Mono",
+              fontSize: 18,
+              letterSpacing: 4,
+              textTransform: "uppercase",
+              color: p.inkMuted,
+              fontWeight: 600,
+              display: "flex",
+            }}
+          >
+            {post.cta}
+            {post.ctaArrow && (
+              <div style={{ marginLeft: 10, display: "flex" }}>→</div>
+            )}
+          </div>
+        </div>
+      </div>
+    ),
+    responseOpts
+  );
+}

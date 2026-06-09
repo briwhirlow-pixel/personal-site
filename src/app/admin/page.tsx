@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { igPosts } from "@/lib/igPosts";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -889,7 +890,7 @@ export default function AdminPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [tab, setTab] = useState<"pipeline" | "projects" | "playbook" | "budget" | "expenses" | "templates" | "discovery" | "calendar" | "marketing" | "emails">("pipeline");
+  const [tab, setTab] = useState<"pipeline" | "projects" | "playbook" | "budget" | "expenses" | "templates" | "discovery" | "calendar" | "marketing" | "social" | "emails">("pipeline");
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [showNewProject, setShowNewProject] = useState(false);
   const [newProjectLead, setNewProjectLead] = useState<Lead | null>(null);
@@ -1020,7 +1021,7 @@ export default function AdminPage() {
 
         {/* Tabs — text-only labels, cleaner */}
         <div className="flex flex-wrap gap-1 mb-6 bg-[#13161F] rounded-[8px] p-1 w-fit border border-[#2A2D3A]">
-          {(["pipeline", "projects", "calendar", "playbook", "budget", "expenses", "templates", "discovery", "marketing", "emails"] as const).map(t => {
+          {(["pipeline", "projects", "calendar", "playbook", "budget", "expenses", "templates", "discovery", "marketing", "social", "emails"] as const).map(t => {
             const labels: Record<typeof t, string> = {
               pipeline: `Pipeline (${activeLeads.length})`,
               projects: `Projects (${projects.length})`,
@@ -1031,6 +1032,7 @@ export default function AdminPage() {
               templates: "Templates",
               discovery: "Discovery Call",
               marketing: "Marketing",
+              social: `Social Media (${igPosts.length})`,
               emails: "Emails",
             };
             return (
@@ -1153,6 +1155,8 @@ export default function AdminPage() {
 
         {/* Marketing view */}
         {tab === "marketing" && <Marketing />}
+
+        {tab === "social" && <SocialMedia />}
 
         {/* Email Templates view */}
         {tab === "emails" && <EmailTemplates token={token} />}
@@ -3656,6 +3660,316 @@ function Marketing() {
           </div>
         </div>
       ))}
+    </div>
+  );
+}
+
+// ─── Social Media Tab ──────────────────────────────────────────────────────────
+// Phone-friendly Instagram post library. View, download images, copy captions.
+
+function SocialMedia() {
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [filter, setFilter] = useState<"all" | "carousel" | "single" | "reel">("all");
+  const [downloadingKey, setDownloadingKey] = useState<string | null>(null);
+
+  const copy = (text: string, key: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedKey(key);
+      setTimeout(() => setCopiedKey(null), 1800);
+    });
+  };
+
+  const slideCountFor = (post: typeof igPosts[number]) =>
+    post.numList ? post.numList.length + 2 : 1;
+
+  const downloadAllSlides = async (postId: string, count: number) => {
+    setDownloadingKey(postId);
+    try {
+      for (let n = 1; n <= count; n++) {
+        const a = document.createElement("a");
+        a.href = `/api/ig-post/${postId}?slide=${n}`;
+        a.download = `builtbybrian-post-${postId}-slide-${String(n).padStart(2, "0")}.png`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        await new Promise((r) => setTimeout(r, 500));
+      }
+    } finally {
+      setDownloadingKey(null);
+    }
+  };
+
+  const filtered = igPosts.filter((post) => {
+    if (filter === "all") return true;
+    const t = post.type.toLowerCase();
+    if (filter === "carousel") return t.includes("carousel");
+    if (filter === "reel") return t.includes("reel");
+    if (filter === "single") return t.includes("single");
+    return true;
+  });
+
+  const filterOpts: { v: typeof filter; label: string; count: number }[] = [
+    { v: "all", label: "All", count: igPosts.length },
+    { v: "carousel", label: "Carousels", count: igPosts.filter((p) => p.type.toLowerCase().includes("carousel")).length },
+    { v: "single", label: "Singles", count: igPosts.filter((p) => p.type.toLowerCase().includes("single")).length },
+    { v: "reel", label: "Reels", count: igPosts.filter((p) => p.type.toLowerCase().includes("reel")).length },
+  ];
+
+  return (
+    <div>
+      {/* Header */}
+      <div className="mb-6">
+        <h2 className="text-white text-[22px] sm:text-[26px] font-black leading-tight mb-1.5">Instagram Post Library</h2>
+        <p className="text-white/60 text-[13px] sm:text-[14px] leading-relaxed max-w-2xl">
+          Tap an image to view full size. Hit <span className="text-[#3B82F6] font-semibold">Download</span> to save the PNG. Use <span className="text-[#3B82F6] font-semibold">Copy</span> on captions or hashtags to paste straight into Instagram. Optimized for your phone.
+        </p>
+      </div>
+
+      {/* Filter chips */}
+      <div className="flex flex-wrap gap-1.5 mb-5 bg-[#13161F] rounded-[8px] p-1 w-fit border border-[#2A2D3A]">
+        {filterOpts.map((opt) => (
+          <button
+            key={opt.v}
+            onClick={() => setFilter(opt.v)}
+            className={`px-3 py-1.5 rounded-[6px] text-[12px] font-semibold tracking-tight transition flex items-center gap-1.5 ${
+              filter === opt.v
+                ? "bg-[#2563EB] text-white shadow-[0_4px_12px_-4px_rgba(37,99,235,0.5)]"
+                : "text-white/45 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            {opt.label}
+            <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${filter === opt.v ? "bg-white/20" : "bg-white/10"}`}>
+              {opt.count}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {/* Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        {filtered.map((post) => {
+          const captionKey = `${post.id}-cap`;
+          const tagsKey = `${post.id}-tags`;
+          const allKey = `${post.id}-all`;
+          const isPin = post.topRightLabel === "PIN" || post.name.includes("PIN");
+
+          const slideCount = slideCountFor(post);
+
+          return (
+            <article
+              key={post.id}
+              className="bg-[#13161F] border border-[#2A2D3A] rounded-[10px] overflow-hidden flex flex-col"
+            >
+              {/* Image — tap to view large */}
+              <a
+                href={`/api/ig-post/${post.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block relative bg-[#0A0C12] overflow-hidden"
+                style={{ aspectRatio: "4 / 5" }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`/api/ig-post/${post.id}`}
+                  alt={`Post ${post.id} — ${post.name}`}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+                {isPin && (
+                  <span className="absolute top-3 right-3 bg-[#FACC15] text-black text-[9px] font-black tracking-widest uppercase px-2 py-1 rounded">
+                    📌 Pin
+                  </span>
+                )}
+              </a>
+
+              {/* Card body */}
+              <div className="p-4 flex flex-col gap-3 flex-1">
+                {/* Title row */}
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[#3B82F6] text-[10.5px] font-mono font-bold tracking-[0.2em] uppercase">
+                      Post {post.id}
+                      {slideCount > 1 && <span className="text-[#FACC15] ml-1.5">· {slideCount} slides</span>}
+                    </span>
+                    <span className="text-white/35 text-[9.5px] font-mono tracking-[0.15em] uppercase truncate ml-2">
+                      {post.type}
+                    </span>
+                  </div>
+                  <h3 className="text-white text-[15px] font-bold leading-tight">{post.name}</h3>
+                </div>
+
+                {/* Carousel slides — all downloadable */}
+                {slideCount > 1 && (
+                  <div className="bg-black/30 border border-[#FACC15]/25 rounded-[6px] p-3">
+                    <div className="flex items-center justify-between mb-2 gap-2">
+                      <span className="text-[#FACC15] text-[10px] font-mono font-bold tracking-[0.2em] uppercase">
+                        🎠 {slideCount} Carousel Slides
+                      </span>
+                      <button
+                        onClick={() => downloadAllSlides(post.id, slideCount)}
+                        disabled={downloadingKey === post.id}
+                        className={`text-[10px] font-mono font-bold tracking-[0.15em] uppercase px-2.5 py-1.5 rounded transition flex-shrink-0 ${
+                          downloadingKey === post.id
+                            ? "bg-white/10 text-white/50 cursor-wait"
+                            : "bg-[#FACC15] text-black hover:bg-[#FDE047]"
+                        }`}
+                      >
+                        {downloadingKey === post.id ? "..." : "⬇ All"}
+                      </button>
+                    </div>
+                    <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1">
+                      {Array.from({ length: slideCount }, (_, i) => i + 1).map((n) => (
+                        <a
+                          key={n}
+                          href={`/api/ig-post/${post.id}?slide=${n}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          download={`builtbybrian-post-${post.id}-slide-${String(n).padStart(2, "0")}.png`}
+                          className="flex-shrink-0 relative bg-[#0A0C12] border border-[#2A2D3A] rounded-[5px] overflow-hidden hover:border-[#FACC15]/60 transition"
+                          style={{ width: 72, aspectRatio: "4 / 5" }}
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={`/api/ig-post/${post.id}?slide=${n}`}
+                            alt={`Slide ${n}`}
+                            loading="lazy"
+                            className="w-full h-full object-cover"
+                          />
+                          <span className="absolute top-1 left-1 bg-black/75 text-white text-[9px] font-mono font-bold px-1.5 py-0.5 rounded leading-none">
+                            {String(n).padStart(2, "0")}
+                          </span>
+                        </a>
+                      ))}
+                    </div>
+                    <p className="text-white/40 text-[10px] mt-2 leading-relaxed">
+                      Tap a slide to view/save individually, or <strong className="text-[#FACC15]">⬇ All</strong> to download every slide as PNG.
+                    </p>
+                  </div>
+                )}
+
+                {/* Caption block */}
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-white/45 text-[9.5px] font-mono font-bold tracking-[0.2em] uppercase">
+                      Caption
+                    </span>
+                    <button
+                      onClick={() => copy(post.caption, captionKey)}
+                      className={`text-[10px] font-mono font-bold tracking-[0.15em] uppercase px-2.5 py-1 rounded transition ${
+                        copiedKey === captionKey
+                          ? "bg-[#0EA5E9] text-white"
+                          : "bg-[#2563EB] text-white hover:bg-[#1E40AF]"
+                      }`}
+                    >
+                      {copiedKey === captionKey ? "Copied ✓" : "Copy"}
+                    </button>
+                  </div>
+                  <pre className="text-white/85 text-[12.5px] leading-[1.55] whitespace-pre-wrap font-sans bg-black/30 border border-[#2A2D3A] rounded-[6px] p-3 max-h-44 overflow-y-auto">
+                    {post.caption}
+                  </pre>
+                </div>
+
+                {/* Hashtags block */}
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-white/45 text-[9.5px] font-mono font-bold tracking-[0.2em] uppercase">
+                      Hashtags
+                    </span>
+                    <button
+                      onClick={() => copy(post.hashtags, tagsKey)}
+                      className={`text-[10px] font-mono font-bold tracking-[0.15em] uppercase px-2.5 py-1 rounded transition ${
+                        copiedKey === tagsKey
+                          ? "bg-[#0EA5E9] text-white"
+                          : "bg-[#2563EB] text-white hover:bg-[#1E40AF]"
+                      }`}
+                    >
+                      {copiedKey === tagsKey ? "Copied ✓" : "Copy"}
+                    </button>
+                  </div>
+                  <p className="text-[#60A5FA] text-[11.5px] font-mono leading-[1.7] bg-black/30 border border-[#2A2D3A] rounded-[6px] p-3 break-words">
+                    {post.hashtags}
+                  </p>
+                </div>
+
+                {/* Reel concept (optional) */}
+                {post.reelConcept && (
+                  <div>
+                    <div className="flex items-center mb-1.5">
+                      <span className="text-[#FACC15] text-[9.5px] font-mono font-bold tracking-[0.2em] uppercase">
+                        🎬 Reel Concept
+                      </span>
+                    </div>
+                    <p className="text-white/75 text-[12px] leading-[1.55] bg-[#FACC15]/[0.04] border border-[#FACC15]/20 rounded-[6px] p-3">
+                      {post.reelConcept}
+                    </p>
+                  </div>
+                )}
+
+                {/* Action buttons */}
+                <div className="flex gap-2 pt-3 mt-auto border-t border-[#2A2D3A]">
+                  <a
+                    href={`/api/ig-post/${post.id}`}
+                    download={`builtbybrian-post-${post.id}.png`}
+                    className="flex-1 bg-[#2563EB] hover:bg-[#1E40AF] text-white text-[11.5px] font-bold tracking-[0.1em] uppercase py-2.5 rounded-[6px] text-center transition shadow-[0_4px_12px_-4px_rgba(37,99,235,0.6)]"
+                  >
+                    ⬇ Download
+                  </a>
+                  <button
+                    onClick={() => copy(`${post.caption}\n\n${post.hashtags}`, allKey)}
+                    className={`text-[11.5px] font-bold tracking-[0.1em] uppercase py-2.5 px-4 rounded-[6px] transition ${
+                      copiedKey === allKey
+                        ? "bg-[#0EA5E9] text-white"
+                        : "bg-white/8 hover:bg-white/15 text-white border border-white/15"
+                    }`}
+                  >
+                    {copiedKey === allKey ? "✓" : "Copy All"}
+                  </button>
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+      {/* Footer help — iPhone / Android specific */}
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="bg-[#13161F] border border-[#2A2D3A] rounded-[8px] p-5">
+          <p className="text-white/45 text-[10.5px] font-mono font-bold tracking-[0.22em] uppercase mb-3">
+            📱 iPhone — Save to Photos
+          </p>
+          <ol className="text-white/75 text-[13px] leading-relaxed space-y-2 list-decimal pl-5">
+            <li><strong className="text-white">Tap the post image</strong> — opens the full 1080×1350 PNG in a new tab.</li>
+            <li><strong className="text-white">Press and hold</strong> the image for ~1 second.</li>
+            <li>Pick <strong className="text-white">&ldquo;Save to Photos&rdquo;</strong> from the popup menu.</li>
+            <li>Image is now in your <strong className="text-white">camera roll</strong> — open Instagram, attach it, paste the caption.</li>
+          </ol>
+        </div>
+        <div className="bg-[#13161F] border border-[#2A2D3A] rounded-[8px] p-5">
+          <p className="text-white/45 text-[10.5px] font-mono font-bold tracking-[0.22em] uppercase mb-3">
+            🤖 Android / Desktop
+          </p>
+          <ol className="text-white/75 text-[13px] leading-relaxed space-y-2 list-decimal pl-5">
+            <li><strong className="text-white">Hit ⬇ Download</strong> — saves the PNG to your Downloads folder.</li>
+            <li><strong className="text-white">Or tap the image</strong> to view large, then save via menu.</li>
+            <li>Open <strong className="text-white">Instagram → New Post</strong>, pick the saved image.</li>
+            <li>Long-press the caption block above, hit <strong className="text-white">Copy</strong>, paste.</li>
+          </ol>
+        </div>
+      </div>
+
+      {/* Caption tips */}
+      <div className="mt-4 bg-[#13161F] border border-[#2A2D3A] rounded-[8px] p-5">
+        <p className="text-white/45 text-[10.5px] font-mono font-bold tracking-[0.22em] uppercase mb-3">
+          📝 Posting tips
+        </p>
+        <ul className="text-white/75 text-[13px] leading-relaxed space-y-2 list-disc pl-5">
+          <li><strong className="text-white">Post 00 is the pinned intro</strong> — publish this one first when you launch.</li>
+          <li><strong className="text-white">Copy All</strong> bundles caption + hashtags into one paste.</li>
+          <li>For cleaner posts: paste caption only, then drop hashtags in the <strong className="text-white">first comment</strong>.</li>
+          <li>Reels (Posts 06 + 15) include a 🎬 Reel Concept — that&apos;s the video direction to film.</li>
+          <li>Tag your location (Philly / SJ town) and any clients featured.</li>
+        </ul>
+      </div>
     </div>
   );
 }

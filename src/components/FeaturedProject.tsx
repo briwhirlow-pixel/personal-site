@@ -59,12 +59,19 @@ export default function FeaturedProject() {
                     style={{
                       height: "calc(100% - 24px)",
                       background: project.bgFrom,
+                      // APEX uses its own font stack so the preview reads as a
+                      // separate brand, not an extension of BuiltbyBrian.
+                      fontFamily: "var(--font-fraunces), serif",
                     }}
                   >
-                    {/* Top editorial rail */}
+                    {/* Top editorial rail — Geist Mono, very tight */}
                     <div
-                      className="flex items-center justify-between text-[8px] sm:text-[9px] font-mono tracking-[0.18em] uppercase font-semibold pb-2 border-b"
-                      style={{ color: "#5C4D3A", borderColor: "rgba(28,18,8,0.18)" }}
+                      className="flex items-center justify-between text-[7.5px] sm:text-[8.5px] tracking-[0.32em] uppercase font-medium pb-2 border-b"
+                      style={{
+                        color: "#5C4D3A",
+                        borderColor: "rgba(28,18,8,0.25)",
+                        fontFamily: "var(--font-geist-mono), monospace",
+                      }}
                     >
                       <span>APEX / Chicago</span>
                       <span className="hidden sm:inline">Issue Nº 06 — Spring &apos;26</span>
@@ -72,65 +79,91 @@ export default function FeaturedProject() {
                     </div>
 
                     {/* Cover label row */}
-                    <div className="flex items-center justify-between mt-3">
+                    <div
+                      className="flex items-center justify-between mt-3"
+                      style={{ fontFamily: "var(--font-geist-mono), monospace" }}
+                    >
                       <span
-                        className="text-[8px] sm:text-[9px] font-mono font-semibold tracking-[0.22em] uppercase"
+                        className="text-[7.5px] sm:text-[8.5px] font-medium tracking-[0.35em] uppercase"
                         style={{ color: "#7A6A52" }}
                       >
                         Cover · Performance
                       </span>
                       <span
-                        className="text-[8px] sm:text-[9px] font-mono tracking-[0.22em] uppercase"
+                        className="text-[7.5px] sm:text-[8.5px] tracking-[0.35em] uppercase"
                         style={{ color: "#7A6A52" }}
                       >
                         Nº 01 / 06
                       </span>
                     </div>
 
-                    {/* Editorial headline with rust underline on "the limit." */}
+                    {/* Big, dense Fraunces headline with rust underline */}
                     <p
-                      className="font-serif leading-[1.0] tracking-tight mt-2"
-                      style={{ color: "#1A1A1A", fontSize: "clamp(22px, 3vw, 36px)" }}
+                      className="leading-[0.95] tracking-[-0.02em] mt-2"
+                      style={{
+                        color: "#1A1A1A",
+                        fontSize: "clamp(26px, 3.6vw, 44px)",
+                        fontWeight: 700,
+                        fontFamily: "var(--font-fraunces), serif",
+                        fontVariationSettings: '"SOFT" 0, "WONK" 0, "opsz" 100',
+                      }}
                     >
                       An hour at{" "}
-                      <span className="italic relative inline-block">
-                        the limit.
-                        <svg
+                      <span
+                        className="relative inline-block"
+                        style={{ fontStyle: "italic", fontWeight: 600 }}
+                      >
+                        {/* Marker-pen highlight behind the italic word — distinct from
+                            the wavy SVG underline used on the BuiltbyBrian Hero. */}
+                        <span
                           aria-hidden
-                          className="absolute left-0 right-0 w-full"
-                          style={{ bottom: -4, height: 6 }}
-                          viewBox="0 0 200 8"
-                          preserveAspectRatio="none"
-                        >
-                          <path
-                            d="M 2 4 Q 30 1 60 4 T 120 4 T 198 4"
-                            stroke={project.accentColor}
-                            strokeWidth="2.5"
-                            fill="none"
-                            strokeLinecap="round"
-                          />
-                        </svg>
+                          className="absolute left-[-2px] right-[-2px]"
+                          style={{
+                            top: "52%",
+                            bottom: "5%",
+                            background: project.accentColor,
+                            opacity: 0.7,
+                            transform: "skew(-3deg)",
+                            zIndex: 0,
+                          }}
+                        />
+                        <span className="relative" style={{ zIndex: 1 }}>the limit.</span>
                       </span>
                     </p>
 
                     <p
-                      className="text-[10px] sm:text-[12px] font-medium leading-relaxed mt-2 max-w-[88%]"
-                      style={{ color: "#4A3F31" }}
+                      className="text-[10px] sm:text-[12px] leading-snug mt-2 max-w-[88%]"
+                      style={{
+                        color: "#4A3F31",
+                        fontFamily: "var(--font-fraunces), serif",
+                        fontWeight: 500,
+                      }}
                     >
                       Six disciplines. Three coaches. One uncompromising standard.
                     </p>
 
-                    {/* CTAs — black button + underline link */}
+                    {/* CTAs — solid black sharp pill + underlined link */}
                     <div className="flex items-center gap-3 mt-3">
                       <span
-                        className="h-7 px-3 flex items-center text-[9.5px] font-bold uppercase tracking-[0.12em] rounded-[2px]"
-                        style={{ background: "#1A1A1A", color: "#F5F1EA" }}
+                        className="h-7 px-3 flex items-center text-[9px] uppercase tracking-[0.18em]"
+                        style={{
+                          background: "#1A1A1A",
+                          color: "#F5F1EA",
+                          fontFamily: "var(--font-geist-mono), monospace",
+                          fontWeight: 700,
+                          borderRadius: 2,
+                        }}
                       >
                         Claim trial pass →
                       </span>
                       <span
-                        className="text-[9.5px] font-semibold uppercase tracking-[0.12em] border-b pb-0.5"
-                        style={{ color: "#1A1A1A", borderColor: "#1A1A1A" }}
+                        className="text-[9px] uppercase tracking-[0.18em] border-b pb-0.5"
+                        style={{
+                          color: "#1A1A1A",
+                          borderColor: "#1A1A1A",
+                          fontFamily: "var(--font-geist-mono), monospace",
+                          fontWeight: 600,
+                        }}
                       >
                         View schedule
                       </span>
@@ -139,7 +172,10 @@ export default function FeaturedProject() {
                     {/* Bottom data rail */}
                     <div
                       className="flex gap-5 mt-auto pt-3 border-t"
-                      style={{ borderColor: "rgba(28,18,8,0.15)" }}
+                      style={{
+                        borderColor: "rgba(28,18,8,0.2)",
+                        fontFamily: "var(--font-geist-mono), monospace",
+                      }}
                     >
                       {[
                         { v: "41.93°N", l: "87.64°W" },
@@ -148,13 +184,13 @@ export default function FeaturedProject() {
                       ].map((s) => (
                         <div key={s.l} className="flex flex-col gap-0.5">
                           <span
-                            className="text-[11px] font-mono font-bold tabular-nums leading-none"
+                            className="text-[11px] font-bold tabular-nums leading-none"
                             style={{ color: "#1A1A1A" }}
                           >
                             {s.v}
                           </span>
                           <span
-                            className="text-[8.5px] tracking-[0.12em] uppercase font-mono"
+                            className="text-[8px] tracking-[0.16em] uppercase"
                             style={{ color: "#7A6A52" }}
                           >
                             {s.l}

@@ -28,13 +28,10 @@ export default function Services() {
 
         {/* Section header */}
         <Reveal>
-          <div className="flex items-baseline justify-between pb-4 border-b border-rule mb-12">
+          <div className="flex items-baseline pb-4 border-b border-rule mb-12">
             <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase flex items-center gap-2.5">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
               Services & Pricing
-            </span>
-            <span className="hidden sm:inline font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
-              Index / 002
             </span>
           </div>
         </Reveal>
@@ -169,9 +166,8 @@ export default function Services() {
 
         {/* After launch */}
         <Reveal delay={200} className="mt-16">
-          <div className="flex items-baseline justify-between pb-3 border-b border-rule mb-8">
+          <div className="flex items-baseline pb-3 border-b border-rule mb-8">
             <span className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-ink-muted">After launch — your choice</span>
-            <span className="hidden sm:inline font-mono text-[10.5px] tracking-[0.22em] uppercase text-ink-muted">Index / 002b</span>
           </div>
 
           <div className="grid md:grid-cols-2 gap-5">

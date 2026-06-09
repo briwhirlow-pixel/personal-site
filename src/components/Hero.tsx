@@ -22,13 +22,10 @@ export default function Hero() {
 
       {/* Top editorial meta */}
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12 pt-28 md:pt-32">
-        <div className="flex items-center justify-between pb-4 border-b border-rule">
+        <div className="flex items-center pb-4 border-b border-rule">
           <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase flex items-center gap-2.5">
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
             Now accepting new projects — limited spots
-          </span>
-          <span className="hidden sm:inline font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
-            Index / 001
           </span>
         </div>
       </div>
@@ -91,10 +88,9 @@ export default function Hero() {
           {[
             { label: "Client rating", value: "5.0", unit: "★" },
             { label: "Starting at", value: "$750", unit: "" },
-          ].map((s, i) => (
+          ].map((s) => (
             <div key={s.label}>
               <p className="font-mono text-[10px] tracking-[0.22em] text-ink-muted uppercase">
-                <span className="text-clay mr-2">0{i + 1}</span>
                 {s.label}
               </p>
               <p className="font-sans text-[clamp(32px,5vw,56px)] text-ink leading-none tracking-tight font-bold mt-3 tabular-nums">

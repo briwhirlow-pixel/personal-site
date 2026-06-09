@@ -48,12 +48,9 @@ export default function FAQ() {
 
         {/* Section header */}
         <Reveal>
-          <div className="flex items-baseline justify-between pb-4 border-b border-rule mb-12">
+          <div className="flex items-baseline pb-4 border-b border-rule mb-12">
             <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
               Frequently Asked
-            </span>
-            <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
-              Index / 005
             </span>
           </div>
         </Reveal>

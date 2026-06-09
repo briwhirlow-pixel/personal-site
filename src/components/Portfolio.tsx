@@ -123,13 +123,10 @@ export default function Portfolio() {
 
         {/* Section header */}
         <Reveal>
-          <div className="flex items-baseline justify-between pb-4 border-b border-rule mb-12">
+          <div className="flex items-baseline pb-4 border-b border-rule mb-12">
             <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase flex items-center gap-2.5">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
               What I Build
-            </span>
-            <span className="hidden sm:inline font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
-              Index / 007
             </span>
           </div>
         </Reveal>
@@ -172,48 +169,80 @@ export default function Portfolio() {
                           </div>
                           <div
                             className="flex flex-col px-3 pt-2 pb-3"
-                            style={{ height: 'calc(100% - 22px)', background: project.bgFrom }}
+                            style={{
+                              height: 'calc(100% - 22px)',
+                              background: project.bgFrom,
+                              fontFamily: 'var(--font-fraunces), serif',
+                            }}
                           >
-                            <div className="flex items-center justify-between text-[7px] font-mono font-semibold tracking-[0.16em] uppercase pb-1.5 border-b" style={{ color: '#5C4D3A', borderColor: 'rgba(28,18,8,0.18)' }}>
+                            <div
+                              className="flex items-center justify-between text-[6.5px] tracking-[0.32em] uppercase font-medium pb-1.5 border-b"
+                              style={{ color: '#5C4D3A', borderColor: 'rgba(28,18,8,0.25)', fontFamily: 'var(--font-geist-mono), monospace' }}
+                            >
                               <span>APEX / Chicago</span>
                               <span>Nº 06</span>
                             </div>
-                            <div className="flex items-center justify-between mt-2">
-                              <span className="text-[7px] font-mono font-semibold tracking-[0.2em] uppercase" style={{ color: '#7A6A52' }}>
-                                Cover
-                              </span>
-                              <span className="text-[7px] font-mono tracking-[0.2em] uppercase" style={{ color: '#7A6A52' }}>
-                                Nº 01 / 06
-                              </span>
+                            <div className="flex items-center justify-between mt-2" style={{ fontFamily: 'var(--font-geist-mono), monospace' }}>
+                              <span className="text-[6.5px] font-medium tracking-[0.35em] uppercase" style={{ color: '#7A6A52' }}>Cover</span>
+                              <span className="text-[6.5px] tracking-[0.35em] uppercase" style={{ color: '#7A6A52' }}>Nº 01 / 06</span>
                             </div>
-                            <p className="font-serif leading-[1.0] tracking-tight mt-1" style={{ color: '#1A1A1A', fontSize: 'clamp(13px,1.7vw,18px)' }}>
-                              An hour at <span className="italic relative inline-block">
-                                the limit.
-                                <svg aria-hidden className="absolute left-0 right-0 w-full" style={{ bottom: -3, height: 4 }} viewBox="0 0 200 8" preserveAspectRatio="none">
-                                  <path d="M 2 4 Q 30 1 60 4 T 120 4 T 198 4" stroke={project.accentColor} strokeWidth="2.5" fill="none" strokeLinecap="round" />
-                                </svg>
+                            <p
+                              className="leading-[0.95] tracking-[-0.02em] mt-1"
+                              style={{
+                                color: '#1A1A1A',
+                                fontSize: 'clamp(15px,2vw,22px)',
+                                fontFamily: 'var(--font-fraunces), serif',
+                                fontWeight: 700,
+                              }}
+                            >
+                              An hour at <span className="relative inline-block" style={{ fontStyle: 'italic', fontWeight: 600 }}>
+                                <span
+                                  aria-hidden
+                                  className="absolute left-[-2px] right-[-2px]"
+                                  style={{
+                                    top: '55%',
+                                    bottom: '5%',
+                                    background: project.accentColor,
+                                    opacity: 0.7,
+                                    transform: 'skew(-3deg)',
+                                    zIndex: 0,
+                                  }}
+                                />
+                                <span className="relative" style={{ zIndex: 1 }}>the limit.</span>
                               </span>
                             </p>
-                            <p className="text-[8.5px] font-medium leading-snug mt-1.5" style={{ color: '#4A3F31' }}>
+                            <p
+                              className="text-[8.5px] leading-snug mt-1.5"
+                              style={{ color: '#4A3F31', fontFamily: 'var(--font-fraunces), serif', fontWeight: 500 }}
+                            >
                               Six disciplines. Three coaches.
                             </p>
                             <div className="flex items-center gap-2 mt-2">
-                              <span className="h-5 px-2 flex items-center text-[7.5px] font-bold uppercase tracking-[0.1em] rounded-[2px]" style={{ background: '#1A1A1A', color: '#F5F1EA' }}>
+                              <span
+                                className="h-5 px-2 flex items-center text-[7px] uppercase tracking-[0.16em]"
+                                style={{ background: '#1A1A1A', color: '#F5F1EA', fontFamily: 'var(--font-geist-mono), monospace', fontWeight: 700, borderRadius: 2 }}
+                              >
                                 Trial pass →
                               </span>
-                              <span className="text-[7.5px] font-semibold uppercase tracking-[0.1em] border-b pb-0.5" style={{ color: '#1A1A1A', borderColor: '#1A1A1A' }}>
+                              <span
+                                className="text-[7px] uppercase tracking-[0.16em] border-b pb-0.5"
+                                style={{ color: '#1A1A1A', borderColor: '#1A1A1A', fontFamily: 'var(--font-geist-mono), monospace', fontWeight: 600 }}
+                              >
                                 Schedule
                               </span>
                             </div>
-                            <div className="flex gap-3 mt-auto pt-1.5 border-t" style={{ borderColor: 'rgba(28,18,8,0.15)' }}>
+                            <div
+                              className="flex gap-3 mt-auto pt-1.5 border-t"
+                              style={{ borderColor: 'rgba(28,18,8,0.2)', fontFamily: 'var(--font-geist-mono), monospace' }}
+                            >
                               {[
                                 { v: '41.93°N', l: '87.64°W' },
                                 { v: '05:00–22:00', l: 'CT' },
                                 { v: '06', l: 'disciplines' },
                               ].map((s) => (
                                 <div key={s.l} className="flex flex-col">
-                                  <span className="text-[8.5px] font-mono font-bold tabular-nums leading-none" style={{ color: '#1A1A1A' }}>{s.v}</span>
-                                  <span className="text-[7px] tracking-wider uppercase font-mono mt-0.5" style={{ color: '#7A6A52' }}>{s.l}</span>
+                                  <span className="text-[8.5px] font-bold tabular-nums leading-none" style={{ color: '#1A1A1A' }}>{s.v}</span>
+                                  <span className="text-[6.5px] tracking-[0.16em] uppercase mt-0.5" style={{ color: '#7A6A52' }}>{s.l}</span>
                                 </div>
                               ))}
                             </div>

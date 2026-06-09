@@ -42,14 +42,14 @@ export default function About() {
                   <span aria-hidden className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-paper/40" />
                   <span aria-hidden className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-paper/40" />
 
-                  <div className="relative px-7 sm:px-8 py-10">
+                  <div className="relative px-7 sm:px-8 py-10 text-center">
                     <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-paper/60">The designer</p>
                     <p className="font-serif text-[clamp(30px,4.5vw,40px)] leading-[1.05] tracking-tight mt-3 text-paper">
                       Brian <span className="italic">Whirlow</span>
                     </p>
                     <p className="text-paper/70 text-[13px] mt-2 font-medium">Lead Designer &amp; Developer · Phila / NJ</p>
 
-                    <div className="flex items-center gap-2 mt-6">
+                    <div className="flex items-center justify-center gap-2 mt-6">
                       <a
                         href={siteConfig.social.linkedin}
                         target="_blank"

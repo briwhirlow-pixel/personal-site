@@ -168,81 +168,37 @@ export default function Portfolio() {
                             </div>
                           </div>
                           <div
-                            className="flex flex-col px-3 pt-2 pb-3"
+                            className="flex flex-col items-center justify-center text-center px-3 pt-3 pb-3"
                             style={{
                               height: 'calc(100% - 22px)',
-                              background: project.bgFrom,
-                              fontFamily: 'var(--font-fraunces), serif',
+                              background: 'linear-gradient(135deg, #1a1a1a, #2d2d2d)',
+                              fontFamily: 'system-ui, sans-serif',
                             }}
                           >
-                            <div
-                              className="flex items-center justify-between text-[6.5px] tracking-[0.32em] uppercase font-medium pb-1.5 border-b"
-                              style={{ color: '#5C4D3A', borderColor: 'rgba(28,18,8,0.25)', fontFamily: 'var(--font-geist-mono), monospace' }}
-                            >
-                              <span>APEX / Chicago</span>
-                              <span>Nº 06</span>
-                            </div>
-                            <div className="flex items-center justify-between mt-2" style={{ fontFamily: 'var(--font-geist-mono), monospace' }}>
-                              <span className="text-[6.5px] font-medium tracking-[0.35em] uppercase" style={{ color: '#7A6A52' }}>Cover</span>
-                              <span className="text-[6.5px] tracking-[0.35em] uppercase" style={{ color: '#7A6A52' }}>Nº 01 / 06</span>
-                            </div>
                             <p
-                              className="leading-[0.95] tracking-[-0.02em] mt-1"
-                              style={{
-                                color: '#1A1A1A',
-                                fontSize: 'clamp(15px,2vw,22px)',
-                                fontFamily: 'var(--font-fraunces), serif',
-                                fontWeight: 700,
-                              }}
+                              className="leading-[1.1] tracking-wide uppercase font-bold"
+                              style={{ color: '#ffffff', fontSize: 'clamp(12px,1.8vw,18px)' }}
                             >
-                              An hour at <span className="relative inline-block" style={{ fontStyle: 'italic', fontWeight: 600 }}>
-                                <span
-                                  aria-hidden
-                                  className="absolute left-[-2px] right-[-2px]"
-                                  style={{
-                                    top: '55%',
-                                    bottom: '5%',
-                                    background: project.accentColor,
-                                    opacity: 0.7,
-                                    transform: 'skew(-3deg)',
-                                    zIndex: 0,
-                                  }}
-                                />
-                                <span className="relative" style={{ zIndex: 1 }}>the limit.</span>
-                              </span>
+                              Experience the <span style={{ color: '#e41313' }}>APEX</span> Difference
                             </p>
-                            <p
-                              className="text-[8.5px] leading-snug mt-1.5"
-                              style={{ color: '#4A3F31', fontFamily: 'var(--font-fraunces), serif', fontWeight: 500 }}
-                            >
-                              Six disciplines. Three coaches.
+                            <p className="text-[7px] leading-snug mt-1" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                              Six disciplines. Three coaches. Your first hour is free.
                             </p>
-                            <div className="flex items-center gap-2 mt-2">
-                              <span
-                                className="h-5 px-2 flex items-center text-[7px] uppercase tracking-[0.16em]"
-                                style={{ background: '#1A1A1A', color: '#F5F1EA', fontFamily: 'var(--font-geist-mono), monospace', fontWeight: 700, borderRadius: 2 }}
-                              >
-                                Trial pass →
-                              </span>
-                              <span
-                                className="text-[7px] uppercase tracking-[0.16em] border-b pb-0.5"
-                                style={{ color: '#1A1A1A', borderColor: '#1A1A1A', fontFamily: 'var(--font-geist-mono), monospace', fontWeight: 600 }}
-                              >
-                                Schedule
-                              </span>
-                            </div>
-                            <div
-                              className="flex gap-3 mt-auto pt-1.5 border-t"
-                              style={{ borderColor: 'rgba(28,18,8,0.2)', fontFamily: 'var(--font-geist-mono), monospace' }}
+                            <span
+                              className="mt-2 h-5 px-3 flex items-center text-[7px] uppercase tracking-[0.1em] font-semibold"
+                              style={{ background: '#e41313', color: '#fff', borderRadius: 9999 }}
                             >
+                              Start Free Trial
+                            </span>
+                            <div className="flex justify-center gap-4 mt-auto pt-1.5 border-t w-full" style={{ borderColor: 'rgba(255,255,255,0.15)' }}>
                               {[
-                                { v: '41.93°N', l: '87.64°W' },
-                                { v: '05:00–22:00', l: 'CT' },
-                                { v: '06', l: 'disciplines' },
+                                { v: '1,247', l: 'Members' },
+                                { v: '40+', l: 'Classes' },
+                                { v: '4.9★', l: 'Rating' },
                               ].map((s) => (
-                                <div key={s.l} className="flex flex-col">
-                                  <span className="text-[8.5px] font-bold tabular-nums leading-none" style={{ color: '#1A1A1A' }}>{s.v}</span>
-                                  <span className="text-[6.5px] tracking-[0.16em] uppercase mt-0.5" style={{ color: '#7A6A52' }}>{s.l}</span>
+                                <div key={s.l} className="flex flex-col items-center">
+                                  <span className="text-[8px] font-bold tabular-nums leading-none" style={{ color: '#e41313' }}>{s.v}</span>
+                                  <span className="text-[6px] tracking-[0.14em] uppercase mt-0.5" style={{ color: 'rgba(255,255,255,0.45)' }}>{s.l}</span>
                                 </div>
                               ))}
                             </div>

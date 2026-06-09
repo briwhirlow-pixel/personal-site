@@ -55,143 +55,67 @@ export default function FeaturedProject() {
                     </div>
                   </div>
                   <div
-                    className="px-5 sm:px-7 pt-3 sm:pt-4 pb-4 sm:pb-5 flex flex-col"
+                    className="px-5 sm:px-7 pt-4 sm:pt-5 pb-4 sm:pb-5 flex flex-col"
                     style={{
                       height: "calc(100% - 24px)",
-                      background: project.bgFrom,
-                      // APEX uses its own font stack so the preview reads as a
-                      // separate brand, not an extension of BuiltbyBrian.
-                      fontFamily: "var(--font-fraunces), serif",
+                      background: "linear-gradient(135deg, #1a1a1a, #2d2d2d)",
+                      fontFamily: "system-ui, sans-serif",
                     }}
                   >
-                    {/* Top editorial rail — Geist Mono, very tight */}
-                    <div
-                      className="flex items-center justify-between text-[7.5px] sm:text-[8.5px] tracking-[0.32em] uppercase font-medium pb-2 border-b"
-                      style={{
-                        color: "#5C4D3A",
-                        borderColor: "rgba(28,18,8,0.25)",
-                        fontFamily: "var(--font-geist-mono), monospace",
-                      }}
-                    >
-                      <span>APEX / Chicago</span>
-                      <span className="hidden sm:inline">Issue Nº 06 — Spring &apos;26</span>
-                      <span>41.93°N · 87.64°W</span>
-                    </div>
-
-                    {/* Cover label row */}
-                    <div
-                      className="flex items-center justify-between mt-3"
-                      style={{ fontFamily: "var(--font-geist-mono), monospace" }}
-                    >
-                      <span
-                        className="text-[7.5px] sm:text-[8.5px] font-medium tracking-[0.35em] uppercase"
-                        style={{ color: "#7A6A52" }}
-                      >
-                        Cover · Performance
-                      </span>
-                      <span
-                        className="text-[7.5px] sm:text-[8.5px] tracking-[0.35em] uppercase"
-                        style={{ color: "#7A6A52" }}
-                      >
-                        Nº 01 / 06
-                      </span>
-                    </div>
-
-                    {/* Big, dense Fraunces headline with rust underline */}
-                    <p
-                      className="leading-[0.95] tracking-[-0.02em] mt-2"
-                      style={{
-                        color: "#1A1A1A",
-                        fontSize: "clamp(26px, 3.6vw, 44px)",
-                        fontWeight: 700,
-                        fontFamily: "var(--font-fraunces), serif",
-                        fontVariationSettings: '"SOFT" 0, "WONK" 0, "opsz" 100',
-                      }}
-                    >
-                      An hour at{" "}
-                      <span
-                        className="relative inline-block"
-                        style={{ fontStyle: "italic", fontWeight: 600 }}
-                      >
-                        {/* Marker-pen highlight behind the italic word — distinct from
-                            the wavy SVG underline used on the BuiltbyBrian Hero. */}
-                        <span
-                          aria-hidden
-                          className="absolute left-[-2px] right-[-2px]"
-                          style={{
-                            top: "52%",
-                            bottom: "5%",
-                            background: project.accentColor,
-                            opacity: 0.7,
-                            transform: "skew(-3deg)",
-                            zIndex: 0,
-                          }}
-                        />
-                        <span className="relative" style={{ zIndex: 1 }}>the limit.</span>
-                      </span>
-                    </p>
-
-                    <p
-                      className="text-[10px] sm:text-[12px] leading-snug mt-2 max-w-[88%]"
-                      style={{
-                        color: "#4A3F31",
-                        fontFamily: "var(--font-fraunces), serif",
-                        fontWeight: 500,
-                      }}
-                    >
-                      Six disciplines. Three coaches. One uncompromising standard.
-                    </p>
-
-                    {/* CTAs — solid black sharp pill + underlined link */}
-                    <div className="flex items-center gap-3 mt-3">
-                      <span
-                        className="h-7 px-3 flex items-center text-[9px] uppercase tracking-[0.18em]"
+                    {/* Hero content — centered like the new APEX */}
+                    <div className="flex-1 flex flex-col items-center justify-center text-center">
+                      <p
+                        className="leading-[1.1] tracking-wide uppercase font-bold"
                         style={{
-                          background: "#1A1A1A",
-                          color: "#F5F1EA",
-                          fontFamily: "var(--font-geist-mono), monospace",
-                          fontWeight: 700,
-                          borderRadius: 2,
+                          color: "#ffffff",
+                          fontSize: "clamp(20px, 3vw, 36px)",
                         }}
                       >
-                        Claim trial pass →
-                      </span>
+                        Experience the{" "}
+                        <span style={{ color: "#e41313" }}>APEX</span>{" "}
+                        Difference
+                      </p>
+
+                      <p
+                        className="text-[9px] sm:text-[11px] leading-snug mt-2 max-w-[88%]"
+                        style={{ color: "rgba(255,255,255,0.6)" }}
+                      >
+                        Six disciplines. Three coaches. Your first hour is free.
+                      </p>
+
+                      {/* Red pill CTA */}
                       <span
-                        className="text-[9px] uppercase tracking-[0.18em] border-b pb-0.5"
+                        className="mt-3 h-7 px-4 flex items-center text-[9px] uppercase tracking-[0.12em] font-semibold"
                         style={{
-                          color: "#1A1A1A",
-                          borderColor: "#1A1A1A",
-                          fontFamily: "var(--font-geist-mono), monospace",
-                          fontWeight: 600,
+                          background: "#e41313",
+                          color: "#ffffff",
+                          borderRadius: 9999,
                         }}
                       >
-                        View schedule
+                        Start Your Free Trial
                       </span>
                     </div>
 
-                    {/* Bottom data rail */}
+                    {/* Bottom stats row */}
                     <div
-                      className="flex gap-5 mt-auto pt-3 border-t"
-                      style={{
-                        borderColor: "rgba(28,18,8,0.2)",
-                        fontFamily: "var(--font-geist-mono), monospace",
-                      }}
+                      className="flex justify-center gap-5 pt-3 border-t"
+                      style={{ borderColor: "rgba(255,255,255,0.15)" }}
                     >
                       {[
-                        { v: "41.93°N", l: "87.64°W" },
-                        { v: "05:00–22:00", l: "CT, daily" },
-                        { v: "06", l: "disciplines" },
+                        { v: "1,247", l: "Members" },
+                        { v: "40+", l: "Classes/wk" },
+                        { v: "4.9★", l: "Rating" },
                       ].map((s) => (
-                        <div key={s.l} className="flex flex-col gap-0.5">
+                        <div key={s.l} className="flex flex-col items-center gap-0.5">
                           <span
                             className="text-[11px] font-bold tabular-nums leading-none"
-                            style={{ color: "#1A1A1A" }}
+                            style={{ color: "#e41313" }}
                           >
                             {s.v}
                           </span>
                           <span
-                            className="text-[8px] tracking-[0.16em] uppercase"
-                            style={{ color: "#7A6A52" }}
+                            className="text-[7px] tracking-[0.16em] uppercase"
+                            style={{ color: "rgba(255,255,255,0.45)" }}
                           >
                             {s.l}
                           </span>

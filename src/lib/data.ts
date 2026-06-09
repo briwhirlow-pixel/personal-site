@@ -131,7 +131,7 @@ export const liveProjects = [
     name: "APEX Performance Studio",
     category: "Health, Wellness & Fitness",
     tag: "Fitness Studio",
-    description: "A premium fitness studio site built as a portfolio sample — fully designed, coded, and deployed. Editorial branding, six discipline pages, coach profiles, three-tier membership, and a trial-pass booking flow.",
+    description: "A modern fitness studio site built as a portfolio sample — clean design with red accent branding, six class pages, trainer profiles, three-tier pricing cards, and a trial-pass booking flow.",
     url: "https://apex-fitness-navy.vercel.app",
     features: [
       "Six disciplines · full class schedule",
@@ -139,9 +139,9 @@ export const liveProjects = [
       "Three-tier membership pricing",
       "Trial-pass booking flow",
     ],
-    accentColor: "#C76A2A",
-    bgFrom: "#E8DDC4",
-    bgTo: "#DDD0B0",
+    accentColor: "#e41313",
+    bgFrom: "#1a1a1a",
+    bgTo: "#2d2d2d",
   },
 ];
 

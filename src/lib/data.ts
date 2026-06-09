@@ -131,7 +131,7 @@ export const liveProjects = [
     name: "APEX Performance Studio",
     category: "Health, Wellness & Fitness",
     tag: "Fitness Studio",
-    description: "A modern fitness studio site built as a portfolio sample — clean design with red accent branding, six class pages, trainer profiles, three-tier pricing cards, and a trial-pass booking flow.",
+    description: "A premium fitness studio site built as a portfolio sample — photo-driven design with real imagery, branded logo mark, six class pages with image cards, trainer profiles, three-tier pricing, and a trial-pass booking flow.",
     url: "https://apex-fitness-navy.vercel.app",
     features: [
       "Six disciplines · full class schedule",

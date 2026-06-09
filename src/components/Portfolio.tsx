@@ -168,37 +168,50 @@ export default function Portfolio() {
                             </div>
                           </div>
                           <div
-                            className="flex flex-col items-center justify-center text-center px-3 pt-3 pb-3"
+                            className="flex flex-col"
                             style={{
                               height: 'calc(100% - 22px)',
-                              background: 'linear-gradient(135deg, #1a1a1a, #2d2d2d)',
                               fontFamily: 'system-ui, sans-serif',
                             }}
                           >
-                            <p
-                              className="leading-[1.1] tracking-wide uppercase font-bold"
-                              style={{ color: '#ffffff', fontSize: 'clamp(12px,1.8vw,18px)' }}
+                            {/* Mini nav with logo */}
+                            <div className="flex items-center justify-between px-2.5 h-[20px] bg-white border-b border-[#eee]">
+                              <div className="flex items-center gap-1">
+                                <div className="w-3 h-3 bg-[#e41313] rounded-[1px] flex items-center justify-center">
+                                  <span className="text-white text-[6px] font-bold leading-none">A</span>
+                                </div>
+                                <span className="text-[7px] font-bold uppercase tracking-[0.04em] text-[#1a1a1a]">APEX</span>
+                              </div>
+                              <div className="flex gap-2 text-[5.5px] text-[#999]">
+                                <span>Classes</span>
+                                <span>Pricing</span>
+                              </div>
+                            </div>
+                            {/* Hero with photo */}
+                            <div
+                              className="flex-1 flex flex-col items-center justify-center text-center"
+                              style={{
+                                backgroundImage: 'linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url(https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=400)',
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                              }}
                             >
-                              Experience the <span style={{ color: '#e41313' }}>APEX</span> Difference
-                            </p>
-                            <p className="text-[7px] leading-snug mt-1" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                              Six disciplines. Three coaches. Your first hour is free.
-                            </p>
-                            <span
-                              className="mt-2 h-5 px-3 flex items-center text-[7px] uppercase tracking-[0.1em] font-semibold"
-                              style={{ background: '#e41313', color: '#fff', borderRadius: 9999 }}
-                            >
-                              Start Free Trial
-                            </span>
-                            <div className="flex justify-center gap-4 mt-auto pt-1.5 border-t w-full" style={{ borderColor: 'rgba(255,255,255,0.15)' }}>
-                              {[
-                                { v: '1,247', l: 'Members' },
-                                { v: '40+', l: 'Classes' },
-                                { v: '4.9★', l: 'Rating' },
-                              ].map((s) => (
-                                <div key={s.l} className="flex flex-col items-center">
-                                  <span className="text-[8px] font-bold tabular-nums leading-none" style={{ color: '#e41313' }}>{s.v}</span>
-                                  <span className="text-[6px] tracking-[0.14em] uppercase mt-0.5" style={{ color: 'rgba(255,255,255,0.45)' }}>{s.l}</span>
+                              <p className="leading-[1.15] tracking-wide uppercase font-semibold px-2" style={{ color: '#fff', fontSize: 'clamp(10px,1.5vw,15px)' }}>
+                                Experience the APEX Difference
+                              </p>
+                              <p className="text-[6px] mt-1" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                                No pressure — just results.
+                              </p>
+                              <span className="mt-1.5 h-4 px-2.5 flex items-center text-[6px] uppercase tracking-[0.06em] font-semibold" style={{ background: '#e41313', color: '#fff', borderRadius: 9999 }}>
+                                Sign Up Today
+                              </span>
+                            </div>
+                            {/* Bottom cards */}
+                            <div className="flex gap-1 px-1.5 py-1.5 bg-white">
+                              {['Packages', 'Trainers', 'Schedule', 'About'].map((l) => (
+                                <div key={l} className="flex-1 relative h-[24px] rounded-[2px] overflow-hidden bg-[#444]">
+                                  <div className="absolute inset-0 bg-black/35" />
+                                  <span className="absolute bottom-1 left-1 text-white text-[5px] font-semibold uppercase">{l}</span>
                                 </div>
                               ))}
                             </div>

@@ -55,70 +55,77 @@ export default function FeaturedProject() {
                     </div>
                   </div>
                   <div
-                    className="px-5 sm:px-7 pt-4 sm:pt-5 pb-4 sm:pb-5 flex flex-col"
+                    className="flex flex-col"
                     style={{
                       height: "calc(100% - 24px)",
-                      background: "linear-gradient(135deg, #1a1a1a, #2d2d2d)",
                       fontFamily: "system-ui, sans-serif",
                     }}
                   >
-                    {/* Hero content — centered like the new APEX */}
-                    <div className="flex-1 flex flex-col items-center justify-center text-center">
+                    {/* Top info bar */}
+                    <div className="flex items-center justify-between px-4 h-[18px] bg-[#111] text-[7px] text-white/50">
+                      <span>2847 N Clark St, Chicago</span>
+                      <span>(312) 555-0174</span>
+                    </div>
+
+                    {/* Nav bar with logo */}
+                    <div className="flex items-center justify-between px-4 h-[28px] bg-white border-b border-[#eee]">
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-4 h-4 bg-[#e41313] rounded-[2px] flex items-center justify-center">
+                          <span className="text-white text-[8px] font-bold leading-none">A</span>
+                        </div>
+                        <span className="text-[9px] font-bold uppercase tracking-[0.05em] text-[#1a1a1a]">APEX</span>
+                      </div>
+                      <div className="flex gap-3 text-[7px] text-[#555]">
+                        <span>Classes</span>
+                        <span>Trainers</span>
+                        <span>Pricing</span>
+                      </div>
+                    </div>
+
+                    {/* Hero with gym photo background */}
+                    <div
+                      className="flex-1 flex flex-col items-center justify-center text-center relative"
+                      style={{
+                        backgroundImage: "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url(https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=600)",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }}
+                    >
                       <p
-                        className="leading-[1.1] tracking-wide uppercase font-bold"
+                        className="leading-[1.15] tracking-wide uppercase font-semibold px-4"
                         style={{
                           color: "#ffffff",
-                          fontSize: "clamp(20px, 3vw, 36px)",
+                          fontSize: "clamp(16px, 2.8vw, 30px)",
                         }}
                       >
-                        Experience the{" "}
-                        <span style={{ color: "#e41313" }}>APEX</span>{" "}
-                        Difference
+                        Experience the APEX Difference
                       </p>
 
                       <p
-                        className="text-[9px] sm:text-[11px] leading-snug mt-2 max-w-[88%]"
-                        style={{ color: "rgba(255,255,255,0.6)" }}
+                        className="text-[8px] sm:text-[10px] leading-snug mt-1.5"
+                        style={{ color: "rgba(255,255,255,0.7)" }}
                       >
-                        Six disciplines. Three coaches. Your first hour is free.
+                        No pressure, no gimmicks — just results.
                       </p>
 
-                      {/* Red pill CTA */}
                       <span
-                        className="mt-3 h-7 px-4 flex items-center text-[9px] uppercase tracking-[0.12em] font-semibold"
+                        className="mt-2.5 h-6 px-3.5 flex items-center text-[8px] uppercase tracking-[0.08em] font-semibold"
                         style={{
                           background: "#e41313",
                           color: "#ffffff",
                           borderRadius: 9999,
                         }}
                       >
-                        Start Your Free Trial
+                        Sign Up Today
                       </span>
                     </div>
 
-                    {/* Bottom stats row */}
-                    <div
-                      className="flex justify-center gap-5 pt-3 border-t"
-                      style={{ borderColor: "rgba(255,255,255,0.15)" }}
-                    >
-                      {[
-                        { v: "1,247", l: "Members" },
-                        { v: "40+", l: "Classes/wk" },
-                        { v: "4.9★", l: "Rating" },
-                      ].map((s) => (
-                        <div key={s.l} className="flex flex-col items-center gap-0.5">
-                          <span
-                            className="text-[11px] font-bold tabular-nums leading-none"
-                            style={{ color: "#e41313" }}
-                          >
-                            {s.v}
-                          </span>
-                          <span
-                            className="text-[7px] tracking-[0.16em] uppercase"
-                            style={{ color: "rgba(255,255,255,0.45)" }}
-                          >
-                            {s.l}
-                          </span>
+                    {/* Bottom image cards row */}
+                    <div className="flex gap-1.5 px-2 py-2 bg-white">
+                      {["Packages", "Trainers", "Schedule", "About"].map((label) => (
+                        <div key={label} className="flex-1 relative h-[42px] rounded-[3px] overflow-hidden bg-[#333]">
+                          <div className="absolute inset-0 bg-black/40" />
+                          <span className="absolute bottom-1.5 left-2 text-white text-[7px] font-semibold uppercase tracking-wide">{label}</span>
                         </div>
                       ))}
                     </div>

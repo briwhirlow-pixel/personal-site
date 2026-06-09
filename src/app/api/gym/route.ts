@@ -20,6 +20,7 @@ export async function GET(request: Request) {
       const { data, error } = await supabase
         .from('gym_week_logs')
         .select('*')
+        .eq('profile_id', profile.profileId)
         .eq('week_start', weekStart)
         .single();
 
@@ -33,6 +34,7 @@ export async function GET(request: Request) {
       const { data, error } = await supabase
         .from('gym_week_logs')
         .select('week_start, updated_at')
+        .eq('profile_id', profile.profileId)
         .order('week_start', { ascending: false });
 
       if (error) throw error;
@@ -67,16 +69,18 @@ export async function POST(request: Request) {
       );
     }
 
-    // Upsert the week log (insert if not exists, update if exists)
+    // Upsert the week log (insert if not exists, update if exists).
+    // NOTE: requires a unique constraint on (profile_id, week_start) in gym_week_logs.
     const { data, error } = await supabase
       .from('gym_week_logs')
       .upsert(
         {
+          profile_id: profile.profileId,
           week_start: weekLog.weekStart,
           log_data: weekLog,
         },
         {
-          onConflict: 'week_start',
+          onConflict: 'profile_id,week_start',
         }
       )
       .select()
@@ -116,6 +120,7 @@ export async function DELETE(request: Request) {
     const { error } = await supabase
       .from('gym_week_logs')
       .delete()
+      .eq('profile_id', profile.profileId)
       .eq('week_start', weekStart);
 
     if (error) throw error;

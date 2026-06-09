@@ -1,4 +1,4 @@
-import { createHash } from "crypto";
+import { createHash, timingSafeEqual } from "crypto";
 
 function deriveToken(password: string): string {
   return createHash("sha256").update(`bybrian-session:${password}`).digest("hex");
@@ -9,5 +9,12 @@ export function isAuthorized(request: Request): boolean {
   if (!auth || !auth.startsWith("Bearer ")) return false;
   const adminPassword = process.env.ADMIN_PASSWORD;
   if (!adminPassword) return false;
-  return auth.slice(7) === deriveToken(adminPassword);
+  const provided = auth.slice(7);
+  const expected = deriveToken(adminPassword);
+  if (provided.length !== expected.length) return false;
+  try {
+    return timingSafeEqual(Buffer.from(provided), Buffer.from(expected));
+  } catch {
+    return false;
+  }
 }

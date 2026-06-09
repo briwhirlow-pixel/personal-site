@@ -295,33 +295,41 @@ export default function Contact() {
                   <>
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Your Name</label>
-                        <input type="text" placeholder="Jane Smith" className={inputClass(!!errors.name)}
+                        <label htmlFor="contact-name" className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Your Name</label>
+                        <input id="contact-name" type="text" placeholder="Jane Smith"
+                          className={inputClass(!!errors.name)}
+                          aria-invalid={!!errors.name}
+                          aria-describedby={errors.name ? "contact-name-error" : undefined}
                           {...register("name", { required: "Name is required" })} />
-                        {errors.name && <p className="text-clay text-[12px] mt-1">{errors.name.message}</p>}
+                        {errors.name && <p id="contact-name-error" className="text-clay text-[12px] mt-1">{errors.name.message}</p>}
                       </div>
                       <div>
-                        <label className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Email</label>
-                        <input type="email" placeholder="jane@example.com" className={inputClass(!!errors.email)}
+                        <label htmlFor="contact-email" className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Email</label>
+                        <input id="contact-email" type="email" placeholder="jane@example.com"
+                          className={inputClass(!!errors.email)}
+                          aria-invalid={!!errors.email}
+                          aria-describedby={errors.email ? "contact-email-error" : undefined}
                           {...register("email", { required: "Email is required", pattern: { value: /^\S+@\S+$/i, message: "Invalid email" } })} />
-                        {errors.email && <p className="text-clay text-[12px] mt-1">{errors.email.message}</p>}
+                        {errors.email && <p id="contact-email-error" className="text-clay text-[12px] mt-1">{errors.email.message}</p>}
                       </div>
                     </div>
 
                     <div>
-                      <label className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">
+                      <label htmlFor="contact-phone" className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">
                         Phone <span className="text-ink-muted normal-case font-medium tracking-normal">— optional</span>
                       </label>
-                      <input type="tel" placeholder="(555) 000-0000" className={inputClass()}
+                      <input id="contact-phone" type="tel" placeholder="(555) 000-0000" className={inputClass()}
                         {...register("phone")} />
                     </div>
 
                     <div>
-                      <label className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Tell Me About Your Project</label>
-                      <textarea rows={5} placeholder="What do you need built? What's the goal? Any details help."
+                      <label htmlFor="contact-message" className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Tell Me About Your Project</label>
+                      <textarea id="contact-message" rows={5} placeholder="What do you need built? What's the goal? Any details help."
                         className={`${inputClass(!!errors.message)} resize-none`}
+                        aria-invalid={!!errors.message}
+                        aria-describedby={errors.message ? "contact-message-error" : undefined}
                         {...register("message", { required: "Please describe your project" })} />
-                      {errors.message && <p className="text-clay text-[12px] mt-1">{errors.message.message}</p>}
+                      {errors.message && <p id="contact-message-error" className="text-clay text-[12px] mt-1">{errors.message.message}</p>}
                     </div>
 
                     <button type="button" onClick={goToStep2}
@@ -337,9 +345,11 @@ export default function Contact() {
                 {formStep === 2 && (
                   <>
                     <div>
-                      <label className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Type of Website</label>
-                      <select
+                      <label htmlFor="contact-type" className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Type of Website</label>
+                      <select id="contact-type"
                         className={inputClass(!!errors.websiteType)}
+                        aria-invalid={!!errors.websiteType}
+                        aria-describedby={errors.websiteType ? "contact-type-error" : undefined}
                         {...register("websiteType", { required: "Please select a website type" })}
                         onChange={(e) => setWebsiteTypeValue(e.target.value)}
                       >
@@ -355,24 +365,30 @@ export default function Contact() {
                         <option value="Non-Profit / Community">Non-Profit / Community</option>
                         <option value="custom">Other — I&apos;ll describe it below</option>
                       </select>
-                      {errors.websiteType && <p className="text-clay text-[12px] mt-1">{errors.websiteType.message}</p>}
+                      {errors.websiteType && <p id="contact-type-error" className="text-clay text-[12px] mt-1">{errors.websiteType.message}</p>}
                       {websiteTypeValue === "custom" && (
                         <input type="text" placeholder="Describe your website type…"
                           className={`${inputClass(!!errors.websiteTypeCustom)} mt-2`}
+                          aria-invalid={!!errors.websiteTypeCustom}
+                          aria-describedby={errors.websiteTypeCustom ? "contact-typecustom-error" : undefined}
                           {...register("websiteTypeCustom", {
                             validate: (val) => websiteTypeValue !== "custom" || !!val || "Please describe your website type",
                           })} />
                       )}
-                      {errors.websiteTypeCustom && <p className="text-clay text-[12px] mt-1">{errors.websiteTypeCustom.message}</p>}
+                      {errors.websiteTypeCustom && <p id="contact-typecustom-error" className="text-clay text-[12px] mt-1">{errors.websiteTypeCustom.message}</p>}
                     </div>
 
                     <div>
-                      <label className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Budget Range</label>
-                      <select className={inputClass(!!errors.budget)} {...register("budget", { required: "Please select a budget" })}>
+                      <label htmlFor="contact-budget" className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Budget Range</label>
+                      <select id="contact-budget"
+                        className={inputClass(!!errors.budget)}
+                        aria-invalid={!!errors.budget}
+                        aria-describedby={errors.budget ? "contact-budget-error" : undefined}
+                        {...register("budget", { required: "Please select a budget" })}>
                         <option value="">Select a range…</option>
                         {budgetOptions.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
                       </select>
-                      {errors.budget && <p className="text-clay text-[12px] mt-1">{errors.budget.message}</p>}
+                      {errors.budget && <p id="contact-budget-error" className="text-clay text-[12px] mt-1">{errors.budget.message}</p>}
                     </div>
 
                     <div>
@@ -411,12 +427,14 @@ export default function Contact() {
                       </div>
                     </div>
 
-                    {status === "error" && (
-                      <p className="text-clay text-[13px] font-medium">
-                        Something went wrong. Email me directly at{" "}
-                        <a href={`mailto:${siteConfig.email}`} className="underline">{siteConfig.email}</a>.
-                      </p>
-                    )}
+                    <div role="alert" aria-live="polite">
+                      {status === "error" && (
+                        <p className="text-clay text-[13px] font-medium">
+                          Something went wrong. Email me directly at{" "}
+                          <a href={`mailto:${siteConfig.email}`} className="underline">{siteConfig.email}</a>.
+                        </p>
+                      )}
+                    </div>
 
                     <div>
                       <button type="submit" disabled={status === "loading"}

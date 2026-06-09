@@ -12,6 +12,7 @@ type DeliveryData = {
   expiresAt: string | null;
   deliveryType: string;
   monthlyRate: number;
+  accessToken: string;
 };
 
 function LockIcon() {
@@ -62,10 +63,14 @@ export default function DeliveryPage({ params }: { params: Promise<{ token: stri
   };
 
   const handleHostingRequest = async () => {
+    if (!data) return;
     setHostingLoading(true);
     await fetch(`/api/delivery/${token}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${data.accessToken}`,
+      },
       body: JSON.stringify({ requestHosting: true }),
     });
     setHostingRequested(true);
@@ -76,11 +81,14 @@ export default function DeliveryPage({ params }: { params: Promise<{ token: stri
     if (!data?.driveLink) return;
     setDownloaded(true);
     window.open(data.driveLink, "_blank");
-    await fetch(`/api/delivery/${token}`, { method: "PATCH" });
+    await fetch(`/api/delivery/${token}`, {
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${data.accessToken}` },
+    });
   };
 
-  const annualPrice = data ? (data.monthlyRate * 10).toFixed(0) : "490";
-  const annualSavings = data ? (data.monthlyRate * 2).toFixed(0) : "98";
+  const annualPrice = data?.monthlyRate ? (data.monthlyRate * 10).toFixed(0) : "490";
+  const annualSavings = data?.monthlyRate ? (data.monthlyRate * 2).toFixed(0) : "98";
 
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(135deg, #06091F 0%, #0D1B45 45%, #081229 100%)" }}>
@@ -102,7 +110,8 @@ export default function DeliveryPage({ params }: { params: Promise<{ token: stri
 
               <form onSubmit={handleUnlock} className="space-y-4">
                 <input
-                  type="text"
+                  type="password"
+                  autoComplete="current-password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   placeholder="e.g. pine-4829"
@@ -125,7 +134,7 @@ export default function DeliveryPage({ params }: { params: Promise<{ token: stri
 
               <p className="text-white/20 text-[12px] text-center mt-6">
                 Don&apos;t have a password? Contact{" "}
-                <a href="mailto:briwhirlow@gmail.com" className="text-white/40 hover:text-white transition underline">
+                <a href="mailto:brianwhirlowbusiness@gmail.com" className="text-white/40 hover:text-white transition underline">
                   Brian
                 </a>
               </p>
@@ -233,8 +242,8 @@ export default function DeliveryPage({ params }: { params: Promise<{ token: stri
             {/* Footer note */}
             <p className="text-white/20 text-[12px] text-center pb-4">
               Questions? Email{" "}
-              <a href="mailto:briwhirlow@gmail.com" className="text-white/40 hover:text-white transition underline">
-                briwhirlow@gmail.com
+              <a href="mailto:brianwhirlowbusiness@gmail.com" className="text-white/40 hover:text-white transition underline">
+                brianwhirlowbusiness@gmail.com
               </a>
             </p>
           </div>

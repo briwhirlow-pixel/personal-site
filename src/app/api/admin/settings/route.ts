@@ -15,12 +15,24 @@ export async function GET(request: Request) {
   return NextResponse.json(map);
 }
 
+const ALLOWED_KEYS = new Set([
+  "email_quote_subject",
+  "email_quote_greeting",
+  "email_quote_intro",
+  "email_quote_closing",
+]);
+
 export async function PATCH(request: Request) {
   if (!isAuthorized(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const body: Record<string, string> = await request.json();
-  const rows = Object.entries(body).map(([key, value]) => ({ key, value, updated_at: new Date().toISOString() }));
+  const rows = Object.entries(body)
+    .filter(([key]) => ALLOWED_KEYS.has(key))
+    .map(([key, value]) => ({ key, value: String(value ?? ""), updated_at: new Date().toISOString() }));
+  if (rows.length === 0) {
+    return NextResponse.json({ error: "No valid keys" }, { status: 400 });
+  }
   const { error } = await getSupabaseAdmin()
     .from("settings")
     .upsert(rows, { onConflict: "key" });

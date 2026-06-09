@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSupabase } from '@/lib/supabase';
+import { getSupabaseAdmin } from '@/lib/supabase';
 
 interface SetLog {
   setNumber: number;
@@ -68,7 +68,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const supabase = getSupabase();
+    const supabase = getSupabaseAdmin();
     const today = now.toISOString().split('T')[0];
     const results: string[] = [];
 
@@ -96,16 +96,18 @@ export async function GET(request: Request) {
       if (activeCycles && activeCycles.length > 0) {
         for (const cycle of activeCycles) {
           // Fetch all workouts for this cycle to evaluate progression
-          const { data: workouts } = await supabase
+          const { data: workouts, error: workoutsError } = await supabase
             .from('gym_workout_logs')
             .select('exercises')
             .eq('cycle_id', cycle.id);
+          if (workoutsError) throw workoutsError;
 
           // Fetch exercise settings for this profile
-          const { data: settingsRows } = await supabase
+          const { data: settingsRows, error: settingsError } = await supabase
             .from('gym_exercise_settings')
             .select('exercise_id, auto_progress, min_reps_for_progress, tm_increment')
             .eq('profile_id', profile.id);
+          if (settingsError) throw settingsError;
 
           const settingsMap = new Map<string, { autoProgress: boolean; minRepsForProgress: number | null; tmIncrement: number }>();
           for (const row of settingsRows || []) {

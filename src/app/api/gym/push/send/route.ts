@@ -64,8 +64,12 @@ export async function POST(request: Request) {
         body: notification.body,
       });
 
+      let deliveredAtLeastOne = false;
+      let hadActiveSubscription = false;
+
       // Send to all subscriptions for this profile
       for (const sub of subscriptions || []) {
+        hadActiveSubscription = true;
         try {
           await webpush.sendNotification(
             {
@@ -76,10 +80,11 @@ export async function POST(request: Request) {
             { TTL: 60, urgency: 'high' }
           );
           sentCount++;
+          deliveredAtLeastOne = true;
         } catch (pushError: unknown) {
           const statusCode = (pushError as { statusCode?: number })?.statusCode;
           if (statusCode === 410 || statusCode === 404) {
-            // Subscription expired — remove it
+            // Subscription expired — remove it; this counts as a "won't retry" outcome.
             await supabase
               .from('gym_push_subscriptions')
               .delete()
@@ -90,11 +95,14 @@ export async function POST(request: Request) {
         }
       }
 
-      // Mark as sent
-      await supabase
-        .from('gym_scheduled_notifications')
-        .update({ sent: true })
-        .eq('id', notification.id);
+      // Mark as sent only if we delivered at least once OR there were no
+      // subscriptions to deliver to in the first place (nothing to retry).
+      if (deliveredAtLeastOne || !hadActiveSubscription) {
+        await supabase
+          .from('gym_scheduled_notifications')
+          .update({ sent: true })
+          .eq('id', notification.id);
+      }
     }
 
     return NextResponse.json({ sent: sentCount });

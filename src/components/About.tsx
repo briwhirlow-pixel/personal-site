@@ -20,20 +20,7 @@ export default function About() {
     <section id="about" className="relative bg-paper text-ink pt-20 pb-28">
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12">
 
-        {/* Section header */}
-        <Reveal>
-          <div className="flex items-baseline justify-between pb-4 border-b border-rule mb-12">
-            <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase flex items-center gap-2.5">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
-              About the studio
-            </span>
-            <span className="hidden sm:inline font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
-              Index / 003
-            </span>
-          </div>
-        </Reveal>
-
-        <div className="grid md:grid-cols-12 gap-x-10 gap-y-12 items-start">
+        <div className="grid md:grid-cols-12 gap-x-10 gap-y-12 items-start pt-4">
 
           {/* Left — profile card */}
           <Reveal direction="left" className="md:col-span-5">
@@ -53,7 +40,7 @@ export default function About() {
                     alt="Brian Whirlow"
                     fill
                     sizes="(min-width: 768px) 420px, 100vw"
-                    className="object-cover object-top"
+                    className="object-contain object-bottom"
                     priority={false}
                   />
                 </div>

@@ -1,11 +1,11 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "BuiltByBrian — Hand-built websites for small businesses";
+export const alt = "BuiltbyBrian — Hand-built websites for small businesses";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const TEXT = "BuiltbyBrian Hand-built websites for small businesses WEB DESIGN ";
+const TEXT = "BuiltbyBrian Hand-built websites for small businesses Philadelphia South Jersey 5-day first drafts You own the code ";
 
 async function loadGoogleFont(query: string): Promise<ArrayBuffer> {
   const url = `https://fonts.googleapis.com/css2?${query}`;
@@ -63,7 +63,7 @@ export default async function Image() {
                 display: "flex",
               }}
             />
-            Studio of one · Philadelphia · NJ
+            Philadelphia · South Jersey
           </span>
           <span style={{ display: "flex" }}>builtbybwhirl.com</span>
         </div>
@@ -113,7 +113,7 @@ export default async function Image() {
                 width: 10,
                 height: 10,
                 borderRadius: 10,
-                background: "#2D6A4F",
+                background: "#2563EB",
                 display: "flex",
                 marginRight: 4,
               }}

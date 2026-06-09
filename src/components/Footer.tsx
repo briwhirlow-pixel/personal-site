@@ -19,7 +19,7 @@ export default function Footer() {
         <div className="pb-12 mb-12 border-b border-rule">
           <p className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-ink-muted mb-4 flex items-center gap-2.5">
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay" aria-hidden />
-            Studio of one · Philadelphia / South Jersey
+            Philadelphia / South Jersey
           </p>
           <h2 className="font-serif text-[clamp(40px,7vw,84px)] leading-[0.95] tracking-[-0.025em] text-ink font-normal max-w-3xl">
             Let&apos;s build something <span className="italic text-forest">together.</span>

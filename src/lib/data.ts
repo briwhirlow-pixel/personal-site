@@ -2,8 +2,8 @@ export const siteConfig = {
   name: "Brian Whirlow",
   tagline: "Web Designer & Developer",
   description:
-    "I design and build fast, beautiful websites that help businesses grow. From simple brochure sites to full e-commerce stores — I handle it all.",
-  email: "briwhirlow@gmail.com",
+    "Hand-built websites for restaurants, shops, and studios in Philadelphia and South Jersey. One person, start to finish.",
+  email: "brianwhirlowbusiness@gmail.com",
   calendlyUrl: "https://calendly.com/brianwhirlowbusiness/30min",
   social: {
     github: "#",

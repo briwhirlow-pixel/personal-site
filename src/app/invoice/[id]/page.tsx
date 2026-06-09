@@ -2,14 +2,24 @@ import { getSupabaseAdmin } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import Logo from "@/components/Logo";
 import PrintButton from "./PrintButton";
+import { verifyInvoiceToken } from "@/lib/invoiceTokens";
 
 type LineItem = { description: string; quantity: number; rate: number };
 
 const fmt = (n: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
 
-export default async function InvoicePage({ params }: { params: Promise<{ id: string }> }) {
+export default async function InvoicePage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ t?: string }>;
+}) {
   const { id } = await params;
+  const { t } = await searchParams;
+
+  if (!verifyInvoiceToken(id, t ?? null)) notFound();
 
   const { data, error } = await getSupabaseAdmin()
     .from("invoices")
@@ -64,7 +74,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
             <div className="px-8 py-8 flex items-start justify-between gap-6 border-b border-[#E5E4DF]">
               <div>
                 <Logo />
-                <p className="text-[#737373] text-[13px] mt-2">briwhirlow@gmail.com</p>
+                <p className="text-[#737373] text-[13px] mt-2">brianwhirlowbusiness@gmail.com</p>
               </div>
               <div className="text-right">
                 <p className="text-[#1A1A1A] font-black text-2xl">{data.invoice_number}</p>
@@ -144,7 +154,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
             <div className="px-8 py-5 bg-[#F2F1EC] border-t border-[#E5E4DF]">
               <p className="text-[#AEACA6] text-[12px] text-center">
                 Thank you for your business. Questions? Reply to this invoice or email{" "}
-                <a href="mailto:briwhirlow@gmail.com" className="text-[#2563EB]">briwhirlow@gmail.com</a>
+                <a href="mailto:brianwhirlowbusiness@gmail.com" className="text-[#2563EB]">brianwhirlowbusiness@gmail.com</a>
               </p>
             </div>
           </div>

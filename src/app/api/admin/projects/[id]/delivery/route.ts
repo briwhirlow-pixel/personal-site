@@ -53,14 +53,34 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   return NextResponse.json({ token, password, expiresAt });
 }
 
+const DELIVERY_FIELDS = [
+  "drive_link",
+  "client_credentials",
+  "files_uploaded",
+  "files_downloaded",
+  "page_sent",
+  "hosting_requested",
+  "delivery_type",
+  "monthly_rate",
+  "billing_start",
+  "next_billing_date",
+  "hosting_status",
+  "delivery_expires_at",
+] as const;
+
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!isAuthorized(request)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { id } = await params;
   const body = await request.json();
 
+  const update: Record<string, unknown> = {};
+  for (const f of DELIVERY_FIELDS) {
+    if (body[f] !== undefined) update[f] = body[f];
+  }
+
   const { error } = await getSupabaseAdmin()
     .from("projects")
-    .update(body)
+    .update(update)
     .eq("id", id);
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });

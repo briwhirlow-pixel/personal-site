@@ -887,6 +887,86 @@ export async function GET(
               }}
             />
           </div>
+
+          {/* BuiltbyBrian monitor logo — bottom left */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: 50,
+              left: 50,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {/* Mini monitor bezel */}
+            <div
+              style={{
+                background: "#1A1A2E",
+                borderRadius: 9,
+                padding: 4,
+                display: "flex",
+              }}
+            >
+              {/* Screen */}
+              <div
+                style={{
+                  background: "#FFFFFF",
+                  borderRadius: 6,
+                  padding: "8px 16px 7px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                {/* Wordmark */}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <div
+                    style={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: 8,
+                      background: "#2563EB",
+                      display: "flex",
+                      marginRight: 8,
+                    }}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "baseline",
+                      fontFamily: "Instrument Serif",
+                      fontSize: 30,
+                      color: "#1A1A2E",
+                      lineHeight: 1,
+                    }}
+                  >
+                    <div style={{ display: "flex" }}>Built</div>
+                    <div style={{ fontStyle: "italic", color: "#0EA5E9", padding: "0 2px", display: "flex" }}>by</div>
+                    <div style={{ display: "flex" }}>Brian</div>
+                  </div>
+                </div>
+                {/* Tagline */}
+                <div
+                  style={{
+                    fontFamily: "JetBrains Mono",
+                    fontSize: 9,
+                    letterSpacing: 3,
+                    textTransform: "uppercase",
+                    color: "#64748B",
+                    fontWeight: 600,
+                    marginTop: 5,
+                    display: "flex",
+                  }}
+                >
+                  Web Design
+                </div>
+              </div>
+            </div>
+            {/* Mini stand */}
+            <div style={{ width: 16, height: 4, background: "#1A1A2E", marginTop: 1, display: "flex" }} />
+            <div style={{ width: 40, height: 3, background: "#1A1A2E", borderRadius: 4, marginTop: 1, display: "flex" }} />
+          </div>
         </div>
       ),
       responseOpts

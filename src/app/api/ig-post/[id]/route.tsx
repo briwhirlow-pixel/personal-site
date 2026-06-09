@@ -684,27 +684,9 @@ export async function GET(
     );
   }
 
-  // ─── MONITOR LAYOUT — special intro post w/ Philly skyline ───
+  // ─── MONITOR LAYOUT — special intro post w/ Philly photo ─────
   if (post.customLayout === "monitor") {
-    // Stylized Philly skyline silhouette — buildings + spires + City Hall
-    type Bldg = { w: number; h: number; spire?: number; taper?: boolean; cityhall?: boolean };
-    const buildings: Bldg[] = [
-      { w: 55, h: 95 },
-      { w: 80, h: 150 },
-      { w: 65, h: 190 },
-      { w: 90, h: 230, taper: true },
-      { w: 80, h: 210, taper: true },
-      { w: 95, h: 255 },
-      { w: 75, h: 290 },
-      { w: 85, h: 335, spire: 60 },
-      { w: 70, h: 215 },
-      { w: 80, h: 195, cityhall: true },
-      { w: 65, h: 160 },
-      { w: 75, h: 130 },
-      { w: 80, h: 155 },
-      { w: 65, h: 120 },
-    ];
-    const SILHOUETTE = "#0B1220";
+    const skylineUrl = `${origin}/images/philly-skyline.jpg`;
 
     return new ImageResponse(
       (
@@ -713,23 +695,15 @@ export async function GET(
             width: "100%",
             height: "100%",
             display: "flex",
-            flexDirection: "column",
-            background:
-              "linear-gradient(180deg, #1E3A8A 0%, #6D28D9 30%, #DB2777 60%, #F97316 88%, #FBBF24 100%)",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "70px 50px",
+            backgroundImage: `linear-gradient(180deg, rgba(15,23,42,0.25) 0%, rgba(15,23,42,0.55) 100%), url(${skylineUrl})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
             fontFamily: "Outfit",
           }}
         >
-          {/* SKY SECTION — gradient with monitor */}
-          <div
-            style={{
-              flex: 1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-              padding: "70px 50px 30px",
-            }}
-          >
             {/* MONITOR */}
             <div
               style={{
@@ -752,130 +726,95 @@ export async function GET(
                 style={{
                   background: "#FFFFFF",
                   borderRadius: 14,
-                  padding: "56px 64px 50px",
+                  padding: "60px 64px 50px",
                   display: "flex",
                   flexDirection: "column",
                   width: 860,
+                  height: 780,
                 }}
               >
-                {/* Top row inside screen: dot + label */}
+                {/* Centered body */}
                 <div
                   style={{
+                    flex: 1,
                     display: "flex",
+                    flexDirection: "column",
                     alignItems: "center",
-                    marginBottom: 36,
+                    justifyContent: "center",
                   }}
                 >
-                  <div
-                    style={{
-                      width: 14,
-                      height: 14,
-                      borderRadius: 14,
-                      background: "#22C55E",
-                      marginRight: 14,
-                      display: "flex",
-                    }}
-                  />
-                  <div
-                    style={{
-                      fontFamily: "JetBrains Mono",
-                      fontSize: 16,
-                      letterSpacing: 4.5,
-                      textTransform: "uppercase",
-                      color: "#64748B",
-                      fontWeight: 600,
-                      display: "flex",
-                    }}
-                  >
-                    {post.topLeftLabel}
-                  </div>
-                </div>
-
-                {/* Kicker */}
-                <div
-                  style={{
-                    fontFamily: "JetBrains Mono",
-                    fontSize: 18,
-                    letterSpacing: 5,
-                    textTransform: "uppercase",
-                    color: "#94A3B8",
-                    fontWeight: 600,
-                    marginBottom: 22,
-                    display: "flex",
-                  }}
-                >
-                  {post.kicker}
-                </div>
-
-                {/* Title */}
-                <div style={{ display: "flex", flexDirection: "column", marginBottom: 26 }}>
-                  {post.titleLines.map((line, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        fontFamily: "Instrument Serif",
-                        fontSize: 92,
-                        lineHeight: 1.02,
-                        letterSpacing: -2.4,
-                        color: line.italic ? "#2563EB" : "#1A1A2E",
-                        fontStyle: line.italic ? "italic" : "normal",
-                        display: "flex",
-                      }}
-                    >
-                      {line.text}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Sub */}
-                {post.sub && (
-                  <div
-                    style={{
-                      fontFamily: "Outfit",
-                      fontSize: 24,
-                      lineHeight: 1.5,
-                      color: "#475569",
-                      fontWeight: 500,
-                      maxWidth: 740,
-                      marginBottom: 24,
-                      display: "flex",
-                    }}
-                  >
-                    {post.sub}
-                  </div>
-                )}
-
-                {/* Tag row */}
-                {post.tagRow && (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      marginBottom: 30,
-                    }}
-                  >
-                    {post.tagRow.map((tag, i) => (
+                  {/* Title — centered */}
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 30 }}>
+                    {post.titleLines.map((line, i) => (
                       <div
                         key={i}
                         style={{
-                          fontFamily: "JetBrains Mono",
-                          fontSize: 15,
-                          letterSpacing: 1.8,
-                          background: "rgba(37,99,235,0.1)",
-                          color: "#2563EB",
-                          padding: "9px 14px",
-                          borderRadius: 5,
-                          marginRight: 8,
-                          marginBottom: 8,
-                          fontWeight: 600,
+                          fontFamily: "Instrument Serif",
+                          fontSize: 96,
+                          lineHeight: 1.02,
+                          letterSpacing: -2.4,
+                          color: line.italic ? "#2563EB" : "#1A1A2E",
+                          fontStyle: line.italic ? "italic" : "normal",
                           display: "flex",
+                          textAlign: "center",
                         }}
                       >
-                        {tag}
+                        {line.text}
                       </div>
                     ))}
                   </div>
-                )}
+
+                  {/* Sub — centered */}
+                  {post.sub && (
+                    <div
+                      style={{
+                        fontFamily: "Outfit",
+                        fontSize: 23,
+                        lineHeight: 1.5,
+                        color: "#475569",
+                        fontWeight: 500,
+                        maxWidth: 700,
+                        marginBottom: 26,
+                        display: "flex",
+                        textAlign: "center",
+                      }}
+                    >
+                      {post.sub}
+                    </div>
+                  )}
+
+                  {/* Tag row — centered */}
+                  {post.tagRow && (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {post.tagRow.map((tag, i) => (
+                        <div
+                          key={i}
+                          style={{
+                            fontFamily: "JetBrains Mono",
+                            fontSize: 15,
+                            letterSpacing: 1.8,
+                            background: "rgba(37,99,235,0.1)",
+                            color: "#2563EB",
+                            padding: "9px 14px",
+                            borderRadius: 5,
+                            marginRight: 8,
+                            marginBottom: 8,
+                            fontWeight: 600,
+                            display: "flex",
+                          }}
+                        >
+                          {tag}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
                 {/* Bottom row inside screen */}
                 <div
@@ -948,133 +887,12 @@ export async function GET(
               }}
             />
           </div>
-          </div>
-
-          {/* SKYLINE SECTION — Philadelphia silhouette */}
-          <div
-            style={{
-              height: 240,
-              display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "center",
-              overflow: "hidden",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "flex-end",
-                width: "100%",
-                paddingLeft: 30,
-                paddingRight: 30,
-              }}
-            >
-              {buildings.map((b, i) => (
-                <div
-                  key={i}
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "flex-end",
-                    marginRight: i < buildings.length - 1 ? 3 : 0,
-                  }}
-                >
-                  {/* Antenna spire */}
-                  {b.spire ? (
-                    <div
-                      style={{
-                        width: 3,
-                        height: b.spire,
-                        background: SILHOUETTE,
-                        display: "flex",
-                      }}
-                    />
-                  ) : null}
-                  {/* City Hall: William Penn statue */}
-                  {b.cityhall ? (
-                    <div
-                      style={{
-                        width: 6,
-                        height: 10,
-                        background: SILHOUETTE,
-                        display: "flex",
-                      }}
-                    />
-                  ) : null}
-                  {/* City Hall: thin tower pole */}
-                  {b.cityhall ? (
-                    <div
-                      style={{
-                        width: 2,
-                        height: 22,
-                        background: SILHOUETTE,
-                        display: "flex",
-                      }}
-                    />
-                  ) : null}
-                  {/* City Hall: tower upper */}
-                  {b.cityhall ? (
-                    <div
-                      style={{
-                        width: b.w * 0.4,
-                        height: 20,
-                        background: SILHOUETTE,
-                        display: "flex",
-                      }}
-                    />
-                  ) : null}
-                  {/* City Hall: tower lower */}
-                  {b.cityhall ? (
-                    <div
-                      style={{
-                        width: b.w * 0.7,
-                        height: 30,
-                        background: SILHOUETTE,
-                        display: "flex",
-                      }}
-                    />
-                  ) : null}
-                  {/* Pyramid top — narrow piece */}
-                  {b.taper ? (
-                    <div
-                      style={{
-                        width: b.w * 0.5,
-                        height: 16,
-                        background: SILHOUETTE,
-                        display: "flex",
-                      }}
-                    />
-                  ) : null}
-                  {/* Pyramid top — wider piece */}
-                  {b.taper ? (
-                    <div
-                      style={{
-                        width: b.w * 0.75,
-                        height: 18,
-                        background: SILHOUETTE,
-                        display: "flex",
-                      }}
-                    />
-                  ) : null}
-                  {/* Main building body */}
-                  <div
-                    style={{
-                      width: b.w,
-                      height: b.h,
-                      background: SILHOUETTE,
-                      display: "flex",
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       ),
       responseOpts
     );
   }
+
 
   // ─── STANDARD LAYOUT — every other post ──────────────────────
   return new ImageResponse(

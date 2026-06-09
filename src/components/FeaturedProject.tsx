@@ -16,11 +16,15 @@ export default function FeaturedProject() {
         {/* Editorial intro — no kicker pill, no "Index/00X" */}
         <Reveal>
           <div className="max-w-3xl mb-10 sm:mb-14">
+            <span className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-ink-muted font-semibold flex items-center gap-2.5 mb-4">
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
+              Sample build · Live
+            </span>
             <h2 className="font-serif text-[clamp(36px,6vw,68px)] leading-[0.95] tracking-[-0.025em] text-ink font-normal">
-              Recently shipped.
+              A live sample build.
             </h2>
             <p className="text-ink-soft text-[16px] sm:text-[17px] leading-relaxed font-medium mt-4 max-w-xl">
-              The latest live project — built from scratch, deployed, and running in production.
+              I built APEX Performance Studio end-to-end as a portfolio piece — designed, coded, deployed, and live. Click through to see the full site.
             </p>
           </div>
         </Reveal>
@@ -57,42 +61,48 @@ export default function FeaturedProject() {
                       background: `linear-gradient(135deg, ${project.bgFrom}, ${project.bgTo})`,
                     }}
                   >
-                    <span
-                      className="text-[10px] font-mono font-bold tracking-[0.22em] uppercase leading-none"
-                      style={{ color: project.accentColor }}
-                    >
-                      APEX · Performance
-                    </span>
+                    <div className="flex items-center justify-between">
+                      <span
+                        className="text-[10px] font-mono font-bold tracking-[0.22em] uppercase leading-none"
+                        style={{ color: project.accentColor }}
+                      >
+                        APEX · Lincoln Park
+                      </span>
+                      <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-white/40">
+                        Nº 01 / 06
+                      </span>
+                    </div>
                     <p
-                      className="font-serif italic leading-[1.05] tracking-tight"
-                      style={{ color: "#F5F5F5", fontSize: "clamp(18px, 2.2vw, 28px)" }}
+                      className="font-serif leading-[1.05] tracking-tight mt-1"
+                      style={{ color: "#F5F1EA", fontSize: "clamp(18px, 2.4vw, 30px)" }}
                     >
-                      Train hard.
-                      <br />
-                      Recover smart.
+                      An hour at <span className="italic">the limit.</span>
+                    </p>
+                    <p className="text-white/55 text-[11px] sm:text-[12px] font-medium leading-relaxed -mt-1 max-w-[80%]">
+                      Six disciplines. Three coaches. One uncompromising standard.
                     </p>
                     <div className="flex gap-2 mt-1">
                       <div
                         className="h-7 px-3 rounded-full flex items-center text-[10px] font-bold uppercase tracking-wider"
                         style={{ background: project.accentColor, color: project.bgFrom }}
                       >
-                        Free trial →
+                        Claim trial pass →
                       </div>
                       <div className="h-7 px-3 rounded-full border border-white/20 flex items-center text-[10px] font-medium text-white/80">
-                        Schedule
+                        View schedule
                       </div>
                     </div>
                     <div className="flex gap-5 mt-auto pt-3 border-t border-white/10">
                       {[
-                        { v: "6", l: "class types" },
-                        { v: "3", l: "membership tiers" },
-                        { v: "24/7", l: "access" },
+                        { v: "41.93°N", l: "87.64°W" },
+                        { v: "05:00–22:00", l: "CT, daily" },
+                        { v: "06", l: "disciplines" },
                       ].map((s) => (
                         <div key={s.l} className="flex flex-col gap-0.5">
-                          <span className="text-white text-[14px] font-bold tabular-nums leading-none">
+                          <span className="text-white text-[11px] font-mono font-bold tabular-nums leading-none">
                             {s.v}
                           </span>
-                          <span className="text-white/40 text-[9px] tracking-wider uppercase">
+                          <span className="text-white/40 text-[8.5px] tracking-wider uppercase font-mono">
                             {s.l}
                           </span>
                         </div>
@@ -104,13 +114,16 @@ export default function FeaturedProject() {
 
               {/* Project info */}
               <div className="md:col-span-5 p-6 sm:p-8 md:py-10 md:pr-10 flex flex-col">
-                <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center gap-2 mb-4 flex-wrap">
                   <span className="font-mono text-[10px] font-semibold tracking-[0.18em] uppercase text-forest bg-forest/10 px-2 py-1 rounded-[3px]">
                     {project.tag}
                   </span>
+                  <span className="font-mono text-[10px] font-semibold tracking-[0.18em] uppercase text-ink-muted bg-paper border border-rule px-2 py-1 rounded-[3px]">
+                    Sample
+                  </span>
                   <span className="font-mono text-[10px] font-medium text-clay flex items-center gap-1.5 tracking-wide uppercase">
                     <span className="w-1.5 h-1.5 rounded-full bg-clay pulse-dot inline-block" />
-                    Live
+                    Live demo
                   </span>
                 </div>
                 <h3 className="font-serif text-[clamp(24px,3vw,36px)] text-ink leading-tight tracking-tight mb-3">
@@ -135,7 +148,7 @@ export default function FeaturedProject() {
                   ))}
                 </ul>
                 <div className="mt-auto flex items-center gap-1.5 text-[13px] font-semibold text-ink group-hover:text-forest transition-colors">
-                  View live site
+                  Visit the sample site
                   <ArrowUpRight
                     size={13}
                     className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
@@ -150,7 +163,7 @@ export default function FeaturedProject() {
         <Reveal delay={200}>
           <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-rule">
             <p className="text-ink-muted text-[13px] font-medium">
-              More categories I take on across restaurants, e-commerce, and studio work.
+              More categories I build across — restaurants, e-commerce, photography, and studio work.
             </p>
             <Link
               href="/work"

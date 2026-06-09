@@ -148,7 +148,7 @@ export default function Portfolio() {
           {liveProjects.length > 0 && (
             <Reveal delay={100} className="flex flex-col">
               <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-muted mb-3">
-                Example Project
+                Sample Build
               </p>
               {(() => {
                 const project = liveProjects[0];
@@ -170,19 +170,39 @@ export default function Portfolio() {
                               <span className="text-white/40 text-[8px] font-mono truncate">{project.url.replace('https://', '')}</span>
                             </div>
                           </div>
-                          <div className="flex flex-col gap-2 p-4" style={{ height: 'calc(100% - 22px)', background: project.bgFrom }}>
-                            <div className="w-16 h-1.5 rounded-full" style={{ background: project.accentColor }} />
-                            <div className="w-32 h-5 rounded-sm bg-white/80" />
-                            <div className="w-24 h-5 rounded-sm bg-white/40" />
-                            <div className="flex gap-2 mt-1">
-                              <div className="h-7 w-24 rounded" style={{ background: project.accentColor }} />
-                              <div className="h-7 w-20 rounded border border-white/20" />
+                          <div
+                            className="flex flex-col gap-1.5 p-4"
+                            style={{ height: 'calc(100% - 22px)', background: `linear-gradient(135deg, ${project.bgFrom}, ${project.bgTo})` }}
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className="text-[8.5px] font-mono font-bold tracking-[0.22em] uppercase" style={{ color: project.accentColor }}>
+                                APEX · Lincoln Park
+                              </span>
+                              <span className="text-[7.5px] font-mono tracking-[0.2em] uppercase text-white/40">Nº 01/06</span>
                             </div>
-                            <div className="flex gap-3 mt-auto pt-2 border-t border-white/10">
-                              {['1,200+', '40+', '4.9★'].map((s) => (
-                                <div key={s} className="flex flex-col">
-                                  <span className="text-white text-[10px] font-bold">{s}</span>
-                                  <span className="text-white/30 text-[8px]">stat</span>
+                            <p className="font-serif leading-[1.05] tracking-tight text-white/95" style={{ fontSize: 'clamp(13px,1.6vw,18px)' }}>
+                              An hour at <span className="italic">the limit.</span>
+                            </p>
+                            <p className="text-white/55 text-[9px] font-medium leading-snug">
+                              Six disciplines. Three coaches.
+                            </p>
+                            <div className="flex gap-1.5 mt-1">
+                              <span className="h-5 px-2 rounded-full flex items-center text-[7.5px] font-bold uppercase tracking-wider" style={{ background: project.accentColor, color: project.bgFrom }}>
+                                Claim trial →
+                              </span>
+                              <span className="h-5 px-2 rounded-full border border-white/20 flex items-center text-[7.5px] font-medium text-white/80">
+                                Schedule
+                              </span>
+                            </div>
+                            <div className="flex gap-3 mt-auto pt-1.5 border-t border-white/10">
+                              {[
+                                { v: '41.93°N', l: '87.64°W' },
+                                { v: '05:00–22:00', l: 'CT' },
+                                { v: '06', l: 'disciplines' },
+                              ].map((s) => (
+                                <div key={s.l} className="flex flex-col">
+                                  <span className="text-white text-[8.5px] font-mono font-bold tabular-nums leading-none">{s.v}</span>
+                                  <span className="text-white/40 text-[7px] tracking-wider uppercase font-mono mt-0.5">{s.l}</span>
                                 </div>
                               ))}
                             </div>
@@ -190,13 +210,16 @@ export default function Portfolio() {
                         </div>
                       </div>
                       <div className="p-4 flex-1 flex flex-col">
-                        <div className="flex items-center gap-2 mb-2">
+                        <div className="flex items-center gap-1.5 mb-2 flex-wrap">
                           <span className="font-mono text-[10px] font-semibold tracking-[0.18em] uppercase text-forest bg-forest/10 px-2 py-1 rounded-[3px]">
                             {project.tag}
                           </span>
+                          <span className="font-mono text-[10px] font-semibold tracking-[0.18em] uppercase text-ink-muted bg-paper border border-rule px-2 py-1 rounded-[3px]">
+                            Sample
+                          </span>
                           <span className="font-mono text-[10px] font-medium text-clay flex items-center gap-1.5 tracking-wide uppercase">
                             <span className="w-1.5 h-1.5 rounded-full bg-clay pulse-dot inline-block" />
-                            Live
+                            Live demo
                           </span>
                         </div>
                         <h3 className="font-serif text-[22px] text-ink leading-tight tracking-tight mb-1">{project.name}</h3>
@@ -210,7 +233,7 @@ export default function Portfolio() {
                           ))}
                         </ul>
                         <div className="mt-4 flex items-center gap-1.5 text-[12px] font-semibold text-ink-soft group-hover:text-forest transition-colors">
-                          View Live Site
+                          Visit the sample site
                           <ArrowUpRight size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                         </div>
                       </div>

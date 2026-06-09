@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
-import LogoMarquee from "@/components/LogoMarquee";
-import SocialProof from "@/components/SocialProof";
+import FeaturedProject from "@/components/FeaturedProject";
 
 export const metadata: Metadata = {
   title: "BuiltbyBrian — Web Designer & Developer",
@@ -24,8 +23,7 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <LogoMarquee />
-      <SocialProof />
+      <FeaturedProject />
     </main>
   );
 }

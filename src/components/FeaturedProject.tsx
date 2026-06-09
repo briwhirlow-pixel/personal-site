@@ -55,54 +55,108 @@ export default function FeaturedProject() {
                     </div>
                   </div>
                   <div
-                    className="p-5 sm:p-7 flex flex-col gap-3"
+                    className="px-5 sm:px-7 pt-3 sm:pt-4 pb-4 sm:pb-5 flex flex-col"
                     style={{
                       height: "calc(100% - 24px)",
-                      background: `linear-gradient(135deg, ${project.bgFrom}, ${project.bgTo})`,
+                      background: project.bgFrom,
                     }}
                   >
-                    <div className="flex items-center justify-between">
+                    {/* Top editorial rail */}
+                    <div
+                      className="flex items-center justify-between text-[8px] sm:text-[9px] font-mono tracking-[0.18em] uppercase font-semibold pb-2 border-b"
+                      style={{ color: "#5C4D3A", borderColor: "rgba(28,18,8,0.18)" }}
+                    >
+                      <span>APEX / Chicago</span>
+                      <span className="hidden sm:inline">Issue Nº 06 — Spring &apos;26</span>
+                      <span>41.93°N · 87.64°W</span>
+                    </div>
+
+                    {/* Cover label row */}
+                    <div className="flex items-center justify-between mt-3">
                       <span
-                        className="text-[10px] font-mono font-bold tracking-[0.22em] uppercase leading-none"
-                        style={{ color: project.accentColor }}
+                        className="text-[8px] sm:text-[9px] font-mono font-semibold tracking-[0.22em] uppercase"
+                        style={{ color: "#7A6A52" }}
                       >
-                        APEX · Lincoln Park
+                        Cover · Performance
                       </span>
-                      <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-white/40">
+                      <span
+                        className="text-[8px] sm:text-[9px] font-mono tracking-[0.22em] uppercase"
+                        style={{ color: "#7A6A52" }}
+                      >
                         Nº 01 / 06
                       </span>
                     </div>
+
+                    {/* Editorial headline with rust underline on "the limit." */}
                     <p
-                      className="font-serif leading-[1.05] tracking-tight mt-1"
-                      style={{ color: "#F5F1EA", fontSize: "clamp(18px, 2.4vw, 30px)" }}
+                      className="font-serif leading-[1.0] tracking-tight mt-2"
+                      style={{ color: "#1A1A1A", fontSize: "clamp(22px, 3vw, 36px)" }}
                     >
-                      An hour at <span className="italic">the limit.</span>
+                      An hour at{" "}
+                      <span className="italic relative inline-block">
+                        the limit.
+                        <svg
+                          aria-hidden
+                          className="absolute left-0 right-0 w-full"
+                          style={{ bottom: -4, height: 6 }}
+                          viewBox="0 0 200 8"
+                          preserveAspectRatio="none"
+                        >
+                          <path
+                            d="M 2 4 Q 30 1 60 4 T 120 4 T 198 4"
+                            stroke={project.accentColor}
+                            strokeWidth="2.5"
+                            fill="none"
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                      </span>
                     </p>
-                    <p className="text-white/55 text-[11px] sm:text-[12px] font-medium leading-relaxed -mt-1 max-w-[80%]">
+
+                    <p
+                      className="text-[10px] sm:text-[12px] font-medium leading-relaxed mt-2 max-w-[88%]"
+                      style={{ color: "#4A3F31" }}
+                    >
                       Six disciplines. Three coaches. One uncompromising standard.
                     </p>
-                    <div className="flex gap-2 mt-1">
-                      <div
-                        className="h-7 px-3 rounded-full flex items-center text-[10px] font-bold uppercase tracking-wider"
-                        style={{ background: project.accentColor, color: project.bgFrom }}
+
+                    {/* CTAs — black button + underline link */}
+                    <div className="flex items-center gap-3 mt-3">
+                      <span
+                        className="h-7 px-3 flex items-center text-[9.5px] font-bold uppercase tracking-[0.12em] rounded-[2px]"
+                        style={{ background: "#1A1A1A", color: "#F5F1EA" }}
                       >
                         Claim trial pass →
-                      </div>
-                      <div className="h-7 px-3 rounded-full border border-white/20 flex items-center text-[10px] font-medium text-white/80">
+                      </span>
+                      <span
+                        className="text-[9.5px] font-semibold uppercase tracking-[0.12em] border-b pb-0.5"
+                        style={{ color: "#1A1A1A", borderColor: "#1A1A1A" }}
+                      >
                         View schedule
-                      </div>
+                      </span>
                     </div>
-                    <div className="flex gap-5 mt-auto pt-3 border-t border-white/10">
+
+                    {/* Bottom data rail */}
+                    <div
+                      className="flex gap-5 mt-auto pt-3 border-t"
+                      style={{ borderColor: "rgba(28,18,8,0.15)" }}
+                    >
                       {[
                         { v: "41.93°N", l: "87.64°W" },
                         { v: "05:00–22:00", l: "CT, daily" },
                         { v: "06", l: "disciplines" },
                       ].map((s) => (
                         <div key={s.l} className="flex flex-col gap-0.5">
-                          <span className="text-white text-[11px] font-mono font-bold tabular-nums leading-none">
+                          <span
+                            className="text-[11px] font-mono font-bold tabular-nums leading-none"
+                            style={{ color: "#1A1A1A" }}
+                          >
                             {s.v}
                           </span>
-                          <span className="text-white/40 text-[8.5px] tracking-wider uppercase font-mono">
+                          <span
+                            className="text-[8.5px] tracking-[0.12em] uppercase font-mono"
+                            style={{ color: "#7A6A52" }}
+                          >
                             {s.l}
                           </span>
                         </div>

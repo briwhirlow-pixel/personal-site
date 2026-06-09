@@ -139,9 +139,9 @@ export const liveProjects = [
       "Three-tier membership pricing",
       "Trial-pass booking flow",
     ],
-    accentColor: "#C8FF00",
-    bgFrom: "#060B18",
-    bgTo: "#0A1535",
+    accentColor: "#C76A2A",
+    bgFrom: "#E8DDC4",
+    bgTo: "#DDD0B0",
   },
 ];
 

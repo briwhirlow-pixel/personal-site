@@ -171,38 +171,49 @@ export default function Portfolio() {
                             </div>
                           </div>
                           <div
-                            className="flex flex-col gap-1.5 p-4"
-                            style={{ height: 'calc(100% - 22px)', background: `linear-gradient(135deg, ${project.bgFrom}, ${project.bgTo})` }}
+                            className="flex flex-col px-3 pt-2 pb-3"
+                            style={{ height: 'calc(100% - 22px)', background: project.bgFrom }}
                           >
-                            <div className="flex items-center justify-between">
-                              <span className="text-[8.5px] font-mono font-bold tracking-[0.22em] uppercase" style={{ color: project.accentColor }}>
-                                APEX · Lincoln Park
-                              </span>
-                              <span className="text-[7.5px] font-mono tracking-[0.2em] uppercase text-white/40">Nº 01/06</span>
+                            <div className="flex items-center justify-between text-[7px] font-mono font-semibold tracking-[0.16em] uppercase pb-1.5 border-b" style={{ color: '#5C4D3A', borderColor: 'rgba(28,18,8,0.18)' }}>
+                              <span>APEX / Chicago</span>
+                              <span>Nº 06</span>
                             </div>
-                            <p className="font-serif leading-[1.05] tracking-tight text-white/95" style={{ fontSize: 'clamp(13px,1.6vw,18px)' }}>
-                              An hour at <span className="italic">the limit.</span>
+                            <div className="flex items-center justify-between mt-2">
+                              <span className="text-[7px] font-mono font-semibold tracking-[0.2em] uppercase" style={{ color: '#7A6A52' }}>
+                                Cover
+                              </span>
+                              <span className="text-[7px] font-mono tracking-[0.2em] uppercase" style={{ color: '#7A6A52' }}>
+                                Nº 01 / 06
+                              </span>
+                            </div>
+                            <p className="font-serif leading-[1.0] tracking-tight mt-1" style={{ color: '#1A1A1A', fontSize: 'clamp(13px,1.7vw,18px)' }}>
+                              An hour at <span className="italic relative inline-block">
+                                the limit.
+                                <svg aria-hidden className="absolute left-0 right-0 w-full" style={{ bottom: -3, height: 4 }} viewBox="0 0 200 8" preserveAspectRatio="none">
+                                  <path d="M 2 4 Q 30 1 60 4 T 120 4 T 198 4" stroke={project.accentColor} strokeWidth="2.5" fill="none" strokeLinecap="round" />
+                                </svg>
+                              </span>
                             </p>
-                            <p className="text-white/55 text-[9px] font-medium leading-snug">
+                            <p className="text-[8.5px] font-medium leading-snug mt-1.5" style={{ color: '#4A3F31' }}>
                               Six disciplines. Three coaches.
                             </p>
-                            <div className="flex gap-1.5 mt-1">
-                              <span className="h-5 px-2 rounded-full flex items-center text-[7.5px] font-bold uppercase tracking-wider" style={{ background: project.accentColor, color: project.bgFrom }}>
-                                Claim trial →
+                            <div className="flex items-center gap-2 mt-2">
+                              <span className="h-5 px-2 flex items-center text-[7.5px] font-bold uppercase tracking-[0.1em] rounded-[2px]" style={{ background: '#1A1A1A', color: '#F5F1EA' }}>
+                                Trial pass →
                               </span>
-                              <span className="h-5 px-2 rounded-full border border-white/20 flex items-center text-[7.5px] font-medium text-white/80">
+                              <span className="text-[7.5px] font-semibold uppercase tracking-[0.1em] border-b pb-0.5" style={{ color: '#1A1A1A', borderColor: '#1A1A1A' }}>
                                 Schedule
                               </span>
                             </div>
-                            <div className="flex gap-3 mt-auto pt-1.5 border-t border-white/10">
+                            <div className="flex gap-3 mt-auto pt-1.5 border-t" style={{ borderColor: 'rgba(28,18,8,0.15)' }}>
                               {[
                                 { v: '41.93°N', l: '87.64°W' },
                                 { v: '05:00–22:00', l: 'CT' },
                                 { v: '06', l: 'disciplines' },
                               ].map((s) => (
                                 <div key={s.l} className="flex flex-col">
-                                  <span className="text-white text-[8.5px] font-mono font-bold tabular-nums leading-none">{s.v}</span>
-                                  <span className="text-white/40 text-[7px] tracking-wider uppercase font-mono mt-0.5">{s.l}</span>
+                                  <span className="text-[8.5px] font-mono font-bold tabular-nums leading-none" style={{ color: '#1A1A1A' }}>{s.v}</span>
+                                  <span className="text-[7px] tracking-wider uppercase font-mono mt-0.5" style={{ color: '#7A6A52' }}>{s.l}</span>
                                 </div>
                               ))}
                             </div>

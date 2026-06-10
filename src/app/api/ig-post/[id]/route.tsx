@@ -2334,6 +2334,291 @@ export async function GET(
     );
   }
 
+  // ─── ABOUT-DESIGNER LAYOUT — throwback photo + receipts + rankings ──────────
+  if (post.customLayout === "about-designer") {
+    const photoUrl = `${origin}/images/brian-young.jpg`;
+
+    // Brand-colored ranking chips: [name, brandColor, contrastText]
+    type Rank = { winner: { name: string; bg: string; fg: string }; losers: { name: string; bg: string; fg: string }[] };
+    const RANKINGS: Rank[] = [
+      {
+        winner: { name: "iOS",     bg: "#FFFFFF", fg: "#000000" },
+        losers: [{ name: "Android", bg: "#2B2D33", fg: "#A4C639" }],
+      },
+      {
+        winner: { name: "Spotify",     bg: "#1DB954", fg: "#FFFFFF" },
+        losers: [{ name: "Apple Music", bg: "#FA243C", fg: "#FFFFFF" }],
+      },
+      {
+        winner: { name: "Nintendo",   bg: "#E60012", fg: "#FFFFFF" },
+        losers: [
+          { name: "Xbox",        bg: "#107C10", fg: "#FFFFFF" },
+          { name: "PlayStation", bg: "#003791", fg: "#FFFFFF" },
+        ],
+      },
+      {
+        winner: { name: "Instagram", bg: "linear-gradient(135deg,#FEDA75,#FA7E1E,#D62976,#962FBF,#4F5BD5)", fg: "#FFFFFF" },
+        losers: [
+          { name: "X",       bg: "#000000", fg: "#FFFFFF" },
+          { name: "Facebook", bg: "#1877F2", fg: "#FFFFFF" },
+          { name: "TikTok",   bg: "#010101", fg: "#FFFFFF" },
+        ],
+      },
+    ];
+
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            background: "linear-gradient(180deg, #0F1117 0%, #13161F 65%, #0F1117 100%)",
+            color: "#FFFFFF",
+            padding: `${PAD_Y}px ${PAD_X}px`,
+            fontFamily: "Outfit",
+            position: "relative",
+          }}
+        >
+          {/* TOP META */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ width: 10, height: 10, borderRadius: 10, background: "#22D3EE", marginRight: 12, display: "flex" }} />
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: "rgba(255,255,255,0.65)", fontWeight: 600, display: "flex" }}>
+                {post.topLeftLabel}
+              </div>
+            </div>
+            <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: "#22D3EE", fontWeight: 700, display: "flex" }}>
+              {post.topRightLabel}
+            </div>
+          </div>
+
+          {/* KICKER */}
+          <div style={{ fontFamily: "JetBrains Mono", fontSize: 16, letterSpacing: 4, textTransform: "uppercase", color: "#22D3EE", fontWeight: 700, display: "flex", marginTop: 26 }}>
+            {post.kicker}
+          </div>
+
+          {/* HEADLINE */}
+          <div style={{ display: "flex", flexDirection: "column", marginTop: 10 }}>
+            {post.titleLines.map((line, i) => (
+              <div
+                key={i}
+                style={{
+                  fontFamily: "Instrument Serif",
+                  fontSize: 96,
+                  lineHeight: 0.96,
+                  letterSpacing: -2.4,
+                  color: line.italic ? "#22D3EE" : "#FFFFFF",
+                  fontStyle: line.italic ? "italic" : "normal",
+                  display: "flex",
+                }}
+              >
+                {line.text}
+              </div>
+            ))}
+          </div>
+
+          {/* Sub — italic byline */}
+          {post.sub && (
+            <div style={{ fontFamily: "Instrument Serif", fontStyle: "italic", fontSize: 22, lineHeight: 1.35, color: "rgba(255,255,255,0.65)", maxWidth: 700, display: "flex", marginTop: 16 }}>
+              {post.sub}
+            </div>
+          )}
+
+          {/* THROWBACK PHOTO — polaroid frame */}
+          <div style={{ display: "flex", justifyContent: "center", marginTop: 26, marginBottom: 26 }}>
+            <div style={{
+              display: "flex",
+              flexDirection: "column",
+              background: "#F4EFE4",
+              padding: 14,
+              paddingBottom: 28,
+              transform: "rotate(-1.5deg)",
+              boxShadow: "0 28px 40px rgba(0,0,0,0.55), 0 6px 0 rgba(0,0,0,0.18)",
+              alignItems: "center",
+              width: 760,
+            }}>
+              <div style={{ display: "flex", width: 732, height: 360, overflow: "hidden", borderRadius: 4 }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={photoUrl}
+                  alt="Brian as a kid at a CRT computer"
+                  width={732}
+                  height={360}
+                  style={{ display: "flex", width: 732, height: 360, objectFit: "cover", objectPosition: "center 35%" }}
+                />
+              </div>
+              <div style={{
+                marginTop: 8,
+                fontFamily: "JetBrains Mono",
+                fontSize: 14,
+                letterSpacing: 3,
+                textTransform: "uppercase",
+                color: "rgba(0,0,0,0.6)",
+                fontWeight: 700,
+                display: "flex",
+              }}>
+                EST · 1996 · STILL AT THE KEYBOARD
+              </div>
+            </div>
+          </div>
+
+          {/* TWO COLUMNS — Receipts + Rankings */}
+          <div style={{ display: "flex", flexDirection: "row", gap: 28, marginTop: 4 }}>
+
+            {/* LEFT — Receipts */}
+            <div style={{ display: "flex", flexDirection: "column", width: 380 }}>
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "#22D3EE", fontWeight: 700, display: "flex", marginBottom: 10 }}>
+                Official Receipts
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  background: "rgba(34,211,238,0.08)",
+                  border: "1px solid rgba(34,211,238,0.25)",
+                  borderRadius: 10,
+                  padding: "12px 14px",
+                }}>
+                  <div style={{ fontFamily: "JetBrains Mono", fontSize: 9, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.4)", display: "flex", marginBottom: 4 }}>
+                    Degree
+                  </div>
+                  <div style={{ fontFamily: "Instrument Serif", fontSize: 22, color: "#FFFFFF", lineHeight: 1.1, display: "flex" }}>
+                    BS · Management Information Systems
+                  </div>
+                </div>
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  background: "rgba(34,211,238,0.08)",
+                  border: "1px solid rgba(34,211,238,0.25)",
+                  borderRadius: 10,
+                  padding: "12px 14px",
+                }}>
+                  <div style={{ fontFamily: "JetBrains Mono", fontSize: 9, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.4)", display: "flex", marginBottom: 4 }}>
+                    In Progress
+                  </div>
+                  <div style={{ fontFamily: "Instrument Serif", fontSize: 22, color: "#FFFFFF", lineHeight: 1.1, display: "flex" }}>
+                    MBA · <span style={{ fontStyle: "italic", color: "#22D3EE", paddingLeft: 8, display: "flex" }}>Spring &apos;27</span>
+                  </div>
+                </div>
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  background: "rgba(255,255,255,0.05)",
+                  border: "1px dashed rgba(255,255,255,0.25)",
+                  borderRadius: 10,
+                  padding: "12px 14px",
+                }}>
+                  <div style={{ fontFamily: "JetBrains Mono", fontSize: 9, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.4)", display: "flex", marginBottom: 4 }}>
+                    First Phone
+                  </div>
+                  <div style={{ fontFamily: "Instrument Serif", fontSize: 22, color: "#FFFFFF", lineHeight: 1.1, display: "flex" }}>
+                    <span style={{ fontStyle: "italic", color: "#FB7185", paddingRight: 8, display: "flex" }}>LG</span> Kajeet
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT — Rankings */}
+            <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "#FACC15", fontWeight: 700, display: "flex", marginBottom: 10 }}>
+                Unofficial Rankings
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+                {RANKINGS.map((r, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                    {/* Winner */}
+                    <div style={{
+                      display: "flex",
+                      background: r.winner.bg,
+                      color: r.winner.fg,
+                      padding: "5px 11px",
+                      borderRadius: 999,
+                      fontFamily: "Outfit",
+                      fontSize: 13,
+                      fontWeight: 700,
+                      boxShadow: "0 3px 0 rgba(0,0,0,0.3)",
+                    }}>
+                      {r.winner.name}
+                    </div>
+                    {r.losers.map((l, j) => (
+                      <div key={j} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                        <div style={{ fontFamily: "JetBrains Mono", fontSize: 14, color: "rgba(255,255,255,0.55)", fontWeight: 700, display: "flex" }}>
+                          &gt;
+                        </div>
+                        <div style={{
+                          display: "flex",
+                          background: l.bg,
+                          color: l.fg,
+                          padding: "5px 11px",
+                          borderRadius: 999,
+                          fontFamily: "Outfit",
+                          fontSize: 13,
+                          fontWeight: 600,
+                          opacity: 0.7,
+                        }}>
+                          {l.name}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Spacer */}
+          <div style={{ flex: 1, display: "flex" }} />
+
+          {/* BOTTOM ROW */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingTop: 22,
+              borderTop: "1px solid rgba(255,255,255,0.15)",
+              width: "100%",
+              marginTop: 14,
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <div style={{ background: "#1A1A2E", borderRadius: 9, padding: 4, display: "flex" }}>
+                <div style={{ background: "#FFFFFF", borderRadius: 6, padding: "8px 16px 7px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <div style={{ width: 8, height: 8, borderRadius: 8, background: "#2563EB", display: "flex", marginRight: 8 }} />
+                    <div style={{ display: "flex", alignItems: "baseline", fontFamily: "Instrument Serif", fontSize: 30, color: "#1A1A2E", lineHeight: 1 }}>
+                      <div style={{ display: "flex" }}>Built</div>
+                      <div style={{ fontStyle: "italic", color: "#0EA5E9", padding: "0 2px", display: "flex" }}>by</div>
+                      <div style={{ display: "flex" }}>Brian</div>
+                    </div>
+                  </div>
+                  <div style={{ fontFamily: "JetBrains Mono", fontSize: 9, letterSpacing: 3, textTransform: "uppercase", color: "#64748B", fontWeight: 600, marginTop: 5, display: "flex" }}>
+                    Web Design
+                  </div>
+                </div>
+              </div>
+              <div style={{ width: 16, height: 4, background: "#1A1A2E", marginTop: 1, display: "flex" }} />
+              <div style={{ width: 42, height: 3, background: "#1A1A2E", borderRadius: 4, marginTop: 1, display: "flex" }} />
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: "rgba(255,255,255,0.7)", fontWeight: 600, display: "flex" }}>
+                {post.cta}
+              </div>
+              {post.ctaArrow !== false && (
+                <div style={{ fontFamily: "JetBrains Mono", fontSize: 22, color: "#22D3EE", fontWeight: 700, marginLeft: 8, display: "flex" }}>→</div>
+              )}
+            </div>
+          </div>
+        </div>
+      ),
+      responseOpts
+    );
+  }
+
   // ─── STANDARD LAYOUT — every other post ──────────────────────
   return new ImageResponse(
     (

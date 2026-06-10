@@ -20,7 +20,7 @@ export type IGPostData = {
   caption: string;
   hashtags: string;
   reelConcept?: string;
-  customLayout?: "monitor" | "starter-trio" | "swoop-flex" | "spidey-swing" | "phanatic-hype" | "boardwalk" | "calendar-tile";
+  customLayout?: "monitor" | "starter-trio" | "swoop-flex" | "spidey-swing" | "phanatic-hype" | "boardwalk" | "calendar-tile" | "about-designer";
 };
 
 export const igPosts: IGPostData[] = [
@@ -1167,5 +1167,45 @@ Comment your starter pick (1996 AND 2026) and I'll DM you the breakdown for whic
 (There are no wrong answers. Except Pikachu. Pikachu wasn't a starter. Stop trying to make Pikachu happen.)`,
     hashtags:
       "#Pokemon #PickYourStarter #SmallBusinessOwner #PhillyBusiness #WebDesigner #FreelanceLife #90sKids #BuiltByBrian #SmallBusinessMarketing #NostalgiaMarketing #BulbasaurCharmanderSquirtle #PhillyEntrepreneur",
+  },
+  {
+    id: "34",
+    name: "About The Designer — receipts & rankings",
+    type: "Single image · Founder · Throwback",
+    variant: "studio",
+    topLeftLabel: "ABOUT / 034",
+    topRightLabel: "EST '96",
+    kicker: "MEET YOUR DEVELOPER",
+    titleLines: [
+      { text: "About the" },
+      { text: "designer", italic: true },
+      { text: "." },
+    ],
+    sub: "The throwback you didn't ask for. The receipts you might need.",
+    customLayout: "about-designer",
+    cta: "Work with me",
+    ctaArrow: true,
+    caption: `Started young. The CRT, the towers of CD-ROMs, mom standing behind me on a disposable camera.
+
+Twenty-something years later — same energy, better hardware, real receipts:
+
+OFFICIAL
+→ BS, Management Information Systems
+→ MBA, finishing Spring '27
+
+UNOFFICIAL (the real proof)
+→ iOS > Android
+→ Spotify > Apple Music
+→ Nintendo > Xbox > PlayStation (fight me)
+→ Instagram > every other social
+→ First phone: an LG Kajeet (IYKYK)
+
+Now I hand-build custom websites for restaurants, studios, shops, and service businesses across Philly + South Jersey. Same focus the kid in the photo had — just billable now.
+
+If your website needs that "I've been on a keyboard since before flip phones" energy — let's build.
+
+DM me, link in bio, or comment your unpopular tech ranking below 👇`,
+    hashtags:
+      "#FounderStory #ThrowbackThursday #WebDesigner #FreelanceLife #90sKids #PhillyBusiness #PhillyEntrepreneur #SmallBusinessOwner #BuiltByBrian #WebDesignerPhiladelphia #SouthJerseyBusiness #FreelanceWebDesigner",
   },
 ];

@@ -2176,8 +2176,7 @@ export async function GET(
             height: "100%",
             display: "flex",
             flexDirection: "column",
-            // Photo behind a deepening gradient overlay; fallback gradient is the ocean palette
-            backgroundImage: `linear-gradient(180deg, rgba(11,95,117,0.18) 0%, rgba(27,79,102,0.55) 45%, rgba(15,42,58,0.88) 100%), url(${boardwalkUrl})`,
+            backgroundImage: `url(${boardwalkUrl})`,
             backgroundSize: "cover",
             backgroundPosition: "center center",
             backgroundColor: p.bg,
@@ -2187,8 +2186,33 @@ export async function GET(
             position: "relative",
           }}
         >
+          {/* DARKENING — top band so meta strip reads */}
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 160,
+              display: "flex",
+              background: "linear-gradient(180deg, rgba(0,12,26,0.7) 0%, rgba(0,12,26,0) 100%)",
+            }}
+          />
+
+          {/* DARKENING — heavy bottom block so headline + body read on the busy boardwalk crowd */}
+          <div
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: 760,
+              display: "flex",
+              background: "linear-gradient(180deg, rgba(0,12,26,0) 0%, rgba(0,12,26,0.92) 60%, rgba(0,12,26,0.97) 100%)",
+            }}
+          />
           {/* TOP META */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", position: "relative" }}>
             <div style={{ display: "flex", alignItems: "center" }}>
               <div style={{ width: 10, height: 10, borderRadius: 10, background: p.accent, marginRight: 12, display: "flex" }} />
               <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.ink, fontWeight: 700, display: "flex", textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}>
@@ -2201,15 +2225,15 @@ export async function GET(
           </div>
 
           {/* Spacer pushes content down */}
-          <div style={{ flex: 1, display: "flex" }} />
+          <div style={{ flex: 1, display: "flex", position: "relative" }} />
 
           {/* KICKER */}
-          <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.italicAccent, fontWeight: 700, display: "flex", marginBottom: 18, textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}>
+          <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.italicAccent, fontWeight: 700, display: "flex", marginBottom: 18, textShadow: "0 2px 12px rgba(0,0,0,0.6)", position: "relative" }}>
             {post.kicker}
           </div>
 
           {/* HEADLINE — huge serif, with strong text shadow for photo legibility */}
-          <div style={{ display: "flex", flexDirection: "column", marginBottom: 28 }}>
+          <div style={{ display: "flex", flexDirection: "column", marginBottom: 28, position: "relative" }}>
             {post.titleLines.map((line, i) => (
               <div
                 key={i}
@@ -2231,14 +2255,14 @@ export async function GET(
 
           {/* Sub */}
           {post.sub && (
-            <div style={{ fontFamily: "Outfit", fontSize: 22, lineHeight: 1.45, color: p.ink, fontWeight: 500, maxWidth: 700, display: "flex", marginBottom: 22, textShadow: "0 2px 10px rgba(0,0,0,0.6)" }}>
+            <div style={{ fontFamily: "Outfit", fontSize: 22, lineHeight: 1.45, color: p.ink, fontWeight: 500, maxWidth: 700, display: "flex", marginBottom: 22, textShadow: "0 2px 10px rgba(0,0,0,0.6)", position: "relative" }}>
               {post.sub}
             </div>
           )}
 
           {/* Tag chips — shore towns */}
           {post.tagRow && (
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 8 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 8, position: "relative" }}>
               {post.tagRow.map((tag, i) => (
                 <div
                   key={i}
@@ -2272,6 +2296,7 @@ export async function GET(
               borderTop: `1px solid rgba(255,255,255,0.3)`,
               width: "100%",
               marginTop: 14,
+              position: "relative",
             }}
           >
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>

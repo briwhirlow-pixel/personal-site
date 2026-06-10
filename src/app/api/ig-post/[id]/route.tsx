@@ -322,35 +322,11 @@ export async function GET(
           <div
             style={{
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent: "flex-end",
               alignItems: "center",
               width: "100%",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                fontFamily: "JetBrains Mono",
-                fontSize: 18,
-                letterSpacing: 4,
-                textTransform: "uppercase",
-                color: p.inkMuted,
-                fontWeight: 600,
-              }}
-            >
-              <div
-                style={{
-                  width: 12,
-                  height: 12,
-                  borderRadius: 12,
-                  background: p.accent,
-                  marginRight: 14,
-                  display: "flex",
-                }}
-              />
-              {post.topLeftLabel}
-            </div>
             <div
               style={{
                 fontFamily: "JetBrains Mono",
@@ -1086,12 +1062,7 @@ export async function GET(
         >
           {/* TOP ROW — meta */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ width: 10, height: 10, borderRadius: 10, background: p.accent, marginRight: 12, display: "flex" }} />
-              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
-                {post.topLeftLabel}
-              </div>
-            </div>
+            <div style={{ display: "flex" }} />
             <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
               {post.topRightLabel}
             </div>
@@ -1391,12 +1362,7 @@ export async function GET(
 
           {/* TOP META */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", position: "relative" }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ width: 10, height: 10, borderRadius: 10, background: p.accent, marginRight: 12, display: "flex" }} />
-              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
-                {post.topLeftLabel}
-              </div>
-            </div>
+            <div style={{ display: "flex" }} />
             <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.italicAccent, fontWeight: 700, display: "flex" }}>
               {post.topRightLabel}
             </div>
@@ -1567,12 +1533,7 @@ export async function GET(
 
           {/* TOP META */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", position: "relative" }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ width: 10, height: 10, borderRadius: 10, background: p.accent, marginRight: 12, display: "flex" }} />
-              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
-                {post.topLeftLabel}
-              </div>
-            </div>
+            <div style={{ display: "flex" }} />
             <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.italicAccent, fontWeight: 700, display: "flex" }}>
               {post.topRightLabel}
             </div>
@@ -1778,12 +1739,7 @@ export async function GET(
 
           {/* TOP META */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", position: "relative" }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ width: 10, height: 10, borderRadius: 10, background: p.accent, marginRight: 12, display: "flex" }} />
-              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
-                {post.topLeftLabel}
-              </div>
-            </div>
+            <div style={{ display: "flex" }} />
             <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.italicAccent, fontWeight: 700, display: "flex" }}>
               {post.topRightLabel}
             </div>
@@ -2031,12 +1987,7 @@ export async function GET(
           >
             {/* TOP META */}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <div style={{ width: 10, height: 10, borderRadius: 10, background: p.italicAccent, marginRight: 12, display: "flex" }} />
-                <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
-                  {post.topLeftLabel}
-                </div>
-              </div>
+              <div style={{ display: "flex" }} />
               <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.italicAccent, fontWeight: 700, display: "flex" }}>
                 {post.topRightLabel}
               </div>
@@ -2212,13 +2163,7 @@ export async function GET(
             }}
           />
           {/* TOP META */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", position: "relative" }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ width: 10, height: 10, borderRadius: 10, background: p.accent, marginRight: 12, display: "flex" }} />
-              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.ink, fontWeight: 700, display: "flex", textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}>
-                {post.topLeftLabel}
-              </div>
-            </div>
+          <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", width: "100%", position: "relative" }}>
             <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.italicAccent, fontWeight: 700, display: "flex", textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}>
               {post.topRightLabel}
             </div>
@@ -2337,31 +2282,119 @@ export async function GET(
   // ─── ABOUT-DESIGNER LAYOUT — throwback photo + receipts + rankings ──────────
   if (post.customLayout === "about-designer") {
     const photoUrl = `${origin}/images/brian-young.jpg`;
+    const kajeetUrl = `${origin}/images/kajeet-phone.png`;
 
-    // Brand-colored ranking chips: [name, brandColor, contrastText]
-    type Rank = { winner: { name: string; bg: string; fg: string }; losers: { name: string; bg: string; fg: string }[] };
+    // Inline brand-logo SVG glyphs. Tiny, single-color, designed to read at 16-18px.
+    const LOGOS: Record<string, React.ReactNode> = {
+      apple: (
+        <svg width={16} height={16} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <path d="M17.05 12.04c-.03-3.16 2.58-4.7 2.7-4.77-1.47-2.15-3.76-2.44-4.57-2.47-1.94-.2-3.79 1.14-4.78 1.14-.98 0-2.51-1.11-4.13-1.08C4.18 4.9 2.27 6.08 1.24 7.93-.86 11.66.69 17.17 2.72 20.18c.99 1.48 2.18 3.14 3.74 3.08 1.5-.06 2.07-.97 3.88-.97 1.81 0 2.32.97 3.91.94 1.61-.03 2.63-1.51 3.62-2.99 1.14-1.71 1.61-3.37 1.64-3.46-.04-.02-3.15-1.2-3.18-4.74M14.04 3.56c.83-1 1.39-2.4 1.23-3.78-1.19.05-2.63.79-3.48 1.79-.77.88-1.44 2.3-1.26 3.66 1.33.11 2.69-.67 3.51-1.67" fill="#000000"/>
+        </svg>
+      ),
+      apple_white: (
+        <svg width={16} height={16} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <path d="M17.05 12.04c-.03-3.16 2.58-4.7 2.7-4.77-1.47-2.15-3.76-2.44-4.57-2.47-1.94-.2-3.79 1.14-4.78 1.14-.98 0-2.51-1.11-4.13-1.08C4.18 4.9 2.27 6.08 1.24 7.93-.86 11.66.69 17.17 2.72 20.18c.99 1.48 2.18 3.14 3.74 3.08 1.5-.06 2.07-.97 3.88-.97 1.81 0 2.32.97 3.91.94 1.61-.03 2.63-1.51 3.62-2.99 1.14-1.71 1.61-3.37 1.64-3.46-.04-.02-3.15-1.2-3.18-4.74M14.04 3.56c.83-1 1.39-2.4 1.23-3.78-1.19.05-2.63.79-3.48 1.79-.77.88-1.44 2.3-1.26 3.66 1.33.11 2.69-.67 3.51-1.67" fill="#FFFFFF"/>
+        </svg>
+      ),
+      android: (
+        <svg width={16} height={16} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <path d="M17.6 9.48l1.84-3.18a.4.4 0 0 0-.69-.4L16.9 9.1A11.3 11.3 0 0 0 12 8a11.3 11.3 0 0 0-4.9 1.1L5.25 5.9a.4.4 0 0 0-.69.4l1.84 3.18A10.36 10.36 0 0 0 1 18h22a10.36 10.36 0 0 0-5.4-8.52M7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5m10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5" fill="#A4C639"/>
+        </svg>
+      ),
+      spotify: (
+        <svg width={18} height={18} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <circle cx="12" cy="12" r="11" fill="#1DB954"/>
+          <path d="M17.5 16.3a.7.7 0 0 1-1 .25c-2.75-1.7-6.2-2.07-10.28-1.14a.7.7 0 1 1-.32-1.4c4.45-1 8.27-.6 11.34 1.27.34.2.45.66.26 1.02m1.5-3.4a.9.9 0 0 1-1.25.3c-3.15-1.94-7.95-2.5-11.67-1.37a.9.9 0 1 1-.52-1.74c4.25-1.27 9.55-.65 13.15 1.55.42.26.55.81.3 1.26m.13-3.55c-3.77-2.24-10-2.44-13.6-1.35a1.1 1.1 0 1 1-.63-2.1c4.13-1.24 11-1 15.34 1.58a1.08 1.08 0 1 1-1.11 1.87" fill="#FFFFFF"/>
+        </svg>
+      ),
+      apple_music: (
+        <svg width={16} height={16} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <rect width="24" height="24" rx="6" fill="#FA243C"/>
+          <path d="M9 8l7-1.5v8.5a2 2 0 1 1-1.4-1.9V8.9l-4.2.9v6.2a2 2 0 1 1-1.4-1.9V8z" fill="#FFFFFF"/>
+        </svg>
+      ),
+      nintendo: (
+        <svg width={18} height={18} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <rect x="3" y="3" width="7" height="18" rx="2" fill="#E60012"/>
+          <rect x="14" y="3" width="7" height="18" rx="2" fill="#1F1F1F"/>
+          <circle cx="6.5" cy="9" r="1.2" fill="#FFFFFF"/>
+          <rect x="5.5" y="13" width="2" height="0.6" fill="#FFFFFF"/>
+          <rect x="6.2" y="12.3" width="0.6" height="2" fill="#FFFFFF"/>
+        </svg>
+      ),
+      xbox: (
+        <svg width={16} height={16} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <circle cx="12" cy="12" r="11" fill="#107C10"/>
+          <path d="M7 6c1.5 0 3 1 5 4-2 3-3.5 5-5 6-1.5-2-2.2-5.5-.5-9zm10 0c-1.5 0-3 1-5 4 2 3 3.5 5 5 6 1.5-2 2.2-5.5.5-9z" fill="#FFFFFF"/>
+        </svg>
+      ),
+      playstation: (
+        <svg width={20} height={16} viewBox="0 0 30 24" style={{ display: "flex" }}>
+          <text x="0" y="18" fontFamily="Outfit" fontSize="20" fontWeight="900" fill="#FFFFFF">PS</text>
+        </svg>
+      ),
+      instagram: (
+        <svg width={16} height={16} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <defs>
+            <linearGradient id="igGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#FEDA75"/>
+              <stop offset="25%" stopColor="#FA7E1E"/>
+              <stop offset="50%" stopColor="#D62976"/>
+              <stop offset="75%" stopColor="#962FBF"/>
+              <stop offset="100%" stopColor="#4F5BD5"/>
+            </linearGradient>
+          </defs>
+          <rect width="22" height="22" x="1" y="1" rx="6" fill="url(#igGrad)"/>
+          <rect width="22" height="22" x="1" y="1" rx="6" fill="none" stroke="#FFFFFF" strokeWidth="0"/>
+          <circle cx="12" cy="12" r="4.5" fill="none" stroke="#FFFFFF" strokeWidth="1.8"/>
+          <circle cx="17.5" cy="6.5" r="1.2" fill="#FFFFFF"/>
+        </svg>
+      ),
+      tiktok: (
+        <svg width={16} height={16} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <path d="M16.6 5.8a4.6 4.6 0 0 1-3.3-1.4V15a5.5 5.5 0 1 1-5.5-5.5l1 .1v2.8c-.3-.1-.7-.2-1-.2a2.7 2.7 0 1 0 2.7 2.7V0h2.8c0 1.5 1.2 4 4.3 4z" fill="#FFFFFF"/>
+          <path d="M16.6 5.8a4.6 4.6 0 0 1-3.3-1.4V15a5.5 5.5 0 1 1-5.5-5.5l1 .1v2.8c-.3-.1-.7-.2-1-.2a2.7 2.7 0 1 0 2.7 2.7V0h2.8c0 1.5 1.2 4 4.3 4z" fill="#25F4EE" transform="translate(-1.5 1)" opacity=".8"/>
+          <path d="M16.6 5.8a4.6 4.6 0 0 1-3.3-1.4V15a5.5 5.5 0 1 1-5.5-5.5l1 .1v2.8c-.3-.1-.7-.2-1-.2a2.7 2.7 0 1 0 2.7 2.7V0h2.8c0 1.5 1.2 4 4.3 4z" fill="#FE2C55" transform="translate(1.5 -1)" opacity=".8"/>
+        </svg>
+      ),
+      x: (
+        <svg width={14} height={14} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="#FFFFFF"/>
+        </svg>
+      ),
+      facebook: (
+        <svg width={16} height={16} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <circle cx="12" cy="12" r="11" fill="#1877F2"/>
+          <path d="M15.5 12.5h-2.5V21H10v-8.5H8V10h2V8.5c0-2 .8-3.5 3.2-3.5h2v2.6H14c-.7 0-1 .3-1 1V10h2.7z" fill="#FFFFFF"/>
+        </svg>
+      ),
+    };
+
+    // Brand-colored ranking chips: [name, brandColor, contrastText, logoKey]
+    type ChipMeta = { name: string; bg: string; fg: string; logo?: string };
+    type Rank = { winner: ChipMeta; losers: ChipMeta[] };
     const RANKINGS: Rank[] = [
       {
-        winner: { name: "iOS",     bg: "#FFFFFF", fg: "#000000" },
-        losers: [{ name: "Android", bg: "#2B2D33", fg: "#A4C639" }],
+        winner: { name: "iOS",     bg: "#FFFFFF", fg: "#000000", logo: "apple" },
+        losers: [{ name: "Android", bg: "#2B2D33", fg: "#A4C639", logo: "android" }],
       },
       {
-        winner: { name: "Spotify",     bg: "#1DB954", fg: "#FFFFFF" },
-        losers: [{ name: "Apple Music", bg: "#FA243C", fg: "#FFFFFF" }],
+        winner: { name: "Spotify",     bg: "#1DB954", fg: "#FFFFFF", logo: "spotify" },
+        losers: [{ name: "Apple Music", bg: "#1A1A2E", fg: "#FA243C", logo: "apple_music" }],
       },
       {
-        winner: { name: "Nintendo",   bg: "#E60012", fg: "#FFFFFF" },
+        winner: { name: "Nintendo",   bg: "#E60012", fg: "#FFFFFF", logo: "nintendo" },
         losers: [
-          { name: "Xbox",        bg: "#107C10", fg: "#FFFFFF" },
-          { name: "PlayStation", bg: "#003791", fg: "#FFFFFF" },
+          { name: "Xbox",        bg: "#107C10", fg: "#FFFFFF", logo: "xbox" },
+          { name: "PlayStation", bg: "#003791", fg: "#FFFFFF", logo: "playstation" },
         ],
       },
       {
-        winner: { name: "Instagram", bg: "linear-gradient(135deg,#FEDA75,#FA7E1E,#D62976,#962FBF,#4F5BD5)", fg: "#FFFFFF" },
+        winner: { name: "Instagram", bg: "linear-gradient(135deg,#FEDA75,#FA7E1E,#D62976,#962FBF,#4F5BD5)", fg: "#FFFFFF", logo: "instagram" },
         losers: [
-          { name: "X",       bg: "#000000", fg: "#FFFFFF" },
-          { name: "Facebook", bg: "#1877F2", fg: "#FFFFFF" },
-          { name: "TikTok",   bg: "#010101", fg: "#FFFFFF" },
+          { name: "TikTok",   bg: "#010101", fg: "#FFFFFF", logo: "tiktok" },
+          { name: "X",        bg: "#000000", fg: "#FFFFFF", logo: "x" },
+          { name: "Facebook", bg: "#1877F2", fg: "#FFFFFF", logo: "facebook" },
         ],
       },
     ];
@@ -2382,84 +2415,84 @@ export async function GET(
           }}
         >
           {/* TOP META */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ width: 10, height: 10, borderRadius: 10, background: "#22D3EE", marginRight: 12, display: "flex" }} />
-              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: "rgba(255,255,255,0.65)", fontWeight: 600, display: "flex" }}>
-                {post.topLeftLabel}
-              </div>
-            </div>
+          <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", width: "100%" }}>
             <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: "#22D3EE", fontWeight: 700, display: "flex" }}>
               {post.topRightLabel}
             </div>
           </div>
 
-          {/* KICKER */}
-          <div style={{ fontFamily: "JetBrains Mono", fontSize: 16, letterSpacing: 4, textTransform: "uppercase", color: "#22D3EE", fontWeight: 700, display: "flex", marginTop: 26 }}>
-            {post.kicker}
+          {/* KICKER — centered */}
+          <div style={{ display: "flex", justifyContent: "center", width: "100%", marginTop: 22 }}>
+            <div style={{ fontFamily: "JetBrains Mono", fontSize: 16, letterSpacing: 4, textTransform: "uppercase", color: "#22D3EE", fontWeight: 700, display: "flex" }}>
+              {post.kicker}
+            </div>
           </div>
 
-          {/* HEADLINE */}
-          <div style={{ display: "flex", flexDirection: "column", marginTop: 10 }}>
-            {post.titleLines.map((line, i) => (
-              <div
-                key={i}
-                style={{
-                  fontFamily: "Instrument Serif",
-                  fontSize: 96,
-                  lineHeight: 0.96,
-                  letterSpacing: -2.4,
-                  color: line.italic ? "#22D3EE" : "#FFFFFF",
-                  fontStyle: line.italic ? "italic" : "normal",
-                  display: "flex",
-                }}
-              >
-                {line.text}
-              </div>
-            ))}
+          {/* HEADLINE — centered */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 10, width: "100%" }}>
+            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "center", flexWrap: "wrap" }}>
+              {post.titleLines.map((line, i) => (
+                <div
+                  key={i}
+                  style={{
+                    fontFamily: "Instrument Serif",
+                    fontSize: 96,
+                    lineHeight: 0.96,
+                    letterSpacing: -2.4,
+                    color: line.italic ? "#22D3EE" : "#FFFFFF",
+                    fontStyle: line.italic ? "italic" : "normal",
+                    display: "flex",
+                    paddingRight: i < post.titleLines.length - 1 ? 14 : 0,
+                  }}
+                >
+                  {line.text}
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Sub — italic byline */}
+          {/* Sub — centered byline */}
           {post.sub && (
-            <div style={{ fontFamily: "Instrument Serif", fontStyle: "italic", fontSize: 22, lineHeight: 1.35, color: "rgba(255,255,255,0.65)", maxWidth: 700, display: "flex", marginTop: 16 }}>
-              {post.sub}
+            <div style={{ display: "flex", justifyContent: "center", width: "100%", marginTop: 14 }}>
+              <div style={{ fontFamily: "Instrument Serif", fontStyle: "italic", fontSize: 22, lineHeight: 1.35, color: "rgba(255,255,255,0.65)", maxWidth: 700, display: "flex", textAlign: "center" }}>
+                {post.sub}
+              </div>
             </div>
           )}
 
-          {/* THROWBACK PHOTO — polaroid frame */}
-          <div style={{ display: "flex", justifyContent: "center", marginTop: 26, marginBottom: 26 }}>
+          {/* THROWBACK PHOTO — straight, bigger */}
+          <div style={{ display: "flex", justifyContent: "center", marginTop: 24, marginBottom: 22 }}>
             <div style={{
               display: "flex",
               flexDirection: "column",
               background: "#F4EFE4",
               padding: 14,
-              paddingBottom: 28,
-              transform: "rotate(-1.5deg)",
+              paddingBottom: 30,
               boxShadow: "0 28px 40px rgba(0,0,0,0.55), 0 6px 0 rgba(0,0,0,0.18)",
               alignItems: "center",
-              width: 760,
+              width: 860,
             }}>
-              <div style={{ display: "flex", width: 732, height: 360, overflow: "hidden", borderRadius: 4 }}>
+              <div style={{ display: "flex", width: 832, height: 440, overflow: "hidden", borderRadius: 4 }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={photoUrl}
                   alt="Brian as a kid at a CRT computer"
-                  width={732}
-                  height={360}
-                  style={{ display: "flex", width: 732, height: 360, objectFit: "cover", objectPosition: "center 35%" }}
+                  width={832}
+                  height={440}
+                  style={{ display: "flex", width: 832, height: 440, objectFit: "cover", objectPosition: "center 35%" }}
                 />
               </div>
               <div style={{
-                marginTop: 8,
+                marginTop: 10,
                 fontFamily: "JetBrains Mono",
-                fontSize: 14,
+                fontSize: 15,
                 letterSpacing: 3,
                 textTransform: "uppercase",
                 color: "rgba(0,0,0,0.6)",
                 fontWeight: 700,
                 display: "flex",
               }}>
-                EST · 1996 · STILL AT THE KEYBOARD
+                90&apos;S BABY · STILL AT THE KEYBOARD
               </div>
             </div>
           </div>
@@ -2505,17 +2538,31 @@ export async function GET(
                 </div>
                 <div style={{
                   display: "flex",
-                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 12,
                   background: "rgba(255,255,255,0.05)",
                   border: "1px dashed rgba(255,255,255,0.25)",
                   borderRadius: 10,
-                  padding: "12px 14px",
+                  padding: "10px 14px",
                 }}>
-                  <div style={{ fontFamily: "JetBrains Mono", fontSize: 9, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.4)", display: "flex", marginBottom: 4 }}>
-                    First Phone
+                  {/* Kajeet phone photo inline */}
+                  <div style={{ display: "flex", width: 56, height: 68, overflow: "hidden", borderRadius: 6, background: "#FFFFFF" }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={kajeetUrl}
+                      alt="LG Kajeet phone"
+                      width={56}
+                      height={68}
+                      style={{ display: "flex", width: 56, height: 68, objectFit: "cover" }}
+                    />
                   </div>
-                  <div style={{ fontFamily: "Instrument Serif", fontSize: 22, color: "#FFFFFF", lineHeight: 1.1, display: "flex" }}>
-                    <span style={{ fontStyle: "italic", color: "#FB7185", paddingRight: 8, display: "flex" }}>LG</span> Kajeet
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <div style={{ fontFamily: "JetBrains Mono", fontSize: 9, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.4)", display: "flex", marginBottom: 4 }}>
+                      First Phone
+                    </div>
+                    <div style={{ fontFamily: "Instrument Serif", fontSize: 22, color: "#FFFFFF", lineHeight: 1.1, display: "flex" }}>
+                      <span style={{ fontStyle: "italic", color: "#FB7185", paddingRight: 8, display: "flex" }}>LG</span> Kajeet
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2526,40 +2573,46 @@ export async function GET(
               <div style={{ fontFamily: "JetBrains Mono", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "#FACC15", fontWeight: 700, display: "flex", marginBottom: 10 }}>
                 Unofficial Rankings
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {RANKINGS.map((r, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-                    {/* Winner */}
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 5, flexWrap: "wrap" }}>
+                    {/* Winner — full color + logo */}
                     <div style={{
                       display: "flex",
+                      alignItems: "center",
+                      gap: 6,
                       background: r.winner.bg,
                       color: r.winner.fg,
-                      padding: "5px 11px",
+                      padding: "5px 11px 5px 7px",
                       borderRadius: 999,
                       fontFamily: "Outfit",
                       fontSize: 13,
                       fontWeight: 700,
                       boxShadow: "0 3px 0 rgba(0,0,0,0.3)",
                     }}>
-                      {r.winner.name}
+                      {r.winner.logo && LOGOS[r.winner.logo === "apple" ? (r.winner.fg === "#FFFFFF" ? "apple_white" : "apple") : r.winner.logo]}
+                      <div style={{ display: "flex" }}>{r.winner.name}</div>
                     </div>
                     {r.losers.map((l, j) => (
-                      <div key={j} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <div key={j} style={{ display: "flex", alignItems: "center", gap: 5 }}>
                         <div style={{ fontFamily: "JetBrains Mono", fontSize: 14, color: "rgba(255,255,255,0.55)", fontWeight: 700, display: "flex" }}>
                           &gt;
                         </div>
                         <div style={{
                           display: "flex",
+                          alignItems: "center",
+                          gap: 5,
                           background: l.bg,
                           color: l.fg,
-                          padding: "5px 11px",
+                          padding: "4px 10px 4px 7px",
                           borderRadius: 999,
                           fontFamily: "Outfit",
-                          fontSize: 13,
+                          fontSize: 12,
                           fontWeight: 600,
-                          opacity: 0.7,
+                          opacity: 0.75,
                         }}>
-                          {l.name}
+                          {l.logo && LOGOS[l.logo === "apple" ? (l.fg === "#FFFFFF" ? "apple_white" : "apple") : l.logo]}
+                          <div style={{ display: "flex" }}>{l.name}</div>
                         </div>
                       </div>
                     ))}
@@ -2643,30 +2696,7 @@ export async function GET(
             width: "100%",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              fontFamily: "JetBrains Mono",
-              fontSize: 18,
-              letterSpacing: 4,
-              textTransform: "uppercase",
-              color: p.inkMuted,
-              fontWeight: 600,
-            }}
-          >
-            <div
-              style={{
-                width: 12,
-                height: 12,
-                borderRadius: 12,
-                background: p.accent,
-                marginRight: 14,
-                display: "flex",
-              }}
-            />
-            {post.topLeftLabel}
-          </div>
+          <div style={{ display: "flex" }} />
           <div
             style={{
               fontFamily: "JetBrains Mono",

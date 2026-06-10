@@ -1133,7 +1133,7 @@ Tap the bio if you want a free 5-minute audit before the next weekend.`,
     name: "Pick your starter — Pokemon edition",
     type: "Single image · Engagement · Nostalgia",
     variant: "starter",
-    topLeftLabel: "TURN 28 / 033",
+    topLeftLabel: "TURN 30 / 033",
     topRightLabel: "WHO'S YOURS?",
     kicker: "1996 → 2026",
     titleLines: [
@@ -1141,7 +1141,7 @@ Tap the bio if you want a free 5-minute audit before the next weekend.`,
       { text: "starter", italic: true },
       { text: "(again)." },
     ],
-    sub: "Twenty-eight years and the question still hits. Three starters, three energies — and only one of them is built for the year you're actually in.",
+    sub: "Thirty years and the question still hits. Three starters, three energies — and only one of them is built for the year you're actually in.",
     tagRow: ["GRASS · STARTER", "FIRE · PRO", "WATER · CUSTOM"],
     customLayout: "starter-trio",
     cta: "Comment yours",
@@ -1149,7 +1149,7 @@ Tap the bio if you want a free 5-minute audit before the next weekend.`,
 
 Bulbasaur, Charmander, or Squirtle — and you defended that pick on the bus all the way home from school.
 
-Twenty-eight years later, same question. Different stakes.
+Thirty years later, same question. Different stakes.
 
 Your business is picking a starter right now too. Which one's yours?
 

@@ -33,11 +33,11 @@ const REELS: ReelMeta[] = [
     loopSec: 8,
   },
   {
-    id: "reel-math",
-    postId: "05",
+    id: "reel-sleep",
+    postId: "17",
     label: "REEL · 0:09 LOOP · 9:16",
-    title: "The $16/mo math, visualized",
-    blurb: "Live counter compares 'rent' vs 'own'. Pairs with Post 05 (subscription rot) caption.",
+    title: "While You Sleep",
+    blurb: "Phone-screen reel: bookings + DMs landing through the night while you're off. Pairs with Post 17 (your site is your best employee).",
     loopSec: 9,
   },
   {
@@ -200,7 +200,7 @@ export default function AnimatedReels() {
 function ReelCard({ meta, onRecord }: { meta: ReelMeta; onRecord: () => void }) {
   const Reel =
     meta.id === "reel-timeline" ? ReelTimeline :
-    meta.id === "reel-math"     ? ReelMath :
+    meta.id === "reel-sleep"    ? ReelSleep :
                                   ReelSpeed;
 
   return (
@@ -296,7 +296,7 @@ function ReelCard({ meta, onRecord }: { meta: ReelMeta; onRecord: () => void }) 
 function RecordOverlay({ meta, onClose }: { meta: ReelMeta; onClose: () => void }) {
   const Reel =
     meta.id === "reel-timeline" ? ReelTimeline :
-    meta.id === "reel-math"     ? ReelMath :
+    meta.id === "reel-sleep"    ? ReelSleep :
                                   ReelSpeed;
 
   const post = igPosts.find((p) => p.id === meta.postId);
@@ -514,95 +514,126 @@ function ReelTimeline() {
 
 /* ─── Reel 2 — $16/mo vs $750 once ────────────────────────────────── */
 
-function ReelMath() {
-  // Show years climbing on the "rent" side, flat on the "own" side
+function ReelSleep() {
+  const times = ["11:47 PM", "1:32 AM", "3:18 AM", "4:51 AM", "6:14 AM"];
+  const notes = [
+    { kind: "BOOKING",  text: "New table reservation for 4" },
+    { kind: "INQUIRY",  text: "Wedding venue ask — $4,800" },
+    { kind: "MESSAGE",  text: "Loved the new site. Can we chat?" },
+    { kind: "BOOKING",  text: "30-min discovery — locked in" },
+    { kind: "INQUIRY",  text: "Quote request via contact form" },
+  ];
   return (
     <div
       className="absolute inset-0 flex flex-col"
-      style={{ background: "linear-gradient(170deg, #1A1A2E 0%, #2C1A4A 100%)" }}
+      style={{ background: "linear-gradient(180deg, #050817 0%, #0A1230 38%, #1B1640 70%, #3A2418 100%)" }}
     >
+      {/* Soft star field */}
+      {[
+        { top: 18, left: 32, size: 1.5, delay: 0 },
+        { top: 35, left: 78, size: 1, delay: 0.6 },
+        { top: 52, left: 18, size: 1, delay: 1.2 },
+        { top: 64, left: 90, size: 1.5, delay: 1.8 },
+        { top: 12, left: 60, size: 1, delay: 0.3 },
+        { top: 78, left: 50, size: 1, delay: 2.1 },
+      ].map((s, i) => (
+        <span
+          key={i}
+          className="absolute rounded-full bg-white"
+          style={{
+            top: `${s.top}%`,
+            left: `${s.left}%`,
+            width: s.size,
+            height: s.size,
+            animation: `reel-glow 3s ease-in-out infinite ${s.delay}s`,
+          }}
+        />
+      ))}
+
+      {/* Crescent moon — top right */}
+      <div
+        className="absolute"
+        style={{ top: "9%", right: "12%" }}
+      >
+        <div
+          style={{
+            width: 22,
+            height: 22,
+            borderRadius: 22,
+            background: "#F4E4BC",
+            boxShadow: "inset -6px -2px 0 0 rgba(20,16,38,0.85), 0 0 16px rgba(244,228,188,0.4)",
+            display: "block",
+          }}
+        />
+      </div>
+
       {/* Top meta */}
       <div className="relative z-10 px-4 pt-4 flex items-center justify-between font-mono text-[7px] tracking-[0.28em] uppercase">
-        <span className="text-white/65">THE · MATH</span>
-        <span className="text-[#FACC15]">YR · 01 → 05</span>
+        <span className="text-white/65">OVERNIGHT</span>
+        <span className="text-[#F4A261]">SLEEP MODE</span>
       </div>
 
-      {/* Title */}
+      {/* Phone status bar — time cycles */}
+      <div className="relative z-10 mx-auto mt-3 px-3 py-1 rounded-full border border-white/20 bg-black/30 backdrop-blur-sm overflow-hidden" style={{ height: 22, width: 78 }}>
+        <div style={{ animation: "reel-day-cycle 9s steps(5, end) infinite" }}>
+          {times.map((t) => (
+            <div key={t} style={{ height: 22 }} className="flex items-center justify-center">
+              <span className="font-mono text-[11px] text-white tabular-nums tracking-wider">{t}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Headline */}
       <div className="relative z-10 px-4 mt-3 text-center">
-        <p className="font-serif text-white text-[18px] leading-tight">
-          Rent it{" "}
-          <span className="italic text-[#FB7185]">forever</span>
-        </p>
-        <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-white/55 mt-1">
-          OR · OWN · IT · ONCE
+        <p className="font-serif text-white text-[20px] leading-[1.1] tracking-tight">
+          While you{" "}
+          <span className="italic text-[#FFB347]">slept</span>.
         </p>
       </div>
 
-      {/* Two columns */}
-      <div className="relative z-10 flex-1 grid grid-cols-2 gap-3 px-4 mt-4">
-        {/* RENT column — growing bar */}
-        <div className="relative flex flex-col items-center justify-end pb-2">
-          <span className="font-mono text-[7px] tracking-[0.22em] uppercase text-[#FB7185] mb-1">RENT</span>
-          <div className="relative w-full bg-white/5 rounded-md overflow-hidden flex-1 flex items-end">
+      {/* Notification stack — pops in one at a time, accumulates */}
+      <div className="relative z-10 flex-1 flex flex-col justify-end gap-1.5 px-3 pb-2 mt-3">
+        {notes.map((n, i) => (
+          <div
+            key={i}
+            className="relative bg-white/[0.08] border border-white/20 rounded-[14px] px-3 py-2 backdrop-blur-sm flex items-start gap-2"
+            style={{
+              opacity: 0,
+              animation: `reel-check 9s ease-out infinite ${i * 1.5}s`,
+              transformOrigin: "center bottom",
+            }}
+          >
+            {/* Tiny app icon */}
             <div
-              className="w-full"
+              className="flex-shrink-0 rounded-md flex items-center justify-center"
               style={{
-                background: "linear-gradient(180deg, #FB7185 0%, #BE123C 100%)",
-                height: "100%",
-                transformOrigin: "bottom",
-                animation: "reel-money-grow 9s ease-in-out infinite",
+                width: 18,
+                height: 18,
+                background: n.kind === "BOOKING" ? "#10B981" : n.kind === "INQUIRY" ? "#F4A261" : "#A78BFA",
               }}
-            />
-            <span
-              className="absolute left-1/2 -translate-x-1/2 top-2 font-serif text-white"
-              style={{ fontSize: 14 }}
             >
-              $$$
-            </span>
-          </div>
-          {/* Counter cycle */}
-          <div className="mt-2 overflow-hidden" style={{ height: 16 }}>
-            <div style={{ animation: "reel-day-cycle 9s steps(5, end) infinite" }}>
-              {["$192", "$384", "$576", "$768", "$960"].map((v) => (
-                <div key={v} style={{ height: 16 }} className="flex items-center justify-center">
-                  <span className="font-mono text-[11px] text-white leading-none">{v}</span>
-                </div>
-              ))}
+              <span className="text-[8px] font-mono font-bold text-white">
+                {n.kind === "BOOKING" ? "✓" : n.kind === "INQUIRY" ? "?" : "✉"}
+              </span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-1">
+                <span className="font-mono text-[6px] tracking-[0.2em] uppercase text-white/55">{n.kind}</span>
+                <span className="font-mono text-[6px] text-white/40">just now</span>
+              </div>
+              <p className="text-white text-[8.5px] leading-tight mt-0.5">{n.text}</p>
             </div>
           </div>
-        </div>
-
-        {/* OWN column — flat bar */}
-        <div className="relative flex flex-col items-center justify-end pb-2">
-          <span className="font-mono text-[7px] tracking-[0.22em] uppercase text-[#34D399] mb-1">OWN</span>
-          <div className="relative w-full bg-white/5 rounded-md overflow-hidden flex-1 flex items-end">
-            <div
-              className="w-full"
-              style={{
-                background: "linear-gradient(180deg, #34D399 0%, #047857 100%)",
-                height: "18%",
-              }}
-            />
-            <span
-              className="absolute left-1/2 -translate-x-1/2 top-2 font-serif text-white italic"
-              style={{ fontSize: 12 }}
-            >
-              once
-            </span>
-          </div>
-          <div className="mt-2 font-mono text-[11px] text-white">$750</div>
-        </div>
+        ))}
       </div>
 
-      {/* Bottom punchline */}
-      <div className="relative z-10 px-4 pb-4 mt-2">
-        <p className="font-serif text-white text-[13px] text-center leading-tight">
-          Year 5 of Wix{" "}
-          <span className="italic text-[#FACC15]">=</span>
-          <br />
-          year 1 of mine.
+      {/* Bottom payoff */}
+      <div className="relative z-10 px-4 pb-3 pt-1">
+        <p className="font-serif text-white text-[12px] text-center italic leading-tight">
+          Your homepage didn&apos;t.
         </p>
-        <p className="font-mono text-[7px] tracking-[0.28em] uppercase text-white/45 text-center mt-2">
+        <p className="font-mono text-[7px] tracking-[0.28em] uppercase text-white/45 text-center mt-1.5">
           BUILT · BY · BRIAN
         </p>
       </div>

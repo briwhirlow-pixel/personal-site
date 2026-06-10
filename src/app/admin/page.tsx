@@ -894,7 +894,8 @@ export default function AdminPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [tab, setTab] = useState<"pipeline" | "projects" | "playbook" | "budget" | "expenses" | "templates" | "discovery" | "calendar" | "marketing" | "social" | "emails">("pipeline");
+  const [tab, setTab] = useState<"dashboard" | "pipeline" | "projects" | "playbook" | "budget" | "expenses" | "templates" | "discovery" | "calendar" | "marketing" | "social" | "emails" | "talking">("dashboard");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [showNewProject, setShowNewProject] = useState(false);
   const [newProjectLead, setNewProjectLead] = useState<Lead | null>(null);
@@ -956,6 +957,77 @@ export default function AdminPage() {
   const activeProjects = projects.filter(p => p.status !== "launched").length;
   const wonCount = leads.filter(l => l.status === "won").length;
 
+  const PAGE_LABELS: Record<typeof tab, string> = {
+    dashboard: "Dashboard",
+    pipeline: "Pipeline",
+    projects: "Projects",
+    calendar: "Calendar",
+    social: "Social Media",
+    marketing: "Marketing",
+    emails: "Emails",
+    talking: "Talking Points",
+    templates: "Templates",
+    playbook: "Playbook",
+    discovery: "Discovery Call",
+    budget: "Budget Tiers",
+    expenses: "Expenses",
+  };
+
+  const PAGE_DESCRIPTIONS: Record<typeof tab, string> = {
+    dashboard: "Studio overview · what's open, what's earning, what's next.",
+    pipeline:  "Active leads by stage. Kanban + archive.",
+    projects:  "Active client projects · delivery + invoices.",
+    calendar:  "Booked calls, deadlines, follow-up windows.",
+    social:    "Instagram post library + animated reels.",
+    marketing: "Campaigns, funnels, and channel notes.",
+    emails:    "Reusable email templates and sequences.",
+    talking:   "What to say at the next networking event — pitch, hooks, follow-ups.",
+    templates: "Reusable site sections + boilerplate.",
+    playbook:  "Operations playbook — pricing, process, scripts.",
+    discovery: "30-min discovery call format + question bank.",
+    budget:    "Tier definitions and what each one covers.",
+    expenses:  "Studio costs, recurring subscriptions, taxes.",
+  };
+
+  const SIDEBAR_SECTIONS: { label: string; items: { id: typeof tab; label: string; count?: number; icon: string }[] }[] = [
+    {
+      label: "Workspace",
+      items: [
+        { id: "dashboard", label: "Dashboard",                          icon: "M3 12l9-9 9 9M5 10v10h14V10" },
+        { id: "pipeline",  label: "Pipeline",  count: activeLeads.length,icon: "M3 7h4l3 4h11M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9" },
+        { id: "projects",  label: "Projects",  count: projects.length,   icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" },
+        { id: "calendar",  label: "Calendar",                            icon: "M19 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zM16 2v4M8 2v4M3 10h18" },
+      ],
+    },
+    {
+      label: "Growth",
+      items: [
+        { id: "social",    label: "Social Media", count: igPosts.length, icon: "M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" },
+        { id: "marketing", label: "Marketing",                           icon: "M3 3v18h18M7 14l4-4 4 4 5-7" },
+        { id: "emails",    label: "Emails",                              icon: "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zM22 6l-10 7L2 6" },
+        { id: "talking",   label: "Talking Points",                      icon: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" },
+      ],
+    },
+    {
+      label: "Operations",
+      items: [
+        { id: "templates", label: "Templates",                           icon: "M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z" },
+        { id: "playbook",  label: "Playbook",                            icon: "M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" },
+        { id: "discovery", label: "Discovery Call",                      icon: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" },
+        { id: "budget",    label: "Budget Tiers",                        icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" },
+        { id: "expenses",  label: "Expenses",                            icon: "M21 12H3M21 6H3M21 18H3" },
+      ],
+    },
+  ];
+
+  // Stat cards used on Dashboard tab
+  const dashboardStats = [
+    { label: "New Leads",       value: newCount,        note: "Need response", color: "#60A5FA", iconPath: "M22 11.08V12a10 10 0 11-5.93-9.14 M22 4L12 14.01l-3-3" },
+    { label: "Total Leads",     value: leads.length,    note: "All time",      color: "#A78BFA", iconPath: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2 M9 5a2 2 0 002 2h2a2 2 0 002-2 M9 5a2 2 0 012-2h2a2 2 0 012 2 M12 11h4 M12 16h4 M8 11h.01 M8 16h.01" },
+    { label: "Deals Won",       value: wonCount,        note: "Converted",     color: "#34D399", iconPath: "M20 6L9 17l-5-5" },
+    { label: "Active Projects", value: activeProjects,  note: "In progress",   color: "#FBBF24", iconPath: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" },
+  ];
+
   return (
     <div className="min-h-screen relative" style={{ background: "#0A0D14", color: "white" }}>
 
@@ -971,155 +1043,353 @@ export default function AdminPage() {
         />
       </div>
 
-      {/* Top bar — editorial brand lockup + live telemetry */}
-      <div
-        className="border-b border-[#2A2D3A] px-5 sm:px-7 py-3 sm:py-3.5 flex items-center justify-between gap-3 sticky top-0 z-40"
-        style={{ background: "rgba(10,13,20,0.82)", backdropFilter: "blur(20px)" }}
-      >
-        {/* Left — brand */}
-        <div className="flex items-baseline gap-3 min-w-0 flex-shrink-0">
-          <span className="inline-flex items-baseline gap-2 select-none">
-            <span aria-hidden className="inline-block w-1.5 h-1.5 rounded-full bg-[#34D399] admin-pulse" />
-            <span className="font-serif text-[20px] leading-none text-white tracking-tight">
-              Built<span className="italic text-[#38BDF8] px-[1px]">by</span>Brian
-            </span>
-          </span>
-          <span className="font-mono text-[9.5px] tracking-[0.28em] uppercase text-white/30 hidden sm:inline-block">
-            / Admin · v2026.06
-          </span>
-        </div>
-
-        {/* Center — live telemetry pill */}
-        <div className="hidden md:flex items-center gap-3 bg-white/[0.03] border border-white/[0.08] rounded-full px-4 py-1.5 font-mono text-[10px] tracking-[0.22em] uppercase">
-          <span className="flex items-center gap-1.5 text-[#34D399]">
-            <span aria-hidden className="inline-block w-1.5 h-1.5 rounded-full bg-[#34D399] admin-pulse" />
-            All Systems
-          </span>
-          <span className="text-white/20">·</span>
-          <span className="text-white/55">{today || "—"}</span>
-          <span className="text-white/20">·</span>
-          <span className="text-white tabular-nums">{clock || "—"}</span>
-        </div>
-
-        {/* Right — actions */}
-        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-          <button
-            onClick={() => fetchData(token)}
-            title="Refresh"
-            className="flex items-center gap-1.5 text-white/45 hover:text-white text-[12px] font-medium transition px-2.5 sm:px-3 py-1.5 rounded-[6px] hover:bg-white/5"
-          >
-            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-            </svg>
-            <span className="hidden sm:inline">Sync</span>
-          </button>
-          <a
-            href="https://builtbybwhirl.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="View live site"
-            className="flex items-center gap-1.5 text-white/45 hover:text-white text-[12px] font-medium transition px-2.5 sm:px-3 py-1.5 rounded-[6px] hover:bg-white/5"
-          >
-            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-            </svg>
-            <span className="hidden sm:inline">Live site</span>
-          </a>
-          <button
-            onClick={() => { localStorage.removeItem("admin_token"); setToken(null); }}
-            title="Sign out"
-            className="flex items-center gap-1.5 text-white/45 hover:text-[#F87171] text-[12px] font-medium transition px-2.5 sm:px-3 py-1.5 rounded-[6px] hover:bg-white/5"
-          >
-            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-            </svg>
-            <span className="hidden sm:inline">Sign out</span>
-          </button>
-        </div>
-      </div>
-
       {/* Live clock pulse keyframes */}
       <style jsx global>{`
         @keyframes adminPulse {
           0%, 100% { opacity: 0.5; transform: scale(1); }
           50%      { opacity: 1;   transform: scale(1.5); }
         }
-        .admin-pulse {
-          animation: adminPulse 1.8s ease-in-out infinite;
-        }
+        .admin-pulse { animation: adminPulse 1.8s ease-in-out infinite; }
         @keyframes pulse-dot {
           0%, 100% { opacity: 0.6; }
           50%      { opacity: 1; }
         }
-        .pulse-dot {
-          animation: pulse-dot 2s ease-in-out infinite;
+        .pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+        @keyframes sidebar-slide-in {
+          from { transform: translateX(-100%); }
+          to   { transform: translateX(0); }
         }
+        .sidebar-slide-in { animation: sidebar-slide-in 240ms cubic-bezier(0.2,0.7,0.2,1) both; }
       `}</style>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        {/* DB error banner */}
-        {fetchError && (
-          <div className="mb-6 bg-[#3D2E0A]/40 border border-[#FBBF24]/30 rounded-[8px] px-5 py-4 text-[#FBBF24] text-[13px] font-medium flex items-start gap-3">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5">
-              <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
-              <line x1="12" y1="9" x2="12" y2="13"/>
-              <line x1="12" y1="17" x2="12.01" y2="17"/>
-            </svg>
-            <span>{fetchError}</span>
+      {/* SHELL — sidebar + main */}
+      <div className="relative z-10 lg:flex lg:items-start min-h-screen">
+
+        {/* ─── DESKTOP SIDEBAR ─── */}
+        <aside className="hidden lg:flex flex-col w-[256px] xl:w-[268px] sticky top-0 h-screen border-r border-[#1C2030] bg-[#0B0E18]/85 backdrop-blur-xl flex-shrink-0">
+          {/* Brand */}
+          <div className="px-5 py-5 border-b border-[#1C2030]">
+            <div className="flex items-center gap-2.5">
+              <span aria-hidden className="inline-block w-2 h-2 rounded-full bg-[#34D399] admin-pulse" />
+              <span className="font-serif text-[20px] leading-none text-white tracking-tight">
+                Built<span className="italic text-[#38BDF8] px-[1px]">by</span>Brian
+              </span>
+            </div>
+            <p className="font-mono text-[9.5px] tracking-[0.28em] uppercase text-white/35 mt-2 ml-[18px]">
+              Studio · Admin · v26.6
+            </p>
           </div>
+
+          {/* Live clock */}
+          <div className="px-5 py-3 border-b border-[#1C2030] flex items-center justify-between font-mono text-[10px] tracking-[0.22em] uppercase">
+            <span className="flex items-center gap-1.5 text-[#34D399]">
+              <span aria-hidden className="inline-block w-1 h-1 rounded-full bg-[#34D399] admin-pulse" />
+              Live
+            </span>
+            <span className="text-white/55">{today || "—"}</span>
+            <span className="text-white tabular-nums">{clock?.slice(0, 5) || "—"}</span>
+          </div>
+
+          {/* Nav */}
+          <nav className="flex-1 overflow-y-auto py-4 px-3">
+            {SIDEBAR_SECTIONS.map((section) => (
+              <div key={section.label} className="mb-6">
+                <p className="font-mono text-[9.5px] tracking-[0.24em] uppercase text-white/30 mb-2 px-3">
+                  {section.label}
+                </p>
+                <div className="space-y-0.5">
+                  {section.items.map((item) => {
+                    const active = tab === item.id;
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => setTab(item.id)}
+                        className={`relative w-full flex items-center gap-3 pl-3.5 pr-2.5 py-2 rounded-[7px] text-[13px] font-medium tracking-tight transition-colors ${
+                          active
+                            ? "bg-[#13182A] text-white"
+                            : "text-white/55 hover:text-white hover:bg-white/[0.04]"
+                        }`}
+                      >
+                        {active && (
+                          <span aria-hidden className="absolute left-0 top-1.5 bottom-1.5 w-[2px] bg-[#38BDF8] rounded-r-full" />
+                        )}
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.85} strokeLinecap="round" strokeLinejoin="round" className={active ? "text-[#38BDF8]" : "text-white/40"}>
+                          <path d={item.icon} />
+                        </svg>
+                        <span className="flex-1 text-left">{item.label}</span>
+                        {item.count !== undefined && item.count > 0 && (
+                          <span className={`font-mono text-[9.5px] tracking-tight px-1.5 py-0.5 rounded-md tabular-nums ${
+                            active ? "bg-[#38BDF8]/20 text-[#38BDF8]" : "bg-white/[0.06] text-white/55"
+                          }`}>
+                            {item.count}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </nav>
+
+          {/* Sidebar footer */}
+          <div className="border-t border-[#1C2030] p-3 space-y-1">
+            <a
+              href="https://builtbybwhirl.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex items-center gap-3 px-3 py-2 rounded-[7px] text-[12.5px] text-white/55 hover:text-white hover:bg-white/[0.04] transition-colors"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.85} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              Live site
+            </a>
+            <button
+              onClick={() => fetchData(token)}
+              className="w-full flex items-center gap-3 px-3 py-2 rounded-[7px] text-[12.5px] text-white/55 hover:text-white hover:bg-white/[0.04] transition-colors"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.85} strokeLinecap="round" strokeLinejoin="round">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+              </svg>
+              Sync data
+            </button>
+            <button
+              onClick={() => { localStorage.removeItem("admin_token"); setToken(null); }}
+              className="w-full flex items-center gap-3 px-3 py-2 rounded-[7px] text-[12.5px] text-white/55 hover:text-[#F87171] hover:bg-white/[0.04] transition-colors"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.85} strokeLinecap="round" strokeLinejoin="round">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+              </svg>
+              Sign out
+            </button>
+          </div>
+        </aside>
+
+        {/* ─── MOBILE SIDEBAR DRAWER ─── */}
+        {sidebarOpen && (
+          <>
+            <div
+              className="lg:hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+              onClick={() => setSidebarOpen(false)}
+              aria-hidden
+            />
+            <aside className="lg:hidden fixed inset-y-0 left-0 z-50 w-[280px] bg-[#0B0E18] border-r border-[#1C2030] flex flex-col sidebar-slide-in">
+              <div className="px-5 py-5 border-b border-[#1C2030] flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <span aria-hidden className="inline-block w-2 h-2 rounded-full bg-[#34D399] admin-pulse" />
+                  <span className="font-serif text-[20px] leading-none text-white tracking-tight">
+                    Built<span className="italic text-[#38BDF8] px-[1px]">by</span>Brian
+                  </span>
+                </div>
+                <button
+                  onClick={() => setSidebarOpen(false)}
+                  className="text-white/55 hover:text-white p-1"
+                  aria-label="Close menu"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
+              </div>
+
+              <nav className="flex-1 overflow-y-auto py-4 px-3">
+                {SIDEBAR_SECTIONS.map((section) => (
+                  <div key={section.label} className="mb-6">
+                    <p className="font-mono text-[9.5px] tracking-[0.24em] uppercase text-white/30 mb-2 px-3">
+                      {section.label}
+                    </p>
+                    <div className="space-y-0.5">
+                      {section.items.map((item) => {
+                        const active = tab === item.id;
+                        return (
+                          <button
+                            key={item.id}
+                            onClick={() => { setTab(item.id); setSidebarOpen(false); }}
+                            className={`relative w-full flex items-center gap-3 pl-3.5 pr-2.5 py-2.5 rounded-[7px] text-[14px] font-medium tracking-tight transition-colors ${
+                              active ? "bg-[#13182A] text-white" : "text-white/65 hover:text-white hover:bg-white/[0.04]"
+                            }`}
+                          >
+                            {active && <span aria-hidden className="absolute left-0 top-1.5 bottom-1.5 w-[2px] bg-[#38BDF8] rounded-r-full" />}
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.85} strokeLinecap="round" strokeLinejoin="round" className={active ? "text-[#38BDF8]" : "text-white/40"}>
+                              <path d={item.icon} />
+                            </svg>
+                            <span className="flex-1 text-left">{item.label}</span>
+                            {item.count !== undefined && item.count > 0 && (
+                              <span className={`font-mono text-[10px] tracking-tight px-1.5 py-0.5 rounded-md tabular-nums ${active ? "bg-[#38BDF8]/20 text-[#38BDF8]" : "bg-white/[0.06] text-white/55"}`}>
+                                {item.count}
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </nav>
+
+              <div className="border-t border-[#1C2030] p-3 space-y-1">
+                <button
+                  onClick={() => { localStorage.removeItem("admin_token"); setToken(null); }}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-[7px] text-[13px] text-white/65 hover:text-[#F87171] hover:bg-white/[0.04] transition-colors"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.85} strokeLinecap="round" strokeLinejoin="round">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                  </svg>
+                  Sign out
+                </button>
+              </div>
+            </aside>
+          </>
         )}
 
-        {/* Stats — editorial cards with Lucide icons + accent stripes */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-          {[
-            { label: "New Leads",       value: newCount,        note: "Need response", color: "#60A5FA", iconPath: "M22 11.08V12a10 10 0 11-5.93-9.14 M22 4L12 14.01l-3-3" },
-            { label: "Total Leads",     value: leads.length,    note: "All time",      color: "#A78BFA", iconPath: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2 M9 5a2 2 0 002 2h2a2 2 0 002-2 M9 5a2 2 0 012-2h2a2 2 0 012 2 M12 11h4 M12 16h4 M8 11h.01 M8 16h.01" },
-            { label: "Deals Won",       value: wonCount,        note: "Converted",     color: "#34D399", iconPath: "M20 6L9 17l-5-5" },
-            { label: "Active Projects", value: activeProjects,  note: "In progress",   color: "#FBBF24", iconPath: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" },
-          ].map(stat => (
-            <div key={stat.label} className="relative bg-[#13161F] rounded-[8px] p-5 border border-[#2A2D3A] hover:border-[#3D4356] transition-colors overflow-hidden">
-              {/* Accent stripe on left */}
-              <span className="absolute left-0 top-3 bottom-3 w-[2px] rounded-full" style={{ background: stat.color }} aria-hidden />
-              <div className="flex items-start justify-between mb-3 pl-2">
-                <div className="w-8 h-8 rounded-[6px] flex items-center justify-center flex-shrink-0" style={{ background: stat.color + "18", color: stat.color }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
-                    <path d={stat.iconPath} />
-                  </svg>
-                </div>
-                <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-white/30 mt-1">{stat.note}</span>
-              </div>
-              <p className="text-white font-bold text-[32px] leading-none pl-2 tabular-nums">{loading ? "—" : stat.value}</p>
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/40 mt-2 pl-2 font-semibold">{stat.label}</p>
-            </div>
-          ))}
-        </div>
+        {/* ─── MAIN COLUMN ─── */}
+        <div className="flex-1 min-w-0 min-h-screen">
 
-        {/* Tabs — text-only labels, cleaner */}
-        <div className="flex flex-wrap gap-1 mb-6 bg-[#13161F] rounded-[8px] p-1 w-fit border border-[#2A2D3A]">
-          {(["pipeline", "projects", "calendar", "playbook", "budget", "expenses", "templates", "discovery", "marketing", "social", "emails"] as const).map(t => {
-            const labels: Record<typeof t, string> = {
-              pipeline: `Pipeline (${activeLeads.length})`,
-              projects: `Projects (${projects.length})`,
-              calendar: "Calendar",
-              playbook: "Playbook",
-              budget: "Budget Tiers",
-              expenses: "Expenses",
-              templates: "Templates",
-              discovery: "Discovery Call",
-              marketing: "Marketing",
-              social: `Social Media (${igPosts.length})`,
-              emails: "Emails",
-            };
-            return (
-              <button key={t} onClick={() => setTab(t)}
-                className={`px-3.5 py-2 rounded-[6px] text-[12.5px] font-semibold tracking-tight transition ${
-                  tab === t ? "bg-[#2563EB] text-white shadow-[0_4px_12px_-4px_rgba(37,99,235,0.5)]" : "text-white/45 hover:text-white hover:bg-white/5"
-                }`}>
-                {labels[t]}
-              </button>
-            );
-          })}
-        </div>
+          {/* MOBILE TOPBAR */}
+          <div className="lg:hidden sticky top-0 z-30 bg-[#0A0D14]/85 backdrop-blur-xl border-b border-[#1C2030] px-4 py-3 flex items-center justify-between">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="text-white/65 hover:text-white p-1.5 -ml-1.5"
+              aria-label="Open menu"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
+            <span className="font-serif text-[18px] text-white tracking-tight">
+              Built<span className="italic text-[#38BDF8]">by</span>Brian
+            </span>
+            <button
+              onClick={() => fetchData(token)}
+              className="text-white/55 hover:text-white p-1.5 -mr-1.5"
+              aria-label="Sync"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+              </svg>
+            </button>
+          </div>
+
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+
+            {/* PAGE HEADER */}
+            <div className="mb-6 flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-white/35 mb-2">
+                  Section · {PAGE_LABELS[tab]}
+                </p>
+                <h1 className="font-serif text-[28px] sm:text-[34px] leading-[1.05] text-white tracking-tight">
+                  {PAGE_LABELS[tab]}
+                </h1>
+                <p className="text-white/55 text-[13px] sm:text-[14px] leading-relaxed mt-2 max-w-2xl">
+                  {PAGE_DESCRIPTIONS[tab]}
+                </p>
+              </div>
+              <div className="hidden md:flex items-center gap-2 flex-shrink-0">
+                <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-white/45 bg-white/[0.04] border border-white/[0.08] rounded-md px-3 py-2">
+                  {clock || "—"} CT
+                </span>
+              </div>
+            </div>
+
+            {/* DB error banner */}
+            {fetchError && (
+              <div className="mb-6 bg-[#3D2E0A]/40 border border-[#FBBF24]/30 rounded-[8px] px-5 py-4 text-[#FBBF24] text-[13px] font-medium flex items-start gap-3">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <span>{fetchError}</span>
+              </div>
+            )}
+
+            {/* DASHBOARD TAB */}
+            {tab === "dashboard" && (
+              <div className="space-y-8">
+                {/* Stats */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                  {dashboardStats.map(stat => (
+                    <div key={stat.label} className="relative bg-[#13161F] rounded-[10px] p-5 border border-[#2A2D3A] hover:border-[#3D4356] transition-colors overflow-hidden">
+                      <span className="absolute left-0 top-3 bottom-3 w-[2px] rounded-full" style={{ background: stat.color }} aria-hidden />
+                      <div className="flex items-start justify-between mb-3 pl-2">
+                        <div className="w-8 h-8 rounded-[6px] flex items-center justify-center flex-shrink-0" style={{ background: stat.color + "18", color: stat.color }}>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+                            <path d={stat.iconPath} />
+                          </svg>
+                        </div>
+                        <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-white/30 mt-1">{stat.note}</span>
+                      </div>
+                      <p className="text-white font-bold text-[32px] leading-none pl-2 tabular-nums">{loading ? "—" : stat.value}</p>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/40 mt-2 pl-2 font-semibold">{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Jump-to-section grid */}
+                <div>
+                  <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-white/35 mb-3">Jump to</p>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {(["pipeline", "social", "talking", "calendar"] as const).map((id) => {
+                      const item = SIDEBAR_SECTIONS.flatMap(s => s.items).find(i => i.id === id);
+                      if (!item) return null;
+                      return (
+                        <button
+                          key={id}
+                          onClick={() => setTab(id)}
+                          className="bg-[#13161F] border border-[#2A2D3A] hover:border-[#38BDF8]/50 rounded-[10px] p-4 text-left transition-colors group"
+                        >
+                          <div className="w-9 h-9 rounded-[7px] bg-[#38BDF8]/12 text-[#38BDF8] flex items-center justify-center mb-3 group-hover:bg-[#38BDF8]/20 transition-colors">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.85} strokeLinecap="round" strokeLinejoin="round">
+                              <path d={item.icon} />
+                            </svg>
+                          </div>
+                          <p className="text-white font-bold text-[14px] tracking-tight">{item.label}</p>
+                          <p className="text-white/45 text-[11.5px] leading-relaxed mt-1 line-clamp-2">
+                            {PAGE_DESCRIPTIONS[id]}
+                          </p>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Recent leads snapshot */}
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-white/35">Recent leads</p>
+                    <button onClick={() => setTab("pipeline")} className="text-[#38BDF8] hover:text-white text-[12px] font-semibold transition">Open pipeline →</button>
+                  </div>
+                  <div className="bg-[#13161F] border border-[#2A2D3A] rounded-[10px] divide-y divide-[#1F2330]">
+                    {activeLeads.slice(0, 5).map((lead) => (
+                      <button
+                        key={lead.id}
+                        onClick={() => { setTab("pipeline"); setSelectedLead(lead); }}
+                        className="w-full flex items-center justify-between px-5 py-3.5 hover:bg-white/[0.02] transition-colors text-left"
+                      >
+                        <div className="min-w-0 flex-1">
+                          <p className="text-white text-[13.5px] font-semibold truncate">{lead.name}</p>
+                          <p className="text-white/45 text-[11.5px] truncate">{lead.email} · {timeAgo(lead.created_at)}</p>
+                        </div>
+                        <div className="flex-shrink-0 ml-3">
+                          <StatusBadge status={lead.status} />
+                        </div>
+                      </button>
+                    ))}
+                    {activeLeads.length === 0 && (
+                      <div className="px-5 py-8 text-center text-white/35 text-[13px]">No active leads. New ones land here automatically.</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TALKING POINTS TAB */}
+            {tab === "talking" && <TalkingPoints clock={clock} />}
 
         {/* Pipeline view */}
         {tab === "pipeline" && (
@@ -1301,6 +1571,8 @@ export default function AdminPage() {
             )}
           </div>
         )}
+          </div>
+        </div>
       </div>
 
       {/* Lead detail panel */}
@@ -1756,6 +2028,361 @@ const PHASES = [
     rule: "A happy client is your best marketing. Ask for referrals and testimonials every time.",
   },
 ];
+
+// ─── TALKING POINTS — networking-event prep ─────────────────────────────────
+
+const TALKING_PITCHES = [
+  {
+    seconds: 10,
+    label: "Drive-By",
+    body: "I build custom websites for Philly + South Jersey small businesses. One person, start to finish.",
+  },
+  {
+    seconds: 30,
+    label: "The Standard",
+    body: "I run a one-person web design studio out of Philly + South Jersey. I hand-build custom sites for restaurants, studios, shops, service businesses — no templates, no Wix, no agency overhead. Your code, your call after launch.",
+  },
+  {
+    seconds: 60,
+    label: "When They're Interested",
+    body: "I run BuiltbyBrian — one person, hand-built websites for local businesses across Philly + South Jersey. The two reasons people pick me: I don't use templates, and I finish work in two to four weeks instead of two to four months. After launch you get the source code — you own it forever, host it anywhere. Or I'll manage hosting and edits for forty-nine a month. Three tiers — Starter at $750, Pro at $1,200, Custom from $3,000. Free 30-minute discovery call to see if we're a fit.",
+  },
+];
+
+const TALKING_QUESTIONS = [
+  "What does your business look like in the next 12 months?",
+  "What does your website currently do for you — and what should it do?",
+  "What's the slowest part of how customers find you right now?",
+  "How are you handling reservations / bookings / online orders today?",
+  "What's the one thing on your website you wish you could change tonight?",
+  "Who in your circle is starting a business this year?",
+];
+
+const TALKING_OBJECTIONS = [
+  {
+    they: "I already have a website.",
+    you: "Most people do — half of them are leaking customers daily and don't know it. Mind if I run a free 5-minute audit on yours? I'll text you what I find.",
+  },
+  {
+    they: "We use Wix / Squarespace — it's fine.",
+    you: "Wix is great until you outgrow it. The math gets painful fast — $16/mo forever vs. $750 once. And the second you want something custom, you're stuck rebuilding. I'd just rather build you the real thing the first time.",
+  },
+  {
+    they: "We don't really have a budget.",
+    you: "Totally hear you. I built the tiers specifically for that — Starter is $750 once, no contract, code is yours forever. If that's still not the right time, save my card. The audit's free regardless.",
+  },
+  {
+    they: "How is this different from an agency?",
+    you: "Agencies have account managers forwarding your texts to a junior. I'm the designer. The developer. The point of contact. You text me, I answer. Decisions in hours, not weeks. First draft in five days.",
+  },
+  {
+    they: "We need it next week.",
+    you: "Five-day first draft is real. If we kick off Monday, you're seeing the first version Friday. Two-to-four-week full launches are standard. I'd just need a yes by tomorrow.",
+  },
+  {
+    they: "What if I don't like the design?",
+    you: "Two rounds of revisions baked in. And I show drafts as I build — you're never seeing a surprise at the end. If we're not vibing by draft two, you can walk with what we made.",
+  },
+];
+
+const TALKING_NICHES = [
+  {
+    niche: "Restaurants & bars",
+    hook: "Most Philly restaurant sites still have a PDF menu. On a phone. That alone costs you reservations every Friday night.",
+    proof: "Mama's Trattoria: 6.1s → 1.4s load time, +217% mobile conversions, 41% of weekly bookings now come from the site.",
+  },
+  {
+    niche: "Salons & wellness",
+    hook: "Half the salons I see have booking buried three taps deep. The fix is moving it to the header. Took me 20 minutes on the last one.",
+    proof: "Yoga studios + salons: one-tap booking, recovery program landing pages, instructor profile pages with full bios.",
+  },
+  {
+    niche: "Trades & contractors",
+    hook: "Contractors are losing leads to whoever shows up first on Google. The site doesn't need to be fancy — it needs to load fast and have a quote form that actually sends.",
+    proof: "Mobile-first quote forms, gallery pages that don't crash phones, tap-to-call on every page.",
+  },
+  {
+    niche: "Boutiques & retail",
+    hook: "Most local boutiques have an Instagram and a Shopify — and nothing tying them together. The site is the bridge.",
+    proof: "Shopify integration, mobile-first product pages, in-store pickup flows.",
+  },
+];
+
+const TALKING_STORIES = [
+  {
+    title: "The 5-day flip",
+    body: "Friend of a friend's coffee shop. Their site was so slow it crashed phones. Kicked off Monday, first draft Friday, live the following Tuesday. They messaged me a week later — pumpkin spice latte orders doubled.",
+  },
+  {
+    title: "The Wix migration",
+    body: "Salon owner was paying $49/mo for Wix Premium and still couldn't add a booking button. Migrated her to a custom site for $1,200 once. She does her own edits now and saves $600/yr.",
+  },
+  {
+    title: "The Friday-afternoon save",
+    body: "Restaurant owner called me Friday at 3 PM — their menu PDF wouldn't load on phones. I had a hosted version of their menu live in 2 hours. They sent me a $200 dinner gift card.",
+  },
+];
+
+const TALKING_FOLLOWUP = [
+  {
+    step: "1",
+    title: "Get the card / number",
+    body: "\"Send me your site URL real quick — I'll run a free audit tomorrow and text you what I find.\" — gives you their number AND a reason to follow up.",
+  },
+  {
+    step: "2",
+    title: "Same-night text",
+    body: "\"Brian here from [event]. Great meeting you. Going to run that audit tomorrow morning — I'll text you a video walkthrough by lunch.\" — sets up tomorrow without being a sale.",
+  },
+  {
+    step: "3",
+    title: "The audit text",
+    body: "Send a 60-second Loom or screen-recording of their site with 2-3 specific things you'd fix. End with: \"Want to grab 30 mins next week to go through this?\"",
+  },
+  {
+    step: "4",
+    title: "Calendar invite",
+    body: "If they say yes — send the Calendly link. If they ghost — wait 7 days, send one casual follow-up: \"Hey, did the audit feel useful? Happy to send the full doc if so.\"",
+  },
+];
+
+const TALKING_BRING = [
+  "Phone with builtbybwhirl.com loaded and 2-3 portfolio sites bookmarked",
+  "Business cards (front: name + role; back: 3 things — site link, free audit offer, 'DM SLOT' code)",
+  "QR code sticker that opens the discovery call calendar",
+  "A backup pen + a small notebook for capturing names / site URLs",
+  "Snack + water in the car (these things run long)",
+];
+
+function CopyableLine({ text, copyKey, onCopy, copiedKey }: {
+  text: string; copyKey: string; onCopy: (text: string, key: string) => void; copiedKey: string | null;
+}) {
+  return (
+    <button
+      onClick={() => onCopy(text, copyKey)}
+      className={`text-[10px] font-mono font-bold tracking-[0.18em] uppercase px-2.5 py-1 rounded-md transition flex-shrink-0 ${
+        copiedKey === copyKey ? "bg-[#0EA5E9] text-white" : "bg-white/[0.06] hover:bg-[#2563EB] text-white/55 hover:text-white border border-white/10 hover:border-transparent"
+      }`}
+    >
+      {copiedKey === copyKey ? "Copied" : "Copy"}
+    </button>
+  );
+}
+
+function TalkingPoints({ clock }: { clock: string }) {
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const copy = (text: string, key: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedKey(key);
+      setTimeout(() => setCopiedKey(null), 1800);
+    });
+  };
+
+  return (
+    <div className="space-y-8 pb-12">
+      {/* Event-prep banner */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#1A1F33] to-[#0F1424] border border-[#2A2D3A] rounded-[14px] p-6 sm:p-7">
+        <div className="absolute -top-12 -right-12 w-44 h-44 rounded-full blur-3xl opacity-50 pointer-events-none" style={{ background: "radial-gradient(closest-side,#38BDF8,transparent)" }} aria-hidden />
+        <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <span aria-hidden className="inline-block w-1.5 h-1.5 rounded-full bg-[#38BDF8] admin-pulse" />
+              <span className="font-mono text-[10px] tracking-[0.28em] uppercase text-[#38BDF8]">
+                Pre-Event Briefing
+              </span>
+            </div>
+            <h3 className="font-serif text-white text-[26px] sm:text-[30px] leading-tight tracking-tight">
+              Twenty minutes before the room <span className="italic text-[#38BDF8]">opens</span>.
+            </h3>
+            <p className="text-white/55 text-[13.5px] leading-relaxed mt-2 max-w-2xl">
+              Skim this once before you walk in. Pitches are the spine — read the 30-second three times. The objection bank lives in the back of your head, the questions live on your tongue.
+            </p>
+          </div>
+          <div className="font-mono text-[10px] tracking-[0.22em] uppercase text-white/45 flex flex-col items-start md:items-end gap-1">
+            <span className="text-[#34D399]">● Ready</span>
+            <span className="tabular-nums">{clock || "—"} CT</span>
+          </div>
+        </div>
+      </div>
+
+      {/* THE PITCH — primary section */}
+      <section>
+        <SectionHeader
+          eyebrow="§ 01 — The Pitch"
+          title="Three lengths. One voice."
+          subtitle='When someone says "so what do you do?" pick the length that fits the moment.'
+        />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+          {TALKING_PITCHES.map((p) => (
+            <div key={p.label} className="bg-[#13161F] border border-[#2A2D3A] rounded-[10px] p-5 flex flex-col">
+              <div className="flex items-center justify-between mb-3">
+                <span className="font-mono text-[9.5px] tracking-[0.22em] uppercase text-[#38BDF8]">
+                  {p.seconds}s · {p.label}
+                </span>
+                <CopyableLine text={p.body} copyKey={`pitch-${p.seconds}`} onCopy={copy} copiedKey={copiedKey} />
+              </div>
+              <p className="text-white/85 text-[14px] leading-[1.55] flex-1">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* QUESTIONS TO ASK */}
+      <section>
+        <SectionHeader
+          eyebrow="§ 02 — Questions on Your Tongue"
+          title="Ask, don't sell."
+          subtitle="People remember whoever asked the best question. Memorize three of these and lead with them."
+        />
+        <div className="bg-[#13161F] border border-[#2A2D3A] rounded-[10px] divide-y divide-[#1F2330]">
+          {TALKING_QUESTIONS.map((q, i) => (
+            <div key={q} className="flex items-start justify-between gap-3 px-5 py-3.5">
+              <div className="flex items-start gap-3 min-w-0">
+                <span className="font-mono text-[10px] tracking-[0.18em] text-[#38BDF8] mt-0.5 tabular-nums">0{i + 1}</span>
+                <p className="text-white/85 text-[14px] leading-[1.5]">{q}</p>
+              </div>
+              <CopyableLine text={q} copyKey={`q-${i}`} onCopy={copy} copiedKey={copiedKey} />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* OBJECTIONS */}
+      <section>
+        <SectionHeader
+          eyebrow="§ 03 — The Objection Bank"
+          title="When they push, you have an answer."
+          subtitle="Don't argue. Acknowledge, then redirect."
+        />
+        <div className="space-y-3">
+          {TALKING_OBJECTIONS.map((o, i) => (
+            <div key={i} className="bg-[#13161F] border border-[#2A2D3A] rounded-[10px] p-5">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-mono text-[9.5px] tracking-[0.22em] uppercase text-[#F87171]">They say</span>
+                <CopyableLine text={`THEY: ${o.they}\nYOU: ${o.you}`} copyKey={`obj-${i}`} onCopy={copy} copiedKey={copiedKey} />
+              </div>
+              <p className="text-white/90 text-[15px] leading-[1.4] mb-3 font-serif italic">&ldquo;{o.they}&rdquo;</p>
+              <div className="flex items-center gap-2 mb-2 pt-3 border-t border-[#1F2330]">
+                <span className="font-mono text-[9.5px] tracking-[0.22em] uppercase text-[#34D399]">You say</span>
+              </div>
+              <p className="text-white/85 text-[14px] leading-[1.55]">{o.you}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* INDUSTRY HOOKS */}
+      <section>
+        <SectionHeader
+          eyebrow="§ 04 — Industry Hooks"
+          title="Specific beats generic."
+          subtitle='When someone says "I run X" — you have the exact line ready.'
+        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {TALKING_NICHES.map((n) => (
+            <div key={n.niche} className="bg-[#13161F] border border-[#2A2D3A] rounded-[10px] p-5">
+              <div className="flex items-center justify-between mb-3">
+                <span className="font-mono text-[9.5px] tracking-[0.22em] uppercase text-[#FACC15]">{n.niche}</span>
+                <CopyableLine text={`${n.niche.toUpperCase()}\nHOOK: ${n.hook}\nPROOF: ${n.proof}`} copyKey={`niche-${n.niche}`} onCopy={copy} copiedKey={copiedKey} />
+              </div>
+              <div className="space-y-3">
+                <div>
+                  <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-white/35 mb-1">Hook</p>
+                  <p className="text-white/85 text-[13.5px] leading-[1.55]">{n.hook}</p>
+                </div>
+                <div className="pt-3 border-t border-[#1F2330]">
+                  <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-white/35 mb-1">Proof to drop</p>
+                  <p className="text-white/70 text-[13px] leading-[1.55]">{n.proof}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* STORY BANK */}
+      <section>
+        <SectionHeader
+          eyebrow="§ 05 — The Story Bank"
+          title="Stories outlast pitches."
+          subtitle="Drop one of these mid-conversation. Specifics earn the room."
+        />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {TALKING_STORIES.map((s, i) => (
+            <div key={s.title} className="bg-[#13161F] border border-[#2A2D3A] rounded-[10px] p-5">
+              <div className="flex items-center justify-between mb-3">
+                <span className="font-mono text-[9.5px] tracking-[0.22em] uppercase text-[#22D3EE]">Story 0{i + 1}</span>
+                <CopyableLine text={`${s.title}\n\n${s.body}`} copyKey={`story-${i}`} onCopy={copy} copiedKey={copiedKey} />
+              </div>
+              <h4 className="font-serif text-white text-[18px] leading-tight mb-2">{s.title}</h4>
+              <p className="text-white/65 text-[13px] leading-[1.55]">{s.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* FOLLOWUP */}
+      <section>
+        <SectionHeader
+          eyebrow="§ 06 — The Follow-Up Move"
+          title="The deal closes after the event."
+          subtitle="If you don't follow up within 24 hours, you didn't go."
+        />
+        <div className="bg-[#13161F] border border-[#2A2D3A] rounded-[10px] p-5 sm:p-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {TALKING_FOLLOWUP.map((f) => (
+              <div key={f.step} className="relative pl-4">
+                <span className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#38BDF8] rounded-full" aria-hidden />
+                <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-[#38BDF8] tabular-nums">Step {f.step}</span>
+                <h4 className="text-white font-bold text-[13.5px] mt-2 mb-2 leading-tight">{f.title}</h4>
+                <p className="text-white/65 text-[12.5px] leading-[1.55]">{f.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* BRING */}
+      <section>
+        <SectionHeader
+          eyebrow="§ 07 — The Bag"
+          title="What you're walking in with."
+          subtitle="Run this list before you leave the house."
+        />
+        <div className="bg-[#13161F] border border-[#2A2D3A] rounded-[10px] p-5">
+          <ul className="space-y-3">
+            {TALKING_BRING.map((item, i) => (
+              <li key={item} className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-5 h-5 rounded-md border border-[#38BDF8]/40 bg-[#38BDF8]/10 flex items-center justify-center text-[#38BDF8] font-mono text-[10px] tabular-nums mt-0.5">{i + 1}</span>
+                <span className="text-white/85 text-[14px] leading-[1.55]">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Closing reminder */}
+      <div className="bg-gradient-to-br from-[#1A1F33] to-[#0F1424] border border-[#38BDF8]/25 rounded-[14px] p-6 text-center">
+        <p className="font-serif text-white text-[22px] leading-tight tracking-tight">
+          You&apos;re not selling. You&apos;re <span className="italic text-[#38BDF8]">meeting people</span>.
+        </p>
+        <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-white/45 mt-3">
+          The pitch is a tool · not the goal
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function SectionHeader({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle?: string }) {
+  return (
+    <div className="mb-4">
+      <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-[#38BDF8] mb-2">{eyebrow}</p>
+      <h3 className="font-serif text-white text-[22px] sm:text-[26px] leading-tight tracking-tight">{title}</h3>
+      {subtitle && <p className="text-white/55 text-[13px] mt-1.5 max-w-2xl">{subtitle}</p>}
+    </div>
+  );
+}
 
 function Playbook() {
   return (

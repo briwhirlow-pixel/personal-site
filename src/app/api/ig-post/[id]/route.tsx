@@ -1065,6 +1065,189 @@ export async function GET(
   }
 
 
+  // ─── STARTER TRIO LAYOUT — Pokemon post w/ characters flanking headline ───
+  if (post.customLayout === "starter-trio") {
+    const trioUrl = `${origin}/images/pokemon-starters.jpg`;
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            background: p.bgGradient ?? p.bg,
+            color: p.ink,
+            padding: `${PAD_Y}px ${PAD_X}px`,
+            fontFamily: "Outfit",
+          }}
+        >
+          {/* TOP ROW — meta */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ width: 10, height: 10, borderRadius: 10, background: p.accent, marginRight: 12, display: "flex" }} />
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
+                {post.topLeftLabel}
+              </div>
+            </div>
+            <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
+              {post.topRightLabel}
+            </div>
+          </div>
+
+          {/* KICKER — centered */}
+          <div style={{ display: "flex", justifyContent: "center", marginTop: 30 }}>
+            <div style={{ fontFamily: "JetBrains Mono", fontSize: 22, letterSpacing: 5, textTransform: "uppercase", color: p.accent, fontWeight: 700, display: "flex" }}>
+              {post.kicker}
+            </div>
+          </div>
+
+          {/* MAIN ROW — Bulbasaur | TITLE | Charmander */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 28, width: "100%" }}>
+
+            {/* Left — Bulbasaur cropped from banner */}
+            <div style={{ display: "flex", width: 270, height: 460, overflow: "hidden", borderRadius: 18 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={trioUrl}
+                alt="Bulbasaur"
+                width={270}
+                height={460}
+                style={{ display: "flex", width: 270, height: 460, objectFit: "cover", objectPosition: "8% center" }}
+              />
+            </div>
+
+            {/* Center — title stack */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1, padding: "0 24px" }}>
+              {post.titleLines.map((line, i) => (
+                <div
+                  key={i}
+                  style={{
+                    fontFamily: "Instrument Serif",
+                    fontSize: 92,
+                    lineHeight: 0.98,
+                    letterSpacing: -2.2,
+                    color: line.italic ? p.italicAccent : p.ink,
+                    fontStyle: line.italic ? "italic" : "normal",
+                    display: "flex",
+                    textAlign: "center",
+                  }}
+                >
+                  {line.text}
+                </div>
+              ))}
+            </div>
+
+            {/* Right — Charmander cropped from banner */}
+            <div style={{ display: "flex", width: 270, height: 460, overflow: "hidden", borderRadius: 18 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={trioUrl}
+                alt="Charmander"
+                width={270}
+                height={460}
+                style={{ display: "flex", width: 270, height: 460, objectFit: "cover", objectPosition: "50% center" }}
+              />
+            </div>
+          </div>
+
+          {/* SUB — centered */}
+          {post.sub && (
+            <div style={{ display: "flex", justifyContent: "center", marginTop: 26 }}>
+              <div style={{ fontFamily: "Outfit", fontSize: 22, lineHeight: 1.45, color: p.inkSoft, fontWeight: 500, textAlign: "center", maxWidth: 760, display: "flex" }}>
+                {post.sub}
+              </div>
+            </div>
+          )}
+
+          {/* SQUIRTLE row — small centered + tagRow */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 22 }}>
+            <div style={{ display: "flex", width: 200, height: 180, overflow: "hidden", borderRadius: 14 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={trioUrl}
+                alt="Squirtle"
+                width={200}
+                height={180}
+                style={{ display: "flex", width: 200, height: 180, objectFit: "cover", objectPosition: "92% center" }}
+              />
+            </div>
+          </div>
+
+          {/* TYPE CHIPS — three side by side */}
+          {post.tagRow && (
+            <div style={{ display: "flex", justifyContent: "center", marginTop: 18, gap: 12 }}>
+              {post.tagRow.map((tag, i) => (
+                <div
+                  key={i}
+                  style={{
+                    fontFamily: "JetBrains Mono",
+                    fontSize: 14,
+                    letterSpacing: 3,
+                    textTransform: "uppercase",
+                    color: p.chipText,
+                    background: p.chipBg,
+                    padding: "8px 14px",
+                    borderRadius: 999,
+                    fontWeight: 700,
+                    display: "flex",
+                  }}
+                >
+                  {tag}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Spacer */}
+          <div style={{ flex: 1, display: "flex" }} />
+
+          {/* BOTTOM ROW — logo + CTA */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingTop: 22,
+              borderTop: `1px solid ${p.ruleColor}`,
+              width: "100%",
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <div style={{ background: "#1A1A2E", borderRadius: 9, padding: 4, display: "flex" }}>
+                <div style={{ background: "#FFFFFF", borderRadius: 6, padding: "8px 16px 7px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <div style={{ width: 8, height: 8, borderRadius: 8, background: "#2563EB", display: "flex", marginRight: 8 }} />
+                    <div style={{ display: "flex", alignItems: "baseline", fontFamily: "Instrument Serif", fontSize: 30, color: "#1A1A2E", lineHeight: 1 }}>
+                      <div style={{ display: "flex" }}>Built</div>
+                      <div style={{ fontStyle: "italic", color: "#0EA5E9", padding: "0 2px", display: "flex" }}>by</div>
+                      <div style={{ display: "flex" }}>Brian</div>
+                    </div>
+                  </div>
+                  <div style={{ fontFamily: "JetBrains Mono", fontSize: 9, letterSpacing: 3, textTransform: "uppercase", color: "#64748B", fontWeight: 600, marginTop: 5, display: "flex" }}>
+                    Web Design
+                  </div>
+                </div>
+              </div>
+              <div style={{ width: 16, height: 4, background: "#1A1A2E", marginTop: 1, display: "flex" }} />
+              <div style={{ width: 42, height: 3, background: "#1A1A2E", borderRadius: 4, marginTop: 1, display: "flex" }} />
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
+                {post.cta}
+              </div>
+              {post.ctaArrow !== false && (
+                <div style={{ fontFamily: "JetBrains Mono", fontSize: 22, color: p.accent, fontWeight: 700, marginLeft: 8, display: "flex" }}>→</div>
+              )}
+            </div>
+          </div>
+        </div>
+      ),
+      responseOpts
+    );
+  }
+
   // ─── STANDARD LAYOUT — every other post ──────────────────────
   return new ImageResponse(
     (

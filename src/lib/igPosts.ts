@@ -20,7 +20,7 @@ export type IGPostData = {
   caption: string;
   hashtags: string;
   reelConcept?: string;
-  customLayout?: "monitor";
+  customLayout?: "monitor" | "starter-trio";
 };
 
 export const igPosts: IGPostData[] = [
@@ -1156,11 +1156,7 @@ Tap the bio if you want a free 5-minute audit before the next weekend.`,
     ],
     sub: "Twenty-eight years and the question still hits. Three starters, three energies — and only one of them is built for the year you're actually in.",
     tagRow: ["GRASS · STARTER", "FIRE · PRO", "WATER · CUSTOM"],
-    bottomImage: {
-      src: "/images/pokemon-starters.jpg",
-      alt: "Bulbasaur, Charmander, and Squirtle — the three Kanto starters",
-      tagline: "TAP · YOUR · PICK",
-    },
+    customLayout: "starter-trio",
     cta: "Comment yours",
     caption: `1996. You picked one.
 

@@ -297,7 +297,7 @@ export async function GET(
     ],
     headers: {
       "Content-Disposition": `inline; filename="builtbybrian-ig-post-${id}-slide-${slideNum}.png"`,
-      "Cache-Control": "public, max-age=600",
+      "Cache-Control": "public, max-age=60, s-maxage=60, stale-while-revalidate=300",
     },
   };
 

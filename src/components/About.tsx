@@ -31,18 +31,33 @@ export default function About() {
               />
 
               <div className="relative bg-paper-soft border border-rule rounded-[4px] overflow-hidden">
-                {/* Designer info — lives inside the blue */}
+                {/* Designer info — marbled blue/gold background */}
                 <div
                   className="aspect-[4/5] relative overflow-hidden flex flex-col justify-center"
-                  style={{ background: "linear-gradient(135deg, #2563EB, #1E40AF)" }}
+                  style={{
+                    backgroundImage: "url(/images/about-marbled.png)",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center center",
+                  }}
                 >
-                  {/* Tech corner ticks */}
-                  <span aria-hidden className="absolute top-3 left-3 w-3 h-3 border-t border-l border-paper/40" />
-                  <span aria-hidden className="absolute top-3 right-3 w-3 h-3 border-t border-r border-paper/40" />
-                  <span aria-hidden className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-paper/40" />
-                  <span aria-hidden className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-paper/40" />
+                  {/* Darkening scrim so text reads on the busy marbled bg */}
+                  <span
+                    aria-hidden
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 30%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0.75) 100%)",
+                    }}
+                  />
 
-                  <div className="relative px-7 sm:px-8 py-10 text-center">
+                  {/* Tech corner ticks */}
+                  <span aria-hidden className="absolute top-3 left-3 w-3 h-3 border-t border-l border-paper/60 z-10" />
+                  <span aria-hidden className="absolute top-3 right-3 w-3 h-3 border-t border-r border-paper/60 z-10" />
+                  <span aria-hidden className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-paper/60 z-10" />
+                  <span aria-hidden className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-paper/60 z-10" />
+
+                  <div className="relative z-10 px-7 sm:px-8 py-10 text-center"
+                       style={{ textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}>
                     <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-paper/60">The designer</p>
                     <p className="font-serif text-[clamp(30px,4.5vw,40px)] leading-[1.05] tracking-tight mt-3 text-paper">
                       Brian <span className="italic">Whirlow</span>

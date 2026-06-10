@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { igPosts } from "@/lib/igPosts";
 
 /* ------------------------------------------------------------------
    AnimatedReels
@@ -8,6 +9,9 @@ import { useEffect, useState } from "react";
    - Pure CSS animations, no JS animation loops. Lightweight, deterministic.
    - Each reel is a 9:16 phone-frame mockup. To post: screen-record the
      phone-frame area at 1080×1920 (e.g. macOS Cmd-Shift-5, region capture).
+   - Mobile: Tap "Record" on any reel — it opens a fullscreen looping
+     view sized for your phone, then you use iOS Control Center / Android
+     Quick Settings to start the OS screen recorder. Stop, crop, upload.
    ------------------------------------------------------------------- */
 
 type ReelMeta = {
@@ -48,7 +52,14 @@ const REELS: ReelMeta[] = [
 
 export default function AnimatedReels() {
   const [mounted, setMounted] = useState(false);
+  const [recording, setRecording] = useState<ReelMeta | null>(null);
   useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    if (recording) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
+    return () => { document.body.style.overflow = ""; };
+  }, [recording]);
 
   return (
     <section className="mb-8">
@@ -80,9 +91,40 @@ export default function AnimatedReels() {
       {/* Reels strip */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
         {REELS.map((r) => (
-          <ReelCard key={r.id} meta={r} />
+          <ReelCard key={r.id} meta={r} onRecord={() => setRecording(r)} />
         ))}
       </div>
+
+      {/* Mobile screen-recording instructions */}
+      <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="bg-[#13161F] border border-[#2A2D3A] rounded-[10px] p-4">
+          <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-[#22D3EE] mb-2 flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.85} strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            iPhone — Record a Reel
+          </p>
+          <ol className="text-white/75 text-[12.5px] leading-relaxed space-y-1.5 list-decimal pl-5">
+            <li>Tap <strong className="text-white">Record</strong> on any reel above — opens fullscreen.</li>
+            <li>Swipe down from top-right → tap red <strong className="text-white">●</strong> screen-record button.</li>
+            <li>Wait one full loop (5–9 sec), tap red bar at top → Stop.</li>
+            <li>Open Photos → trim the recording → upload to Instagram as a Reel.</li>
+          </ol>
+        </div>
+        <div className="bg-[#13161F] border border-[#2A2D3A] rounded-[10px] p-4">
+          <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-[#22D3EE] mb-2 flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.85} strokeLinecap="round" strokeLinejoin="round"><polygon points="14 2 18 2 18 22 14 22 14 2"/><polygon points="6 2 10 2 10 22 6 22 6 2"/></svg>
+            Android — Record a Reel
+          </p>
+          <ol className="text-white/75 text-[12.5px] leading-relaxed space-y-1.5 list-decimal pl-5">
+            <li>Tap <strong className="text-white">Record</strong> on any reel above — opens fullscreen.</li>
+            <li>Swipe down twice for Quick Settings → tap <strong className="text-white">Screen Record</strong>.</li>
+            <li>Wait one loop, slide notification → Stop.</li>
+            <li>Open Photos / Gallery → trim → upload to Instagram as a Reel.</li>
+          </ol>
+        </div>
+      </div>
+
+      {/* Fullscreen recording overlay */}
+      {recording && <RecordOverlay meta={recording} onClose={() => setRecording(null)} />}
 
       {/* Animation keyframes — scoped via global style tag, but only one of each */}
       <style jsx global>{`
@@ -155,7 +197,7 @@ export default function AnimatedReels() {
 
 /* ─── Phone-frame wrapper ─────────────────────────────────────────── */
 
-function ReelCard({ meta }: { meta: ReelMeta }) {
+function ReelCard({ meta, onRecord }: { meta: ReelMeta; onRecord: () => void }) {
   const Reel =
     meta.id === "reel-timeline" ? ReelTimeline :
     meta.id === "reel-math"     ? ReelMath :
@@ -219,13 +261,20 @@ function ReelCard({ meta }: { meta: ReelMeta }) {
         <p className="text-white/55 text-[12.5px] leading-relaxed">{meta.blurb}</p>
 
         <div className="flex gap-2 mt-1 pt-3 border-t border-[#2A2D3A]">
+          <button
+            onClick={onRecord}
+            className="flex-1 bg-[#FB7185] hover:bg-[#F43F5E] text-white text-[11.5px] font-bold tracking-[0.1em] uppercase py-2.5 rounded-[6px] transition shadow-[0_4px_12px_-4px_rgba(251,113,133,0.7)] inline-flex items-center justify-center gap-2"
+          >
+            <span aria-hidden className="inline-block w-2 h-2 rounded-full bg-white" />
+            Record
+          </button>
           <a
             href={`/api/ig-post/${meta.postId}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 bg-[#2563EB] hover:bg-[#1E40AF] text-white text-[11.5px] font-bold tracking-[0.1em] uppercase py-2.5 rounded-[6px] text-center transition shadow-[0_4px_12px_-4px_rgba(37,99,235,0.6)]"
+            className="flex-1 bg-[#2563EB] hover:bg-[#1E40AF] text-white text-[11.5px] font-bold tracking-[0.1em] uppercase py-2.5 rounded-[6px] text-center transition"
           >
-            Cover image
+            Cover
           </a>
           <button
             onClick={() => {
@@ -234,11 +283,139 @@ function ReelCard({ meta }: { meta: ReelMeta }) {
             }}
             className="flex-1 bg-white/[0.06] hover:bg-white/[0.12] text-white text-[11.5px] font-bold tracking-[0.1em] uppercase py-2.5 rounded-[6px] border border-white/15 transition"
           >
-            Use caption
+            Caption
           </button>
         </div>
       </div>
     </article>
+  );
+}
+
+/* ─── Fullscreen Record overlay — phone-fills the screen for OS screen-record ─── */
+
+function RecordOverlay({ meta, onClose }: { meta: ReelMeta; onClose: () => void }) {
+  const Reel =
+    meta.id === "reel-timeline" ? ReelTimeline :
+    meta.id === "reel-math"     ? ReelMath :
+                                  ReelSpeed;
+
+  const post = igPosts.find((p) => p.id === meta.postId);
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [hideUI, setHideUI] = useState(false);
+
+  const copy = (text: string, key: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedKey(key);
+      setTimeout(() => setCopiedKey(null), 1800);
+    });
+  };
+
+  // Auto-hide chrome after 5s in record mode for a clean recording capture
+  useEffect(() => {
+    if (!hideUI) return;
+    // nothing to clean up
+  }, [hideUI]);
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] bg-black flex flex-col"
+      style={{ touchAction: "manipulation" }}
+    >
+      {/* Top control bar — hidden in record-clean mode */}
+      {!hideUI && (
+        <div className="flex-shrink-0 flex items-center justify-between px-4 py-3 bg-black border-b border-white/10">
+          <button
+            onClick={onClose}
+            className="text-white/70 hover:text-white p-2 -ml-2 inline-flex items-center gap-2 text-[12px] font-mono tracking-[0.18em] uppercase"
+            aria-label="Close"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+            Close
+          </button>
+          <div className="text-white text-[12px] font-mono tracking-[0.22em] uppercase truncate px-2">
+            {meta.title}
+          </div>
+          <button
+            onClick={() => setHideUI(true)}
+            className="bg-[#FB7185] hover:bg-[#F43F5E] text-white px-3 py-2 -mr-2 rounded text-[11px] font-mono tracking-[0.18em] uppercase font-bold inline-flex items-center gap-1.5"
+          >
+            <span aria-hidden className="inline-block w-2 h-2 rounded-full bg-white" />
+            Hide UI
+          </button>
+        </div>
+      )}
+
+      {/* Reel container — sized to phone-fill */}
+      <div className="flex-1 flex items-center justify-center bg-black overflow-hidden relative">
+        <div
+          className="relative bg-black"
+          style={{
+            width: "min(94vw, calc(94vh * 9 / 16))",
+            aspectRatio: "9 / 16",
+            maxHeight: "94vh",
+          }}
+        >
+          <div className="absolute inset-0 overflow-hidden">
+            <Reel />
+          </div>
+        </div>
+
+        {/* Tap-to-show overlay when UI is hidden */}
+        {hideUI && (
+          <button
+            onClick={() => setHideUI(false)}
+            className="absolute top-4 right-4 bg-black/40 hover:bg-black/70 text-white/50 hover:text-white p-2 rounded-full backdrop-blur-sm transition"
+            aria-label="Show controls"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+          </button>
+        )}
+      </div>
+
+      {/* Bottom action strip — caption / hashtags / cover-image — hidden in clean record mode */}
+      {!hideUI && post && (
+        <div className="flex-shrink-0 bg-black border-t border-white/10 p-3 space-y-2">
+          <div className="flex gap-2">
+            <button
+              onClick={() => copy(post.caption, "caption")}
+              className={`flex-1 text-[11px] font-mono font-bold tracking-[0.15em] uppercase py-2.5 rounded transition ${
+                copiedKey === "caption" ? "bg-[#0EA5E9] text-white" : "bg-[#2563EB] text-white hover:bg-[#1E40AF]"
+              }`}
+            >
+              {copiedKey === "caption" ? "Caption Copied" : "Copy Caption"}
+            </button>
+            <button
+              onClick={() => copy(post.hashtags, "tags")}
+              className={`flex-1 text-[11px] font-mono font-bold tracking-[0.15em] uppercase py-2.5 rounded transition ${
+                copiedKey === "tags" ? "bg-[#0EA5E9] text-white" : "bg-white/[0.08] hover:bg-white/[0.15] text-white border border-white/15"
+              }`}
+            >
+              {copiedKey === "tags" ? "Tags Copied" : "Copy Hashtags"}
+            </button>
+          </div>
+          <p className="text-white/50 text-[11px] text-center font-mono leading-relaxed">
+            Tap <strong className="text-white">Hide UI</strong> → use phone screen recorder → loop runs {meta.loopSec}s.
+          </p>
+        </div>
+      )}
+
+      {/* Tap-anywhere-to-restore in clean mode */}
+      {hideUI && (
+        <button
+          onClick={() => setHideUI(false)}
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/40 hover:bg-black/70 text-white/60 hover:text-white text-[10px] font-mono tracking-[0.22em] uppercase px-4 py-2 rounded-full backdrop-blur-sm transition"
+        >
+          Show Controls
+        </button>
+      )}
+    </div>
   );
 }
 

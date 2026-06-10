@@ -1067,9 +1067,9 @@ export async function GET(
 
   // ─── STARTER TRIO LAYOUT — Pokemon post w/ characters flanking headline ───
   if (post.customLayout === "starter-trio") {
-    const bulbaUrl  = `${origin}/images/pokemon-bulbasaur.png`;
-    const charmUrl  = `${origin}/images/pokemon-charmander.png`;
-    const squirtUrl = `${origin}/images/pokemon-squirtle.png`;
+    const bulbaUrl  = `${origin}/images/bulbasaur-cut.png`;
+    const charmUrl  = `${origin}/images/charmander-cut.png`;
+    const squirtUrl = `${origin}/images/squirtle-cut.png`;
     return new ImageResponse(
       (
         <div
@@ -1137,20 +1137,39 @@ export async function GET(
           {/* Spacer — pushes Pokemon row to bottom */}
           <div style={{ flex: 1, display: "flex" }} />
 
-          {/* POKEMON ROW — three panels in a row, all "looking up" at the title */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%", marginBottom: 14, gap: 14 }}>
+          {/* POKEMON ROW — trading cards: white outer, type-color inner, transparent character */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%", marginBottom: 14, gap: 24 }}>
 
-            {/* Bulbasaur */}
+            {/* Bulbasaur card */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1 }}>
-              <div style={{ display: "flex", width: 280, height: 252, overflow: "hidden", borderRadius: 18, boxShadow: "0 8px 0 rgba(0,0,0,0.18)" }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={bulbaUrl}
-                  alt="Bulbasaur"
-                  width={280}
-                  height={252}
-                  style={{ display: "flex", width: 280, height: 252, objectFit: "cover" }}
-                />
+              <div style={{
+                display: "flex",
+                width: 280,
+                height: 280,
+                background: "#FFFFFF",
+                borderRadius: 18,
+                padding: 10,
+                boxShadow: "0 18px 30px rgba(0,0,0,0.28)",
+              }}>
+                <div style={{
+                  display: "flex",
+                  width: "100%",
+                  height: "100%",
+                  background: "#A2E09E",
+                  borderRadius: 12,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  overflow: "hidden",
+                }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={bulbaUrl}
+                    alt="Bulbasaur"
+                    width={240}
+                    height={240}
+                    style={{ display: "flex", width: 240, height: 240, objectFit: "contain" }}
+                  />
+                </div>
               </div>
               <div style={{
                 fontFamily: "JetBrains Mono",
@@ -1158,28 +1177,48 @@ export async function GET(
                 letterSpacing: 3,
                 textTransform: "uppercase",
                 color: "#FFFFFF",
-                background: "#5BBE5A",
-                padding: "7px 12px",
+                background: "#5AB568",
+                padding: "9px 16px",
                 borderRadius: 999,
                 fontWeight: 800,
                 display: "flex",
-                marginTop: 12,
+                marginTop: 16,
+                boxShadow: "0 4px 0 rgba(0,0,0,0.18)",
               }}>
                 Grass · Starter · $750
               </div>
             </div>
 
-            {/* Charmander */}
+            {/* Charmander card */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1 }}>
-              <div style={{ display: "flex", width: 280, height: 252, overflow: "hidden", borderRadius: 18, boxShadow: "0 8px 0 rgba(0,0,0,0.18)" }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={charmUrl}
-                  alt="Charmander"
-                  width={280}
-                  height={252}
-                  style={{ display: "flex", width: 280, height: 252, objectFit: "cover" }}
-                />
+              <div style={{
+                display: "flex",
+                width: 280,
+                height: 280,
+                background: "#FFFFFF",
+                borderRadius: 18,
+                padding: 10,
+                boxShadow: "0 18px 30px rgba(0,0,0,0.28)",
+              }}>
+                <div style={{
+                  display: "flex",
+                  width: "100%",
+                  height: "100%",
+                  background: "#F7B26C",
+                  borderRadius: 12,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  overflow: "hidden",
+                }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={charmUrl}
+                    alt="Charmander"
+                    width={240}
+                    height={240}
+                    style={{ display: "flex", width: 240, height: 240, objectFit: "contain" }}
+                  />
+                </div>
               </div>
               <div style={{
                 fontFamily: "JetBrains Mono",
@@ -1187,28 +1226,48 @@ export async function GET(
                 letterSpacing: 3,
                 textTransform: "uppercase",
                 color: "#FFFFFF",
-                background: "#F08030",
-                padding: "7px 12px",
+                background: "#F18C32",
+                padding: "9px 16px",
                 borderRadius: 999,
                 fontWeight: 800,
                 display: "flex",
-                marginTop: 12,
+                marginTop: 16,
+                boxShadow: "0 4px 0 rgba(0,0,0,0.18)",
               }}>
                 Fire · Pro · $1,200
               </div>
             </div>
 
-            {/* Squirtle */}
+            {/* Squirtle card */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1 }}>
-              <div style={{ display: "flex", width: 280, height: 252, overflow: "hidden", borderRadius: 18, boxShadow: "0 8px 0 rgba(0,0,0,0.18)" }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={squirtUrl}
-                  alt="Squirtle"
-                  width={280}
-                  height={252}
-                  style={{ display: "flex", width: 280, height: 252, objectFit: "cover" }}
-                />
+              <div style={{
+                display: "flex",
+                width: 280,
+                height: 280,
+                background: "#FFFFFF",
+                borderRadius: 18,
+                padding: 10,
+                boxShadow: "0 18px 30px rgba(0,0,0,0.28)",
+              }}>
+                <div style={{
+                  display: "flex",
+                  width: "100%",
+                  height: "100%",
+                  background: "#8BD3F4",
+                  borderRadius: 12,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  overflow: "hidden",
+                }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={squirtUrl}
+                    alt="Squirtle"
+                    width={240}
+                    height={240}
+                    style={{ display: "flex", width: 240, height: 240, objectFit: "contain" }}
+                  />
+                </div>
               </div>
               <div style={{
                 fontFamily: "JetBrains Mono",
@@ -1216,12 +1275,13 @@ export async function GET(
                 letterSpacing: 3,
                 textTransform: "uppercase",
                 color: "#FFFFFF",
-                background: "#5BAFEA",
-                padding: "7px 12px",
+                background: "#55A8DC",
+                padding: "9px 16px",
                 borderRadius: 999,
                 fontWeight: 800,
                 display: "flex",
-                marginTop: 12,
+                marginTop: 16,
+                boxShadow: "0 4px 0 rgba(0,0,0,0.18)",
               }}>
                 Water · Custom · $3K+
               </div>
@@ -1276,7 +1336,7 @@ export async function GET(
 
   // ─── SWOOP-FLEX LAYOUT — Eagles mascot posing with the headline ─────────────
   if (post.customLayout === "swoop-flex") {
-    const swoopUrl = `${origin}/images/swoop.png`;
+    const swoopUrl = `${origin}/images/swoop-cut.png`;
     return new ImageResponse(
       (
         <div
@@ -1292,22 +1352,45 @@ export async function GET(
             position: "relative",
           }}
         >
-          {/* Subtle wing arc behind the composition */}
+          {/* SWOOP — large, bottom-right anchored, dominates the right half */}
           <div
             style={{
               position: "absolute",
-              top: 100,
-              right: -80,
-              width: 700,
-              height: 700,
-              borderRadius: 700,
-              background: "radial-gradient(closest-side, rgba(255,184,92,0.18) 0%, rgba(255,184,92,0) 70%)",
+              right: -30,
+              bottom: 0,
+              width: 720,
+              height: 920,
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "flex-end",
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={swoopUrl}
+              alt="Swoop — Eagles mascot"
+              width={720}
+              height={920}
+              style={{ display: "flex", width: 720, height: 920, objectFit: "contain", objectPosition: "right bottom" }}
+            />
+          </div>
+
+          {/* Dramatic ember halo behind Swoop's head — adds depth */}
+          <div
+            style={{
+              position: "absolute",
+              top: 220,
+              right: 60,
+              width: 560,
+              height: 560,
+              borderRadius: 560,
+              background: "radial-gradient(closest-side, rgba(255,184,92,0.28) 0%, rgba(255,184,92,0) 70%)",
               display: "flex",
             }}
           />
 
           {/* TOP META */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", position: "relative" }}>
             <div style={{ display: "flex", alignItems: "center" }}>
               <div style={{ width: 10, height: 10, borderRadius: 10, background: p.accent, marginRight: 12, display: "flex" }} />
               <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
@@ -1319,29 +1402,29 @@ export async function GET(
             </div>
           </div>
 
-          {/* MAIN — two-column */}
-          <div style={{ display: "flex", flex: 1, marginTop: 36, alignItems: "stretch", width: "100%" }}>
+          {/* MAIN content — left column, narrow, dominant typography */}
+          <div style={{ display: "flex", flex: 1, marginTop: 40, alignItems: "flex-start", width: "100%", position: "relative" }}>
 
-            {/* LEFT — headline column */}
-            <div style={{ display: "flex", flexDirection: "column", width: 460, paddingRight: 24, justifyContent: "center" }}>
+            <div style={{ display: "flex", flexDirection: "column", width: 480, paddingRight: 12, justifyContent: "flex-start", paddingTop: 30 }}>
               {/* Kicker */}
-              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.italicAccent, fontWeight: 700, display: "flex", marginBottom: 18 }}>
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.italicAccent, fontWeight: 700, display: "flex", marginBottom: 22 }}>
                 {post.kicker}
               </div>
 
-              {/* Headline */}
-              <div style={{ display: "flex", flexDirection: "column", marginBottom: 24 }}>
+              {/* HUGE headline */}
+              <div style={{ display: "flex", flexDirection: "column", marginBottom: 28 }}>
                 {post.titleLines.map((line, i) => (
                   <div
                     key={i}
                     style={{
                       fontFamily: "Instrument Serif",
-                      fontSize: 88,
-                      lineHeight: 0.96,
-                      letterSpacing: -2,
+                      fontSize: 110,
+                      lineHeight: 0.92,
+                      letterSpacing: -3,
                       color: line.italic ? p.italicAccent : p.ink,
                       fontStyle: line.italic ? "italic" : "normal",
                       display: "flex",
+                      textShadow: "0 4px 24px rgba(0,0,0,0.35)",
                     }}
                   >
                     {line.text}
@@ -1351,7 +1434,7 @@ export async function GET(
 
               {/* Sub */}
               {post.sub && (
-                <div style={{ fontFamily: "Outfit", fontSize: 22, lineHeight: 1.4, color: p.inkSoft, fontWeight: 500, maxWidth: 420, display: "flex", marginBottom: 22 }}>
+                <div style={{ fontFamily: "Outfit", fontSize: 22, lineHeight: 1.4, color: p.inkSoft, fontWeight: 500, maxWidth: 440, display: "flex", marginBottom: 22 }}>
                   {post.sub}
                 </div>
               )}
@@ -1380,62 +1463,6 @@ export async function GET(
                   ))}
                 </div>
               )}
-            </div>
-
-            {/* RIGHT — Swoop column */}
-            <div style={{ display: "flex", flexDirection: "column", flex: 1, alignItems: "center", justifyContent: "flex-end", position: "relative" }}>
-              {/* Speech bubble — "FLY!" */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: 30,
-                  left: 0,
-                  display: "flex",
-                  alignItems: "center",
-                  background: p.italicAccent,
-                  color: "#013228",
-                  borderRadius: 22,
-                  padding: "10px 18px",
-                  fontFamily: "Instrument Serif",
-                  fontStyle: "italic",
-                  fontSize: 36,
-                  fontWeight: 500,
-                  letterSpacing: -1,
-                  transform: "rotate(-6deg)",
-                  boxShadow: "0 6px 0 rgba(0,0,0,0.18)",
-                }}
-              >
-                fly!
-              </div>
-
-              {/* Directional arrow toward headline */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: 110,
-                  left: -20,
-                  fontFamily: "JetBrains Mono",
-                  fontSize: 56,
-                  color: p.italicAccent,
-                  fontWeight: 700,
-                  transform: "rotate(165deg)",
-                  display: "flex",
-                }}
-              >
-                ↗
-              </div>
-
-              {/* Swoop image */}
-              <div style={{ display: "flex", width: 500, height: 600, alignItems: "flex-end", justifyContent: "center" }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={swoopUrl}
-                  alt="Swoop"
-                  width={500}
-                  height={580}
-                  style={{ display: "flex", width: 500, height: 580, objectFit: "contain", objectPosition: "center bottom" }}
-                />
-              </div>
             </div>
           </div>
 
@@ -1488,7 +1515,7 @@ export async function GET(
 
   // ─── SPIDEY-SWING LAYOUT — Spider-Man swinging across, web pattern ──────────
   if (post.customLayout === "spidey-swing") {
-    const spideyUrl = `${origin}/images/webslinger.png`;
+    const spideyUrl = `${origin}/images/webslinger-cut.png`;
     return new ImageResponse(
       (
         <div
@@ -1551,44 +1578,62 @@ export async function GET(
             </div>
           </div>
 
-          {/* Spider-Man — swinging into upper-right, rotated */}
+          {/* SPIDER-MAN — MASSIVE, dominating the upper 55% of canvas */}
           <div
             style={{
               position: "absolute",
-              top: 130,
-              right: 24,
+              top: 110,
+              left: 0,
+              right: 0,
               display: "flex",
-              transform: "rotate(8deg)",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <div style={{ display: "flex", width: 560, height: 320 }}>
+            <div style={{ display: "flex", width: 940, height: 540, overflow: "hidden", borderRadius: 24, position: "relative" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={spideyUrl}
                 alt="Spider-Man"
-                width={560}
-                height={320}
-                style={{ display: "flex", width: 560, height: 320, objectFit: "contain", borderRadius: 18 }}
+                width={940}
+                height={540}
+                style={{ display: "flex", width: 940, height: 540, objectFit: "cover", objectPosition: "center 30%" }}
               />
             </div>
           </div>
 
-          {/* SWING LINE — diagonal across post */}
+          {/* Soft gradient transition under Spider-Man — fades image into bg for headline legibility */}
           <div
             style={{
               position: "absolute",
-              top: 480,
-              left: 40,
-              width: 700,
-              height: 3,
-              background: `linear-gradient(90deg, ${p.accent}00 0%, ${p.accent} 50%, ${p.accent}00 100%)`,
-              transform: "rotate(-12deg)",
+              top: 580,
+              left: 70,
+              right: 70,
+              height: 160,
+              background: "linear-gradient(180deg, rgba(10,26,58,0) 0%, rgba(10,26,58,0.85) 60%, rgba(10,26,58,1) 100%)",
               display: "flex",
-              opacity: 0.65,
             }}
           />
 
-          {/* Main content — bottom anchored */}
+          {/* Extra web pattern across the canvas bottom — radiating from Spider-Man toward headline */}
+          {[12, 24, 36, 48, 60].map((deg, i) => (
+            <div
+              key={`bottom-web-${deg}`}
+              style={{
+                position: "absolute",
+                top: 700,
+                left: 540,
+                width: 700,
+                height: 1.5,
+                background: `rgba(255,255,255,${0.06 + i * 0.012})`,
+                transformOrigin: "0 0",
+                transform: `rotate(${180 + deg}deg)`,
+                display: "flex",
+              }}
+            />
+          ))}
+
+          {/* Main content — bottom anchored, headline OVERLAPS Spider-Man slightly */}
           <div style={{ display: "flex", flexDirection: "column", flex: 1, justifyContent: "flex-end", position: "relative", marginTop: 12 }}>
 
             {/* Kicker */}
@@ -1596,19 +1641,20 @@ export async function GET(
               {post.kicker}
             </div>
 
-            {/* Headline */}
+            {/* Headline — huge */}
             <div style={{ display: "flex", flexDirection: "column", marginBottom: 28 }}>
               {post.titleLines.map((line, i) => (
                 <div
                   key={i}
                   style={{
                     fontFamily: "Instrument Serif",
-                    fontSize: 100,
-                    lineHeight: 0.95,
-                    letterSpacing: -2.4,
+                    fontSize: 110,
+                    lineHeight: 0.92,
+                    letterSpacing: -2.8,
                     color: line.italic ? p.italicAccent : p.ink,
                     fontStyle: line.italic ? "italic" : "normal",
                     display: "flex",
+                    textShadow: "0 4px 24px rgba(0,0,0,0.5)",
                   }}
                 >
                   {line.text}
@@ -1699,7 +1745,7 @@ export async function GET(
 
   // ─── PHANATIC-HYPE LAYOUT — Phanatic bringing the noise with a speech bubble ─
   if (post.customLayout === "phanatic-hype") {
-    const phanaticUrl = `${origin}/images/phanatic.png`;
+    const phanaticUrl = `${origin}/images/phanatic-cut.png`;
     return new ImageResponse(
       (
         <div
@@ -1802,76 +1848,42 @@ export async function GET(
               )}
             </div>
 
-            {/* RIGHT — Phanatic column */}
+            {/* RIGHT — Phanatic column, MASSIVE, bottom anchored */}
             <div style={{ display: "flex", flexDirection: "column", flex: 1, alignItems: "center", justifyContent: "flex-end", position: "relative" }}>
 
-              {/* Speech bubble — "ATTA BABE!" */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: 40,
-                  right: 0,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-end",
-                  zIndex: 2,
-                }}
-              >
-                <div
-                  style={{
-                    background: p.accent,
-                    color: "#0B2D6A",
-                    borderRadius: 26,
-                    padding: "14px 22px",
-                    fontFamily: "Instrument Serif",
-                    fontStyle: "italic",
-                    fontSize: 42,
-                    fontWeight: 500,
-                    letterSpacing: -1.2,
-                    transform: "rotate(5deg)",
-                    boxShadow: "0 6px 0 rgba(0,0,0,0.18)",
-                    display: "flex",
-                  }}
-                >
-                  Atta babe!
-                </div>
-              </div>
-
-              {/* Phanatic image */}
-              <div style={{ display: "flex", width: 380, height: 600, alignItems: "flex-end", justifyContent: "center" }}>
+              {/* Phanatic image — huge */}
+              <div style={{ display: "flex", width: 500, height: 980, alignItems: "flex-end", justifyContent: "center" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={phanaticUrl}
                   alt="Phillie Phanatic"
-                  width={380}
-                  height={600}
-                  style={{ display: "flex", width: 380, height: 600, objectFit: "contain", objectPosition: "center bottom" }}
+                  width={500}
+                  height={960}
+                  style={{ display: "flex", width: 500, height: 960, objectFit: "contain", objectPosition: "center bottom" }}
                 />
               </div>
+            </div>
+          </div>
 
-              {/* Sticker — RING THE BELL */}
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: 80,
-                  left: 0,
-                  display: "flex",
-                  background: "#FFFFFF",
-                  color: "#E81828",
-                  borderRadius: 10,
-                  padding: "8px 14px",
-                  fontFamily: "JetBrains Mono",
-                  fontSize: 16,
-                  letterSpacing: 3,
-                  textTransform: "uppercase",
-                  fontWeight: 800,
-                  transform: "rotate(-8deg)",
-                  border: "3px solid #0B2D6A",
-                  boxShadow: "0 4px 0 rgba(0,0,0,0.18)",
-                }}
-              >
-                Ring · the · bell
-              </div>
+          {/* Bell icon — large decorative, top-right */}
+          <div
+            style={{
+              position: "absolute",
+              top: 130,
+              right: 90,
+              width: 90,
+              height: 90,
+              borderRadius: 90,
+              background: p.accent,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transform: "rotate(-12deg)",
+              boxShadow: "0 8px 0 rgba(0,0,0,0.22)",
+            }}
+          >
+            <div style={{ fontFamily: "Instrument Serif", fontSize: 56, color: "#0B2D6A", fontStyle: "italic", lineHeight: 1, display: "flex" }}>
+              ’26
             </div>
           </div>
 

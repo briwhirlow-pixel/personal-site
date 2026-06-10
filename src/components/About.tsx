@@ -40,13 +40,22 @@ export default function About() {
                     backgroundPosition: "center center",
                   }}
                 >
-                  {/* Darkening scrim so text reads on the busy marbled bg */}
+                  {/* Darkening scrim — heavier center band so the name + role read crisp */}
                   <span
                     aria-hidden
                     className="absolute inset-0"
                     style={{
                       background:
-                        "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 30%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0.75) 100%)",
+                        "linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.65) 40%, rgba(0,0,0,0.7) 55%, rgba(0,0,0,0.55) 75%, rgba(0,0,0,0.65) 100%)",
+                    }}
+                  />
+                  {/* Extra center vignette around the name block for max contrast */}
+                  <span
+                    aria-hidden
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "radial-gradient(ellipse 70% 50% at center, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 70%)",
                     }}
                   />
 
@@ -57,7 +66,7 @@ export default function About() {
                   <span aria-hidden className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-paper/60 z-10" />
 
                   <div className="relative z-10 px-7 sm:px-8 py-10 text-center"
-                       style={{ textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}>
+                       style={{ textShadow: "0 2px 18px rgba(0,0,0,0.95), 0 2px 6px rgba(0,0,0,0.8)" }}>
                     <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-paper/60">The designer</p>
                     <p className="font-serif text-[clamp(30px,4.5vw,40px)] leading-[1.05] tracking-tight mt-3 text-paper">
                       Brian <span className="italic">Whirlow</span>

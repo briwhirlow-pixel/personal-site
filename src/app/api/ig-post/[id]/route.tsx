@@ -253,6 +253,11 @@ export async function GET(
     return new Response(`Post ${id} not found`, { status: 404 });
   }
 
+  // Hide top-right and bottom-right labels from all posts
+  post.topRightLabel = "";
+  post.cta = "";
+  post.ctaArrow = false;
+
   // Slide handling: cover is slide 1; spotlight slides are 2..(numList+1); CTA is last
   const reqUrl = new URL(req.url);
   const totalSlides = post.numList ? post.numList.length + 2 : 1;
@@ -2513,34 +2518,34 @@ export async function GET(
             </div>
           </div>
 
-          {/* TWO COLUMNS — Receipts + Rankings */}
-          <div style={{ display: "flex", flexDirection: "row", gap: 28, marginTop: 4 }}>
+          {/* TWO COLUMNS — Receipts + Rankings — flex:1 to fill down to logo */}
+          <div style={{ display: "flex", flexDirection: "row", gap: 28, marginTop: 4, flex: 1 }}>
 
             {/* LEFT — Receipts */}
-            <div style={{ display: "flex", flexDirection: "column", width: 380 }}>
-              <div style={{ fontFamily: "JetBrains Mono", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "#FFE9A8", fontWeight: 700, display: "flex", marginBottom: 10 }}>
+            <div style={{ display: "flex", flexDirection: "column", width: 420 }}>
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 13, letterSpacing: 3, textTransform: "uppercase", color: "#FFE9A8", fontWeight: 700, display: "flex", marginBottom: 14 }}>
                 Official Receipts
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14, flex: 1, justifyContent: "space-between" }}>
                 {/* BS Degree row with Rowan owl */}
                 <div style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 12,
+                  gap: 14,
                   background: "rgba(255,233,168,0.12)",
                   border: "1px solid rgba(34,211,238,0.25)",
-                  borderRadius: 12,
-                  padding: "12px 14px",
+                  borderRadius: 14,
+                  padding: "16px 18px",
                 }}>
-                  <div style={{ display: "flex", width: 58, height: 58, alignItems: "center", justifyContent: "center" }}>
+                  <div style={{ display: "flex", width: 68, height: 68, alignItems: "center", justifyContent: "center" }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={rowanUrl} alt="Rowan University" width={58} height={58} style={{ display: "flex", width: 58, height: 58, objectFit: "contain" }} />
+                    <img src={rowanUrl} alt="Rowan University" width={68} height={68} style={{ display: "flex", width: 68, height: 68, objectFit: "contain" }} />
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-                    <div style={{ fontFamily: "Outfit", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.55)", display: "flex", marginBottom: 3, fontWeight: 600 }}>
+                    <div style={{ fontFamily: "Outfit", fontSize: 12, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.55)", display: "flex", marginBottom: 4, fontWeight: 600 }}>
                       Bachelor&apos;s · Rowan University
                     </div>
-                    <div style={{ fontFamily: "Instrument Serif", fontSize: 22, color: "#FFFFFF", lineHeight: 1.1, display: "flex" }}>
+                    <div style={{ fontFamily: "Instrument Serif", fontSize: 26, color: "#FFFFFF", lineHeight: 1.1, display: "flex" }}>
                       Management Information Systems
                     </div>
                   </div>
@@ -2550,21 +2555,21 @@ export async function GET(
                 <div style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 12,
+                  gap: 14,
                   background: "rgba(255,233,168,0.12)",
                   border: "1px solid rgba(34,211,238,0.25)",
-                  borderRadius: 12,
-                  padding: "12px 14px",
+                  borderRadius: 14,
+                  padding: "16px 18px",
                 }}>
-                  <div style={{ display: "flex", width: 58, height: 58, alignItems: "center", justifyContent: "center" }}>
+                  <div style={{ display: "flex", width: 68, height: 68, alignItems: "center", justifyContent: "center" }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={rowanUrl} alt="Rowan University" width={58} height={58} style={{ display: "flex", width: 58, height: 58, objectFit: "contain" }} />
+                    <img src={rowanUrl} alt="Rowan University" width={68} height={68} style={{ display: "flex", width: 68, height: 68, objectFit: "contain" }} />
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-                    <div style={{ fontFamily: "Outfit", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.55)", display: "flex", marginBottom: 3, fontWeight: 600 }}>
+                    <div style={{ fontFamily: "Outfit", fontSize: 12, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.55)", display: "flex", marginBottom: 4, fontWeight: 600 }}>
                       MBA · In Progress
                     </div>
-                    <div style={{ fontFamily: "Instrument Serif", fontSize: 22, color: "#FFFFFF", lineHeight: 1.1, display: "flex" }}>
+                    <div style={{ fontFamily: "Instrument Serif", fontSize: 26, color: "#FFFFFF", lineHeight: 1.1, display: "flex" }}>
                       Finishing <span style={{ fontStyle: "italic", color: "#FFE9A8", paddingLeft: 6, display: "flex" }}>Spring &apos;27</span>
                     </div>
                   </div>
@@ -2574,21 +2579,21 @@ export async function GET(
                 <div style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 12,
+                  gap: 14,
                   background: "linear-gradient(135deg, #3A3F4B 0%, #25282F 100%)",
                   border: "1px solid rgba(255,255,255,0.12)",
-                  borderRadius: 12,
-                  padding: "10px 14px",
+                  borderRadius: 14,
+                  padding: "14px 18px",
                 }}>
-                  <div style={{ display: "flex", width: 58, height: 70, alignItems: "center", justifyContent: "center" }}>
+                  <div style={{ display: "flex", width: 68, height: 82, alignItems: "center", justifyContent: "center" }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={kajeetUrl} alt="LG Kajeet phone" width={58} height={70} style={{ display: "flex", width: 58, height: 70, objectFit: "contain" }} />
+                    <img src={kajeetUrl} alt="LG Kajeet phone" width={68} height={82} style={{ display: "flex", width: 68, height: 82, objectFit: "contain" }} />
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-                    <div style={{ fontFamily: "Outfit", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.55)", display: "flex", marginBottom: 3, fontWeight: 600 }}>
+                    <div style={{ fontFamily: "Outfit", fontSize: 12, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.55)", display: "flex", marginBottom: 4, fontWeight: 600 }}>
                       First Phone
                     </div>
-                    <div style={{ fontFamily: "Instrument Serif", fontSize: 22, color: "#FFFFFF", lineHeight: 1.1, display: "flex" }}>
+                    <div style={{ fontFamily: "Instrument Serif", fontSize: 26, color: "#FFFFFF", lineHeight: 1.1, display: "flex" }}>
                       <span style={{ fontStyle: "italic", color: "#FB7185", paddingRight: 8, display: "flex" }}>LG</span> Kajeet
                     </div>
                   </div>
@@ -2598,23 +2603,23 @@ export async function GET(
 
             {/* RIGHT — Rankings — spread across column height to match receipts */}
             <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-              <div style={{ fontFamily: "JetBrains Mono", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "#FACC15", fontWeight: 700, display: "flex", marginBottom: 10 }}>
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 13, letterSpacing: 3, textTransform: "uppercase", color: "#FACC15", fontWeight: 700, display: "flex", marginBottom: 14 }}>
                 Unofficial Rankings
               </div>
               <div style={{ display: "flex", flexDirection: "column", flex: 1, justifyContent: "space-between" }}>
                 {RANKINGS.map((r, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 5, flexWrap: "wrap" }}>
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 7, flexWrap: "wrap" }}>
                     {/* Winner — full color + logo */}
                     <div style={{
                       display: "flex",
                       alignItems: "center",
-                      gap: 6,
+                      gap: 8,
                       background: r.winner.bg,
                       color: r.winner.fg,
-                      padding: "5px 11px 5px 7px",
+                      padding: "8px 14px 8px 10px",
                       borderRadius: 999,
                       fontFamily: "Outfit",
-                      fontSize: 13,
+                      fontSize: 16,
                       fontWeight: 700,
                       boxShadow: "0 3px 0 rgba(0,0,0,0.3)",
                     }}>
@@ -2622,20 +2627,20 @@ export async function GET(
                       <div style={{ display: "flex" }}>{r.winner.name}</div>
                     </div>
                     {r.losers.map((l, j) => (
-                      <div key={j} style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                        <div style={{ fontFamily: "JetBrains Mono", fontSize: 14, color: "rgba(255,255,255,0.55)", fontWeight: 700, display: "flex" }}>
+                      <div key={j} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                        <div style={{ fontFamily: "JetBrains Mono", fontSize: 16, color: "rgba(255,255,255,0.55)", fontWeight: 700, display: "flex" }}>
                           &gt;
                         </div>
                         <div style={{
                           display: "flex",
                           alignItems: "center",
-                          gap: 5,
+                          gap: 6,
                           background: l.bg,
                           color: l.fg,
-                          padding: "4px 10px 4px 7px",
+                          padding: "7px 12px 7px 9px",
                           borderRadius: 999,
                           fontFamily: "Outfit",
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: 600,
                           opacity: 0.75,
                         }}>
@@ -2649,9 +2654,6 @@ export async function GET(
               </div>
             </div>
           </div>
-
-          {/* Spacer */}
-          <div style={{ flex: 1, display: "flex" }} />
 
           {/* BOTTOM ROW */}
           <div

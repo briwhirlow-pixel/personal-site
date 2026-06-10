@@ -1602,15 +1602,15 @@ export async function GET(
             </div>
           </div>
 
-          {/* Soft gradient transition under Spider-Man — fades image into bg for headline legibility */}
+          {/* Soft gradient transition under Spider-Man — full bleed, fades in AND out so no box edge */}
           <div
             style={{
               position: "absolute",
-              top: 580,
-              left: 70,
-              right: 70,
-              height: 160,
-              background: "linear-gradient(180deg, rgba(10,26,58,0) 0%, rgba(10,26,58,0.85) 60%, rgba(10,26,58,1) 100%)",
+              top: 540,
+              left: 0,
+              right: 0,
+              height: 280,
+              background: "linear-gradient(180deg, rgba(10,26,58,0) 0%, rgba(10,26,58,0.55) 40%, rgba(10,26,58,0.55) 60%, rgba(10,26,58,0) 100%)",
               display: "flex",
             }}
           />

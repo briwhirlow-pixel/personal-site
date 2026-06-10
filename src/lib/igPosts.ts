@@ -888,7 +888,7 @@ If you run a small business in Philly + SJ — let's talk.`,
     variant: "ocean",
     topLeftLabel: "SUMMER '26 / 026",
     topRightLabel: "SHORE SEASON",
-    kicker: "JUNE — AUGUST",
+    kicker: "",
     titleLines: [
       { text: "Your customers" },
       { text: "are on the" },

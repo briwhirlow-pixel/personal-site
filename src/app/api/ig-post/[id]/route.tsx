@@ -2282,45 +2282,108 @@ export async function GET(
   // ─── ABOUT-DESIGNER LAYOUT — throwback photo + receipts + rankings ──────────
   if (post.customLayout === "about-designer") {
     const photoUrl = `${origin}/images/brian-young.jpg`;
-    const kajeetUrl = `${origin}/images/kajeet-phone.png`;
+    const kajeetUrl = `${origin}/images/kajeet-cut.png`;
+    const rowanUrl = `${origin}/images/rowan-cut.png`;
 
-    // Brand "logo" markers — simple circle + monogram letter divs (Satori-safe,
-    // no SVG defs/gradients/text elements which crash next/og rendering).
-    const logoChip = (bg: string, ch: string, fg: string = "#FFFFFF", size: number = 18) => (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: size,
-          height: size,
-          borderRadius: size,
-          background: bg,
-          color: fg,
-          fontFamily: "Outfit",
-          fontWeight: 900,
-          fontSize: size - 6,
-          lineHeight: 1,
-          flexShrink: 0,
-        }}
-      >
-        {ch}
-      </div>
-    );
+    // Brand-icon SVGs — Satori-safe (only path/circle/rect/line, no defs/
+    // gradients/text). Each is a self-contained 20x20 branded badge so it
+    // works on any chip background. Stylized identifiers, not exact brand
+    // logos, for editorial use.
     const LOGOS: Record<string, React.ReactNode> = {
-      apple:        logoChip("#000000", "", "#FFFFFF", 18),  // pure black dot — Apple
-      apple_white:  logoChip("#000000", "", "#FFFFFF", 18),
-      android:      logoChip("#A4C639", "a", "#FFFFFF", 18),
-      spotify:      logoChip("#1DB954", "♪", "#FFFFFF", 18),
-      apple_music:  logoChip("#FA243C", "♪", "#FFFFFF", 18),
-      nintendo:     logoChip("#E60012", "N", "#FFFFFF", 18),
-      xbox:         logoChip("#107C10", "X", "#FFFFFF", 18),
-      playstation:  logoChip("#003791", "P", "#FFFFFF", 18),
-      // Instagram: solid hot-pink dot (close to the IG brand midpoint) since gradients crash
-      instagram:    logoChip("#D62976", "○", "#FFFFFF", 18),
-      tiktok:       logoChip("#010101", "♫", "#FFFFFF", 18),
-      x:            logoChip("#000000", "𝕏", "#FFFFFF", 18),
-      facebook:     logoChip("#1877F2", "f", "#FFFFFF", 18),
+      apple: (
+        <svg width={20} height={20} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <circle cx="12" cy="12" r="12" fill="#FFFFFF"/>
+          <path d="M16.4 17c-.6.9-1.3 1.8-2.3 1.8-1 0-1.3-.6-2.5-.6-1.2 0-1.5.6-2.4.6-1 0-1.7-.9-2.4-1.9-1.4-2-2.4-5.5-1-7.9.7-1.2 1.9-1.9 3.2-2 1 0 1.9.7 2.5.7.6 0 1.7-.8 2.9-.7.5 0 1.9.2 2.8 1.5-.1.1-1.7 1-1.6 2.9 0 2.3 2 3.1 2.1 3.1-.1.1-.3 1.1-1 2.2-.6.9-1.2 1.8-2.3 1.3z" fill="#000000"/>
+          <path d="M13.6 6.5c.5-.6.8-1.5.7-2.4-.7 0-1.6.5-2.1 1.2-.5.5-.9 1.4-.8 2.2.9.1 1.7-.4 2.2-1z" fill="#000000"/>
+        </svg>
+      ),
+      apple_white: (
+        <svg width={20} height={20} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <circle cx="12" cy="12" r="12" fill="#FFFFFF"/>
+          <path d="M16.4 17c-.6.9-1.3 1.8-2.3 1.8-1 0-1.3-.6-2.5-.6-1.2 0-1.5.6-2.4.6-1 0-1.7-.9-2.4-1.9-1.4-2-2.4-5.5-1-7.9.7-1.2 1.9-1.9 3.2-2 1 0 1.9.7 2.5.7.6 0 1.7-.8 2.9-.7.5 0 1.9.2 2.8 1.5-.1.1-1.7 1-1.6 2.9 0 2.3 2 3.1 2.1 3.1-.1.1-.3 1.1-1 2.2-.6.9-1.2 1.8-2.3 1.3z" fill="#000000"/>
+          <path d="M13.6 6.5c.5-.6.8-1.5.7-2.4-.7 0-1.6.5-2.1 1.2-.5.5-.9 1.4-.8 2.2.9.1 1.7-.4 2.2-1z" fill="#000000"/>
+        </svg>
+      ),
+      android: (
+        <svg width={20} height={20} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <circle cx="12" cy="12" r="12" fill="#A4C639"/>
+          <path d="M6 13.5 Q6 9 12 9 Q18 9 18 13.5 L18 16 L6 16 Z" fill="#FFFFFF"/>
+          <line x1="8" y1="6" x2="9" y2="9" stroke="#FFFFFF" strokeWidth="1" strokeLinecap="round"/>
+          <line x1="16" y1="6" x2="15" y2="9" stroke="#FFFFFF" strokeWidth="1" strokeLinecap="round"/>
+          <circle cx="9.5" cy="12.5" r="0.8" fill="#A4C639"/>
+          <circle cx="14.5" cy="12.5" r="0.8" fill="#A4C639"/>
+        </svg>
+      ),
+      spotify: (
+        <svg width={20} height={20} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <circle cx="12" cy="12" r="12" fill="#1DB954"/>
+          <path d="M6 9 Q12 7.5 18 10" stroke="#FFFFFF" strokeWidth="2.2" fill="none" strokeLinecap="round"/>
+          <path d="M6.8 12.5 Q12 11 17.2 13" stroke="#FFFFFF" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
+          <path d="M7.5 15.5 Q12 14.3 16.5 16" stroke="#FFFFFF" strokeWidth="1.4" fill="none" strokeLinecap="round"/>
+        </svg>
+      ),
+      apple_music: (
+        <svg width={20} height={20} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <rect width="24" height="24" rx="6" fill="#FA243C"/>
+          <path d="M10 17.5 A1.8 1.8 0 1 1 11.8 15.7 L11.8 9 L16 7.5 L16 14.5 A1.8 1.8 0 1 1 14.2 12.7 L14.2 9.5 L11.8 10.2" fill="#FFFFFF"/>
+        </svg>
+      ),
+      nintendo: (
+        <svg width={22} height={20} viewBox="0 0 28 24" style={{ display: "flex" }}>
+          <rect x="1" y="2" width="10" height="20" rx="3" fill="#E60012"/>
+          <rect x="17" y="2" width="10" height="20" rx="3" fill="#1F1F1F"/>
+          <circle cx="6" cy="8" r="1.5" fill="#FFFFFF"/>
+          <line x1="4.5" y1="14" x2="7.5" y2="14" stroke="#FFFFFF" strokeWidth="1.2" strokeLinecap="round"/>
+          <line x1="6" y1="12.5" x2="6" y2="15.5" stroke="#FFFFFF" strokeWidth="1.2" strokeLinecap="round"/>
+          <circle cx="22" cy="14" r="1.5" fill="#FFFFFF"/>
+        </svg>
+      ),
+      xbox: (
+        <svg width={20} height={20} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <circle cx="12" cy="12" r="12" fill="#107C10"/>
+          <path d="M7 6 Q9 7 12 11 Q15 7 17 6 Q19 9 18.5 14 Q16 18 12 19 Q8 18 5.5 14 Q5 9 7 6z" fill="none" stroke="#FFFFFF" strokeWidth="1.6"/>
+          <path d="M7 18 Q12 12 17 6" stroke="#FFFFFF" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+        </svg>
+      ),
+      playstation: (
+        <svg width={22} height={20} viewBox="0 0 28 24" style={{ display: "flex" }}>
+          <rect width="28" height="24" rx="4" fill="#003791"/>
+          <polygon points="7,5 4,10 10,10" fill="none" stroke="#1A8E5B" strokeWidth="1.5" strokeLinejoin="round"/>
+          <circle cx="20" cy="7.5" r="2.8" fill="none" stroke="#E45353" strokeWidth="1.5"/>
+          <line x1="4.5" y1="14" x2="9.5" y2="19" stroke="#56A8E0" strokeWidth="1.5" strokeLinecap="round"/>
+          <line x1="9.5" y1="14" x2="4.5" y2="19" stroke="#56A8E0" strokeWidth="1.5" strokeLinecap="round"/>
+          <rect x="17" y="14" width="5.5" height="5.5" fill="none" stroke="#E48EBE" strokeWidth="1.5"/>
+        </svg>
+      ),
+      instagram: (
+        <svg width={20} height={20} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <rect x="1" y="1" width="22" height="22" rx="6" fill="#D62976"/>
+          <rect x="1" y="1" width="22" height="22" rx="6" fill="#962FBF" opacity="0.5"/>
+          <circle cx="12" cy="12" r="5" fill="none" stroke="#FFFFFF" strokeWidth="2"/>
+          <circle cx="17.5" cy="6.5" r="1.3" fill="#FFFFFF"/>
+        </svg>
+      ),
+      tiktok: (
+        <svg width={20} height={20} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <circle cx="12" cy="12" r="12" fill="#010101"/>
+          <path d="M13.5 6 L13.5 14.5 A2.3 2.3 0 1 1 11.2 12.2 L11.2 9 L15 9 Q15.5 8 16 8 L16 6 Z" fill="#FFFFFF"/>
+          <circle cx="11.2" cy="14.5" r="2.3" fill="none" stroke="#25F4EE" strokeWidth="1.2" opacity="0.7" transform="translate(-1 1)"/>
+          <circle cx="11.2" cy="14.5" r="2.3" fill="none" stroke="#FE2C55" strokeWidth="1.2" opacity="0.7" transform="translate(1 -1)"/>
+        </svg>
+      ),
+      x: (
+        <svg width={20} height={20} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <circle cx="12" cy="12" r="12" fill="#000000"/>
+          <path d="M7 7 L17 17" stroke="#FFFFFF" strokeWidth="2.8" strokeLinecap="round"/>
+          <path d="M17 7 L7 17" stroke="#FFFFFF" strokeWidth="2.8" strokeLinecap="round"/>
+        </svg>
+      ),
+      facebook: (
+        <svg width={20} height={20} viewBox="0 0 24 24" style={{ display: "flex" }}>
+          <circle cx="12" cy="12" r="12" fill="#1877F2"/>
+          <path d="M15.5 8 L14 8 Q12.5 8 12.5 9.5 L12.5 11.5 L10.5 11.5 L10.5 13.8 L12.5 13.8 L12.5 19 L14.8 19 L14.8 13.8 L16.5 13.8 L16.8 11.5 L14.8 11.5 L14.8 10 Q14.8 9.5 15.3 9.5 L16 9.5 Z" fill="#FFFFFF"/>
+        </svg>
+      ),
     };
 
     // Brand-colored ranking chips: [name, brandColor, contrastText, logoKey]
@@ -2360,7 +2423,7 @@ export async function GET(
             height: "100%",
             display: "flex",
             flexDirection: "column",
-            background: "linear-gradient(180deg, #0F1117 0%, #13161F 65%, #0F1117 100%)",
+            background: "linear-gradient(180deg, #FFA94D 0%, #FF7847 40%, #D44A23 75%, #6B1F0B 100%)",
             color: "#FFFFFF",
             padding: `${PAD_Y}px ${PAD_X}px`,
             fontFamily: "Outfit",
@@ -2369,14 +2432,14 @@ export async function GET(
         >
           {/* TOP META */}
           <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", width: "100%" }}>
-            <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: "#22D3EE", fontWeight: 700, display: "flex" }}>
+            <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: "#FFE9A8", fontWeight: 700, display: "flex" }}>
               {post.topRightLabel}
             </div>
           </div>
 
           {/* KICKER — centered */}
           <div style={{ display: "flex", justifyContent: "center", width: "100%", marginTop: 22 }}>
-            <div style={{ fontFamily: "JetBrains Mono", fontSize: 16, letterSpacing: 4, textTransform: "uppercase", color: "#22D3EE", fontWeight: 700, display: "flex" }}>
+            <div style={{ fontFamily: "JetBrains Mono", fontSize: 16, letterSpacing: 4, textTransform: "uppercase", color: "#FFE9A8", fontWeight: 700, display: "flex" }}>
               {post.kicker}
             </div>
           </div>
@@ -2392,7 +2455,7 @@ export async function GET(
                     fontSize: 96,
                     lineHeight: 0.96,
                     letterSpacing: -2.4,
-                    color: line.italic ? "#22D3EE" : "#FFFFFF",
+                    color: line.italic ? "#FFE9A8" : "#FFFFFF",
                     fontStyle: line.italic ? "italic" : "normal",
                     display: "flex",
                     paddingRight: i < post.titleLines.length - 1 ? 14 : 0,
@@ -2413,32 +2476,32 @@ export async function GET(
             </div>
           )}
 
-          {/* THROWBACK PHOTO — straight, bigger */}
-          <div style={{ display: "flex", justifyContent: "center", marginTop: 24, marginBottom: 22 }}>
+          {/* THROWBACK PHOTO — slimmer to give receipts + rankings room */}
+          <div style={{ display: "flex", justifyContent: "center", marginTop: 18, marginBottom: 16 }}>
             <div style={{
               display: "flex",
               flexDirection: "column",
               background: "#F4EFE4",
-              padding: 14,
-              paddingBottom: 30,
-              boxShadow: "0 28px 40px rgba(0,0,0,0.55), 0 6px 0 rgba(0,0,0,0.18)",
+              padding: 12,
+              paddingBottom: 24,
+              boxShadow: "0 22px 32px rgba(0,0,0,0.5), 0 5px 0 rgba(0,0,0,0.16)",
               alignItems: "center",
-              width: 860,
+              width: 720,
             }}>
-              <div style={{ display: "flex", width: 832, height: 440, overflow: "hidden", borderRadius: 4 }}>
+              <div style={{ display: "flex", width: 696, height: 320, overflow: "hidden", borderRadius: 4 }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={photoUrl}
                   alt="Brian as a kid at a CRT computer"
-                  width={832}
-                  height={440}
-                  style={{ display: "flex", width: 832, height: 440, objectFit: "cover", objectPosition: "center 35%" }}
+                  width={696}
+                  height={320}
+                  style={{ display: "flex", width: 696, height: 320, objectFit: "cover", objectPosition: "center 35%" }}
                 />
               </div>
               <div style={{
-                marginTop: 10,
+                marginTop: 8,
                 fontFamily: "JetBrains Mono",
-                fontSize: 15,
+                fontSize: 13,
                 letterSpacing: 3,
                 textTransform: "uppercase",
                 color: "rgba(0,0,0,0.6)",
@@ -2455,62 +2518,74 @@ export async function GET(
 
             {/* LEFT — Receipts */}
             <div style={{ display: "flex", flexDirection: "column", width: 380 }}>
-              <div style={{ fontFamily: "JetBrains Mono", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "#22D3EE", fontWeight: 700, display: "flex", marginBottom: 10 }}>
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "#FFE9A8", fontWeight: 700, display: "flex", marginBottom: 10 }}>
                 Official Receipts
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <div style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  background: "rgba(34,211,238,0.08)",
-                  border: "1px solid rgba(34,211,238,0.25)",
-                  borderRadius: 10,
-                  padding: "12px 14px",
-                }}>
-                  <div style={{ fontFamily: "JetBrains Mono", fontSize: 9, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.4)", display: "flex", marginBottom: 4 }}>
-                    Degree
-                  </div>
-                  <div style={{ fontFamily: "Instrument Serif", fontSize: 22, color: "#FFFFFF", lineHeight: 1.1, display: "flex" }}>
-                    BS · Management Information Systems
-                  </div>
-                </div>
-                <div style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  background: "rgba(34,211,238,0.08)",
-                  border: "1px solid rgba(34,211,238,0.25)",
-                  borderRadius: 10,
-                  padding: "12px 14px",
-                }}>
-                  <div style={{ fontFamily: "JetBrains Mono", fontSize: 9, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.4)", display: "flex", marginBottom: 4 }}>
-                    In Progress
-                  </div>
-                  <div style={{ fontFamily: "Instrument Serif", fontSize: 22, color: "#FFFFFF", lineHeight: 1.1, display: "flex" }}>
-                    MBA · <span style={{ fontStyle: "italic", color: "#22D3EE", paddingLeft: 8, display: "flex" }}>Spring &apos;27</span>
-                  </div>
-                </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {/* BS Degree row with Rowan owl */}
                 <div style={{
                   display: "flex",
                   alignItems: "center",
                   gap: 12,
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px dashed rgba(255,255,255,0.25)",
-                  borderRadius: 10,
+                  background: "rgba(255,233,168,0.12)",
+                  border: "1px solid rgba(34,211,238,0.25)",
+                  borderRadius: 12,
+                  padding: "12px 14px",
+                }}>
+                  <div style={{ display: "flex", width: 58, height: 58, alignItems: "center", justifyContent: "center" }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={rowanUrl} alt="Rowan University" width={58} height={58} style={{ display: "flex", width: 58, height: 58, objectFit: "contain" }} />
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+                    <div style={{ fontFamily: "Outfit", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.55)", display: "flex", marginBottom: 3, fontWeight: 600 }}>
+                      Bachelor&apos;s · Rowan University
+                    </div>
+                    <div style={{ fontFamily: "Instrument Serif", fontSize: 22, color: "#FFFFFF", lineHeight: 1.1, display: "flex" }}>
+                      Management Information Systems
+                    </div>
+                  </div>
+                </div>
+
+                {/* MBA row with Rowan owl */}
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  background: "rgba(255,233,168,0.12)",
+                  border: "1px solid rgba(34,211,238,0.25)",
+                  borderRadius: 12,
+                  padding: "12px 14px",
+                }}>
+                  <div style={{ display: "flex", width: 58, height: 58, alignItems: "center", justifyContent: "center" }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={rowanUrl} alt="Rowan University" width={58} height={58} style={{ display: "flex", width: 58, height: 58, objectFit: "contain" }} />
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+                    <div style={{ fontFamily: "Outfit", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.55)", display: "flex", marginBottom: 3, fontWeight: 600 }}>
+                      MBA · In Progress
+                    </div>
+                    <div style={{ fontFamily: "Instrument Serif", fontSize: 22, color: "#FFFFFF", lineHeight: 1.1, display: "flex" }}>
+                      Finishing <span style={{ fontStyle: "italic", color: "#FFE9A8", paddingLeft: 6, display: "flex" }}>Spring &apos;27</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Kajeet phone — cutout on gray panel */}
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  background: "linear-gradient(135deg, #3A3F4B 0%, #25282F 100%)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  borderRadius: 12,
                   padding: "10px 14px",
                 }}>
-                  {/* Kajeet phone photo inline */}
-                  <div style={{ display: "flex", width: 56, height: 68, overflow: "hidden", borderRadius: 6, background: "#FFFFFF" }}>
+                  <div style={{ display: "flex", width: 58, height: 70, alignItems: "center", justifyContent: "center" }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={kajeetUrl}
-                      alt="LG Kajeet phone"
-                      width={56}
-                      height={68}
-                      style={{ display: "flex", width: 56, height: 68, objectFit: "cover" }}
-                    />
+                    <img src={kajeetUrl} alt="LG Kajeet phone" width={58} height={70} style={{ display: "flex", width: 58, height: 70, objectFit: "contain" }} />
                   </div>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <div style={{ fontFamily: "JetBrains Mono", fontSize: 9, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.4)", display: "flex", marginBottom: 4 }}>
+                  <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+                    <div style={{ fontFamily: "Outfit", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.55)", display: "flex", marginBottom: 3, fontWeight: 600 }}>
                       First Phone
                     </div>
                     <div style={{ fontFamily: "Instrument Serif", fontSize: 22, color: "#FFFFFF", lineHeight: 1.1, display: "flex" }}>
@@ -2521,12 +2596,12 @@ export async function GET(
               </div>
             </div>
 
-            {/* RIGHT — Rankings */}
+            {/* RIGHT — Rankings — spread across column height to match receipts */}
             <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
               <div style={{ fontFamily: "JetBrains Mono", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "#FACC15", fontWeight: 700, display: "flex", marginBottom: 10 }}>
                 Unofficial Rankings
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <div style={{ display: "flex", flexDirection: "column", flex: 1, justifyContent: "space-between" }}>
                 {RANKINGS.map((r, i) => (
                   <div key={i} style={{ display: "flex", alignItems: "center", gap: 5, flexWrap: "wrap" }}>
                     {/* Winner — full color + logo */}
@@ -2615,7 +2690,7 @@ export async function GET(
                 {post.cta}
               </div>
               {post.ctaArrow !== false && (
-                <div style={{ fontFamily: "JetBrains Mono", fontSize: 22, color: "#22D3EE", fontWeight: 700, marginLeft: 8, display: "flex" }}>→</div>
+                <div style={{ fontFamily: "JetBrains Mono", fontSize: 22, color: "#FFE9A8", fontWeight: 700, marginLeft: 8, display: "flex" }}>→</div>
               )}
             </div>
           </div>

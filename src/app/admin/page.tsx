@@ -3760,6 +3760,7 @@ const VARIANT_SWATCH: Record<IGPost["variant"], { bg: string; ring: string; labe
   swoop:     { bg: "linear-gradient(135deg,#013228,#002820)", ring: "#FFB85C", label: "Swoop" },
   phanatic:  { bg: "linear-gradient(180deg,#E81828,#0B2D6A)", ring: "#7DC242", label: "Phanatic" },
   webslinger:{ bg: "linear-gradient(135deg,#0A1A3A,#B0151E)", ring: "#FF3B47", label: "Hero" },
+  starter:   { bg: "linear-gradient(180deg,#FFD93D,#2A75BB)",  ring: "#FF1B1B", label: "Starter" },
 };
 
 const SEASON_MAP: Record<SeasonFilter, (p: IGPost) => boolean> = {

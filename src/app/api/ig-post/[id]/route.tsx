@@ -208,6 +208,21 @@ function getPalette(variant: string): Palette {
         numBg: "rgba(86,176,255,0.22)",
         numText: "#56B0FF",
       };
+    case "starter":
+      return {
+        bg: "#0A1F44",
+        bgGradient: "linear-gradient(180deg, #FFD93D 0%, #FFCB05 14%, #2A75BB 32%, #0A1F44 78%, #0A1F44 100%)",
+        ink: "#FFFFFF",
+        inkSoft: "rgba(255,255,255,0.92)",
+        inkMuted: "rgba(255,255,255,0.7)",
+        accent: "#FF1B1B",
+        italicAccent: "#FFD93D",
+        chipBg: "rgba(255,217,61,0.22)",
+        chipText: "#FFD93D",
+        ruleColor: "rgba(255,217,61,0.42)",
+        numBg: "rgba(255,27,27,0.28)",
+        numText: "#FFD93D",
+      };
     case "studio":
     default:
       return {
@@ -1321,8 +1336,119 @@ export async function GET(
           )}
         </div>
 
-        {/* BOTTOM IMAGE — Eagles logo etc. */}
-        {post.bottomImage && bottomImageSrc && (
+        {/* BOTTOM IMAGE — three layouts: hero (character art), banner (wide trio), logo (small) */}
+
+        {/* HERO: large character art, tagline below, centered */}
+        {post.bottomImage && bottomImageSrc && post.bottomImage.size === "hero" && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              gap: 14,
+              paddingBottom: 16,
+              width: "100%",
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={bottomImageSrc}
+              alt={post.bottomImage.alt}
+              width={520}
+              height={420}
+              style={{ display: "flex", width: 520, height: 420, objectFit: "contain" }}
+            />
+            {post.bottomImage.tagline && (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 4,
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "JetBrains Mono",
+                    fontSize: 22,
+                    letterSpacing: 6,
+                    textTransform: "uppercase",
+                    color: p.ink,
+                    fontWeight: 700,
+                    display: "flex",
+                  }}
+                >
+                  {post.bottomImage.tagline}
+                </div>
+                <div
+                  style={{
+                    fontFamily: "JetBrains Mono",
+                    fontSize: 13,
+                    letterSpacing: 3,
+                    textTransform: "uppercase",
+                    color: p.inkMuted,
+                    fontWeight: 600,
+                    display: "flex",
+                  }}
+                >
+                  {post.bottomImage.alt}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* BANNER: wide full-width art (e.g. Pokemon trio) */}
+        {post.bottomImage && bottomImageSrc && post.bottomImage.size === "banner" && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 14,
+              paddingBottom: 18,
+              width: "100%",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                width: 920,
+                height: 392,
+                borderRadius: 14,
+                overflow: "hidden",
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={bottomImageSrc}
+                alt={post.bottomImage.alt}
+                width={920}
+                height={392}
+                style={{ display: "flex", width: 920, height: 392, objectFit: "cover" }}
+              />
+            </div>
+            {post.bottomImage.tagline && (
+              <div
+                style={{
+                  fontFamily: "JetBrains Mono",
+                  fontSize: 20,
+                  letterSpacing: 6,
+                  textTransform: "uppercase",
+                  color: p.ink,
+                  fontWeight: 700,
+                  display: "flex",
+                }}
+              >
+                {post.bottomImage.tagline}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* LOGO: original small-logo layout (eagles #22, phillies #23) */}
+        {post.bottomImage && bottomImageSrc && (!post.bottomImage.size || post.bottomImage.size === "logo") && (
           <div
             style={{
               display: "flex",

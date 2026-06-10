@@ -4,7 +4,7 @@ export type IGPostData = {
   id: string;
   name: string;
   type: string;
-  variant: "studio" | "dark" | "blue" | "cream" | "eagles" | "phillies" | "amber" | "plum" | "ocean" | "citrus" | "swoop" | "phanatic" | "webslinger";
+  variant: "studio" | "dark" | "blue" | "cream" | "eagles" | "phillies" | "amber" | "plum" | "ocean" | "citrus" | "swoop" | "phanatic" | "webslinger" | "starter";
   topLeftLabel: string;
   topRightLabel: string;
   kicker: string;
@@ -16,7 +16,7 @@ export type IGPostData = {
   subBottom?: string;
   cta: string;
   ctaArrow?: boolean;
-  bottomImage?: { src: string; alt: string; tagline?: string; background?: "circle-white" };
+  bottomImage?: { src: string; alt: string; tagline?: string; background?: "circle-white"; size?: "logo" | "hero" | "banner" };
   caption: string;
   hashtags: string;
   reelConcept?: string;
@@ -968,21 +968,26 @@ DM "SUMMER" for the 1-page audit I send shore + city clients before peak season.
       src: "/images/webslinger.png",
       alt: "Hero illustration",
       tagline: "BUILT · TO · SWING",
+      size: "hero",
     },
     cta: "DM \"HERO\"",
-    caption: `Hero season hits theaters July 31. 🕷️
+    caption: `Your homepage is the suit. 🕸️
 
-But your hero moment hits the second your homepage loads.
+The version of your business that lives on the internet — that's the one most customers meet first. Before they walk in. Before they call. Before they decide if you're the move.
 
-The version of your business that lives on the internet — that's the one most customers meet first. It's the suit. It's the entrance.
+Hero season hits theaters July 31. Yours starts the second someone taps your link in bio.
 
-If your homepage isn't pulling its weight, no amount of word-of-mouth makes up for the first scroll.
+Three questions to ask your homepage tonight:
 
-Five slots booked for July. Two left.
+1. Does it load in under 2 seconds on a phone?
+2. Can someone book / buy / call in one tap?
+3. Does it sound like a real person — or a template?
 
-Comment 🕸️ or DM "HERO" — I'll send the audit I'm running for clients launching this summer.
+If you got two no's, that's the audit.
 
-(P.S. with great traffic comes great responsibility.)`,
+Comment 🕸️ and I'll DM you the 1-page version I'm running for July launches.
+
+With great traffic comes great responsibility.`,
     hashtags:
       "#WebDesigner #SmallBusinessOwner #PhillyBusiness #SmallBusinessMarketing #SummerMarketing #BuiltByBrian #FreelanceWebDesigner #HeroBranding #SmallBusinessTips #BrandStory",
   },
@@ -1005,23 +1010,24 @@ Comment 🕸️ or DM "HERO" — I'll send the audit I'm running for clients lau
       src: "/images/swoop.png",
       alt: "Swoop — Eagles mascot",
       tagline: "BIRD · GANG",
+      size: "hero",
     },
     cta: "DM \"WEEK ONE\"",
-    caption: `Training camp opens. Birds are back. 🦅
+    caption: `Swoop doesn't half-show-up. 🦅
 
-You know who shows up early, every single day, full energy?
+He's at training camp with the same energy he had at the parade. Every practice. Every preseason. Every soggy Tuesday.
 
-Swoop.
+You know what doesn't have that energy?
 
-That's the standard.
+Your homepage at 6 PM on a Sunday when someone Googles you for the first time.
 
-Your homepage shouldn't half-show-up either. If it's the version of your business that people meet on a Sunday morning Google search — it better hit like a kickoff.
+The site is the warm-up. The site is the pregame. The site is the version of your business that's working while you're at the bar watching the game.
 
-Three slots open between now and the home opener. I can have you live before Week One.
+Three slots open between now and the home opener. I can have you live before Week One — full custom, mobile-first, the kind of build that hits like a kickoff.
 
-Drop a 🦅 if you want the preseason audit. DM "WEEK ONE" if you're ready to roll.
+Drop a 🦅 in the comments for the preseason audit, or DM "WEEK ONE" if you're ready to roll out.
 
-Go birds. Always.`,
+Always go birds. Always show up.`,
     hashtags:
       "#FlyEaglesFly #GoBirds #PhiladelphiaEagles #PhillyBusiness #PhillySmallBusiness #BirdGang #WebDesignerPhiladelphia #BuiltByBrian #PhillyEntrepreneur #ShopLocal #PhillySmallBiz",
   },
@@ -1044,24 +1050,24 @@ Go birds. Always.`,
       src: "/images/phanatic.png",
       alt: "Phillie Phanatic",
       tagline: "BRING · THE · NOISE",
-      background: "circle-white",
+      size: "hero",
     },
     cta: "DM \"PHANATIC\"",
-    caption: `Dog days of summer. Phanatic's already in mid-season form. 🔔
+    caption: `The Phanatic isn't waiting for the 8th inning. 🔔
 
-You know what Phanatic doesn't do?
+First pitch — bringing it.
+3-1 loss in a Tuesday day game — bringing it.
+Random Wednesday in July when nobody's watching — still bringing it.
 
-Wait for the eighth inning to make some noise.
+That's the standard. Show up bright. Show up loud. Show up whether the room is full or it's just you and the security guard.
 
-He's bringing it in the first pitch. He's bringing it in the seventh-inning stretch. He's bringing it after a 3-1 loss in a Tuesday day game.
+Your homepage should be on the same energy. The customer Googling you on a Tuesday afternoon deserves the same hit as the one walking past your shop on Saturday night.
 
-That's the energy your homepage should have. Every scroll. Every device. Every customer.
+If yours feels more "rain delay" than "Bryce in October" — comment 🔔 and I'll send you the 1-page summer audit I'm running for July launches.
 
-If yours feels more "rain delay" than "Bryce Harper in October" — DM "PHANATIC" and we'll build something worth ringing the bell for.
+Two slots left. We can have you live before the All-Star Break.
 
-Two slots open for July launches.
-
-Atta babe. 🔔`,
+Atta babe.`,
     hashtags:
       "#Phillies #PhilliePhanatic #RingTheBell #RedOctober #PhillyBusiness #PhillySmallBusiness #SouthJerseyBusiness #SummerMarketing #WebDesignerPhiladelphia #BuiltByBrian #GoPhils",
   },
@@ -1134,5 +1140,49 @@ The fix isn't a redesign. It's caring whether the front door works.
 Tap the bio if you want a free 5-minute audit before the next weekend.`,
     hashtags:
       "#WebDesignTips #SmallBusinessOwner #PhillyBusiness #RestaurantMarketing #MobileWeb #WebDesigner #BuiltByBrian #SmallBusinessTips #SiteSpeed",
+  },
+  {
+    id: "33",
+    name: "Pick your starter — Pokemon edition",
+    type: "Single image · Engagement · Nostalgia",
+    variant: "starter",
+    topLeftLabel: "TURN 28 / 033",
+    topRightLabel: "WHO'S YOURS?",
+    kicker: "1996 → 2026",
+    titleLines: [
+      { text: "Pick your" },
+      { text: "starter", italic: true },
+      { text: "(again)." },
+    ],
+    sub: "Twenty-eight years and the question still hits. Three starters, three energies — and only one of them is built for the year you're actually in.",
+    tagRow: ["GRASS · STARTER", "FIRE · PRO", "WATER · CUSTOM"],
+    bottomImage: {
+      src: "/images/pokemon-starters.jpg",
+      alt: "Bulbasaur, Charmander, and Squirtle — the three Kanto starters",
+      tagline: "TAP · YOUR · PICK",
+    },
+    cta: "Comment yours",
+    caption: `1996. You picked one.
+
+Bulbasaur, Charmander, or Squirtle — and you defended that pick on the bus all the way home from school.
+
+Twenty-eight years later, same question. Different stakes.
+
+Your business is picking a starter right now too. Which one's yours?
+
+🌱 Bulbasaur — the Starter ($750)
+Reliable. Grows steady. You don't need flash, you need a solid 5-page foundation that just works. Mobile-first, your contact form actually sends, you own the code forever.
+
+🔥 Charmander — the Pro ($1,200)
+You're ready to scale. Up to 10 pages, custom design system, CMS so you can edit copy yourself at 11 PM without calling me. This is the build that turns scrollers into bookings.
+
+💧 Squirtle — the Custom ($3,000+)
+Defensive. Deep. Built for the long fight. E-commerce, custom integrations, scaling for traffic spikes. For businesses that need range — and the years to prove it.
+
+Comment your starter pick (1996 AND 2026) and I'll DM you the breakdown for which tier actually fits where you are right now.
+
+(There are no wrong answers. Except Pikachu. Pikachu wasn't a starter. Stop trying to make Pikachu happen.)`,
+    hashtags:
+      "#Pokemon #PickYourStarter #SmallBusinessOwner #PhillyBusiness #WebDesigner #FreelanceLife #90sKids #BuiltByBrian #SmallBusinessMarketing #NostalgiaMarketing #BulbasaurCharmanderSquirtle #PhillyEntrepreneur",
   },
 ];

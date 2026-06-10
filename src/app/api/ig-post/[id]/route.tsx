@@ -2284,90 +2284,43 @@ export async function GET(
     const photoUrl = `${origin}/images/brian-young.jpg`;
     const kajeetUrl = `${origin}/images/kajeet-phone.png`;
 
-    // Inline brand-logo SVG glyphs. Tiny, single-color, designed to read at 16-18px.
+    // Brand "logo" markers — simple circle + monogram letter divs (Satori-safe,
+    // no SVG defs/gradients/text elements which crash next/og rendering).
+    const logoChip = (bg: string, ch: string, fg: string = "#FFFFFF", size: number = 18) => (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: size,
+          height: size,
+          borderRadius: size,
+          background: bg,
+          color: fg,
+          fontFamily: "Outfit",
+          fontWeight: 900,
+          fontSize: size - 6,
+          lineHeight: 1,
+          flexShrink: 0,
+        }}
+      >
+        {ch}
+      </div>
+    );
     const LOGOS: Record<string, React.ReactNode> = {
-      apple: (
-        <svg width={16} height={16} viewBox="0 0 24 24" style={{ display: "flex" }}>
-          <path d="M17.05 12.04c-.03-3.16 2.58-4.7 2.7-4.77-1.47-2.15-3.76-2.44-4.57-2.47-1.94-.2-3.79 1.14-4.78 1.14-.98 0-2.51-1.11-4.13-1.08C4.18 4.9 2.27 6.08 1.24 7.93-.86 11.66.69 17.17 2.72 20.18c.99 1.48 2.18 3.14 3.74 3.08 1.5-.06 2.07-.97 3.88-.97 1.81 0 2.32.97 3.91.94 1.61-.03 2.63-1.51 3.62-2.99 1.14-1.71 1.61-3.37 1.64-3.46-.04-.02-3.15-1.2-3.18-4.74M14.04 3.56c.83-1 1.39-2.4 1.23-3.78-1.19.05-2.63.79-3.48 1.79-.77.88-1.44 2.3-1.26 3.66 1.33.11 2.69-.67 3.51-1.67" fill="#000000"/>
-        </svg>
-      ),
-      apple_white: (
-        <svg width={16} height={16} viewBox="0 0 24 24" style={{ display: "flex" }}>
-          <path d="M17.05 12.04c-.03-3.16 2.58-4.7 2.7-4.77-1.47-2.15-3.76-2.44-4.57-2.47-1.94-.2-3.79 1.14-4.78 1.14-.98 0-2.51-1.11-4.13-1.08C4.18 4.9 2.27 6.08 1.24 7.93-.86 11.66.69 17.17 2.72 20.18c.99 1.48 2.18 3.14 3.74 3.08 1.5-.06 2.07-.97 3.88-.97 1.81 0 2.32.97 3.91.94 1.61-.03 2.63-1.51 3.62-2.99 1.14-1.71 1.61-3.37 1.64-3.46-.04-.02-3.15-1.2-3.18-4.74M14.04 3.56c.83-1 1.39-2.4 1.23-3.78-1.19.05-2.63.79-3.48 1.79-.77.88-1.44 2.3-1.26 3.66 1.33.11 2.69-.67 3.51-1.67" fill="#FFFFFF"/>
-        </svg>
-      ),
-      android: (
-        <svg width={16} height={16} viewBox="0 0 24 24" style={{ display: "flex" }}>
-          <path d="M17.6 9.48l1.84-3.18a.4.4 0 0 0-.69-.4L16.9 9.1A11.3 11.3 0 0 0 12 8a11.3 11.3 0 0 0-4.9 1.1L5.25 5.9a.4.4 0 0 0-.69.4l1.84 3.18A10.36 10.36 0 0 0 1 18h22a10.36 10.36 0 0 0-5.4-8.52M7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5m10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5" fill="#A4C639"/>
-        </svg>
-      ),
-      spotify: (
-        <svg width={18} height={18} viewBox="0 0 24 24" style={{ display: "flex" }}>
-          <circle cx="12" cy="12" r="11" fill="#1DB954"/>
-          <path d="M17.5 16.3a.7.7 0 0 1-1 .25c-2.75-1.7-6.2-2.07-10.28-1.14a.7.7 0 1 1-.32-1.4c4.45-1 8.27-.6 11.34 1.27.34.2.45.66.26 1.02m1.5-3.4a.9.9 0 0 1-1.25.3c-3.15-1.94-7.95-2.5-11.67-1.37a.9.9 0 1 1-.52-1.74c4.25-1.27 9.55-.65 13.15 1.55.42.26.55.81.3 1.26m.13-3.55c-3.77-2.24-10-2.44-13.6-1.35a1.1 1.1 0 1 1-.63-2.1c4.13-1.24 11-1 15.34 1.58a1.08 1.08 0 1 1-1.11 1.87" fill="#FFFFFF"/>
-        </svg>
-      ),
-      apple_music: (
-        <svg width={16} height={16} viewBox="0 0 24 24" style={{ display: "flex" }}>
-          <rect width="24" height="24" rx="6" fill="#FA243C"/>
-          <path d="M9 8l7-1.5v8.5a2 2 0 1 1-1.4-1.9V8.9l-4.2.9v6.2a2 2 0 1 1-1.4-1.9V8z" fill="#FFFFFF"/>
-        </svg>
-      ),
-      nintendo: (
-        <svg width={18} height={18} viewBox="0 0 24 24" style={{ display: "flex" }}>
-          <rect x="3" y="3" width="7" height="18" rx="2" fill="#E60012"/>
-          <rect x="14" y="3" width="7" height="18" rx="2" fill="#1F1F1F"/>
-          <circle cx="6.5" cy="9" r="1.2" fill="#FFFFFF"/>
-          <rect x="5.5" y="13" width="2" height="0.6" fill="#FFFFFF"/>
-          <rect x="6.2" y="12.3" width="0.6" height="2" fill="#FFFFFF"/>
-        </svg>
-      ),
-      xbox: (
-        <svg width={16} height={16} viewBox="0 0 24 24" style={{ display: "flex" }}>
-          <circle cx="12" cy="12" r="11" fill="#107C10"/>
-          <path d="M7 6c1.5 0 3 1 5 4-2 3-3.5 5-5 6-1.5-2-2.2-5.5-.5-9zm10 0c-1.5 0-3 1-5 4 2 3 3.5 5 5 6 1.5-2 2.2-5.5.5-9z" fill="#FFFFFF"/>
-        </svg>
-      ),
-      playstation: (
-        <svg width={20} height={16} viewBox="0 0 30 24" style={{ display: "flex" }}>
-          <text x="0" y="18" fontFamily="Outfit" fontSize="20" fontWeight="900" fill="#FFFFFF">PS</text>
-        </svg>
-      ),
-      instagram: (
-        <svg width={16} height={16} viewBox="0 0 24 24" style={{ display: "flex" }}>
-          <defs>
-            <linearGradient id="igGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#FEDA75"/>
-              <stop offset="25%" stopColor="#FA7E1E"/>
-              <stop offset="50%" stopColor="#D62976"/>
-              <stop offset="75%" stopColor="#962FBF"/>
-              <stop offset="100%" stopColor="#4F5BD5"/>
-            </linearGradient>
-          </defs>
-          <rect width="22" height="22" x="1" y="1" rx="6" fill="url(#igGrad)"/>
-          <rect width="22" height="22" x="1" y="1" rx="6" fill="none" stroke="#FFFFFF" strokeWidth="0"/>
-          <circle cx="12" cy="12" r="4.5" fill="none" stroke="#FFFFFF" strokeWidth="1.8"/>
-          <circle cx="17.5" cy="6.5" r="1.2" fill="#FFFFFF"/>
-        </svg>
-      ),
-      tiktok: (
-        <svg width={16} height={16} viewBox="0 0 24 24" style={{ display: "flex" }}>
-          <path d="M16.6 5.8a4.6 4.6 0 0 1-3.3-1.4V15a5.5 5.5 0 1 1-5.5-5.5l1 .1v2.8c-.3-.1-.7-.2-1-.2a2.7 2.7 0 1 0 2.7 2.7V0h2.8c0 1.5 1.2 4 4.3 4z" fill="#FFFFFF"/>
-          <path d="M16.6 5.8a4.6 4.6 0 0 1-3.3-1.4V15a5.5 5.5 0 1 1-5.5-5.5l1 .1v2.8c-.3-.1-.7-.2-1-.2a2.7 2.7 0 1 0 2.7 2.7V0h2.8c0 1.5 1.2 4 4.3 4z" fill="#25F4EE" transform="translate(-1.5 1)" opacity=".8"/>
-          <path d="M16.6 5.8a4.6 4.6 0 0 1-3.3-1.4V15a5.5 5.5 0 1 1-5.5-5.5l1 .1v2.8c-.3-.1-.7-.2-1-.2a2.7 2.7 0 1 0 2.7 2.7V0h2.8c0 1.5 1.2 4 4.3 4z" fill="#FE2C55" transform="translate(1.5 -1)" opacity=".8"/>
-        </svg>
-      ),
-      x: (
-        <svg width={14} height={14} viewBox="0 0 24 24" style={{ display: "flex" }}>
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="#FFFFFF"/>
-        </svg>
-      ),
-      facebook: (
-        <svg width={16} height={16} viewBox="0 0 24 24" style={{ display: "flex" }}>
-          <circle cx="12" cy="12" r="11" fill="#1877F2"/>
-          <path d="M15.5 12.5h-2.5V21H10v-8.5H8V10h2V8.5c0-2 .8-3.5 3.2-3.5h2v2.6H14c-.7 0-1 .3-1 1V10h2.7z" fill="#FFFFFF"/>
-        </svg>
-      ),
+      apple:        logoChip("#000000", "", "#FFFFFF", 18),  // pure black dot — Apple
+      apple_white:  logoChip("#000000", "", "#FFFFFF", 18),
+      android:      logoChip("#A4C639", "a", "#FFFFFF", 18),
+      spotify:      logoChip("#1DB954", "♪", "#FFFFFF", 18),
+      apple_music:  logoChip("#FA243C", "♪", "#FFFFFF", 18),
+      nintendo:     logoChip("#E60012", "N", "#FFFFFF", 18),
+      xbox:         logoChip("#107C10", "X", "#FFFFFF", 18),
+      playstation:  logoChip("#003791", "P", "#FFFFFF", 18),
+      // Instagram: solid hot-pink dot (close to the IG brand midpoint) since gradients crash
+      instagram:    logoChip("#D62976", "○", "#FFFFFF", 18),
+      tiktok:       logoChip("#010101", "♫", "#FFFFFF", 18),
+      x:            logoChip("#000000", "𝕏", "#FFFFFF", 18),
+      facebook:     logoChip("#1877F2", "f", "#FFFFFF", 18),
     };
 
     // Brand-colored ranking chips: [name, brandColor, contrastText, logoKey]

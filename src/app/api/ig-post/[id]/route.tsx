@@ -1067,7 +1067,9 @@ export async function GET(
 
   // ─── STARTER TRIO LAYOUT — Pokemon post w/ characters flanking headline ───
   if (post.customLayout === "starter-trio") {
-    const trioUrl = `${origin}/images/pokemon-starters.jpg`;
+    const bulbaUrl  = `${origin}/images/pokemon-bulbasaur.png`;
+    const charmUrl  = `${origin}/images/pokemon-charmander.png`;
+    const squirtUrl = `${origin}/images/pokemon-squirtle.png`;
     return new ImageResponse(
       (
         <div
@@ -1102,105 +1104,129 @@ export async function GET(
             </div>
           </div>
 
-          {/* MAIN ROW — Bulbasaur | TITLE | Charmander */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 28, width: "100%" }}>
-
-            {/* Left — Bulbasaur cropped from banner */}
-            <div style={{ display: "flex", width: 270, height: 460, overflow: "hidden", borderRadius: 18 }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={trioUrl}
-                alt="Bulbasaur"
-                width={270}
-                height={460}
-                style={{ display: "flex", width: 270, height: 460, objectFit: "cover", objectPosition: "8% center" }}
-              />
-            </div>
-
-            {/* Center — title stack */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1, padding: "0 24px" }}>
-              {post.titleLines.map((line, i) => (
-                <div
-                  key={i}
-                  style={{
-                    fontFamily: "Instrument Serif",
-                    fontSize: 92,
-                    lineHeight: 0.98,
-                    letterSpacing: -2.2,
-                    color: line.italic ? p.italicAccent : p.ink,
-                    fontStyle: line.italic ? "italic" : "normal",
-                    display: "flex",
-                    textAlign: "center",
-                  }}
-                >
-                  {line.text}
-                </div>
-              ))}
-            </div>
-
-            {/* Right — Charmander cropped from banner */}
-            <div style={{ display: "flex", width: 270, height: 460, overflow: "hidden", borderRadius: 18 }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={trioUrl}
-                alt="Charmander"
-                width={270}
-                height={460}
-                style={{ display: "flex", width: 270, height: 460, objectFit: "cover", objectPosition: "50% center" }}
-              />
-            </div>
+          {/* CENTERED HEADLINE — big serif stack */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 26 }}>
+            {post.titleLines.map((line, i) => (
+              <div
+                key={i}
+                style={{
+                  fontFamily: "Instrument Serif",
+                  fontSize: 108,
+                  lineHeight: 0.96,
+                  letterSpacing: -2.6,
+                  color: line.italic ? p.italicAccent : p.ink,
+                  fontStyle: line.italic ? "italic" : "normal",
+                  display: "flex",
+                  textAlign: "center",
+                }}
+              >
+                {line.text}
+              </div>
+            ))}
           </div>
 
           {/* SUB — centered */}
           {post.sub && (
-            <div style={{ display: "flex", justifyContent: "center", marginTop: 26 }}>
-              <div style={{ fontFamily: "Outfit", fontSize: 22, lineHeight: 1.45, color: p.inkSoft, fontWeight: 500, textAlign: "center", maxWidth: 760, display: "flex" }}>
+            <div style={{ display: "flex", justifyContent: "center", marginTop: 18 }}>
+              <div style={{ fontFamily: "Outfit", fontSize: 22, lineHeight: 1.4, color: p.inkSoft, fontWeight: 500, textAlign: "center", maxWidth: 720, display: "flex" }}>
                 {post.sub}
               </div>
             </div>
           )}
 
-          {/* SQUIRTLE row — small centered + tagRow */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 22 }}>
-            <div style={{ display: "flex", width: 200, height: 180, overflow: "hidden", borderRadius: 14 }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={trioUrl}
-                alt="Squirtle"
-                width={200}
-                height={180}
-                style={{ display: "flex", width: 200, height: 180, objectFit: "cover", objectPosition: "92% center" }}
-              />
+          {/* Spacer — pushes Pokemon row to bottom */}
+          <div style={{ flex: 1, display: "flex" }} />
+
+          {/* POKEMON ROW — three panels in a row, all "looking up" at the title */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%", marginBottom: 14, gap: 14 }}>
+
+            {/* Bulbasaur */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1 }}>
+              <div style={{ display: "flex", width: 280, height: 252, overflow: "hidden", borderRadius: 18, boxShadow: "0 8px 0 rgba(0,0,0,0.18)" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={bulbaUrl}
+                  alt="Bulbasaur"
+                  width={280}
+                  height={252}
+                  style={{ display: "flex", width: 280, height: 252, objectFit: "cover" }}
+                />
+              </div>
+              <div style={{
+                fontFamily: "JetBrains Mono",
+                fontSize: 13,
+                letterSpacing: 3,
+                textTransform: "uppercase",
+                color: "#FFFFFF",
+                background: "#5BBE5A",
+                padding: "7px 12px",
+                borderRadius: 999,
+                fontWeight: 800,
+                display: "flex",
+                marginTop: 12,
+              }}>
+                Grass · Starter · $750
+              </div>
+            </div>
+
+            {/* Charmander */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1 }}>
+              <div style={{ display: "flex", width: 280, height: 252, overflow: "hidden", borderRadius: 18, boxShadow: "0 8px 0 rgba(0,0,0,0.18)" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={charmUrl}
+                  alt="Charmander"
+                  width={280}
+                  height={252}
+                  style={{ display: "flex", width: 280, height: 252, objectFit: "cover" }}
+                />
+              </div>
+              <div style={{
+                fontFamily: "JetBrains Mono",
+                fontSize: 13,
+                letterSpacing: 3,
+                textTransform: "uppercase",
+                color: "#FFFFFF",
+                background: "#F08030",
+                padding: "7px 12px",
+                borderRadius: 999,
+                fontWeight: 800,
+                display: "flex",
+                marginTop: 12,
+              }}>
+                Fire · Pro · $1,200
+              </div>
+            </div>
+
+            {/* Squirtle */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1 }}>
+              <div style={{ display: "flex", width: 280, height: 252, overflow: "hidden", borderRadius: 18, boxShadow: "0 8px 0 rgba(0,0,0,0.18)" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={squirtUrl}
+                  alt="Squirtle"
+                  width={280}
+                  height={252}
+                  style={{ display: "flex", width: 280, height: 252, objectFit: "cover" }}
+                />
+              </div>
+              <div style={{
+                fontFamily: "JetBrains Mono",
+                fontSize: 13,
+                letterSpacing: 3,
+                textTransform: "uppercase",
+                color: "#FFFFFF",
+                background: "#5BAFEA",
+                padding: "7px 12px",
+                borderRadius: 999,
+                fontWeight: 800,
+                display: "flex",
+                marginTop: 12,
+              }}>
+                Water · Custom · $3K+
+              </div>
             </div>
           </div>
-
-          {/* TYPE CHIPS — three side by side */}
-          {post.tagRow && (
-            <div style={{ display: "flex", justifyContent: "center", marginTop: 18, gap: 12 }}>
-              {post.tagRow.map((tag, i) => (
-                <div
-                  key={i}
-                  style={{
-                    fontFamily: "JetBrains Mono",
-                    fontSize: 14,
-                    letterSpacing: 3,
-                    textTransform: "uppercase",
-                    color: p.chipText,
-                    background: p.chipBg,
-                    padding: "8px 14px",
-                    borderRadius: 999,
-                    fontWeight: 700,
-                    display: "flex",
-                  }}
-                >
-                  {tag}
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Spacer */}
-          <div style={{ flex: 1, display: "flex" }} />
 
           {/* BOTTOM ROW — logo + CTA */}
           <div

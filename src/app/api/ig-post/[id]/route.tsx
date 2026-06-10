@@ -165,18 +165,18 @@ function getPalette(variant: string): Palette {
       };
     case "swoop":
       return {
-        bg: "#013228",
-        bgGradient: "linear-gradient(180deg, #013228 0%, #002820 100%)",
+        bg: "#00754A",
+        bgGradient: "linear-gradient(180deg, #00854F 0%, #006338 100%)",
         ink: "#FFFFFF",
-        inkSoft: "rgba(255,255,255,0.9)",
+        inkSoft: "rgba(255,255,255,0.92)",
         inkMuted: "rgba(255,255,255,0.7)",
         accent: "#C8C5BD",
-        italicAccent: "#FFB85C",
-        chipBg: "rgba(200,197,189,0.18)",
+        italicAccent: "#FFD23D",
+        chipBg: "rgba(255,255,255,0.18)",
         chipText: "#FFFFFF",
-        ruleColor: "rgba(200,197,189,0.3)",
-        numBg: "rgba(255,184,92,0.18)",
-        numText: "#FFB85C",
+        ruleColor: "rgba(255,255,255,0.3)",
+        numBg: "rgba(255,210,61,0.22)",
+        numText: "#FFD23D",
       };
     case "phanatic":
       return {
@@ -1926,6 +1926,380 @@ export async function GET(
               </div>
               {post.ctaArrow !== false && (
                 <div style={{ fontFamily: "JetBrains Mono", fontSize: 22, color: p.accent, fontWeight: 700, marginLeft: 8, display: "flex" }}>→</div>
+              )}
+            </div>
+          </div>
+        </div>
+      ),
+      responseOpts
+    );
+  }
+
+  // ─── CALENDAR TILE LAYOUT — Tuesday post, full calendar grid bg ─────────────
+  if (post.customLayout === "calendar-tile") {
+    const DAYS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+    const COLS = 7;
+    const ROWS = 6;
+    const CELL_W = 1080 / COLS;       // ~154
+    const CELL_H = 1350 / (ROWS + 1); // header row + 6 weeks
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            background: p.bgGradient ?? p.bg,
+            color: p.ink,
+            fontFamily: "Outfit",
+            position: "relative",
+          }}
+        >
+          {/* Calendar tile pattern — full bleed, behind everything */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              flexDirection: "column",
+              opacity: 0.18,
+            }}
+          >
+            {/* Day-name header row */}
+            <div style={{ display: "flex", flexDirection: "row", height: CELL_H * 0.6, borderBottom: `2px solid ${p.ink}` }}>
+              {DAYS.map((d) => (
+                <div
+                  key={d}
+                  style={{
+                    width: CELL_W,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontFamily: "JetBrains Mono",
+                    fontSize: 16,
+                    letterSpacing: 4,
+                    color: d === "TUE" ? p.italicAccent : p.ink,
+                    fontWeight: 700,
+                  }}
+                >
+                  {d}
+                </div>
+              ))}
+            </div>
+            {/* Date number grid */}
+            {Array.from({ length: ROWS }).map((_, r) => (
+              <div key={r} style={{ display: "flex", flexDirection: "row", flex: 1 }}>
+                {Array.from({ length: COLS }).map((_, c) => {
+                  const dayNum = r * COLS + c + 1;
+                  const isTuesday = c === 1;
+                  return (
+                    <div
+                      key={c}
+                      style={{
+                        width: CELL_W,
+                        display: "flex",
+                        alignItems: "flex-start",
+                        justifyContent: "flex-start",
+                        padding: "10px 14px",
+                        borderRight: `1px solid ${p.ink}`,
+                        borderBottom: `1px solid ${p.ink}`,
+                        background: isTuesday ? `${p.italicAccent}` : "transparent",
+                        fontFamily: "Instrument Serif",
+                        fontSize: 32,
+                        color: isTuesday ? p.bg : p.ink,
+                        fontWeight: 400,
+                      }}
+                    >
+                      {dayNum <= 31 ? dayNum : ""}
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+
+          {/* Main content overlay */}
+          <div
+            style={{
+              position: "relative",
+              display: "flex",
+              flexDirection: "column",
+              flex: 1,
+              padding: `${PAD_Y}px ${PAD_X}px`,
+            }}
+          >
+            {/* TOP META */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{ width: 10, height: 10, borderRadius: 10, background: p.italicAccent, marginRight: 12, display: "flex" }} />
+                <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
+                  {post.topLeftLabel}
+                </div>
+              </div>
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.italicAccent, fontWeight: 700, display: "flex" }}>
+                {post.topRightLabel}
+              </div>
+            </div>
+
+            {/* Spacer */}
+            <div style={{ flex: 1, display: "flex" }} />
+
+            {/* TUESDAY pill — sits ABOVE the headline like a calendar callout */}
+            <div style={{ display: "flex", marginBottom: 20 }}>
+              <div style={{
+                display: "flex",
+                background: p.italicAccent,
+                color: p.bg,
+                padding: "10px 22px",
+                borderRadius: 999,
+                fontFamily: "JetBrains Mono",
+                fontSize: 18,
+                letterSpacing: 6,
+                textTransform: "uppercase",
+                fontWeight: 800,
+                boxShadow: "0 8px 0 rgba(0,0,0,0.18)",
+              }}>
+                {post.kicker} · TUE
+              </div>
+            </div>
+
+            {/* HEADLINE — anchored over the calendar grid */}
+            <div style={{ display: "flex", flexDirection: "column", marginBottom: 28 }}>
+              {post.titleLines.map((line, i) => (
+                <div
+                  key={i}
+                  style={{
+                    fontFamily: "Instrument Serif",
+                    fontSize: 110,
+                    lineHeight: 0.94,
+                    letterSpacing: -2.8,
+                    color: line.italic ? p.italicAccent : p.ink,
+                    fontStyle: line.italic ? "italic" : "normal",
+                    display: "flex",
+                    textShadow: "0 4px 24px rgba(0,0,0,0.18)",
+                  }}
+                >
+                  {line.text}
+                </div>
+              ))}
+            </div>
+
+            {/* Sub */}
+            {post.sub && (
+              <div style={{ fontFamily: "Outfit", fontSize: 22, lineHeight: 1.4, color: p.inkSoft, fontWeight: 500, maxWidth: 760, display: "flex", marginBottom: 22 }}>
+                {post.sub}
+              </div>
+            )}
+
+            {/* Tag chips */}
+            {post.tagRow && (
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 8 }}>
+                {post.tagRow.map((tag, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: 13,
+                      letterSpacing: 3,
+                      textTransform: "uppercase",
+                      color: p.bg,
+                      background: p.ink,
+                      padding: "7px 14px",
+                      borderRadius: 999,
+                      fontWeight: 700,
+                      display: "flex",
+                    }}
+                  >
+                    {tag}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* BOTTOM ROW */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingTop: 22,
+                borderTop: `1px solid ${p.ruleColor}`,
+                width: "100%",
+                marginTop: 14,
+              }}
+            >
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <div style={{ background: "#1A1A2E", borderRadius: 9, padding: 4, display: "flex" }}>
+                  <div style={{ background: "#FFFFFF", borderRadius: 6, padding: "8px 16px 7px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <div style={{ width: 8, height: 8, borderRadius: 8, background: "#2563EB", display: "flex", marginRight: 8 }} />
+                      <div style={{ display: "flex", alignItems: "baseline", fontFamily: "Instrument Serif", fontSize: 30, color: "#1A1A2E", lineHeight: 1 }}>
+                        <div style={{ display: "flex" }}>Built</div>
+                        <div style={{ fontStyle: "italic", color: "#0EA5E9", padding: "0 2px", display: "flex" }}>by</div>
+                        <div style={{ display: "flex" }}>Brian</div>
+                      </div>
+                    </div>
+                    <div style={{ fontFamily: "JetBrains Mono", fontSize: 9, letterSpacing: 3, textTransform: "uppercase", color: "#64748B", fontWeight: 600, marginTop: 5, display: "flex" }}>
+                      Web Design
+                    </div>
+                  </div>
+                </div>
+                <div style={{ width: 16, height: 4, background: "#1A1A2E", marginTop: 1, display: "flex" }} />
+                <div style={{ width: 42, height: 3, background: "#1A1A2E", borderRadius: 4, marginTop: 1, display: "flex" }} />
+              </div>
+
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
+                  {post.cta}
+                </div>
+                {post.ctaArrow !== false && (
+                  <div style={{ fontFamily: "JetBrains Mono", fontSize: 22, color: p.italicAccent, fontWeight: 700, marginLeft: 8, display: "flex" }}>→</div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      ),
+      responseOpts
+    );
+  }
+
+  // ─── BOARDWALK LAYOUT — Summer Shore post w/ full-bleed boardwalk photo ─────
+  if (post.customLayout === "boardwalk") {
+    const boardwalkUrl = `${origin}/images/boardwalk.jpg`;
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            // Photo behind a deepening gradient overlay; fallback gradient is the ocean palette
+            backgroundImage: `linear-gradient(180deg, rgba(11,95,117,0.18) 0%, rgba(27,79,102,0.55) 45%, rgba(15,42,58,0.88) 100%), url(${boardwalkUrl})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center center",
+            backgroundColor: p.bg,
+            color: p.ink,
+            padding: `${PAD_Y}px ${PAD_X}px`,
+            fontFamily: "Outfit",
+            position: "relative",
+          }}
+        >
+          {/* TOP META */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ width: 10, height: 10, borderRadius: 10, background: p.accent, marginRight: 12, display: "flex" }} />
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.ink, fontWeight: 700, display: "flex", textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}>
+                {post.topLeftLabel}
+              </div>
+            </div>
+            <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.italicAccent, fontWeight: 700, display: "flex", textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}>
+              {post.topRightLabel}
+            </div>
+          </div>
+
+          {/* Spacer pushes content down */}
+          <div style={{ flex: 1, display: "flex" }} />
+
+          {/* KICKER */}
+          <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.italicAccent, fontWeight: 700, display: "flex", marginBottom: 18, textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}>
+            {post.kicker}
+          </div>
+
+          {/* HEADLINE — huge serif, with strong text shadow for photo legibility */}
+          <div style={{ display: "flex", flexDirection: "column", marginBottom: 28 }}>
+            {post.titleLines.map((line, i) => (
+              <div
+                key={i}
+                style={{
+                  fontFamily: "Instrument Serif",
+                  fontSize: 108,
+                  lineHeight: 0.94,
+                  letterSpacing: -2.6,
+                  color: line.italic ? p.italicAccent : p.ink,
+                  fontStyle: line.italic ? "italic" : "normal",
+                  display: "flex",
+                  textShadow: "0 4px 28px rgba(0,0,0,0.7)",
+                }}
+              >
+                {line.text}
+              </div>
+            ))}
+          </div>
+
+          {/* Sub */}
+          {post.sub && (
+            <div style={{ fontFamily: "Outfit", fontSize: 22, lineHeight: 1.45, color: p.ink, fontWeight: 500, maxWidth: 700, display: "flex", marginBottom: 22, textShadow: "0 2px 10px rgba(0,0,0,0.6)" }}>
+              {post.sub}
+            </div>
+          )}
+
+          {/* Tag chips — shore towns */}
+          {post.tagRow && (
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 8 }}>
+              {post.tagRow.map((tag, i) => (
+                <div
+                  key={i}
+                  style={{
+                    fontFamily: "JetBrains Mono",
+                    fontSize: 13,
+                    letterSpacing: 3,
+                    textTransform: "uppercase",
+                    color: p.bg,
+                    background: p.italicAccent,
+                    padding: "7px 14px",
+                    borderRadius: 999,
+                    fontWeight: 800,
+                    display: "flex",
+                    boxShadow: "0 4px 0 rgba(0,0,0,0.25)",
+                  }}
+                >
+                  {tag}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* BOTTOM ROW */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingTop: 22,
+              borderTop: `1px solid rgba(255,255,255,0.3)`,
+              width: "100%",
+              marginTop: 14,
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <div style={{ background: "#1A1A2E", borderRadius: 9, padding: 4, display: "flex" }}>
+                <div style={{ background: "#FFFFFF", borderRadius: 6, padding: "8px 16px 7px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <div style={{ width: 8, height: 8, borderRadius: 8, background: "#2563EB", display: "flex", marginRight: 8 }} />
+                    <div style={{ display: "flex", alignItems: "baseline", fontFamily: "Instrument Serif", fontSize: 30, color: "#1A1A2E", lineHeight: 1 }}>
+                      <div style={{ display: "flex" }}>Built</div>
+                      <div style={{ fontStyle: "italic", color: "#0EA5E9", padding: "0 2px", display: "flex" }}>by</div>
+                      <div style={{ display: "flex" }}>Brian</div>
+                    </div>
+                  </div>
+                  <div style={{ fontFamily: "JetBrains Mono", fontSize: 9, letterSpacing: 3, textTransform: "uppercase", color: "#64748B", fontWeight: 600, marginTop: 5, display: "flex" }}>
+                    Web Design
+                  </div>
+                </div>
+              </div>
+              <div style={{ width: 16, height: 4, background: "#1A1A2E", marginTop: 1, display: "flex" }} />
+              <div style={{ width: 42, height: 3, background: "#1A1A2E", borderRadius: 4, marginTop: 1, display: "flex" }} />
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.ink, fontWeight: 600, display: "flex", textShadow: "0 2px 10px rgba(0,0,0,0.6)" }}>
+                {post.cta}
+              </div>
+              {post.ctaArrow !== false && (
+                <div style={{ fontFamily: "JetBrains Mono", fontSize: 22, color: p.italicAccent, fontWeight: 700, marginLeft: 8, display: "flex" }}>→</div>
               )}
             </div>
           </div>

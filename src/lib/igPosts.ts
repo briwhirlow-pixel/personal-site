@@ -20,7 +20,7 @@ export type IGPostData = {
   caption: string;
   hashtags: string;
   reelConcept?: string;
-  customLayout?: "monitor" | "starter-trio" | "swoop-flex" | "spidey-swing" | "phanatic-hype";
+  customLayout?: "monitor" | "starter-trio" | "swoop-flex" | "spidey-swing" | "phanatic-hype" | "boardwalk" | "calendar-tile";
 };
 
 export const igPosts: IGPostData[] = [
@@ -896,6 +896,7 @@ If you run a small business in Philly + SJ — let's talk.`,
     ],
     sub: "Your site loads in 1.8 seconds on hotel Wi-Fi. Or it doesn't. Mobile-first sites for shore restaurants, rentals, boutiques, and bars.",
     tagRow: ["LBI", "OCNJ", "AVALON", "STONE HARBOR", "WILDWOOD"],
+    customLayout: "boardwalk",
     cta: "DM \"SHORE\"",
     caption: `Summer at the shore. Customers are on the boardwalk. ☀️
 
@@ -1109,6 +1110,7 @@ If your site is the bottleneck — let's talk. Free 30-min teardown. DM "AUDIT" 
     ],
     sub: "It won't survive a Saturday. Most small-business sites quietly leak revenue every weekday afternoon. Then Saturday hits and the bleeding goes loud.",
     tagRow: ["CHECK ON A WEEKDAY", "FIX BEFORE THE WEEKEND"],
+    customLayout: "calendar-tile",
     cta: "@builtbybwhirl",
     caption: `Open your own site. On your phone. On 4G. At 2 PM on a Tuesday.
 

@@ -1248,6 +1248,655 @@ export async function GET(
     );
   }
 
+  // ─── SWOOP-FLEX LAYOUT — Eagles mascot posing with the headline ─────────────
+  if (post.customLayout === "swoop-flex") {
+    const swoopUrl = `${origin}/images/swoop.png`;
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            background: p.bgGradient ?? p.bg,
+            color: p.ink,
+            padding: `${PAD_Y}px ${PAD_X}px`,
+            fontFamily: "Outfit",
+            position: "relative",
+          }}
+        >
+          {/* Subtle wing arc behind the composition */}
+          <div
+            style={{
+              position: "absolute",
+              top: 100,
+              right: -80,
+              width: 700,
+              height: 700,
+              borderRadius: 700,
+              background: "radial-gradient(closest-side, rgba(255,184,92,0.18) 0%, rgba(255,184,92,0) 70%)",
+              display: "flex",
+            }}
+          />
+
+          {/* TOP META */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ width: 10, height: 10, borderRadius: 10, background: p.accent, marginRight: 12, display: "flex" }} />
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
+                {post.topLeftLabel}
+              </div>
+            </div>
+            <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.italicAccent, fontWeight: 700, display: "flex" }}>
+              {post.topRightLabel}
+            </div>
+          </div>
+
+          {/* MAIN — two-column */}
+          <div style={{ display: "flex", flex: 1, marginTop: 36, alignItems: "stretch", width: "100%" }}>
+
+            {/* LEFT — headline column */}
+            <div style={{ display: "flex", flexDirection: "column", width: 460, paddingRight: 24, justifyContent: "center" }}>
+              {/* Kicker */}
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.italicAccent, fontWeight: 700, display: "flex", marginBottom: 18 }}>
+                {post.kicker}
+              </div>
+
+              {/* Headline */}
+              <div style={{ display: "flex", flexDirection: "column", marginBottom: 24 }}>
+                {post.titleLines.map((line, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      fontFamily: "Instrument Serif",
+                      fontSize: 88,
+                      lineHeight: 0.96,
+                      letterSpacing: -2,
+                      color: line.italic ? p.italicAccent : p.ink,
+                      fontStyle: line.italic ? "italic" : "normal",
+                      display: "flex",
+                    }}
+                  >
+                    {line.text}
+                  </div>
+                ))}
+              </div>
+
+              {/* Sub */}
+              {post.sub && (
+                <div style={{ fontFamily: "Outfit", fontSize: 22, lineHeight: 1.4, color: p.inkSoft, fontWeight: 500, maxWidth: 420, display: "flex", marginBottom: 22 }}>
+                  {post.sub}
+                </div>
+              )}
+
+              {/* Tag chips */}
+              {post.tagRow && (
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                  {post.tagRow.map((tag, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        fontFamily: "JetBrains Mono",
+                        fontSize: 13,
+                        letterSpacing: 3,
+                        textTransform: "uppercase",
+                        color: p.chipText,
+                        background: p.chipBg,
+                        padding: "7px 14px",
+                        borderRadius: 999,
+                        fontWeight: 700,
+                        display: "flex",
+                      }}
+                    >
+                      {tag}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* RIGHT — Swoop column */}
+            <div style={{ display: "flex", flexDirection: "column", flex: 1, alignItems: "center", justifyContent: "flex-end", position: "relative" }}>
+              {/* Speech bubble — "FLY!" */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: 30,
+                  left: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  background: p.italicAccent,
+                  color: "#013228",
+                  borderRadius: 22,
+                  padding: "10px 18px",
+                  fontFamily: "Instrument Serif",
+                  fontStyle: "italic",
+                  fontSize: 36,
+                  fontWeight: 500,
+                  letterSpacing: -1,
+                  transform: "rotate(-6deg)",
+                  boxShadow: "0 6px 0 rgba(0,0,0,0.18)",
+                }}
+              >
+                fly!
+              </div>
+
+              {/* Directional arrow toward headline */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: 110,
+                  left: -20,
+                  fontFamily: "JetBrains Mono",
+                  fontSize: 56,
+                  color: p.italicAccent,
+                  fontWeight: 700,
+                  transform: "rotate(165deg)",
+                  display: "flex",
+                }}
+              >
+                ↗
+              </div>
+
+              {/* Swoop image */}
+              <div style={{ display: "flex", width: 500, height: 600, alignItems: "flex-end", justifyContent: "center" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={swoopUrl}
+                  alt="Swoop"
+                  width={500}
+                  height={580}
+                  style={{ display: "flex", width: 500, height: 580, objectFit: "contain", objectPosition: "center bottom" }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* BOTTOM ROW — logo + CTA */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingTop: 22,
+              borderTop: `1px solid ${p.ruleColor}`,
+              width: "100%",
+              marginTop: 12,
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <div style={{ background: "#1A1A2E", borderRadius: 9, padding: 4, display: "flex" }}>
+                <div style={{ background: "#FFFFFF", borderRadius: 6, padding: "8px 16px 7px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <div style={{ width: 8, height: 8, borderRadius: 8, background: "#2563EB", display: "flex", marginRight: 8 }} />
+                    <div style={{ display: "flex", alignItems: "baseline", fontFamily: "Instrument Serif", fontSize: 30, color: "#1A1A2E", lineHeight: 1 }}>
+                      <div style={{ display: "flex" }}>Built</div>
+                      <div style={{ fontStyle: "italic", color: "#0EA5E9", padding: "0 2px", display: "flex" }}>by</div>
+                      <div style={{ display: "flex" }}>Brian</div>
+                    </div>
+                  </div>
+                  <div style={{ fontFamily: "JetBrains Mono", fontSize: 9, letterSpacing: 3, textTransform: "uppercase", color: "#64748B", fontWeight: 600, marginTop: 5, display: "flex" }}>
+                    Web Design
+                  </div>
+                </div>
+              </div>
+              <div style={{ width: 16, height: 4, background: "#1A1A2E", marginTop: 1, display: "flex" }} />
+              <div style={{ width: 42, height: 3, background: "#1A1A2E", borderRadius: 4, marginTop: 1, display: "flex" }} />
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
+                {post.cta}
+              </div>
+              {post.ctaArrow !== false && (
+                <div style={{ fontFamily: "JetBrains Mono", fontSize: 22, color: p.italicAccent, fontWeight: 700, marginLeft: 8, display: "flex" }}>→</div>
+              )}
+            </div>
+          </div>
+        </div>
+      ),
+      responseOpts
+    );
+  }
+
+  // ─── SPIDEY-SWING LAYOUT — Spider-Man swinging across, web pattern ──────────
+  if (post.customLayout === "spidey-swing") {
+    const spideyUrl = `${origin}/images/webslinger.png`;
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            background: p.bgGradient ?? p.bg,
+            color: p.ink,
+            padding: `${PAD_Y}px ${PAD_X}px`,
+            fontFamily: "Outfit",
+            position: "relative",
+          }}
+        >
+          {/* Web pattern — concentric arcs in upper-left */}
+          {[280, 380, 480, 580, 680].map((r, i) => (
+            <div
+              key={r}
+              style={{
+                position: "absolute",
+                top: -r * 0.5,
+                left: -r * 0.5,
+                width: r,
+                height: r,
+                borderRadius: r,
+                border: `1px solid rgba(255,255,255,${0.04 + i * 0.015})`,
+                display: "flex",
+              }}
+            />
+          ))}
+          {/* Web radial lines */}
+          {[15, 30, 45, 60, 75].map((deg, i) => (
+            <div
+              key={deg}
+              style={{
+                position: "absolute",
+                top: -8,
+                left: -8,
+                width: 700,
+                height: 1,
+                background: `rgba(255,255,255,${0.05 + i * 0.01})`,
+                transformOrigin: "0 0",
+                transform: `rotate(${deg}deg)`,
+                display: "flex",
+              }}
+            />
+          ))}
+
+          {/* TOP META */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", position: "relative" }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ width: 10, height: 10, borderRadius: 10, background: p.accent, marginRight: 12, display: "flex" }} />
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
+                {post.topLeftLabel}
+              </div>
+            </div>
+            <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.italicAccent, fontWeight: 700, display: "flex" }}>
+              {post.topRightLabel}
+            </div>
+          </div>
+
+          {/* Spider-Man — swinging into upper-right, rotated */}
+          <div
+            style={{
+              position: "absolute",
+              top: 130,
+              right: 24,
+              display: "flex",
+              transform: "rotate(8deg)",
+            }}
+          >
+            <div style={{ display: "flex", width: 560, height: 320 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={spideyUrl}
+                alt="Spider-Man"
+                width={560}
+                height={320}
+                style={{ display: "flex", width: 560, height: 320, objectFit: "contain", borderRadius: 18 }}
+              />
+            </div>
+          </div>
+
+          {/* SWING LINE — diagonal across post */}
+          <div
+            style={{
+              position: "absolute",
+              top: 480,
+              left: 40,
+              width: 700,
+              height: 3,
+              background: `linear-gradient(90deg, ${p.accent}00 0%, ${p.accent} 50%, ${p.accent}00 100%)`,
+              transform: "rotate(-12deg)",
+              display: "flex",
+              opacity: 0.65,
+            }}
+          />
+
+          {/* Main content — bottom anchored */}
+          <div style={{ display: "flex", flexDirection: "column", flex: 1, justifyContent: "flex-end", position: "relative", marginTop: 12 }}>
+
+            {/* Kicker */}
+            <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.italicAccent, fontWeight: 700, display: "flex", marginBottom: 18 }}>
+              {post.kicker}
+            </div>
+
+            {/* Headline */}
+            <div style={{ display: "flex", flexDirection: "column", marginBottom: 28 }}>
+              {post.titleLines.map((line, i) => (
+                <div
+                  key={i}
+                  style={{
+                    fontFamily: "Instrument Serif",
+                    fontSize: 100,
+                    lineHeight: 0.95,
+                    letterSpacing: -2.4,
+                    color: line.italic ? p.italicAccent : p.ink,
+                    fontStyle: line.italic ? "italic" : "normal",
+                    display: "flex",
+                  }}
+                >
+                  {line.text}
+                </div>
+              ))}
+            </div>
+
+            {/* Sub */}
+            {post.sub && (
+              <div style={{ fontFamily: "Outfit", fontSize: 22, lineHeight: 1.4, color: p.inkSoft, fontWeight: 500, maxWidth: 660, display: "flex", marginBottom: 22 }}>
+                {post.sub}
+              </div>
+            )}
+
+            {/* Tag chips */}
+            {post.tagRow && (
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 8 }}>
+                {post.tagRow.map((tag, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      fontFamily: "JetBrains Mono",
+                      fontSize: 13,
+                      letterSpacing: 3,
+                      textTransform: "uppercase",
+                      color: p.chipText,
+                      background: p.chipBg,
+                      padding: "7px 14px",
+                      borderRadius: 999,
+                      fontWeight: 700,
+                      display: "flex",
+                    }}
+                  >
+                    {tag}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* BOTTOM ROW — logo + CTA */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingTop: 22,
+              borderTop: `1px solid ${p.ruleColor}`,
+              width: "100%",
+              marginTop: 12,
+              position: "relative",
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <div style={{ background: "#1A1A2E", borderRadius: 9, padding: 4, display: "flex" }}>
+                <div style={{ background: "#FFFFFF", borderRadius: 6, padding: "8px 16px 7px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <div style={{ width: 8, height: 8, borderRadius: 8, background: "#2563EB", display: "flex", marginRight: 8 }} />
+                    <div style={{ display: "flex", alignItems: "baseline", fontFamily: "Instrument Serif", fontSize: 30, color: "#1A1A2E", lineHeight: 1 }}>
+                      <div style={{ display: "flex" }}>Built</div>
+                      <div style={{ fontStyle: "italic", color: "#0EA5E9", padding: "0 2px", display: "flex" }}>by</div>
+                      <div style={{ display: "flex" }}>Brian</div>
+                    </div>
+                  </div>
+                  <div style={{ fontFamily: "JetBrains Mono", fontSize: 9, letterSpacing: 3, textTransform: "uppercase", color: "#64748B", fontWeight: 600, marginTop: 5, display: "flex" }}>
+                    Web Design
+                  </div>
+                </div>
+              </div>
+              <div style={{ width: 16, height: 4, background: "#1A1A2E", marginTop: 1, display: "flex" }} />
+              <div style={{ width: 42, height: 3, background: "#1A1A2E", borderRadius: 4, marginTop: 1, display: "flex" }} />
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
+                {post.cta}
+              </div>
+              {post.ctaArrow !== false && (
+                <div style={{ fontFamily: "JetBrains Mono", fontSize: 22, color: p.accent, fontWeight: 700, marginLeft: 8, display: "flex" }}>→</div>
+              )}
+            </div>
+          </div>
+        </div>
+      ),
+      responseOpts
+    );
+  }
+
+  // ─── PHANATIC-HYPE LAYOUT — Phanatic bringing the noise with a speech bubble ─
+  if (post.customLayout === "phanatic-hype") {
+    const phanaticUrl = `${origin}/images/phanatic.png`;
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            background: p.bgGradient ?? p.bg,
+            color: p.ink,
+            padding: `${PAD_Y}px ${PAD_X}px`,
+            fontFamily: "Outfit",
+            position: "relative",
+          }}
+        >
+          {/* Baseball stitch lines — decorative */}
+          <div
+            style={{
+              position: "absolute",
+              top: 90,
+              right: -120,
+              width: 480,
+              height: 480,
+              borderRadius: 480,
+              border: `3px dashed ${p.accent}`,
+              opacity: 0.18,
+              display: "flex",
+            }}
+          />
+
+          {/* TOP META */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", position: "relative" }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ width: 10, height: 10, borderRadius: 10, background: p.accent, marginRight: 12, display: "flex" }} />
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
+                {post.topLeftLabel}
+              </div>
+            </div>
+            <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.italicAccent, fontWeight: 700, display: "flex" }}>
+              {post.topRightLabel}
+            </div>
+          </div>
+
+          {/* MAIN — two-column */}
+          <div style={{ display: "flex", flex: 1, marginTop: 36, alignItems: "stretch", width: "100%", position: "relative" }}>
+
+            {/* LEFT — headline column */}
+            <div style={{ display: "flex", flexDirection: "column", width: 500, paddingRight: 18, justifyContent: "center" }}>
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.accent, fontWeight: 700, display: "flex", marginBottom: 18 }}>
+                {post.kicker}
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", marginBottom: 24 }}>
+                {post.titleLines.map((line, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      fontFamily: "Instrument Serif",
+                      fontSize: 92,
+                      lineHeight: 0.96,
+                      letterSpacing: -2.2,
+                      color: line.italic ? p.italicAccent : p.ink,
+                      fontStyle: line.italic ? "italic" : "normal",
+                      display: "flex",
+                    }}
+                  >
+                    {line.text}
+                  </div>
+                ))}
+              </div>
+
+              {post.sub && (
+                <div style={{ fontFamily: "Outfit", fontSize: 22, lineHeight: 1.4, color: p.inkSoft, fontWeight: 500, maxWidth: 460, display: "flex", marginBottom: 22 }}>
+                  {post.sub}
+                </div>
+              )}
+
+              {post.tagRow && (
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                  {post.tagRow.map((tag, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        fontFamily: "JetBrains Mono",
+                        fontSize: 13,
+                        letterSpacing: 3,
+                        textTransform: "uppercase",
+                        color: p.chipText,
+                        background: p.chipBg,
+                        padding: "7px 14px",
+                        borderRadius: 999,
+                        fontWeight: 700,
+                        display: "flex",
+                      }}
+                    >
+                      {tag}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* RIGHT — Phanatic column */}
+            <div style={{ display: "flex", flexDirection: "column", flex: 1, alignItems: "center", justifyContent: "flex-end", position: "relative" }}>
+
+              {/* Speech bubble — "ATTA BABE!" */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: 40,
+                  right: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  zIndex: 2,
+                }}
+              >
+                <div
+                  style={{
+                    background: p.accent,
+                    color: "#0B2D6A",
+                    borderRadius: 26,
+                    padding: "14px 22px",
+                    fontFamily: "Instrument Serif",
+                    fontStyle: "italic",
+                    fontSize: 42,
+                    fontWeight: 500,
+                    letterSpacing: -1.2,
+                    transform: "rotate(5deg)",
+                    boxShadow: "0 6px 0 rgba(0,0,0,0.18)",
+                    display: "flex",
+                  }}
+                >
+                  Atta babe!
+                </div>
+              </div>
+
+              {/* Phanatic image */}
+              <div style={{ display: "flex", width: 380, height: 600, alignItems: "flex-end", justifyContent: "center" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={phanaticUrl}
+                  alt="Phillie Phanatic"
+                  width={380}
+                  height={600}
+                  style={{ display: "flex", width: 380, height: 600, objectFit: "contain", objectPosition: "center bottom" }}
+                />
+              </div>
+
+              {/* Sticker — RING THE BELL */}
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 80,
+                  left: 0,
+                  display: "flex",
+                  background: "#FFFFFF",
+                  color: "#E81828",
+                  borderRadius: 10,
+                  padding: "8px 14px",
+                  fontFamily: "JetBrains Mono",
+                  fontSize: 16,
+                  letterSpacing: 3,
+                  textTransform: "uppercase",
+                  fontWeight: 800,
+                  transform: "rotate(-8deg)",
+                  border: "3px solid #0B2D6A",
+                  boxShadow: "0 4px 0 rgba(0,0,0,0.18)",
+                }}
+              >
+                Ring · the · bell
+              </div>
+            </div>
+          </div>
+
+          {/* BOTTOM ROW */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingTop: 22,
+              borderTop: `1px solid ${p.ruleColor}`,
+              width: "100%",
+              marginTop: 12,
+              position: "relative",
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <div style={{ background: "#1A1A2E", borderRadius: 9, padding: 4, display: "flex" }}>
+                <div style={{ background: "#FFFFFF", borderRadius: 6, padding: "8px 16px 7px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <div style={{ width: 8, height: 8, borderRadius: 8, background: "#2563EB", display: "flex", marginRight: 8 }} />
+                    <div style={{ display: "flex", alignItems: "baseline", fontFamily: "Instrument Serif", fontSize: 30, color: "#1A1A2E", lineHeight: 1 }}>
+                      <div style={{ display: "flex" }}>Built</div>
+                      <div style={{ fontStyle: "italic", color: "#0EA5E9", padding: "0 2px", display: "flex" }}>by</div>
+                      <div style={{ display: "flex" }}>Brian</div>
+                    </div>
+                  </div>
+                  <div style={{ fontFamily: "JetBrains Mono", fontSize: 9, letterSpacing: 3, textTransform: "uppercase", color: "#64748B", fontWeight: 600, marginTop: 5, display: "flex" }}>
+                    Web Design
+                  </div>
+                </div>
+              </div>
+              <div style={{ width: 16, height: 4, background: "#1A1A2E", marginTop: 1, display: "flex" }} />
+              <div style={{ width: 42, height: 3, background: "#1A1A2E", borderRadius: 4, marginTop: 1, display: "flex" }} />
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: p.inkMuted, fontWeight: 600, display: "flex" }}>
+                {post.cta}
+              </div>
+              {post.ctaArrow !== false && (
+                <div style={{ fontFamily: "JetBrains Mono", fontSize: 22, color: p.accent, fontWeight: 700, marginLeft: 8, display: "flex" }}>→</div>
+              )}
+            </div>
+          </div>
+        </div>
+      ),
+      responseOpts
+    );
+  }
+
   // ─── STANDARD LAYOUT — every other post ──────────────────────
   return new ImageResponse(
     (

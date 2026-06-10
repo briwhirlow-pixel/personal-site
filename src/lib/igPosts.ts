@@ -20,7 +20,7 @@ export type IGPostData = {
   caption: string;
   hashtags: string;
   reelConcept?: string;
-  customLayout?: "monitor" | "starter-trio";
+  customLayout?: "monitor" | "starter-trio" | "swoop-flex" | "spidey-swing" | "phanatic-hype";
 };
 
 export const igPosts: IGPostData[] = [
@@ -964,12 +964,7 @@ DM "SUMMER" for the 1-page audit I send shore + city clients before peak season.
     ],
     sub: "Hero season hits theatres July 31. Hero season hits your business the second your homepage loads. Make the entrance worth showing up for.",
     tagRow: ["WITH GREAT TRAFFIC", "COMES GREAT CONVERSION"],
-    bottomImage: {
-      src: "/images/webslinger.png",
-      alt: "Hero illustration",
-      tagline: "BUILT · TO · SWING",
-      size: "hero",
-    },
+    customLayout: "spidey-swing",
     cta: "DM \"HERO\"",
     caption: `Your homepage is the suit. 🕸️
 
@@ -1006,12 +1001,7 @@ With great traffic comes great responsibility.`,
     ],
     sub: "Swoop doesn't half-show up. Neither should your site. Built sharp, hosted fast, ready before the home opener.",
     tagRow: ["FLY · EAGLES · FLY", "SHIP BEFORE WEEK ONE"],
-    bottomImage: {
-      src: "/images/swoop.png",
-      alt: "Swoop — Eagles mascot",
-      tagline: "BIRD · GANG",
-      size: "hero",
-    },
+    customLayout: "swoop-flex",
     cta: "DM \"WEEK ONE\"",
     caption: `Swoop doesn't half-show-up. 🦅
 
@@ -1046,12 +1036,7 @@ Always go birds. Always show up.`,
     ],
     sub: "The Phanatic doesn't wait for the eighth inning to bring the noise. Your homepage shouldn't either — every scroll should hit like a home run swing.",
     tagRow: ["RED · OCTOBER", "STILL · ROLLING"],
-    bottomImage: {
-      src: "/images/phanatic.png",
-      alt: "Phillie Phanatic",
-      tagline: "BRING · THE · NOISE",
-      size: "hero",
-    },
+    customLayout: "phanatic-hype",
     cta: "DM \"PHANATIC\"",
     caption: `The Phanatic isn't waiting for the 8th inning. 🔔
 

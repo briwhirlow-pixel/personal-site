@@ -1134,21 +1134,21 @@ export async function GET(
             </div>
           )}
 
-          {/* Spacer — pushes Pokemon row to bottom */}
-          <div style={{ flex: 1, display: "flex" }} />
+          {/* Smaller spacer — pull Pokemon closer to headline + sub */}
+          <div style={{ height: 60, display: "flex" }} />
 
           {/* POKEMON ROW — trading cards: white outer, type-color inner, transparent character */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%", marginBottom: 14, gap: 24 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%", marginBottom: 14, gap: 22 }}>
 
             {/* Bulbasaur card */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1 }}>
               <div style={{
                 display: "flex",
-                width: 280,
-                height: 280,
+                width: 320,
+                height: 320,
                 background: "#FFFFFF",
-                borderRadius: 18,
-                padding: 10,
+                borderRadius: 20,
+                padding: 12,
                 boxShadow: "0 18px 30px rgba(0,0,0,0.28)",
               }}>
                 <div style={{
@@ -1165,9 +1165,9 @@ export async function GET(
                   <img
                     src={bulbaUrl}
                     alt="Bulbasaur"
-                    width={240}
-                    height={240}
-                    style={{ display: "flex", width: 240, height: 240, objectFit: "contain" }}
+                    width={280}
+                    height={280}
+                    style={{ display: "flex", width: 280, height: 280, objectFit: "contain" }}
                   />
                 </div>
               </div>
@@ -1193,11 +1193,11 @@ export async function GET(
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1 }}>
               <div style={{
                 display: "flex",
-                width: 280,
-                height: 280,
+                width: 320,
+                height: 320,
                 background: "#FFFFFF",
-                borderRadius: 18,
-                padding: 10,
+                borderRadius: 20,
+                padding: 12,
                 boxShadow: "0 18px 30px rgba(0,0,0,0.28)",
               }}>
                 <div style={{
@@ -1214,9 +1214,9 @@ export async function GET(
                   <img
                     src={charmUrl}
                     alt="Charmander"
-                    width={240}
-                    height={240}
-                    style={{ display: "flex", width: 240, height: 240, objectFit: "contain" }}
+                    width={280}
+                    height={280}
+                    style={{ display: "flex", width: 280, height: 280, objectFit: "contain" }}
                   />
                 </div>
               </div>
@@ -1242,11 +1242,11 @@ export async function GET(
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1 }}>
               <div style={{
                 display: "flex",
-                width: 280,
-                height: 280,
+                width: 320,
+                height: 320,
                 background: "#FFFFFF",
-                borderRadius: 18,
-                padding: 10,
+                borderRadius: 20,
+                padding: 12,
                 boxShadow: "0 18px 30px rgba(0,0,0,0.28)",
               }}>
                 <div style={{
@@ -1263,9 +1263,9 @@ export async function GET(
                   <img
                     src={squirtUrl}
                     alt="Squirtle"
-                    width={240}
-                    height={240}
-                    style={{ display: "flex", width: 240, height: 240, objectFit: "contain" }}
+                    width={280}
+                    height={280}
+                    style={{ display: "flex", width: 280, height: 280, objectFit: "contain" }}
                   />
                 </div>
               </div>

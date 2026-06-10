@@ -133,6 +133,81 @@ function getPalette(variant: string): Palette {
         numBg: "rgba(252,211,77,0.18)",
         numText: "#FCD34D",
       };
+    case "ocean":
+      return {
+        bg: "#0B5F75",
+        bgGradient: "linear-gradient(180deg, #0B5F75 0%, #1B4F66 55%, #F4C97A 100%)",
+        ink: "#FFFAF1",
+        inkSoft: "rgba(255,250,241,0.88)",
+        inkMuted: "rgba(255,250,241,0.66)",
+        accent: "#FFD58A",
+        italicAccent: "#FFB85C",
+        chipBg: "rgba(255,250,241,0.18)",
+        chipText: "#FFFAF1",
+        ruleColor: "rgba(255,250,241,0.28)",
+        numBg: "rgba(255,250,241,0.2)",
+        numText: "#FFFAF1",
+      };
+    case "citrus":
+      return {
+        bg: "#FF7849",
+        bgGradient: "linear-gradient(180deg, #FFB45C 0%, #FF7849 50%, #E94560 100%)",
+        ink: "#231016",
+        inkSoft: "rgba(35,16,22,0.82)",
+        inkMuted: "rgba(35,16,22,0.6)",
+        accent: "#FFF1A8",
+        italicAccent: "#3A1B23",
+        chipBg: "rgba(35,16,22,0.12)",
+        chipText: "#231016",
+        ruleColor: "rgba(35,16,22,0.22)",
+        numBg: "rgba(35,16,22,0.14)",
+        numText: "#231016",
+      };
+    case "swoop":
+      return {
+        bg: "#013228",
+        bgGradient: "linear-gradient(180deg, #013228 0%, #002820 100%)",
+        ink: "#FFFFFF",
+        inkSoft: "rgba(255,255,255,0.9)",
+        inkMuted: "rgba(255,255,255,0.7)",
+        accent: "#C8C5BD",
+        italicAccent: "#FFB85C",
+        chipBg: "rgba(200,197,189,0.18)",
+        chipText: "#FFFFFF",
+        ruleColor: "rgba(200,197,189,0.3)",
+        numBg: "rgba(255,184,92,0.18)",
+        numText: "#FFB85C",
+      };
+    case "phanatic":
+      return {
+        bg: "#0B2D6A",
+        bgGradient: "linear-gradient(180deg, #E81828 0%, #B81020 38%, #0B2D6A 100%)",
+        ink: "#FFFFFF",
+        inkSoft: "rgba(255,255,255,0.92)",
+        inkMuted: "rgba(255,255,255,0.7)",
+        accent: "#7DC242",
+        italicAccent: "#FFF1A8",
+        chipBg: "rgba(125,194,66,0.22)",
+        chipText: "#FFFFFF",
+        ruleColor: "rgba(255,255,255,0.28)",
+        numBg: "rgba(125,194,66,0.22)",
+        numText: "#FFFFFF",
+      };
+    case "webslinger":
+      return {
+        bg: "#0A1A3A",
+        bgGradient: "linear-gradient(160deg, #0A1A3A 0%, #1A0F2E 55%, #B0151E 100%)",
+        ink: "#FFFFFF",
+        inkSoft: "rgba(255,255,255,0.9)",
+        inkMuted: "rgba(255,255,255,0.66)",
+        accent: "#FF3B47",
+        italicAccent: "#56B0FF",
+        chipBg: "rgba(255,59,71,0.22)",
+        chipText: "#FFFFFF",
+        ruleColor: "rgba(255,255,255,0.24)",
+        numBg: "rgba(86,176,255,0.22)",
+        numText: "#56B0FF",
+      };
     case "studio":
     default:
       return {

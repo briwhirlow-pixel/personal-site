@@ -4,7 +4,7 @@ export type IGPostData = {
   id: string;
   name: string;
   type: string;
-  variant: "studio" | "dark" | "blue" | "cream" | "eagles" | "phillies" | "amber" | "plum";
+  variant: "studio" | "dark" | "blue" | "cream" | "eagles" | "phillies" | "amber" | "plum" | "ocean" | "citrus" | "swoop" | "phanatic" | "webslinger";
   topLeftLabel: string;
   topRightLabel: string;
   kicker: string;
@@ -880,5 +880,259 @@ Local is where the magic is. Local is what I'm here for.
 If you run a small business in Philly + SJ — let's talk.`,
     hashtags:
       "#SmallBusinessOwner #PhillyBusiness #SouthJerseyBusiness #ShopLocal #FreelanceLife #PhillyEntrepreneur #BuiltByBrian #LocalBusiness #PhillyMade #PhillySmallBiz",
+  },
+  {
+    id: "26",
+    name: "Summer at the Shore — built for the boardwalk",
+    type: "Single image · Seasonal · Hospitality",
+    variant: "ocean",
+    topLeftLabel: "SUMMER '26 / 026",
+    topRightLabel: "SHORE SEASON",
+    kicker: "JUNE — AUGUST",
+    titleLines: [
+      { text: "Your customers" },
+      { text: "are on the" },
+      { text: "boardwalk.", italic: true },
+    ],
+    sub: "Your site loads in 1.8 seconds on hotel Wi-Fi. Or it doesn't. Mobile-first sites for shore restaurants, rentals, boutiques, and bars.",
+    tagRow: ["LBI", "OCNJ", "AVALON", "STONE HARBOR", "WILDWOOD"],
+    cta: "DM \"SHORE\"",
+    caption: `Summer at the shore. Customers are on the boardwalk. ☀️
+
+Your beach-block restaurant. Your rental house. Your boutique three blocks off the bay.
+
+If your site takes 6 seconds to load on hotel Wi-Fi, you just lost a $200 reservation to the spot down the strip.
+
+I build mobile-first shore sites that load in under 2 seconds — tap-to-call, tap-to-reserve, photos that load even when the cell signal doesn't.
+
+Three slots open for shore businesses, June–August launches.
+
+DM "SHORE" or tap the link in bio. We'll have you live before the Fourth.`,
+    hashtags:
+      "#JerseyShore #LBI #OceanCity #Avalon #StoneHarbor #Wildwood #SouthJerseyBusiness #ShoreBusiness #SummerMarketing #WebDesignerPhiladelphia #BuiltByBrian #PhillySmallBusiness",
+  },
+  {
+    id: "27",
+    name: "The summer slowdown that isn't",
+    type: "Carousel · 5 slides · Education · Seasonal",
+    variant: "citrus",
+    topLeftLabel: "SUMMER MATH / 027",
+    topRightLabel: "01 / 05",
+    kicker: "QUICK MATH · JUNE",
+    titleLines: [
+      { text: "Slow sites" },
+      { text: "lose summer.", italic: true },
+    ],
+    sub: "Summer traffic peaks Friday 4 PM, Sunday 11 AM, and every rainy Tuesday. Your site has to be ready for the spike — not just for the schedule.",
+    numList: [
+      { n: "1", text: "4G beats 5G on most boardwalks" },
+      { n: "2", text: "Half your summer leads are on a phone in line for coffee" },
+      { n: "3", text: "A 4-second site loses 28% of them" },
+      { n: "4", text: "Compressed images = same look, half the wait" },
+      { n: "5", text: "Reservation link should be one tap from anywhere" },
+    ],
+    cta: "Swipe",
+    ctaArrow: true,
+    caption: `The summer slowdown that isn't.
+
+You think bookings drop in July because "everyone's at the shore."
+
+Maybe. But your site might be the one that's dropping them.
+
+→ Summer traffic peaks on Friday afternoons and rainy weekday mornings
+→ Half those visitors are on a phone, on 4G, in line somewhere
+→ A 4-second load time loses ~28% of them before they ever see your menu
+
+Compressed images, lazy-loaded photos, one-tap reservation links. The summer-site checklist nobody bothers with — but the difference between a packed Saturday and an empty one is right there.
+
+DM "SUMMER" for the 1-page audit I send shore + city clients before peak season.`,
+    hashtags:
+      "#WebDesignTips #SmallBusinessOwner #SummerBusiness #JerseyShore #PhillyBusiness #SmallBusinessMarketing #BuiltByBrian #SiteSpeed #MobileWeb #LocalBusiness",
+  },
+  {
+    id: "28",
+    name: "Be the hero of your homepage (Hero Season — July)",
+    type: "Single image · Seasonal · Tie-in",
+    variant: "webslinger",
+    topLeftLabel: "HERO SEASON / 028",
+    topRightLabel: "JULY '26",
+    kicker: "FRIENDLY NEIGHBORHOOD",
+    titleLines: [
+      { text: "Be the hero" },
+      { text: "of your" },
+      { text: "homepage.", italic: true },
+    ],
+    sub: "Hero season hits theatres July 31. Hero season hits your business the second your homepage loads. Make the entrance worth showing up for.",
+    tagRow: ["WITH GREAT TRAFFIC", "COMES GREAT CONVERSION"],
+    bottomImage: {
+      src: "/images/webslinger.png",
+      alt: "Hero illustration",
+      tagline: "BUILT · TO · SWING",
+    },
+    cta: "DM \"HERO\"",
+    caption: `Hero season hits theaters July 31. 🕷️
+
+But your hero moment hits the second your homepage loads.
+
+The version of your business that lives on the internet — that's the one most customers meet first. It's the suit. It's the entrance.
+
+If your homepage isn't pulling its weight, no amount of word-of-mouth makes up for the first scroll.
+
+Five slots booked for July. Two left.
+
+Comment 🕸️ or DM "HERO" — I'll send the audit I'm running for clients launching this summer.
+
+(P.S. with great traffic comes great responsibility.)`,
+    hashtags:
+      "#WebDesigner #SmallBusinessOwner #PhillyBusiness #SmallBusinessMarketing #SummerMarketing #BuiltByBrian #FreelanceWebDesigner #HeroBranding #SmallBusinessTips #BrandStory",
+  },
+  {
+    id: "29",
+    name: "Swoop in — Eagles preseason hype",
+    type: "Single image · Local · Eagles · Seasonal",
+    variant: "swoop",
+    topLeftLabel: "PRESEASON / 029",
+    topRightLabel: "GO BIRDS",
+    kicker: "TRAINING CAMP STARTS",
+    titleLines: [
+      { text: "Make your" },
+      { text: "homepage" },
+      { text: "fly.", italic: true },
+    ],
+    sub: "Swoop doesn't half-show up. Neither should your site. Built sharp, hosted fast, ready before the home opener.",
+    tagRow: ["FLY · EAGLES · FLY", "SHIP BEFORE WEEK ONE"],
+    bottomImage: {
+      src: "/images/swoop.png",
+      alt: "Swoop — Eagles mascot",
+      tagline: "BIRD · GANG",
+    },
+    cta: "DM \"WEEK ONE\"",
+    caption: `Training camp opens. Birds are back. 🦅
+
+You know who shows up early, every single day, full energy?
+
+Swoop.
+
+That's the standard.
+
+Your homepage shouldn't half-show-up either. If it's the version of your business that people meet on a Sunday morning Google search — it better hit like a kickoff.
+
+Three slots open between now and the home opener. I can have you live before Week One.
+
+Drop a 🦅 if you want the preseason audit. DM "WEEK ONE" if you're ready to roll.
+
+Go birds. Always.`,
+    hashtags:
+      "#FlyEaglesFly #GoBirds #PhiladelphiaEagles #PhillyBusiness #PhillySmallBusiness #BirdGang #WebDesignerPhiladelphia #BuiltByBrian #PhillyEntrepreneur #ShopLocal #PhillySmallBiz",
+  },
+  {
+    id: "30",
+    name: "Ring the bell — Phanatic summer",
+    type: "Single image · Local · Phillies · Seasonal",
+    variant: "phanatic",
+    topLeftLabel: "DOG DAYS / 030",
+    topRightLabel: "RING THE BELL",
+    kicker: "SUMMER · '26",
+    titleLines: [
+      { text: "Ring your own" },
+      { text: "bell this" },
+      { text: "summer.", italic: true },
+    ],
+    sub: "The Phanatic doesn't wait for the eighth inning to bring the noise. Your homepage shouldn't either — every scroll should hit like a home run swing.",
+    tagRow: ["RED · OCTOBER", "STILL · ROLLING"],
+    bottomImage: {
+      src: "/images/phanatic.png",
+      alt: "Phillie Phanatic",
+      tagline: "BRING · THE · NOISE",
+      background: "circle-white",
+    },
+    cta: "DM \"PHANATIC\"",
+    caption: `Dog days of summer. Phanatic's already in mid-season form. 🔔
+
+You know what Phanatic doesn't do?
+
+Wait for the eighth inning to make some noise.
+
+He's bringing it in the first pitch. He's bringing it in the seventh-inning stretch. He's bringing it after a 3-1 loss in a Tuesday day game.
+
+That's the energy your homepage should have. Every scroll. Every device. Every customer.
+
+If yours feels more "rain delay" than "Bryce Harper in October" — DM "PHANATIC" and we'll build something worth ringing the bell for.
+
+Two slots open for July launches.
+
+Atta babe. 🔔`,
+    hashtags:
+      "#Phillies #PhilliePhanatic #RingTheBell #RedOctober #PhillyBusiness #PhillySmallBusiness #SouthJerseyBusiness #SummerMarketing #WebDesignerPhiladelphia #BuiltByBrian #GoPhils",
+  },
+  {
+    id: "31",
+    name: "Before / After — Mama's Trattoria (proof)",
+    type: "Carousel · 4 slides · Proof · Case Study",
+    variant: "ocean",
+    topLeftLabel: "BEFORE / AFTER / 031",
+    topRightLabel: "01 / 04",
+    kicker: "REAL CLIENT · REAL NUMBERS",
+    titleLines: [
+      { text: "Before." },
+      { text: "After.", italic: true },
+    ],
+    sub: "10-year-old WordPress theme. 6-second load. Buried menu. Six weeks later — new site, 1.4s load, reservations live in the header.",
+    numList: [
+      { n: "↓", text: "Load time: 6.1s → 1.4s" },
+      { n: "↑", text: "Mobile conversions: +217%" },
+      { n: "✓", text: "Online reservations now 41% of weekly bookings" },
+      { n: "★", text: "Owner can edit the menu without calling anyone" },
+    ],
+    cta: "See more",
+    ctaArrow: true,
+    caption: `Real client. Real numbers. 📈
+
+Mama's Trattoria — 12 years in business, 10-year-old WordPress theme, 6-second mobile load, menu buried 3 clicks deep.
+
+Six weeks later 👇
+
+→ Load time: 6.1s → 1.4s
+→ Mobile conversions: +217%
+→ Online reservations: now 41% of weekly bookings
+→ Owner can update the menu herself, in 30 seconds, from her phone
+
+Same restaurant. Same food. Same vibe. New website doing the heavy lifting.
+
+If your site is the bottleneck — let's talk. Free 30-min teardown. DM "AUDIT" or tap the link in bio.`,
+    hashtags:
+      "#PhillyRestaurants #RestaurantMarketing #BeforeAndAfter #WebDesigner #SmallBusinessOwner #PhillyFood #FoodieOfPhilly #BuiltByBrian #CaseStudy #PhillyBusiness",
+  },
+  {
+    id: "32",
+    name: "If your site can survive a Tuesday — it can survive a Saturday",
+    type: "Single image · Hot Take",
+    variant: "citrus",
+    topLeftLabel: "HOT TAKE / 032",
+    topRightLabel: "SAVE THIS",
+    kicker: "REAL TALK",
+    titleLines: [
+      { text: "If it can't" },
+      { text: "survive a" },
+      { text: "Tuesday —", italic: true },
+    ],
+    sub: "It won't survive a Saturday. Most small-business sites quietly leak revenue every weekday afternoon. Then Saturday hits and the bleeding goes loud.",
+    tagRow: ["CHECK ON A WEEKDAY", "FIX BEFORE THE WEEKEND"],
+    cta: "@builtbybwhirl",
+    caption: `Open your own site. On your phone. On 4G. At 2 PM on a Tuesday.
+
+Time it. Be honest about what you see.
+
+If it stutters, if the menu PDF takes 5 seconds to render, if the reservation link is buried 3 taps deep —
+
+That's the version your customers are getting all week.
+
+Then Saturday night hits and you wonder why the dining room's half full.
+
+The fix isn't a redesign. It's caring whether the front door works.
+
+Tap the bio if you want a free 5-minute audit before the next weekend.`,
+    hashtags:
+      "#WebDesignTips #SmallBusinessOwner #PhillyBusiness #RestaurantMarketing #MobileWeb #WebDesigner #BuiltByBrian #SmallBusinessTips #SiteSpeed",
   },
 ];

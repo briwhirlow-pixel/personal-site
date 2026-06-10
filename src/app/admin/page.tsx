@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { igPosts } from "@/lib/igPosts";
+import AnimatedReels from "@/components/AnimatedReels";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -195,7 +196,10 @@ function ProjectCard({ p, token, invoices, onStatusChange, onUpdate, onInvoiceCr
       {p.hosting_requested && (
         <div className="bg-amber-400/10 border-b border-amber-400/30 px-5 py-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <span className="text-lg">🔔</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+            </svg>
             <div>
               <p className="text-amber-300 font-bold text-[13px]">Client requested managed hosting</p>
               <p className="text-amber-300/60 text-[12px]">{p.client_name || p.client_email} opted in — reach out to confirm billing details.</p>
@@ -307,11 +311,11 @@ function ProjectCard({ p, token, invoices, onStatusChange, onUpdate, onInvoiceCr
             <div className="flex gap-2">
               <button onClick={setHandoff}
                 className={`px-4 py-2 rounded-xl text-[13px] font-semibold transition border ${p.delivery_type === "handoff" ? "bg-white/10 border-white/30 text-white" : "border-[#2A2D3A] text-white/30 hover:text-white"}`}>
-                📁 File Handoff
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="inline-block mr-1.5 -mt-0.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>File Handoff
               </button>
               <button onClick={() => onUpdate({ ...p, delivery_type: "managed" })}
                 className={`px-4 py-2 rounded-xl text-[13px] font-semibold transition border ${p.delivery_type === "managed" ? "bg-green-500/15 border-green-500/30 text-green-400" : "border-[#2A2D3A] text-white/30 hover:text-white"}`}>
-                🌐 Managed Hosting
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="inline-block mr-1.5 -mt-0.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Managed Hosting
               </button>
             </div>
           </div>
@@ -930,6 +934,20 @@ export default function AdminPage() {
     if (token) fetchData(token);
   }, [token, fetchData]);
 
+  // ─── Live clock + system status ───────────────────────────────
+  const [clock, setClock] = useState<string>("");
+  const [today, setToday] = useState<string>("");
+  useEffect(() => {
+    const tick = () => {
+      const d = new Date();
+      setClock(d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false }));
+      setToday(d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }).toUpperCase());
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
   if (!token) return <LoginScreen onLogin={setToken} />;
 
   const activeLeads = leads.filter(l => l.status !== "archived");
@@ -939,40 +957,79 @@ export default function AdminPage() {
   const wonCount = leads.filter(l => l.status === "won").length;
 
   return (
-    <div className="min-h-screen" style={{ background: "#0A0D14", color: "white" }}>
-      {/* Top bar — editorial brand lockup */}
-      <div className="border-b border-[#2A2D3A] px-5 sm:px-7 py-4 flex items-center justify-between sticky top-0 z-40" style={{ background: "rgba(10,13,20,0.85)", backdropFilter: "blur(20px)" }}>
-        <div className="flex items-baseline gap-3">
+    <div className="min-h-screen relative" style={{ background: "#0A0D14", color: "white" }}>
+
+      {/* Ambient glow — fixed under all content */}
+      <div className="fixed inset-0 pointer-events-none z-0" aria-hidden>
+        <div
+          className="absolute -top-40 left-1/2 -translate-x-1/2 w-[860px] h-[420px] rounded-full blur-[120px] opacity-40"
+          style={{ background: "radial-gradient(closest-side, #1E40AF 0%, rgba(30,64,175,0) 70%)" }}
+        />
+        <div
+          className="absolute top-[10vh] right-[-180px] w-[420px] h-[420px] rounded-full blur-[120px] opacity-25"
+          style={{ background: "radial-gradient(closest-side, #22D3EE 0%, rgba(34,211,238,0) 70%)" }}
+        />
+      </div>
+
+      {/* Top bar — editorial brand lockup + live telemetry */}
+      <div
+        className="border-b border-[#2A2D3A] px-5 sm:px-7 py-3 sm:py-3.5 flex items-center justify-between gap-3 sticky top-0 z-40"
+        style={{ background: "rgba(10,13,20,0.82)", backdropFilter: "blur(20px)" }}
+      >
+        {/* Left — brand */}
+        <div className="flex items-baseline gap-3 min-w-0 flex-shrink-0">
           <span className="inline-flex items-baseline gap-2 select-none">
-            <span aria-hidden className="inline-block w-1.5 h-1.5 rounded-full bg-[#34D399]" />
+            <span aria-hidden className="inline-block w-1.5 h-1.5 rounded-full bg-[#34D399] admin-pulse" />
             <span className="font-serif text-[20px] leading-none text-white tracking-tight">
               Built<span className="italic text-[#38BDF8] px-[1px]">by</span>Brian
             </span>
           </span>
           <span className="font-mono text-[9.5px] tracking-[0.28em] uppercase text-white/30 hidden sm:inline-block">
-            / Admin
+            / Admin · v2026.06
           </span>
         </div>
-        <div className="flex items-center gap-2 sm:gap-3">
-          <button onClick={() => fetchData(token)}
+
+        {/* Center — live telemetry pill */}
+        <div className="hidden md:flex items-center gap-3 bg-white/[0.03] border border-white/[0.08] rounded-full px-4 py-1.5 font-mono text-[10px] tracking-[0.22em] uppercase">
+          <span className="flex items-center gap-1.5 text-[#34D399]">
+            <span aria-hidden className="inline-block w-1.5 h-1.5 rounded-full bg-[#34D399] admin-pulse" />
+            All Systems
+          </span>
+          <span className="text-white/20">·</span>
+          <span className="text-white/55">{today || "—"}</span>
+          <span className="text-white/20">·</span>
+          <span className="text-white tabular-nums">{clock || "—"}</span>
+        </div>
+
+        {/* Right — actions */}
+        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+          <button
+            onClick={() => fetchData(token)}
             title="Refresh"
-            className="flex items-center gap-1.5 text-white/40 hover:text-white text-[12px] font-medium transition px-3 py-1.5 rounded-[6px] hover:bg-white/5">
+            className="flex items-center gap-1.5 text-white/45 hover:text-white text-[12px] font-medium transition px-2.5 sm:px-3 py-1.5 rounded-[6px] hover:bg-white/5"
+          >
             <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
             </svg>
-            <span className="hidden sm:inline">Refresh</span>
+            <span className="hidden sm:inline">Sync</span>
           </button>
-          <a href="https://builtbybwhirl.com" target="_blank" rel="noopener noreferrer"
+          <a
+            href="https://builtbybwhirl.com"
+            target="_blank"
+            rel="noopener noreferrer"
             title="View live site"
-            className="flex items-center gap-1.5 text-white/40 hover:text-white text-[12px] font-medium transition px-3 py-1.5 rounded-[6px] hover:bg-white/5">
+            className="flex items-center gap-1.5 text-white/45 hover:text-white text-[12px] font-medium transition px-2.5 sm:px-3 py-1.5 rounded-[6px] hover:bg-white/5"
+          >
             <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
             </svg>
             <span className="hidden sm:inline">Live site</span>
           </a>
-          <button onClick={() => { localStorage.removeItem("admin_token"); setToken(null); }}
+          <button
+            onClick={() => { localStorage.removeItem("admin_token"); setToken(null); }}
             title="Sign out"
-            className="flex items-center gap-1.5 text-white/40 hover:text-[#F87171] text-[12px] font-medium transition px-3 py-1.5 rounded-[6px] hover:bg-white/5">
+            className="flex items-center gap-1.5 text-white/45 hover:text-[#F87171] text-[12px] font-medium transition px-2.5 sm:px-3 py-1.5 rounded-[6px] hover:bg-white/5"
+          >
             <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
             </svg>
@@ -980,6 +1037,24 @@ export default function AdminPage() {
           </button>
         </div>
       </div>
+
+      {/* Live clock pulse keyframes */}
+      <style jsx global>{`
+        @keyframes adminPulse {
+          0%, 100% { opacity: 0.5; transform: scale(1); }
+          50%      { opacity: 1;   transform: scale(1.5); }
+        }
+        .admin-pulse {
+          animation: adminPulse 1.8s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+          0%, 100% { opacity: 0.6; }
+          50%      { opacity: 1; }
+        }
+        .pulse-dot {
+          animation: pulse-dot 2s ease-in-out infinite;
+        }
+      `}</style>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* DB error banner */}
@@ -1058,7 +1133,7 @@ export default function AdminPage() {
                 </button>
                 <button onClick={() => setPipelineView("archive")}
                   className={`px-3 py-1.5 rounded-md text-[12px] font-semibold transition flex items-center gap-1.5 ${pipelineView === "archive" ? "bg-[#2563EB] text-white" : "text-white/40 hover:text-white"}`}>
-                  🗃️ Archive
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="inline-block mr-1.5 -mt-0.5"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>Archive
                   {archivedLeads.length > 0 && (
                     <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${pipelineView === "archive" ? "bg-white/20" : "bg-white/10"}`}>{archivedLeads.length}</span>
                   )}
@@ -1108,7 +1183,7 @@ export default function AdminPage() {
             {pipelineView === "archive" && (
               <div>
                 <div className="bg-[#1A1D27] border border-[#2A2D3A] rounded-2xl p-5 mb-4">
-                  <p className="text-white font-black text-[15px] mb-1">🗃️ Archived Leads</p>
+                  <p className="text-white font-black text-[15px] mb-1 inline-flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>Archived Leads</p>
                   <p className="text-white/35 text-[13px]">These leads are removed from your pipeline but never deleted. Click any lead to restore it.</p>
                 </div>
                 {archivedLeads.length === 0 ? (
@@ -3667,10 +3742,40 @@ function Marketing() {
 // ─── Social Media Tab ──────────────────────────────────────────────────────────
 // Phone-friendly Instagram post library. View, download images, copy captions.
 
+type IGPost = typeof igPosts[number];
+type TypeFilter = "all" | "carousel" | "single" | "reel";
+type SeasonFilter = "all" | "summer" | "philly" | "hero" | "evergreen";
+
+const VARIANT_SWATCH: Record<IGPost["variant"], { bg: string; ring: string; label: string }> = {
+  studio:    { bg: "linear-gradient(135deg,#FFFFFF,#CBD5E1)", ring: "#2563EB", label: "Studio" },
+  dark:      { bg: "linear-gradient(135deg,#1A1A2E,#0F1117)", ring: "#38BDF8", label: "Dark" },
+  blue:      { bg: "linear-gradient(135deg,#2563EB,#1E40AF)", ring: "#FDE047", label: "Royal" },
+  cream:     { bg: "linear-gradient(135deg,#E9EDF3,#CBD5E1)", ring: "#2563EB", label: "Cream" },
+  eagles:    { bg: "linear-gradient(135deg,#004C54,#003B40)", ring: "#A5ACAF", label: "Eagles" },
+  phillies:  { bg: "linear-gradient(135deg,#E81828,#B81020)", ring: "#FEF3C7", label: "Phillies" },
+  amber:     { bg: "linear-gradient(135deg,#F59E0B,#D97706)", ring: "#1A1A2E", label: "Amber" },
+  plum:      { bg: "linear-gradient(135deg,#6B21A8,#4C1D95)", ring: "#FCD34D", label: "Plum" },
+  ocean:     { bg: "linear-gradient(180deg,#0B5F75,#F4C97A)", ring: "#FFD58A", label: "Ocean" },
+  citrus:    { bg: "linear-gradient(180deg,#FFB45C,#E94560)", ring: "#FFF1A8", label: "Citrus" },
+  swoop:     { bg: "linear-gradient(135deg,#013228,#002820)", ring: "#FFB85C", label: "Swoop" },
+  phanatic:  { bg: "linear-gradient(180deg,#E81828,#0B2D6A)", ring: "#7DC242", label: "Phanatic" },
+  webslinger:{ bg: "linear-gradient(135deg,#0A1A3A,#B0151E)", ring: "#FF3B47", label: "Hero" },
+};
+
+const SEASON_MAP: Record<SeasonFilter, (p: IGPost) => boolean> = {
+  all:        () => true,
+  summer:     (p) => ["ocean", "citrus"].includes(p.variant) || /shore|summer|boardwalk/i.test(p.name),
+  philly:     (p) => ["eagles", "phillies", "swoop", "phanatic"].includes(p.variant),
+  hero:       (p) => p.variant === "webslinger" || /hero|season/i.test(p.name),
+  evergreen:  (p) => !["ocean", "citrus", "eagles", "phillies", "swoop", "phanatic", "webslinger"].includes(p.variant),
+};
+
 function SocialMedia() {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
-  const [filter, setFilter] = useState<"all" | "carousel" | "single" | "reel">("all");
+  const [typeFilter, setTypeFilter] = useState<TypeFilter>("all");
+  const [seasonFilter, setSeasonFilter] = useState<SeasonFilter>("all");
   const [downloadingKey, setDownloadingKey] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<string | null>(null);
 
   const copy = (text: string, key: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -3679,8 +3784,7 @@ function SocialMedia() {
     });
   };
 
-  const slideCountFor = (post: typeof igPosts[number]) =>
-    post.numList ? post.numList.length + 2 : 1;
+  const slideCountFor = (post: IGPost) => (post.numList ? post.numList.length + 2 : 1);
 
   const downloadAllSlides = async (postId: string, count: number) => {
     setDownloadingKey(postId);
@@ -3700,66 +3804,172 @@ function SocialMedia() {
   };
 
   const filtered = igPosts.filter((post) => {
-    if (filter === "all") return true;
     const t = post.type.toLowerCase();
-    if (filter === "carousel") return t.includes("carousel");
-    if (filter === "reel") return t.includes("reel");
-    if (filter === "single") return t.includes("single");
-    return true;
+    const typeOk =
+      typeFilter === "all" ||
+      (typeFilter === "carousel" && t.includes("carousel")) ||
+      (typeFilter === "reel" && t.includes("reel")) ||
+      (typeFilter === "single" && t.includes("single"));
+    return typeOk && SEASON_MAP[seasonFilter](post);
   });
 
-  const filterOpts: { v: typeof filter; label: string; count: number }[] = [
-    { v: "all", label: "All", count: igPosts.length },
+  const typeOpts: { v: TypeFilter; label: string; count: number }[] = [
+    { v: "all",      label: "All",       count: igPosts.length },
     { v: "carousel", label: "Carousels", count: igPosts.filter((p) => p.type.toLowerCase().includes("carousel")).length },
-    { v: "single", label: "Singles", count: igPosts.filter((p) => p.type.toLowerCase().includes("single")).length },
-    { v: "reel", label: "Reels", count: igPosts.filter((p) => p.type.toLowerCase().includes("reel")).length },
+    { v: "single",   label: "Singles",   count: igPosts.filter((p) => p.type.toLowerCase().includes("single")).length },
+    { v: "reel",     label: "Reels",     count: igPosts.filter((p) => p.type.toLowerCase().includes("reel")).length },
+  ];
+
+  const seasonOpts: { v: SeasonFilter; label: string; tint: string }[] = [
+    { v: "all",       label: "Any season", tint: "#94A3B8" },
+    { v: "summer",    label: "Summer ’26", tint: "#FFB85C" },
+    { v: "philly",    label: "Philly · Sports", tint: "#7DC242" },
+    { v: "hero",      label: "Hero · July", tint: "#FF3B47" },
+    { v: "evergreen", label: "Evergreen",  tint: "#38BDF8" },
   ];
 
   return (
     <div>
-      {/* Header */}
-      <div className="mb-6">
-        <h2 className="text-white text-[22px] sm:text-[26px] font-black leading-tight mb-1.5">Instagram Post Library</h2>
-        <p className="text-white/60 text-[13px] sm:text-[14px] leading-relaxed max-w-2xl">
-          Tap an image to view full size. Hit <span className="text-[#3B82F6] font-semibold">Download</span> to save the PNG. Use <span className="text-[#3B82F6] font-semibold">Copy</span> on captions or hashtags to paste straight into Instagram. Optimized for your phone.
-        </p>
+      {/* ─── Section masthead ─────────────────────────────────────── */}
+      <div className="relative mb-8 pb-6 border-b border-[#2A2D3A]">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div className="min-w-0">
+            <div className="flex items-center gap-3 mb-3">
+              <span aria-hidden className="inline-block w-1 h-5 bg-[#22D3EE]" />
+              <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-white/45">
+                Studio · Channel · Instagram
+              </p>
+            </div>
+            <h2 className="font-serif text-white text-[28px] sm:text-[34px] leading-[1.05] tracking-tight">
+              The post library, <span className="italic text-[#22D3EE]">studio-grade</span>.
+            </h2>
+            <p className="text-white/55 text-[13px] sm:text-[14px] leading-relaxed max-w-2xl mt-2">
+              33 covers · 7 carousels with full slide exports · 3 reel concepts looping live below. Captions and hashtags are one tap. Phone-safe.
+            </p>
+          </div>
+
+          {/* Quick library stats */}
+          <div className="grid grid-cols-3 gap-2 font-mono text-[10px] tracking-[0.22em] uppercase">
+            <div className="bg-white/[0.04] border border-white/10 rounded-md px-3 py-2 min-w-[78px]">
+              <p className="text-white/45">Posts</p>
+              <p className="text-white font-bold text-[20px] tracking-tight tabular-nums">{igPosts.length}</p>
+            </div>
+            <div className="bg-white/[0.04] border border-white/10 rounded-md px-3 py-2 min-w-[78px]">
+              <p className="text-white/45">Carousels</p>
+              <p className="text-white font-bold text-[20px] tracking-tight tabular-nums">
+                {igPosts.filter((p) => p.type.toLowerCase().includes("carousel")).length}
+              </p>
+            </div>
+            <div className="bg-white/[0.04] border border-white/10 rounded-md px-3 py-2 min-w-[78px]">
+              <p className="text-white/45">Reels</p>
+              <p className="text-white font-bold text-[20px] tracking-tight tabular-nums">
+                {igPosts.filter((p) => p.type.toLowerCase().includes("reel")).length}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Filter chips */}
-      <div className="flex flex-wrap gap-1.5 mb-5 bg-[#13161F] rounded-[8px] p-1 w-fit border border-[#2A2D3A]">
-        {filterOpts.map((opt) => (
-          <button
-            key={opt.v}
-            onClick={() => setFilter(opt.v)}
-            className={`px-3 py-1.5 rounded-[6px] text-[12px] font-semibold tracking-tight transition flex items-center gap-1.5 ${
-              filter === opt.v
-                ? "bg-[#2563EB] text-white shadow-[0_4px_12px_-4px_rgba(37,99,235,0.5)]"
-                : "text-white/45 hover:text-white hover:bg-white/5"
-            }`}
-          >
-            {opt.label}
-            <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${filter === opt.v ? "bg-white/20" : "bg-white/10"}`}>
-              {opt.count}
-            </span>
-          </button>
-        ))}
+      {/* ─── Animated reels rail ─────────────────────────────────── */}
+      <AnimatedReels />
+
+      {/* ─── Filter rail ─────────────────────────────────────────── */}
+      <div className="mb-6 bg-[#13161F] border border-[#2A2D3A] rounded-[10px] p-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {/* Type */}
+          <div>
+            <p className="font-mono text-[9px] tracking-[0.28em] uppercase text-white/40 mb-2">Type</p>
+            <div className="flex flex-wrap gap-1.5">
+              {typeOpts.map((opt) => (
+                <button
+                  key={opt.v}
+                  onClick={() => setTypeFilter(opt.v)}
+                  className={`px-3 py-1.5 rounded-[6px] text-[12px] font-semibold tracking-tight transition flex items-center gap-1.5 ${
+                    typeFilter === opt.v
+                      ? "bg-[#2563EB] text-white shadow-[0_4px_12px_-4px_rgba(37,99,235,0.5)]"
+                      : "text-white/55 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/10"
+                  }`}
+                >
+                  {opt.label}
+                  <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${typeFilter === opt.v ? "bg-white/20" : "bg-white/10"}`}>
+                    {opt.count}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Season */}
+          <div>
+            <p className="font-mono text-[9px] tracking-[0.28em] uppercase text-white/40 mb-2">Season &amp; Theme</p>
+            <div className="flex flex-wrap gap-1.5">
+              {seasonOpts.map((opt) => {
+                const count = igPosts.filter(SEASON_MAP[opt.v]).length;
+                const active = seasonFilter === opt.v;
+                return (
+                  <button
+                    key={opt.v}
+                    onClick={() => setSeasonFilter(opt.v)}
+                    className={`px-3 py-1.5 rounded-[6px] text-[12px] font-semibold tracking-tight transition flex items-center gap-2 border ${
+                      active
+                        ? "text-[#0F1117]"
+                        : "text-white/55 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border-white/10"
+                    }`}
+                    style={
+                      active
+                        ? { background: opt.tint, borderColor: opt.tint, boxShadow: `0 4px 14px -6px ${opt.tint}` }
+                        : undefined
+                    }
+                  >
+                    <span aria-hidden className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: active ? "#0F1117" : opt.tint }} />
+                    {opt.label}
+                    <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${active ? "bg-black/15" : "bg-white/10"}`}>
+                      {count}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-3 pt-3 border-t border-white/[0.06] flex items-center justify-between font-mono text-[10px] tracking-[0.22em] uppercase text-white/40">
+          <span>Showing {filtered.length} of {igPosts.length} posts</span>
+          {(typeFilter !== "all" || seasonFilter !== "all") && (
+            <button
+              onClick={() => { setTypeFilter("all"); setSeasonFilter("all"); }}
+              className="text-[#22D3EE] hover:text-white transition tracking-[0.18em]"
+            >
+              Clear filters →
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* Grid */}
+      {/* ─── Grid ────────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {filtered.map((post) => {
           const captionKey = `${post.id}-cap`;
           const tagsKey = `${post.id}-tags`;
           const allKey = `${post.id}-all`;
           const isPin = post.topRightLabel === "PIN" || post.name.includes("PIN");
-
           const slideCount = slideCountFor(post);
+          const swatch = VARIANT_SWATCH[post.variant];
+          const isOpen = expanded === post.id;
 
           return (
             <article
               key={post.id}
-              className="bg-[#13161F] border border-[#2A2D3A] rounded-[10px] overflow-hidden flex flex-col"
+              id={`igpost-${post.id}`}
+              className="bg-[#13161F] border border-[#2A2D3A] rounded-[12px] overflow-hidden flex flex-col relative group hover:border-[#3D4356] transition-colors"
             >
+              {/* Left-rail palette swatch */}
+              <span
+                aria-hidden
+                className="absolute left-0 top-3 bottom-3 w-[3px] rounded-r-full z-10"
+                style={{ background: swatch.ring }}
+              />
+
               {/* Image — tap to view large */}
               <a
                 href={`/api/ig-post/${post.id}`}
@@ -3775,10 +3985,36 @@ function SocialMedia() {
                   loading="lazy"
                   className="w-full h-full object-cover"
                 />
-                {isPin && (
-                  <span className="absolute top-3 right-3 bg-[#FACC15] text-black text-[9px] font-black tracking-widest uppercase px-2 py-1 rounded">
-                    📌 Pin
+
+                {/* Top overlay strip */}
+                <div className="absolute top-0 left-0 right-0 p-3 flex items-start justify-between gap-2 pointer-events-none">
+                  <span
+                    className="px-2 py-1 rounded-md font-mono text-[9px] tracking-[0.2em] uppercase font-bold backdrop-blur-md flex items-center gap-1.5"
+                    style={{ background: "rgba(0,0,0,0.55)", color: swatch.ring }}
+                  >
+                    <span
+                      aria-hidden
+                      className="inline-block w-2.5 h-2.5 rounded-sm"
+                      style={{ background: swatch.bg }}
+                    />
+                    {swatch.label}
                   </span>
+                  {isPin && (
+                    <span className="px-2 py-1 rounded-md font-mono text-[9px] tracking-[0.2em] uppercase font-black bg-[#FACC15] text-black">
+                      PIN
+                    </span>
+                  )}
+                </div>
+
+                {/* Bottom overlay — slide count chip */}
+                {slideCount > 1 && (
+                  <div className="absolute bottom-3 left-3 px-2 py-1 rounded-md font-mono text-[9px] tracking-[0.2em] uppercase font-bold bg-black/65 text-[#FACC15] backdrop-blur-md inline-flex items-center gap-1.5 pointer-events-none">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="3" width="13" height="18" rx="2" />
+                      <rect x="8" y="6" width="13" height="15" rx="2" />
+                    </svg>
+                    {slideCount} slides
+                  </div>
                 )}
               </a>
 
@@ -3787,34 +4023,40 @@ function SocialMedia() {
                 {/* Title row */}
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-[#3B82F6] text-[10.5px] font-mono font-bold tracking-[0.2em] uppercase">
+                    <span className="text-[#22D3EE] text-[10.5px] font-mono font-bold tracking-[0.22em] uppercase">
                       Post {post.id}
-                      {slideCount > 1 && <span className="text-[#FACC15] ml-1.5">· {slideCount} slides</span>}
                     </span>
-                    <span className="text-white/35 text-[9.5px] font-mono tracking-[0.15em] uppercase truncate ml-2">
-                      {post.type}
+                    <span className="text-white/35 text-[9.5px] font-mono tracking-[0.18em] uppercase truncate ml-2">
+                      {post.type.split(" · ")[0]}
                     </span>
                   </div>
                   <h3 className="text-white text-[15px] font-bold leading-tight">{post.name}</h3>
                 </div>
 
-                {/* Carousel slides — all downloadable */}
+                {/* Carousel slide strip */}
                 {slideCount > 1 && (
-                  <div className="bg-black/30 border border-[#FACC15]/25 rounded-[6px] p-3">
+                  <div className="bg-black/30 border border-[#FACC15]/25 rounded-[8px] p-3">
                     <div className="flex items-center justify-between mb-2 gap-2">
-                      <span className="text-[#FACC15] text-[10px] font-mono font-bold tracking-[0.2em] uppercase">
-                        🎠 {slideCount} Carousel Slides
+                      <span className="text-[#FACC15] text-[10px] font-mono font-bold tracking-[0.22em] uppercase inline-flex items-center gap-1.5">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="3" y="3" width="13" height="18" rx="2" />
+                          <rect x="8" y="6" width="13" height="15" rx="2" />
+                        </svg>
+                        {slideCount} slides
                       </span>
                       <button
                         onClick={() => downloadAllSlides(post.id, slideCount)}
                         disabled={downloadingKey === post.id}
-                        className={`text-[10px] font-mono font-bold tracking-[0.15em] uppercase px-2.5 py-1.5 rounded transition flex-shrink-0 ${
+                        className={`text-[10px] font-mono font-bold tracking-[0.18em] uppercase px-2.5 py-1.5 rounded-md transition flex-shrink-0 inline-flex items-center gap-1.5 ${
                           downloadingKey === post.id
                             ? "bg-white/10 text-white/50 cursor-wait"
                             : "bg-[#FACC15] text-black hover:bg-[#FDE047]"
                         }`}
                       >
-                        {downloadingKey === post.id ? "..." : "⬇ All"}
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+                        </svg>
+                        {downloadingKey === post.id ? "..." : "All"}
                       </button>
                     </div>
                     <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1">
@@ -3841,68 +4083,78 @@ function SocialMedia() {
                         </a>
                       ))}
                     </div>
-                    <p className="text-white/40 text-[10px] mt-2 leading-relaxed">
-                      Tap a slide to view/save individually, or <strong className="text-[#FACC15]">⬇ All</strong> to download every slide as PNG.
-                    </p>
                   </div>
                 )}
 
-                {/* Caption block */}
-                <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-white/45 text-[9.5px] font-mono font-bold tracking-[0.2em] uppercase">
-                      Caption
-                    </span>
-                    <button
-                      onClick={() => copy(post.caption, captionKey)}
-                      className={`text-[10px] font-mono font-bold tracking-[0.15em] uppercase px-2.5 py-1 rounded transition ${
-                        copiedKey === captionKey
-                          ? "bg-[#0EA5E9] text-white"
-                          : "bg-[#2563EB] text-white hover:bg-[#1E40AF]"
-                      }`}
-                    >
-                      {copiedKey === captionKey ? "Copied ✓" : "Copy"}
-                    </button>
-                  </div>
-                  <pre className="text-white/85 text-[12.5px] leading-[1.55] whitespace-pre-wrap font-sans bg-black/30 border border-[#2A2D3A] rounded-[6px] p-3 max-h-44 overflow-y-auto">
-                    {post.caption}
-                  </pre>
-                </div>
-
-                {/* Hashtags block */}
-                <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-white/45 text-[9.5px] font-mono font-bold tracking-[0.2em] uppercase">
-                      Hashtags
-                    </span>
-                    <button
-                      onClick={() => copy(post.hashtags, tagsKey)}
-                      className={`text-[10px] font-mono font-bold tracking-[0.15em] uppercase px-2.5 py-1 rounded transition ${
-                        copiedKey === tagsKey
-                          ? "bg-[#0EA5E9] text-white"
-                          : "bg-[#2563EB] text-white hover:bg-[#1E40AF]"
-                      }`}
-                    >
-                      {copiedKey === tagsKey ? "Copied ✓" : "Copy"}
-                    </button>
-                  </div>
-                  <p className="text-[#60A5FA] text-[11.5px] font-mono leading-[1.7] bg-black/30 border border-[#2A2D3A] rounded-[6px] p-3 break-words">
-                    {post.hashtags}
-                  </p>
-                </div>
-
-                {/* Reel concept (optional) */}
-                {post.reelConcept && (
-                  <div>
-                    <div className="flex items-center mb-1.5">
-                      <span className="text-[#FACC15] text-[9.5px] font-mono font-bold tracking-[0.2em] uppercase">
-                        🎬 Reel Concept
-                      </span>
+                {/* Collapsible caption / tags / reel concept */}
+                {isOpen ? (
+                  <div className="space-y-3">
+                    {/* Caption */}
+                    <div>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-white/45 text-[9.5px] font-mono font-bold tracking-[0.22em] uppercase">
+                          Caption
+                        </span>
+                        <button
+                          onClick={() => copy(post.caption, captionKey)}
+                          className={`text-[10px] font-mono font-bold tracking-[0.18em] uppercase px-2.5 py-1 rounded-md transition ${
+                            copiedKey === captionKey ? "bg-[#0EA5E9] text-white" : "bg-[#2563EB] text-white hover:bg-[#1E40AF]"
+                          }`}
+                        >
+                          {copiedKey === captionKey ? "Copied" : "Copy"}
+                        </button>
+                      </div>
+                      <pre className="text-white/85 text-[12.5px] leading-[1.55] whitespace-pre-wrap font-sans bg-black/30 border border-[#2A2D3A] rounded-[6px] p-3 max-h-44 overflow-y-auto">
+                        {post.caption}
+                      </pre>
                     </div>
-                    <p className="text-white/75 text-[12px] leading-[1.55] bg-[#FACC15]/[0.04] border border-[#FACC15]/20 rounded-[6px] p-3">
-                      {post.reelConcept}
-                    </p>
+
+                    {/* Hashtags */}
+                    <div>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-white/45 text-[9.5px] font-mono font-bold tracking-[0.22em] uppercase">
+                          Hashtags
+                        </span>
+                        <button
+                          onClick={() => copy(post.hashtags, tagsKey)}
+                          className={`text-[10px] font-mono font-bold tracking-[0.18em] uppercase px-2.5 py-1 rounded-md transition ${
+                            copiedKey === tagsKey ? "bg-[#0EA5E9] text-white" : "bg-[#2563EB] text-white hover:bg-[#1E40AF]"
+                          }`}
+                        >
+                          {copiedKey === tagsKey ? "Copied" : "Copy"}
+                        </button>
+                      </div>
+                      <p className="text-[#60A5FA] text-[11.5px] font-mono leading-[1.7] bg-black/30 border border-[#2A2D3A] rounded-[6px] p-3 break-words">
+                        {post.hashtags}
+                      </p>
+                    </div>
+
+                    {/* Reel concept */}
+                    {post.reelConcept && (
+                      <div>
+                        <div className="flex items-center mb-1.5">
+                          <span className="text-[#FACC15] text-[9.5px] font-mono font-bold tracking-[0.22em] uppercase inline-flex items-center gap-1.5">
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                              <polygon points="23 7 16 12 23 17 23 7" />
+                              <rect x="1" y="5" width="15" height="14" rx="2" />
+                            </svg>
+                            Reel concept
+                          </span>
+                        </div>
+                        <p className="text-white/75 text-[12px] leading-[1.55] bg-[#FACC15]/[0.04] border border-[#FACC15]/20 rounded-[6px] p-3">
+                          {post.reelConcept}
+                        </p>
+                      </div>
+                    )}
                   </div>
+                ) : (
+                  <button
+                    onClick={() => setExpanded(post.id)}
+                    className="text-left text-white/55 hover:text-white text-[12.5px] leading-[1.55] bg-black/20 border border-[#2A2D3A] hover:border-white/20 rounded-[6px] px-3 py-2 transition-colors"
+                  >
+                    <span className="font-mono text-[9.5px] tracking-[0.22em] uppercase text-white/45 block mb-1">Caption preview</span>
+                    {post.caption.split("\n")[0]}
+                  </button>
                 )}
 
                 {/* Action buttons */}
@@ -3910,19 +4162,27 @@ function SocialMedia() {
                   <a
                     href={`/api/ig-post/${post.id}`}
                     download={`builtbybrian-post-${post.id}.png`}
-                    className="flex-1 bg-[#2563EB] hover:bg-[#1E40AF] text-white text-[11.5px] font-bold tracking-[0.1em] uppercase py-2.5 rounded-[6px] text-center transition shadow-[0_4px_12px_-4px_rgba(37,99,235,0.6)]"
+                    className="flex-1 bg-[#2563EB] hover:bg-[#1E40AF] text-white text-[11.5px] font-bold tracking-[0.1em] uppercase py-2.5 rounded-[6px] text-center transition shadow-[0_4px_12px_-4px_rgba(37,99,235,0.6)] inline-flex items-center justify-center gap-2"
                   >
-                    ⬇ Download
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+                    </svg>
+                    Download
                   </a>
                   <button
                     onClick={() => copy(`${post.caption}\n\n${post.hashtags}`, allKey)}
                     className={`text-[11.5px] font-bold tracking-[0.1em] uppercase py-2.5 px-4 rounded-[6px] transition ${
-                      copiedKey === allKey
-                        ? "bg-[#0EA5E9] text-white"
-                        : "bg-white/8 hover:bg-white/15 text-white border border-white/15"
+                      copiedKey === allKey ? "bg-[#0EA5E9] text-white" : "bg-white/[0.06] hover:bg-white/[0.12] text-white border border-white/15"
                     }`}
                   >
-                    {copiedKey === allKey ? "✓" : "Copy All"}
+                    {copiedKey === allKey ? "Done" : "Copy All"}
+                  </button>
+                  <button
+                    onClick={() => setExpanded(isOpen ? null : post.id)}
+                    className="text-[11.5px] font-bold tracking-[0.1em] uppercase py-2.5 px-3 rounded-[6px] bg-white/[0.04] hover:bg-white/[0.10] text-white/65 border border-white/10 transition"
+                    aria-label={isOpen ? "Collapse" : "Expand"}
+                  >
+                    {isOpen ? "−" : "+"}
                   </button>
                 </div>
               </div>
@@ -3931,44 +4191,68 @@ function SocialMedia() {
         })}
       </div>
 
-      {/* Footer help — iPhone / Android specific */}
-      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="bg-[#13161F] border border-[#2A2D3A] rounded-[8px] p-5">
-          <p className="text-white/45 text-[10.5px] font-mono font-bold tracking-[0.22em] uppercase mb-3">
-            📱 iPhone — Save to Photos
-          </p>
-          <ol className="text-white/75 text-[13px] leading-relaxed space-y-2 list-decimal pl-5">
-            <li><strong className="text-white">Tap the post image</strong> — opens the full 1080×1350 PNG in a new tab.</li>
-            <li><strong className="text-white">Press and hold</strong> the image for ~1 second.</li>
-            <li>Pick <strong className="text-white">&ldquo;Save to Photos&rdquo;</strong> from the popup menu.</li>
-            <li>Image is now in your <strong className="text-white">camera roll</strong> — open Instagram, attach it, paste the caption.</li>
+      {/* ─── Footer help cards ───────────────────────────────────── */}
+      <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="bg-[#13161F] border border-[#2A2D3A] rounded-[10px] p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="2" />
+              <line x1="12" y1="18" x2="12.01" y2="18" />
+            </svg>
+            <p className="text-white/55 text-[10.5px] font-mono font-bold tracking-[0.22em] uppercase">
+              iPhone — save to Photos
+            </p>
+          </div>
+          <ol className="text-white/75 text-[13px] leading-relaxed space-y-1.5 list-decimal pl-5">
+            <li>Tap the cover image — opens the full 1080×1350 PNG.</li>
+            <li>Long-press the image, pick <strong className="text-white">Save to Photos</strong>.</li>
+            <li>Open Instagram → New Post → attach → paste caption.</li>
           </ol>
         </div>
-        <div className="bg-[#13161F] border border-[#2A2D3A] rounded-[8px] p-5">
-          <p className="text-white/45 text-[10.5px] font-mono font-bold tracking-[0.22em] uppercase mb-3">
-            🤖 Android / Desktop
-          </p>
-          <ol className="text-white/75 text-[13px] leading-relaxed space-y-2 list-decimal pl-5">
-            <li><strong className="text-white">Hit ⬇ Download</strong> — saves the PNG to your Downloads folder.</li>
-            <li><strong className="text-white">Or tap the image</strong> to view large, then save via menu.</li>
-            <li>Open <strong className="text-white">Instagram → New Post</strong>, pick the saved image.</li>
-            <li>Long-press the caption block above, hit <strong className="text-white">Copy</strong>, paste.</li>
+        <div className="bg-[#13161F] border border-[#2A2D3A] rounded-[10px] p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+            </svg>
+            <p className="text-white/55 text-[10.5px] font-mono font-bold tracking-[0.22em] uppercase">
+              Desktop / Android
+            </p>
+          </div>
+          <ol className="text-white/75 text-[13px] leading-relaxed space-y-1.5 list-decimal pl-5">
+            <li>Hit <strong className="text-white">Download</strong> on any card.</li>
+            <li>Carousels: <strong className="text-white">All</strong> grabs every slide as separate PNGs.</li>
+            <li>Reels: screen-record the phone frame (Cmd-Shift-5, region) at 1080×1920 to post.</li>
           </ol>
+        </div>
+        <div className="bg-[#13161F] border border-[#2A2D3A] rounded-[10px] p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M11.5 15H7a4 4 0 0 1 0-8h1.5M12.5 15H17a4 4 0 0 0 0-8h-1.5M8 11h8" />
+            </svg>
+            <p className="text-white/55 text-[10.5px] font-mono font-bold tracking-[0.22em] uppercase">
+              Posting playbook
+            </p>
+          </div>
+          <ul className="text-white/75 text-[13px] leading-relaxed space-y-1.5 list-disc pl-5">
+            <li>Post 00 ships first, then pin it.</li>
+            <li>Caption + hashtags in <strong className="text-white">first comment</strong> for cleaner feed look.</li>
+            <li>Tag location (Philly / SJ town) and any featured clients.</li>
+            <li>Rotate themes — Summer · Philly · Hero · Evergreen.</li>
+          </ul>
         </div>
       </div>
 
-      {/* Caption tips */}
-      <div className="mt-4 bg-[#13161F] border border-[#2A2D3A] rounded-[8px] p-5">
-        <p className="text-white/45 text-[10.5px] font-mono font-bold tracking-[0.22em] uppercase mb-3">
-          📝 Posting tips
-        </p>
-        <ul className="text-white/75 text-[13px] leading-relaxed space-y-2 list-disc pl-5">
-          <li><strong className="text-white">Post 00 is the pinned intro</strong> — publish this one first when you launch.</li>
-          <li><strong className="text-white">Copy All</strong> bundles caption + hashtags into one paste.</li>
-          <li>For cleaner posts: paste caption only, then drop hashtags in the <strong className="text-white">first comment</strong>.</li>
-          <li>Reels (Posts 06 + 15) include a 🎬 Reel Concept — that&apos;s the video direction to film.</li>
-          <li>Tag your location (Philly / SJ town) and any clients featured.</li>
-        </ul>
+      {/* IP advisory */}
+      <div className="mt-4 bg-gradient-to-r from-[#1A1424]/80 to-[#13161F] border border-[#FBBF24]/25 rounded-[10px] p-4 flex items-start gap-3">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+        <div className="text-[13px] text-white/75 leading-relaxed">
+          <strong className="text-[#FBBF24]">Heads up on mascot &amp; movie posts.</strong>{" "}
+          Spider-Man, the Phillie Phanatic, and Swoop are licensed trademarks of Marvel/Sony, MLB, and the NFL respectively. The covers ship with brand-accurate palettes and image slots — drop your own art into <code className="text-[#22D3EE] font-mono text-[12px]">/public/images/webslinger.png</code>, <code className="text-[#22D3EE] font-mono text-[12px]">/phanatic.png</code>, <code className="text-[#22D3EE] font-mono text-[12px]">/swoop.png</code>. Captions stay generic enough to be safe; posting officially-licensed art needs a license.
+        </div>
       </div>
     </div>
   );

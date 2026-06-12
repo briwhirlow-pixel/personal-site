@@ -4598,13 +4598,18 @@ function SocialMedia() {
                 style={{ background: swatch.ring }}
               />
 
-              {/* Image — tap to view large */}
+              {/* Image — tap to download directly on mobile (download attr),
+                  desktop opens in new tab. Story-format posts get 9:16 aspect. */}
               <a
                 href={`/api/ig-post/${post.id}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block relative bg-[#0A0C12] overflow-hidden"
-                style={{ aspectRatio: "4 / 5" }}
+                download={`builtbybrian-post-${post.id}.png`}
+                className="block relative bg-[#0A0C12] overflow-hidden active:opacity-80 transition-opacity"
+                style={{
+                  aspectRatio: post.type.toLowerCase().includes("story") ? "9 / 16" : "4 / 5",
+                  touchAction: "manipulation",
+                }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -4613,6 +4618,14 @@ function SocialMedia() {
                   loading="lazy"
                   className="w-full h-full object-cover"
                 />
+
+                {/* Tap-to-save hint — visible on mobile via the bottom-right corner */}
+                <div className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-black/70 backdrop-blur-sm text-white text-[10px] font-mono font-bold tracking-[0.18em] uppercase pointer-events-none shadow-lg">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+                  </svg>
+                  Tap to save
+                </div>
 
                 {/* Top overlay strip */}
                 <div className="absolute top-0 left-0 right-0 p-3 flex items-start justify-between gap-2 pointer-events-none">

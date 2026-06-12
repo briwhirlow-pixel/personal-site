@@ -2288,19 +2288,13 @@ export async function GET(
   if (post.customLayout === "outage-story") {
     const STORY_W = 1080;
     const STORY_H = 1920;
-    const PAD = 84;
+    const PAD = 80;
 
     const storyOpts = {
       ...responseOpts,
       width: STORY_W,
       height: STORY_H,
     };
-
-    // Outage card data — both apps "down"
-    const outages = [
-      { name: "Instagram", time: "7:42 AM", color: "#D62976", letter: "○", rot: -3.2 },
-      { name: "Facebook",  time: "7:51 AM", color: "#1877F2", letter: "f", rot: 2.6 },
-    ];
 
     return new ImageResponse(
       (
@@ -2310,109 +2304,166 @@ export async function GET(
             height: "100%",
             display: "flex",
             flexDirection: "column",
-            background: "linear-gradient(170deg, #16100C 0%, #221610 45%, #2C1A12 75%, #16100C 100%)",
+            background: "linear-gradient(165deg, #2B0F60 0%, #6B1E78 22%, #BA1559 48%, #D85B2E 72%, #5B1A14 100%)",
             color: "#FFFFFF",
-            padding: `${PAD}px ${PAD - 4}px`,
+            padding: `${PAD}px ${PAD}px`,
             fontFamily: "Outfit",
             position: "relative",
           }}
         >
-          {/* Soft warning halo top-left */}
-          <div
-            style={{
-              position: "absolute",
-              top: -160,
-              left: -120,
-              width: 680,
-              height: 680,
-              borderRadius: 680,
-              background: "radial-gradient(closest-side, rgba(232,76,40,0.22) 0%, rgba(232,76,40,0) 70%)",
-              display: "flex",
-            }}
-          />
+          {/* Dark overlay — pulls the IG-gradient bg into a moody silhouette */}
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.5) 75%, rgba(0,0,0,0.75) 100%)",
+            display: "flex",
+          }} />
 
-          {/* TOP META — small status row */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <div style={{ width: 12, height: 12, borderRadius: 12, background: "#F87171", display: "flex", boxShadow: "0 0 14px rgba(248,113,113,0.7)" }} />
-              <div style={{ fontFamily: "JetBrains Mono", fontSize: 20, letterSpacing: 4, textTransform: "uppercase", color: "#F87171", fontWeight: 700, display: "flex" }}>
-                {post.kicker}
+          {/* Giant ghosted IG camera silhouette behind everything */}
+          <div style={{
+            position: "absolute",
+            top: 460,
+            left: -160,
+            opacity: 0.07,
+            display: "flex",
+          }}>
+            <svg width="1180" height="1180" viewBox="0 0 64 64" style={{ display: "flex" }}>
+              <rect width="64" height="64" rx="16" fill="none" stroke="#FFFFFF" strokeWidth="3.5"/>
+              <circle cx="32" cy="32" r="14" fill="none" stroke="#FFFFFF" strokeWidth="3.5"/>
+              <circle cx="48" cy="16" r="3.5" fill="#FFFFFF"/>
+            </svg>
+          </div>
+
+          {/* BREAKING NEWS — huge banner */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", position: "relative" }}>
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 16,
+              background: "#DC2626",
+              padding: "16px 28px",
+              borderRadius: 8,
+              boxShadow: "0 12px 30px rgba(220,38,38,0.5), 0 4px 0 rgba(0,0,0,0.3)",
+            }}>
+              <div style={{
+                width: 16,
+                height: 16,
+                borderRadius: 16,
+                background: "#FFFFFF",
+                display: "flex",
+                boxShadow: "0 0 14px rgba(255,255,255,0.9)",
+              }} />
+              <div style={{
+                fontFamily: "Outfit",
+                fontSize: 38,
+                letterSpacing: 4,
+                textTransform: "uppercase",
+                color: "#FFFFFF",
+                fontWeight: 900,
+                display: "flex",
+              }}>
+                Breaking News
               </div>
             </div>
-            <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: "rgba(255,255,255,0.5)", fontWeight: 600, display: "flex" }}>
+            <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: "rgba(255,255,255,0.7)", fontWeight: 600, display: "flex" }}>
               {post.topRightLabel}
             </div>
           </div>
 
-          {/* OUTAGE NOTIFICATION CARDS — tilted, stacked, screenshot-style */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 22, marginTop: 60, alignItems: "center" }}>
-            {outages.map((o, i) => (
-              <div
-                key={o.name}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 22,
-                  background: "rgba(255,255,255,0.07)",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                  borderRadius: 24,
-                  padding: "22px 30px",
-                  width: 820,
-                  transform: `rotate(${o.rot}deg)`,
-                  boxShadow: "0 24px 50px rgba(0,0,0,0.55)",
-                }}
-              >
-                {/* App icon — colored rounded square */}
-                <div style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: 76,
-                  height: 76,
-                  borderRadius: 18,
-                  background: o.color,
-                  flexShrink: 0,
-                  fontFamily: "Outfit",
-                  fontWeight: 900,
-                  fontSize: 44,
-                  color: "#FFFFFF",
-                }}>
-                  {o.letter}
-                </div>
-
-                <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <div style={{ fontFamily: "Outfit", fontSize: 28, fontWeight: 700, color: "#FFFFFF", display: "flex" }}>
-                      {o.name}
-                    </div>
-                    <div style={{ fontFamily: "JetBrains Mono", fontSize: 14, color: "rgba(255,255,255,0.45)", display: "flex" }}>
-                      {o.time}
-                    </div>
+          {/* OUTAGE NOTIFICATION CARDS — bigger, straight, proper IG + FB logos */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 24, marginTop: 56, alignItems: "center", width: "100%", position: "relative" }}>
+            {/* Instagram card */}
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 28,
+              background: "rgba(255,255,255,0.1)",
+              border: "1px solid rgba(255,255,255,0.22)",
+              borderRadius: 28,
+              padding: "26px 34px",
+              width: 880,
+              boxShadow: "0 28px 56px rgba(0,0,0,0.6)",
+            }}>
+              {/* Instagram camera icon — proper logo, bigger */}
+              <div style={{ display: "flex", flexShrink: 0, position: "relative", width: 104, height: 104, borderRadius: 24, overflow: "hidden" }}>
+                <div style={{ position: "absolute", inset: 0, background: "#FA7E1E", display: "flex" }} />
+                <div style={{ position: "absolute", inset: 0, background: "#D62976", opacity: 0.7, display: "flex" }} />
+                <div style={{ position: "absolute", inset: 0, background: "#962FBF", opacity: 0.4, display: "flex" }} />
+                <svg width="104" height="104" viewBox="0 0 64 64" style={{ display: "flex", position: "relative" }}>
+                  <rect x="6" y="6" width="52" height="52" rx="14" fill="none" stroke="#FFFFFF" strokeWidth="4"/>
+                  <circle cx="32" cy="32" r="12" fill="none" stroke="#FFFFFF" strokeWidth="4"/>
+                  <circle cx="48" cy="16" r="3.5" fill="#FFFFFF"/>
+                </svg>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ fontFamily: "Outfit", fontSize: 36, fontWeight: 800, color: "#FFFFFF", display: "flex" }}>
+                    Instagram
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 6 }}>
-                    <div style={{ width: 8, height: 8, borderRadius: 8, background: "#F87171", display: "flex" }} />
-                    <div style={{ fontFamily: "Outfit", fontSize: 18, color: "rgba(255,255,255,0.7)", display: "flex" }}>
-                      Outage detected · servers unreachable
-                    </div>
+                  <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, color: "rgba(255,255,255,0.55)", display: "flex" }}>
+                    7:42 AM
+                  </div>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 8 }}>
+                  <div style={{ width: 10, height: 10, borderRadius: 10, background: "#F87171", display: "flex" }} />
+                  <div style={{ fontFamily: "Outfit", fontSize: 22, color: "rgba(255,255,255,0.78)", display: "flex" }}>
+                    Outage detected · servers unreachable
                   </div>
                 </div>
               </div>
-            ))}
+            </div>
+
+            {/* Facebook card */}
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 28,
+              background: "rgba(255,255,255,0.1)",
+              border: "1px solid rgba(255,255,255,0.22)",
+              borderRadius: 28,
+              padding: "26px 34px",
+              width: 880,
+              boxShadow: "0 28px 56px rgba(0,0,0,0.6)",
+            }}>
+              {/* Facebook f icon — bigger */}
+              <div style={{ display: "flex", flexShrink: 0, alignItems: "center", justifyContent: "center", width: 104, height: 104, borderRadius: 24, background: "#1877F2" }}>
+                <svg width="104" height="104" viewBox="0 0 64 64" style={{ display: "flex" }}>
+                  <path d="M40 18 L36 18 Q31 18 31 24 L31 30 L25 30 L25 38 L31 38 L31 54 L39 54 L39 38 L45 38 L46 30 L39 30 L39 26 Q39 24 41 24 L45 24 L45 18 Z" fill="#FFFFFF"/>
+                </svg>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ fontFamily: "Outfit", fontSize: 36, fontWeight: 800, color: "#FFFFFF", display: "flex" }}>
+                    Facebook
+                  </div>
+                  <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, color: "rgba(255,255,255,0.55)", display: "flex" }}>
+                    7:51 AM
+                  </div>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 8 }}>
+                  <div style={{ width: 10, height: 10, borderRadius: 10, background: "#F87171", display: "flex" }} />
+                  <div style={{ fontFamily: "Outfit", fontSize: 22, color: "rgba(255,255,255,0.78)", display: "flex" }}>
+                    Outage detected · servers unreachable
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* HEADLINE — big serif, mixed italic, left-anchored */}
-          <div style={{ display: "flex", flexDirection: "column", marginTop: 84, paddingRight: 30 }}>
+          {/* HEADLINE — centered */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 76, position: "relative" }}>
             {post.titleLines.map((line, i) => (
               <div
                 key={i}
                 style={{
                   fontFamily: "Instrument Serif",
-                  fontSize: 120,
+                  fontSize: 128,
                   lineHeight: 0.94,
-                  letterSpacing: -3.4,
+                  letterSpacing: -3.6,
                   color: line.italic ? "#FFB347" : "#FFFFFF",
                   fontStyle: line.italic ? "italic" : "normal",
                   display: "flex",
+                  textShadow: "0 4px 24px rgba(0,0,0,0.65)",
                 }}
               >
                 {line.text}
@@ -2420,27 +2471,30 @@ export async function GET(
             ))}
           </div>
 
-          {/* Sub */}
-          {post.sub && (
-            <div style={{ fontFamily: "Instrument Serif", fontStyle: "italic", fontSize: 28, lineHeight: 1.4, color: "rgba(255,255,255,0.7)", maxWidth: 820, display: "flex", marginTop: 32 }}>
-              {post.sub}
+          {/* Sub — centered, hosting-forward */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 36, position: "relative" }}>
+            <div style={{ fontFamily: "Instrument Serif", fontStyle: "italic", fontSize: 30, lineHeight: 1.35, color: "rgba(255,255,255,0.82)", maxWidth: 880, display: "flex", textAlign: "center" }}>
+              I hand-build websites that live on their own infrastructure. 99.99% uptime, geo-distributed CDN, automatic failover. Take the code home, or let me host it.
             </div>
-          )}
+          </div>
 
           {/* Spacer */}
           <div style={{ flex: 1, display: "flex" }} />
 
-          {/* SIDE NOTE — handwritten-feel italic annotation */}
+          {/* SIDE NOTE — italic annotation, centered */}
           <div style={{
             display: "flex",
             alignItems: "center",
+            justifyContent: "center",
             gap: 18,
-            marginBottom: 28,
+            marginBottom: 32,
+            position: "relative",
           }}>
-            <div style={{ width: 36, height: 2, background: "#FFB347", display: "flex" }} />
-            <div style={{ fontFamily: "Instrument Serif", fontStyle: "italic", fontSize: 26, color: "#FFB347", display: "flex" }}>
-              99.99% uptime, geo-distributed, paged in seconds.
+            <div style={{ width: 44, height: 2, background: "#FFB347", display: "flex" }} />
+            <div style={{ fontFamily: "Instrument Serif", fontStyle: "italic", fontSize: 28, color: "#FFB347", display: "flex" }}>
+              Managed hosting · $49 / month
             </div>
+            <div style={{ width: 44, height: 2, background: "#FFB347", display: "flex" }} />
           </div>
 
           {/* BOTTOM ROW — logo + CTA */}

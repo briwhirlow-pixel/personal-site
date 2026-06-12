@@ -20,7 +20,7 @@ export type IGPostData = {
   caption: string;
   hashtags: string;
   reelConcept?: string;
-  customLayout?: "monitor" | "starter-trio" | "swoop-flex" | "spidey-swing" | "phanatic-hype" | "boardwalk" | "calendar-tile" | "about-designer";
+  customLayout?: "monitor" | "starter-trio" | "swoop-flex" | "spidey-swing" | "phanatic-hype" | "boardwalk" | "calendar-tile" | "about-designer" | "outage-story";
 };
 
 export const igPosts: IGPostData[] = [
@@ -1207,5 +1207,38 @@ If your website needs that "I've been on a keyboard since before flip phones" en
 DM me, link in bio, or comment your unpopular tech ranking below 👇`,
     hashtags:
       "#FounderStory #ThrowbackThursday #WebDesigner #FreelanceLife #90sKids #PhillyBusiness #PhillyEntrepreneur #SmallBusinessOwner #BuiltByBrian #WebDesignerPhiladelphia #SouthJerseyBusiness #FreelanceWebDesigner",
+  },
+  {
+    id: "35",
+    name: "Outage Story — IG + FB down, your site won't",
+    type: "Story (9:16) · Topical · React",
+    variant: "dark",
+    topLeftLabel: "",
+    topRightLabel: "TODAY",
+    kicker: "BREAKING",
+    titleLines: [
+      { text: "Their servers" },
+      { text: "go down." },
+      { text: "Yours", italic: true },
+      { text: "won't." },
+    ],
+    sub: "Instagram and Facebook hit a global outage this morning. If your whole storefront lives inside their apps, that's a problem.",
+    customLayout: "outage-story",
+    cta: "DM \"UPTIME\"",
+    caption: `Instagram and Facebook both went dark this morning. Saw it firsthand at 7:42 AM trying to post a story.
+
+If your only "website" is your IG bio, this morning, you were closed.
+
+The hard truth: every platform you don't own can disappear on you. App outages. Algorithm changes. Account bans for nothing. It happens.
+
+A real website is yours. Hosted on infrastructure that actually targets 99.99% uptime — the same stack Notion, TikTok, and ChatGPT run on. Geo-distributed CDN. Automatic failover. No "we're working on it" page that ate your Saturday lunch rush.
+
+Two ways I work with you:
+→ Take the code. Host it anywhere you want. Yours forever.
+→ Or let me handle hosting + monitoring + backups. $49/mo. I get paged if anything moves.
+
+If this morning made you uncomfortable about how much your business depends on apps you don't control — DM "UPTIME" and I'll send you the 1-page audit I run for clients.`,
+    hashtags:
+      "#InstagramDown #FacebookOutage #MetaDown #SmallBusinessOwner #WebDesigner #PhillyBusiness #SmallBusinessTips #BuiltByBrian #FreelanceLife #SouthJerseyBusiness #SmallBusinessMarketing #UptimeMatters",
   },
 ];

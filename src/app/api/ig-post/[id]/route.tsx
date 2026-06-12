@@ -2284,6 +2284,210 @@ export async function GET(
     );
   }
 
+  // ─── OUTAGE STORY (9:16) — Instagram + Facebook outage reactive post ──────
+  if (post.customLayout === "outage-story") {
+    const STORY_W = 1080;
+    const STORY_H = 1920;
+    const PAD = 84;
+
+    const storyOpts = {
+      ...responseOpts,
+      width: STORY_W,
+      height: STORY_H,
+    };
+
+    // Outage card data — both apps "down"
+    const outages = [
+      { name: "Instagram", time: "7:42 AM", color: "#D62976", letter: "○", rot: -3.2 },
+      { name: "Facebook",  time: "7:51 AM", color: "#1877F2", letter: "f", rot: 2.6 },
+    ];
+
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            background: "linear-gradient(170deg, #16100C 0%, #221610 45%, #2C1A12 75%, #16100C 100%)",
+            color: "#FFFFFF",
+            padding: `${PAD}px ${PAD - 4}px`,
+            fontFamily: "Outfit",
+            position: "relative",
+          }}
+        >
+          {/* Soft warning halo top-left */}
+          <div
+            style={{
+              position: "absolute",
+              top: -160,
+              left: -120,
+              width: 680,
+              height: 680,
+              borderRadius: 680,
+              background: "radial-gradient(closest-side, rgba(232,76,40,0.22) 0%, rgba(232,76,40,0) 70%)",
+              display: "flex",
+            }}
+          />
+
+          {/* TOP META — small status row */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{ width: 12, height: 12, borderRadius: 12, background: "#F87171", display: "flex", boxShadow: "0 0 14px rgba(248,113,113,0.7)" }} />
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 20, letterSpacing: 4, textTransform: "uppercase", color: "#F87171", fontWeight: 700, display: "flex" }}>
+                {post.kicker}
+              </div>
+            </div>
+            <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: "rgba(255,255,255,0.5)", fontWeight: 600, display: "flex" }}>
+              {post.topRightLabel}
+            </div>
+          </div>
+
+          {/* OUTAGE NOTIFICATION CARDS — tilted, stacked, screenshot-style */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 22, marginTop: 60, alignItems: "center" }}>
+            {outages.map((o, i) => (
+              <div
+                key={o.name}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 22,
+                  background: "rgba(255,255,255,0.07)",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  borderRadius: 24,
+                  padding: "22px 30px",
+                  width: 820,
+                  transform: `rotate(${o.rot}deg)`,
+                  boxShadow: "0 24px 50px rgba(0,0,0,0.55)",
+                }}
+              >
+                {/* App icon — colored rounded square */}
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 76,
+                  height: 76,
+                  borderRadius: 18,
+                  background: o.color,
+                  flexShrink: 0,
+                  fontFamily: "Outfit",
+                  fontWeight: 900,
+                  fontSize: 44,
+                  color: "#FFFFFF",
+                }}>
+                  {o.letter}
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <div style={{ fontFamily: "Outfit", fontSize: 28, fontWeight: 700, color: "#FFFFFF", display: "flex" }}>
+                      {o.name}
+                    </div>
+                    <div style={{ fontFamily: "JetBrains Mono", fontSize: 14, color: "rgba(255,255,255,0.45)", display: "flex" }}>
+                      {o.time}
+                    </div>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 6 }}>
+                    <div style={{ width: 8, height: 8, borderRadius: 8, background: "#F87171", display: "flex" }} />
+                    <div style={{ fontFamily: "Outfit", fontSize: 18, color: "rgba(255,255,255,0.7)", display: "flex" }}>
+                      Outage detected · servers unreachable
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* HEADLINE — big serif, mixed italic, left-anchored */}
+          <div style={{ display: "flex", flexDirection: "column", marginTop: 84, paddingRight: 30 }}>
+            {post.titleLines.map((line, i) => (
+              <div
+                key={i}
+                style={{
+                  fontFamily: "Instrument Serif",
+                  fontSize: 120,
+                  lineHeight: 0.94,
+                  letterSpacing: -3.4,
+                  color: line.italic ? "#FFB347" : "#FFFFFF",
+                  fontStyle: line.italic ? "italic" : "normal",
+                  display: "flex",
+                }}
+              >
+                {line.text}
+              </div>
+            ))}
+          </div>
+
+          {/* Sub */}
+          {post.sub && (
+            <div style={{ fontFamily: "Instrument Serif", fontStyle: "italic", fontSize: 28, lineHeight: 1.4, color: "rgba(255,255,255,0.7)", maxWidth: 820, display: "flex", marginTop: 32 }}>
+              {post.sub}
+            </div>
+          )}
+
+          {/* Spacer */}
+          <div style={{ flex: 1, display: "flex" }} />
+
+          {/* SIDE NOTE — handwritten-feel italic annotation */}
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 18,
+            marginBottom: 28,
+          }}>
+            <div style={{ width: 36, height: 2, background: "#FFB347", display: "flex" }} />
+            <div style={{ fontFamily: "Instrument Serif", fontStyle: "italic", fontSize: 26, color: "#FFB347", display: "flex" }}>
+              99.99% uptime, geo-distributed, paged in seconds.
+            </div>
+          </div>
+
+          {/* BOTTOM ROW — logo + CTA */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingTop: 28,
+              borderTop: "1px solid rgba(255,255,255,0.18)",
+              width: "100%",
+            }}
+          >
+            {/* Built by Brian monitor logo */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <div style={{ background: "#1A1A2E", borderRadius: 12, padding: 5, display: "flex" }}>
+                <div style={{ background: "#FFFFFF", borderRadius: 8, padding: "12px 22px 11px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <div style={{ width: 10, height: 10, borderRadius: 10, background: "#2563EB", display: "flex", marginRight: 10 }} />
+                    <div style={{ display: "flex", alignItems: "baseline", fontFamily: "Instrument Serif", fontSize: 38, color: "#1A1A2E", lineHeight: 1 }}>
+                      <div style={{ display: "flex" }}>Built</div>
+                      <div style={{ fontStyle: "italic", color: "#0EA5E9", padding: "0 3px", display: "flex" }}>by</div>
+                      <div style={{ display: "flex" }}>Brian</div>
+                    </div>
+                  </div>
+                  <div style={{ fontFamily: "JetBrains Mono", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "#64748B", fontWeight: 600, marginTop: 6, display: "flex" }}>
+                    Web Design
+                  </div>
+                </div>
+              </div>
+              <div style={{ width: 22, height: 6, background: "#1A1A2E", marginTop: 2, display: "flex" }} />
+              <div style={{ width: 56, height: 4, background: "#1A1A2E", borderRadius: 4, marginTop: 1, display: "flex" }} />
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 24, letterSpacing: 4, textTransform: "uppercase", color: "rgba(255,255,255,0.75)", fontWeight: 600, display: "flex" }}>
+                {post.cta}
+              </div>
+              <div style={{ fontFamily: "JetBrains Mono", fontSize: 30, color: "#FFB347", fontWeight: 700, marginLeft: 10, display: "flex" }}>→</div>
+            </div>
+          </div>
+        </div>
+      ),
+      storyOpts
+    );
+  }
+
   // ─── ABOUT-DESIGNER LAYOUT — throwback photo + receipts + rankings ──────────
   if (post.customLayout === "about-designer") {
     const photoUrl = `${origin}/images/brian-young.jpg`;

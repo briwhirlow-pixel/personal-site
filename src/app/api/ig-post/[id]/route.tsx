@@ -2334,29 +2334,36 @@ export async function GET(
             </svg>
           </div>
 
-          {/* BREAKING NEWS — huge banner */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", position: "relative" }}>
+          {/* TODAY mono label — centered above the banner */}
+          <div style={{ display: "flex", justifyContent: "center", width: "100%", position: "relative", marginBottom: 14 }}>
+            <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 5, textTransform: "uppercase", color: "rgba(255,255,255,0.7)", fontWeight: 600, display: "flex" }}>
+              {post.topRightLabel}
+            </div>
+          </div>
+
+          {/* BREAKING NEWS — huge centered banner */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", position: "relative" }}>
             <div style={{
               display: "flex",
               alignItems: "center",
-              gap: 16,
+              gap: 18,
               background: "#DC2626",
-              padding: "16px 28px",
-              borderRadius: 8,
-              boxShadow: "0 12px 30px rgba(220,38,38,0.5), 0 4px 0 rgba(0,0,0,0.3)",
+              padding: "20px 38px",
+              borderRadius: 10,
+              boxShadow: "0 14px 36px rgba(220,38,38,0.55), 0 5px 0 rgba(0,0,0,0.32)",
             }}>
               <div style={{
-                width: 16,
-                height: 16,
-                borderRadius: 16,
+                width: 18,
+                height: 18,
+                borderRadius: 18,
                 background: "#FFFFFF",
                 display: "flex",
-                boxShadow: "0 0 14px rgba(255,255,255,0.9)",
+                boxShadow: "0 0 16px rgba(255,255,255,0.95)",
               }} />
               <div style={{
                 fontFamily: "Outfit",
-                fontSize: 38,
-                letterSpacing: 4,
+                fontSize: 48,
+                letterSpacing: 5,
                 textTransform: "uppercase",
                 color: "#FFFFFF",
                 fontWeight: 900,
@@ -2364,9 +2371,6 @@ export async function GET(
               }}>
                 Breaking News
               </div>
-            </div>
-            <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 4, textTransform: "uppercase", color: "rgba(255,255,255,0.7)", fontWeight: 600, display: "flex" }}>
-              {post.topRightLabel}
             </div>
           </div>
 
@@ -2471,17 +2475,17 @@ export async function GET(
             ))}
           </div>
 
-          {/* Sub — centered, hosting-forward */}
+          {/* Sub — full Meta-outage context, hosting close, centered */}
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 36, position: "relative" }}>
-            <div style={{ fontFamily: "Instrument Serif", fontStyle: "italic", fontSize: 30, lineHeight: 1.35, color: "rgba(255,255,255,0.82)", maxWidth: 880, display: "flex", textAlign: "center" }}>
-              I hand-build websites that live on their own infrastructure. 99.99% uptime, geo-distributed CDN, automatic failover. Take the code home, or let me host it.
+            <div style={{ fontFamily: "Instrument Serif", fontStyle: "italic", fontSize: 26, lineHeight: 1.4, color: "rgba(255,255,255,0.88)", maxWidth: 920, display: "flex", textAlign: "center" }}>
+              This morning Meta had an outage and Facebook, Instagram, Threads, and Messenger were all down briefly. This should never happen to your website. I hand-build websites that live on their own infrastructure. 99.99% uptime, automatic failover. Take the code home or let me host it — your choice.
             </div>
           </div>
 
           {/* Spacer */}
           <div style={{ flex: 1, display: "flex" }} />
 
-          {/* SIDE NOTE — italic annotation, centered */}
+          {/* PRICE NOTE — italic annotation, centered */}
           <div style={{
             display: "flex",
             alignItems: "center",
@@ -2492,7 +2496,7 @@ export async function GET(
           }}>
             <div style={{ width: 44, height: 2, background: "#FFB347", display: "flex" }} />
             <div style={{ fontFamily: "Instrument Serif", fontStyle: "italic", fontSize: 28, color: "#FFB347", display: "flex" }}>
-              Managed hosting · $49 / month
+              Managed hosting starting at $49 / month
             </div>
             <div style={{ width: 44, height: 2, background: "#FFB347", display: "flex" }} />
           </div>

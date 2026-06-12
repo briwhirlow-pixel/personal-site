@@ -2489,7 +2489,7 @@ export async function GET(
               fontWeight: 500,
               textShadow: "0 2px 14px rgba(0,0,0,0.55)",
             }}>
-              This morning Meta had an outage and Facebook, Instagram, Threads, and Messenger were all down briefly. This should never happen to your website. I hand-build websites that live on their own infrastructure. 99.99% uptime, automatic failover. Take the code home or let me host it, your choice.
+              This morning Meta had an outage and Facebook, Instagram, Threads, and Messenger were all down briefly. This should never happen to your website. I hand-build websites that live on their own infrastructure. 99.99% uptime, no single point of failure. Take the code home or let me host it, your choice.
             </div>
           </div>
 

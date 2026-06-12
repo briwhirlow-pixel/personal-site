@@ -2489,7 +2489,7 @@ export async function GET(
               fontWeight: 500,
               textShadow: "0 2px 14px rgba(0,0,0,0.55)",
             }}>
-              This morning Meta had an outage and Facebook, Instagram, Threads, and Messenger were all down briefly. This should never happen to your website. I hand-build websites that live on their own infrastructure. 99.99% uptime, automatic failover. Take the code home or let me host it — your choice.
+              This morning Meta had an outage and Facebook, Instagram, Threads, and Messenger were all down briefly. This should never happen to your website. I hand-build websites that live on their own infrastructure. 99.99% uptime, automatic failover. Take the code home or let me host it, your choice.
             </div>
           </div>
 
@@ -2505,11 +2505,18 @@ export async function GET(
             marginBottom: 32,
             position: "relative",
           }}>
-            <div style={{ width: 44, height: 2, background: "#FFB347", display: "flex" }} />
-            <div style={{ fontFamily: "Instrument Serif", fontStyle: "italic", fontSize: 28, color: "#FFB347", display: "flex" }}>
+            <div style={{ width: 56, height: 2, background: "#FFB347", display: "flex" }} />
+            <div style={{
+              fontFamily: "Inter",
+              fontSize: 34,
+              color: "#FFFFFF",
+              fontWeight: 700,
+              display: "flex",
+              textShadow: "0 2px 12px rgba(0,0,0,0.55)",
+            }}>
               Managed hosting starting at $49 / month
             </div>
-            <div style={{ width: 44, height: 2, background: "#FFB347", display: "flex" }} />
+            <div style={{ width: 56, height: 2, background: "#FFB347", display: "flex" }} />
           </div>
 
           {/* BOTTOM ROW — logo + CTA */}
@@ -2548,7 +2555,6 @@ export async function GET(
               <div style={{ fontFamily: "JetBrains Mono", fontSize: 24, letterSpacing: 4, textTransform: "uppercase", color: "rgba(255,255,255,0.75)", fontWeight: 600, display: "flex" }}>
                 {post.cta}
               </div>
-              <div style={{ fontFamily: "JetBrains Mono", fontSize: 30, color: "#FFB347", fontWeight: 700, marginLeft: 10, display: "flex" }}>→</div>
             </div>
           </div>
         </div>

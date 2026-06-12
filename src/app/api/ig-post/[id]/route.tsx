@@ -275,13 +275,16 @@ export async function GET(
         : `${origin}${post.bottomImage.src}`)
     : null;
 
-  const [instrumentRegular, instrumentItalic, outfitMedium, outfitBold, jetbrainsMono] =
+  const [instrumentRegular, instrumentItalic, outfitMedium, outfitBold, jetbrainsMono, interMedium, interBold, interBlack] =
     await Promise.all([
       loadGoogleFont("family=Instrument+Serif"),
       loadGoogleFont("family=Instrument+Serif:ital@1"),
       loadGoogleFont("family=Outfit:wght@500"),
       loadGoogleFont("family=Outfit:wght@700"),
       loadGoogleFont("family=JetBrains+Mono:wght@600"),
+      loadGoogleFont("family=Inter:wght@500"),
+      loadGoogleFont("family=Inter:wght@700"),
+      loadGoogleFont("family=Inter:wght@900"),
     ]);
 
   const p = getPalette(post.variant);
@@ -299,6 +302,9 @@ export async function GET(
       { name: "Outfit", data: outfitMedium, weight: 500 as const, style: "normal" as const },
       { name: "Outfit", data: outfitBold, weight: 700 as const, style: "normal" as const },
       { name: "JetBrains Mono", data: jetbrainsMono, weight: 600 as const, style: "normal" as const },
+      { name: "Inter", data: interMedium, weight: 500 as const, style: "normal" as const },
+      { name: "Inter", data: interBold, weight: 700 as const, style: "normal" as const },
+      { name: "Inter", data: interBlack, weight: 900 as const, style: "normal" as const },
     ],
     headers: {
       "Content-Disposition": `inline; filename="builtbybrian-ig-post-${id}-slide-${slideNum}.png"`,
@@ -2289,6 +2295,8 @@ export async function GET(
     const STORY_W = 1080;
     const STORY_H = 1920;
     const PAD = 80;
+    const igIconUrl = `${origin}/images/instagram-icon-cut.png`;
+    const fbIconUrl = `${origin}/images/facebook-icon-cut.png`;
 
     const storyOpts = {
       ...responseOpts,
@@ -2361,8 +2369,8 @@ export async function GET(
                 boxShadow: "0 0 16px rgba(255,255,255,0.95)",
               }} />
               <div style={{
-                fontFamily: "Outfit",
-                fontSize: 48,
+                fontFamily: "Inter",
+                fontSize: 52,
                 letterSpacing: 5,
                 textTransform: "uppercase",
                 color: "#FFFFFF",
@@ -2388,20 +2396,14 @@ export async function GET(
               width: 880,
               boxShadow: "0 28px 56px rgba(0,0,0,0.6)",
             }}>
-              {/* Instagram camera icon — proper logo, bigger */}
-              <div style={{ display: "flex", flexShrink: 0, position: "relative", width: 104, height: 104, borderRadius: 24, overflow: "hidden" }}>
-                <div style={{ position: "absolute", inset: 0, background: "#FA7E1E", display: "flex" }} />
-                <div style={{ position: "absolute", inset: 0, background: "#D62976", opacity: 0.7, display: "flex" }} />
-                <div style={{ position: "absolute", inset: 0, background: "#962FBF", opacity: 0.4, display: "flex" }} />
-                <svg width="104" height="104" viewBox="0 0 64 64" style={{ display: "flex", position: "relative" }}>
-                  <rect x="6" y="6" width="52" height="52" rx="14" fill="none" stroke="#FFFFFF" strokeWidth="4"/>
-                  <circle cx="32" cy="32" r="12" fill="none" stroke="#FFFFFF" strokeWidth="4"/>
-                  <circle cx="48" cy="16" r="3.5" fill="#FFFFFF"/>
-                </svg>
+              {/* Instagram icon — user-uploaded cutout */}
+              <div style={{ display: "flex", flexShrink: 0, width: 104, height: 104, alignItems: "center", justifyContent: "center" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={igIconUrl} alt="Instagram" width={104} height={104} style={{ display: "flex", width: 104, height: 104, objectFit: "contain" }} />
               </div>
               <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div style={{ fontFamily: "Outfit", fontSize: 36, fontWeight: 800, color: "#FFFFFF", display: "flex" }}>
+                  <div style={{ fontFamily: "Inter", fontSize: 38, fontWeight: 700, color: "#FFFFFF", display: "flex", letterSpacing: -0.5 }}>
                     Instagram
                   </div>
                   <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, color: "rgba(255,255,255,0.55)", display: "flex" }}>
@@ -2429,15 +2431,14 @@ export async function GET(
               width: 880,
               boxShadow: "0 28px 56px rgba(0,0,0,0.6)",
             }}>
-              {/* Facebook f icon — bigger */}
-              <div style={{ display: "flex", flexShrink: 0, alignItems: "center", justifyContent: "center", width: 104, height: 104, borderRadius: 24, background: "#1877F2" }}>
-                <svg width="104" height="104" viewBox="0 0 64 64" style={{ display: "flex" }}>
-                  <path d="M40 18 L36 18 Q31 18 31 24 L31 30 L25 30 L25 38 L31 38 L31 54 L39 54 L39 38 L45 38 L46 30 L39 30 L39 26 Q39 24 41 24 L45 24 L45 18 Z" fill="#FFFFFF"/>
-                </svg>
+              {/* Facebook icon — user-uploaded cutout */}
+              <div style={{ display: "flex", flexShrink: 0, width: 104, height: 104, alignItems: "center", justifyContent: "center" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={fbIconUrl} alt="Facebook" width={104} height={104} style={{ display: "flex", width: 104, height: 104, objectFit: "contain" }} />
               </div>
               <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div style={{ fontFamily: "Outfit", fontSize: 36, fontWeight: 800, color: "#FFFFFF", display: "flex" }}>
+                  <div style={{ fontFamily: "Inter", fontSize: 38, fontWeight: 700, color: "#FFFFFF", display: "flex", letterSpacing: -0.5 }}>
                     Facebook
                   </div>
                   <div style={{ fontFamily: "JetBrains Mono", fontSize: 18, color: "rgba(255,255,255,0.55)", display: "flex" }}>
@@ -2475,9 +2476,19 @@ export async function GET(
             ))}
           </div>
 
-          {/* Sub — full Meta-outage context, hosting close, centered */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 36, position: "relative" }}>
-            <div style={{ fontFamily: "Instrument Serif", fontStyle: "italic", fontSize: 26, lineHeight: 1.4, color: "rgba(255,255,255,0.88)", maxWidth: 920, display: "flex", textAlign: "center" }}>
+          {/* Sub — full Meta-outage context, hosting close, centered, Inter for clean readability */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 40, position: "relative" }}>
+            <div style={{
+              fontFamily: "Inter",
+              fontSize: 32,
+              lineHeight: 1.42,
+              color: "#FFFFFF",
+              maxWidth: 940,
+              display: "flex",
+              textAlign: "center",
+              fontWeight: 500,
+              textShadow: "0 2px 14px rgba(0,0,0,0.55)",
+            }}>
               This morning Meta had an outage and Facebook, Instagram, Threads, and Messenger were all down briefly. This should never happen to your website. I hand-build websites that live on their own infrastructure. 99.99% uptime, automatic failover. Take the code home or let me host it — your choice.
             </div>
           </div>

@@ -20,7 +20,7 @@ export type IGPostData = {
   caption: string;
   hashtags: string;
   reelConcept?: string;
-  customLayout?: "monitor" | "starter-trio" | "swoop-flex" | "spidey-swing" | "phanatic-hype" | "boardwalk" | "calendar-tile" | "about-designer" | "outage-story";
+  customLayout?: "monitor" | "starter-trio" | "swoop-flex" | "spidey-swing" | "phanatic-hype" | "boardwalk" | "calendar-tile" | "about-designer" | "outage-story" | "illuminate-preview";
 };
 
 export const igPosts: IGPostData[] = [
@@ -1207,6 +1207,20 @@ If your website needs that "I've been on a keyboard since before flip phones" en
 DM me, link in bio, or comment your unpopular tech ranking below 👇`,
     hashtags:
       "#FounderStory #ThrowbackThursday #WebDesigner #FreelanceLife #90sKids #PhillyBusiness #PhillyEntrepreneur #SmallBusinessOwner #BuiltByBrian #WebDesignerPhiladelphia #SouthJerseyBusiness #FreelanceWebDesigner",
+  },
+  {
+    id: "36",
+    name: "Illuminate Beauty Bar — Homepage Preview (client mockup)",
+    type: "Client preview · Internal · Illuminate",
+    variant: "studio",
+    topLeftLabel: "",
+    topRightLabel: "PREVIEW",
+    kicker: "",
+    titleLines: [{ text: "Illuminate" }],
+    customLayout: "illuminate-preview",
+    cta: "Book Your Appointment",
+    caption: `Quick preview, Kelli. This is just a taste of where the homepage could go, your color palette, your "create some magic" voice, and your bridal pivot front and center. We'll nail the specifics on our kickoff call.`,
+    hashtags: "",
   },
   {
     id: "35",

@@ -2290,6 +2290,482 @@ export async function GET(
     );
   }
 
+  // ─── ILLUMINATE BEAUTY BAR — Homepage Preview (client mockup) ─────────────
+  if (post.customLayout === "illuminate-preview") {
+    const PREV_W = 1080;
+    const PREV_H = 1620;
+    const previewOpts = {
+      ...responseOpts,
+      width: PREV_W,
+      height: PREV_H,
+    };
+
+    // Soft palette pulled from Kelli's brief: nude/tan, light pink, gold, white
+    const cream = "#F4ECDE";
+    const creamSoft = "#EDE2D0";
+    const ink = "#2C2620";
+    const inkSoft = "rgba(44,38,32,0.65)";
+    const gold = "#B08D5A";
+    const goldDeep = "#8A6F44";
+    const pink = "#E8CFC9";
+
+    // Star path used as the stardust accent (5-point star)
+    const Star = ({ size, top, left, opacity, rot = 0 }: { size: number; top: number; left: number; opacity: number; rot?: number }) => (
+      <div style={{ position: "absolute", top, left, opacity, transform: `rotate(${rot}deg)`, display: "flex" }}>
+        <svg width={size} height={size} viewBox="0 0 100 100" style={{ display: "flex" }}>
+          <path d="M50 5 L61 38 L95 38 L67 58 L78 92 L50 71 L22 92 L33 58 L5 38 L39 38 Z" fill={gold}/>
+        </svg>
+      </div>
+    );
+
+    return new ImageResponse(
+      (
+        <div style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          background: cream,
+          fontFamily: "Inter",
+          position: "relative",
+        }}>
+
+          {/* ─── BROWSER CHROME ─── */}
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            background: "#E8E2D6",
+            borderBottom: "1px solid rgba(0,0,0,0.08)",
+            padding: "14px 22px",
+            gap: 8,
+            flexShrink: 0,
+          }}>
+            <div style={{ display: "flex", width: 12, height: 12, borderRadius: 12, background: "#FF6058" }} />
+            <div style={{ display: "flex", width: 12, height: 12, borderRadius: 12, background: "#FEBD2D" }} />
+            <div style={{ display: "flex", width: 12, height: 12, borderRadius: 12, background: "#28C840" }} />
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              flex: 1,
+              marginLeft: 26,
+              background: "#F8F4ED",
+              border: "1px solid rgba(0,0,0,0.06)",
+              borderRadius: 8,
+              padding: "8px 16px",
+              fontFamily: "Inter",
+              fontSize: 16,
+              color: inkSoft,
+            }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={ink} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: "flex" }}>
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <div style={{ display: "flex" }}>illuminatebeautybar.com</div>
+            </div>
+          </div>
+
+          {/* ─── TOP NAV ─── */}
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "26px 56px",
+            background: cream,
+            position: "relative",
+          }}>
+            {/* Logo lockup */}
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <svg width="22" height="22" viewBox="0 0 100 100" style={{ display: "flex" }}>
+                <path d="M50 5 L61 38 L95 38 L67 58 L78 92 L50 71 L22 92 L33 58 L5 38 L39 38 Z" fill={gold}/>
+              </svg>
+              <div style={{
+                fontFamily: "Instrument Serif",
+                fontStyle: "italic",
+                fontSize: 30,
+                color: ink,
+                letterSpacing: 0.5,
+                display: "flex",
+              }}>
+                Illuminate
+              </div>
+            </div>
+            {/* Nav links */}
+            <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
+              {["Services", "Bridal", "Gallery", "About", "Contact"].map((l) => (
+                <div key={l} style={{
+                  fontFamily: "Inter",
+                  fontSize: 14,
+                  letterSpacing: 1.5,
+                  textTransform: "uppercase",
+                  color: ink,
+                  fontWeight: 500,
+                  display: "flex",
+                }}>
+                  {l}
+                </div>
+              ))}
+              <div style={{
+                display: "flex",
+                background: ink,
+                color: cream,
+                fontFamily: "Inter",
+                fontSize: 13,
+                letterSpacing: 2,
+                textTransform: "uppercase",
+                fontWeight: 600,
+                padding: "11px 22px",
+                borderRadius: 999,
+              }}>
+                Book Now
+              </div>
+            </div>
+          </div>
+
+          {/* ─── HERO SECTION ─── */}
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: "70px 56px 90px",
+            position: "relative",
+            background: cream,
+            flexShrink: 0,
+          }}>
+            {/* Stardust accents — scattered stars */}
+            <Star size={18} top={20} left={120} opacity={0.55} />
+            <Star size={10} top={80} left={220} opacity={0.4} rot={20} />
+            <Star size={14} top={140} left={90} opacity={0.5} rot={-15} />
+            <Star size={22} top={30} left={880} opacity={0.55} rot={10} />
+            <Star size={12} top={120} left={950} opacity={0.45} rot={-20} />
+            <Star size={9} top={200} left={850} opacity={0.35} />
+            <Star size={16} top={250} left={150} opacity={0.4} rot={25} />
+            <Star size={11} top={310} left={920} opacity={0.45} rot={-10} />
+
+            {/* Curved stardust arc — hand-drawn feel */}
+            <div style={{ position: "absolute", top: 80, left: "50%", transform: "translateX(-50%)", display: "flex" }}>
+              <svg width="640" height="60" viewBox="0 0 640 60" style={{ display: "flex" }}>
+                <path d="M20 40 Q160 5 320 30 Q480 55 620 20"
+                  stroke={gold} strokeWidth="1" fill="none" opacity="0.45" strokeLinecap="round"
+                  strokeDasharray="2 6"/>
+              </svg>
+            </div>
+
+            {/* Eyebrow */}
+            <div style={{
+              fontFamily: "Inter",
+              fontSize: 13,
+              letterSpacing: 5,
+              textTransform: "uppercase",
+              color: gold,
+              fontWeight: 600,
+              display: "flex",
+              marginBottom: 24,
+              position: "relative",
+            }}>
+              ✦  Modern Luxe Beauty Studio  ✦
+            </div>
+
+            {/* Big wordmark */}
+            <div style={{
+              fontFamily: "Instrument Serif",
+              fontSize: 132,
+              lineHeight: 0.92,
+              letterSpacing: -1,
+              color: ink,
+              display: "flex",
+              position: "relative",
+              marginBottom: 4,
+            }}>
+              Illuminate
+            </div>
+            <div style={{
+              fontFamily: "Instrument Serif",
+              fontStyle: "italic",
+              fontSize: 56,
+              lineHeight: 1,
+              letterSpacing: 1,
+              color: goldDeep,
+              display: "flex",
+              position: "relative",
+              marginBottom: 36,
+            }}>
+              Beauty Bar
+            </div>
+
+            {/* Tagline */}
+            <div style={{
+              fontFamily: "Instrument Serif",
+              fontStyle: "italic",
+              fontSize: 30,
+              lineHeight: 1.35,
+              color: inkSoft,
+              maxWidth: 720,
+              display: "flex",
+              textAlign: "center",
+              marginBottom: 36,
+              position: "relative",
+            }}>
+              Where the magic happens, every appointment.
+            </div>
+
+            {/* CTA button */}
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 14,
+              background: gold,
+              color: "#FFFFFF",
+              fontFamily: "Inter",
+              fontSize: 16,
+              letterSpacing: 3,
+              textTransform: "uppercase",
+              fontWeight: 700,
+              padding: "20px 38px",
+              borderRadius: 999,
+              marginBottom: 24,
+              boxShadow: "0 14px 28px rgba(176,141,90,0.32)",
+              position: "relative",
+            }}>
+              Book Your Appointment
+            </div>
+
+            {/* Meta line */}
+            <div style={{
+              fontFamily: "Inter",
+              fontSize: 13,
+              letterSpacing: 3,
+              textTransform: "uppercase",
+              color: inkSoft,
+              fontWeight: 500,
+              display: "flex",
+              position: "relative",
+            }}>
+              Haddon Township, NJ  ·  Color  ·  Cut  ·  Bridal  ·  Makeup
+            </div>
+          </div>
+
+          {/* ─── SERVICES STRIP ─── */}
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            background: creamSoft,
+            padding: "40px 56px 44px",
+            flexShrink: 0,
+          }}>
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 14,
+              marginBottom: 26,
+            }}>
+              <div style={{ width: 28, height: 1, background: gold, display: "flex" }} />
+              <div style={{
+                fontFamily: "Inter",
+                fontSize: 12,
+                letterSpacing: 4,
+                textTransform: "uppercase",
+                color: gold,
+                fontWeight: 700,
+                display: "flex",
+              }}>
+                The Services
+              </div>
+              <div style={{ width: 28, height: 1, background: gold, display: "flex" }} />
+            </div>
+
+            <div style={{ display: "flex", gap: 14, justifyContent: "center" }}>
+              {[
+                { name: "Color",      from: "$115",  desc: "Touch ups, balayage, full color" },
+                { name: "Cut",        from: "$65",   desc: "Precision cut + blowdry" },
+                { name: "Extensions", from: "$250",  desc: "Hand tied, tape in, beaded" },
+                { name: "Makeup",     from: "$185",  desc: "Soft glam, editorial, bridal" },
+              ].map((s) => (
+                <div key={s.name} style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  background: "#FFFFFF",
+                  border: `1px solid ${pink}`,
+                  borderRadius: 14,
+                  padding: "22px 18px",
+                  width: 230,
+                  boxShadow: "0 8px 18px rgba(44,38,32,0.06)",
+                }}>
+                  <div style={{
+                    fontFamily: "Instrument Serif",
+                    fontSize: 30,
+                    color: ink,
+                    display: "flex",
+                    marginBottom: 4,
+                  }}>
+                    {s.name}
+                  </div>
+                  <div style={{
+                    fontFamily: "Inter",
+                    fontSize: 11,
+                    letterSpacing: 1.5,
+                    textTransform: "uppercase",
+                    color: gold,
+                    fontWeight: 600,
+                    display: "flex",
+                    marginBottom: 10,
+                  }}>
+                    from {s.from}
+                  </div>
+                  <div style={{
+                    fontFamily: "Inter",
+                    fontSize: 12,
+                    lineHeight: 1.45,
+                    color: inkSoft,
+                    display: "flex",
+                    textAlign: "center",
+                    fontWeight: 500,
+                  }}>
+                    {s.desc}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ─── BRIDAL FEATURE ─── */}
+          <div style={{
+            display: "flex",
+            background: cream,
+            padding: "40px 56px",
+            gap: 32,
+            alignItems: "center",
+            flex: 1,
+            position: "relative",
+          }}>
+            {/* Photo placeholder — soft pink panel with star */}
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 280,
+              height: 220,
+              background: `linear-gradient(135deg, ${pink} 0%, #F2D9D2 100%)`,
+              borderRadius: 14,
+              flexShrink: 0,
+              position: "relative",
+            }}>
+              <svg width="44" height="44" viewBox="0 0 100 100" style={{ display: "flex", opacity: 0.7 }}>
+                <path d="M50 5 L61 38 L95 38 L67 58 L78 92 L50 71 L22 92 L33 58 L5 38 L39 38 Z" fill="#FFFFFF"/>
+              </svg>
+              <div style={{
+                position: "absolute",
+                bottom: 14,
+                left: 16,
+                fontFamily: "Inter",
+                fontSize: 10,
+                letterSpacing: 2,
+                textTransform: "uppercase",
+                color: ink,
+                fontWeight: 600,
+                display: "flex",
+                opacity: 0.7,
+              }}>
+                Gallery preview
+              </div>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+              <div style={{
+                fontFamily: "Inter",
+                fontSize: 12,
+                letterSpacing: 4,
+                textTransform: "uppercase",
+                color: gold,
+                fontWeight: 700,
+                display: "flex",
+                marginBottom: 12,
+              }}>
+                Bridal, By Appointment
+              </div>
+              <div style={{
+                fontFamily: "Instrument Serif",
+                fontSize: 44,
+                lineHeight: 1.05,
+                color: ink,
+                display: "flex",
+                marginBottom: 10,
+                maxWidth: 540,
+              }}>
+                Your day deserves more <span style={{ fontStyle: "italic", color: goldDeep, paddingLeft: 6, display: "flex" }}>than a chair.</span>
+              </div>
+              <div style={{
+                fontFamily: "Inter",
+                fontSize: 15,
+                lineHeight: 1.55,
+                color: inkSoft,
+                display: "flex",
+                marginBottom: 18,
+                maxWidth: 520,
+                fontWeight: 500,
+              }}>
+                Bridal hair and makeup with a luxury one on one setting. Tell me about your day and I&apos;ll write back inside 24 hours.
+              </div>
+              <div style={{ display: "flex" }}>
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  background: "transparent",
+                  border: `1.5px solid ${ink}`,
+                  color: ink,
+                  fontFamily: "Inter",
+                  fontSize: 13,
+                  letterSpacing: 2,
+                  textTransform: "uppercase",
+                  fontWeight: 600,
+                  padding: "13px 24px",
+                  borderRadius: 999,
+                }}>
+                  Inquire About Your Wedding
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ─── FOOTER PEEK ─── */}
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            background: ink,
+            color: cream,
+            padding: "22px 56px",
+            flexShrink: 0,
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <svg width="14" height="14" viewBox="0 0 100 100" style={{ display: "flex" }}>
+                <path d="M50 5 L61 38 L95 38 L67 58 L78 92 L50 71 L22 92 L33 58 L5 38 L39 38 Z" fill={gold}/>
+              </svg>
+              <div style={{ fontFamily: "Instrument Serif", fontStyle: "italic", fontSize: 22, display: "flex" }}>
+                Illuminate Beauty Bar
+              </div>
+            </div>
+            <div style={{
+              fontFamily: "Inter",
+              fontSize: 12,
+              letterSpacing: 2,
+              textTransform: "uppercase",
+              color: "rgba(244,236,222,0.55)",
+              fontWeight: 500,
+              display: "flex",
+            }}>
+              @illuminatebeautybykelli  ·  Haddon Twp  ·  856.905.5615
+            </div>
+          </div>
+        </div>
+      ),
+      previewOpts
+    );
+  }
+
   // ─── OUTAGE STORY (9:16) — Instagram + Facebook outage reactive post ──────
   if (post.customLayout === "outage-story") {
     const STORY_W = 1080;

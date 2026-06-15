@@ -1,18 +1,24 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Outfit, JetBrains_Mono, Fraunces, Geist_Mono } from "next/font/google";
+import { Newsreader, Inter_Tight, JetBrains_Mono, Fraunces, Geist_Mono, Caveat } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/data";
 import PublicLayout from "@/components/PublicLayout";
 
-const instrumentSerif = Instrument_Serif({
-  weight: ["400"],
+// Display serif — Newsreader. Replaces Instrument Serif (which had become
+// the default "AI portfolio template" face). Newsreader has more editorial
+// personality without reading as precious.
+const newsreader = Newsreader({
+  weight: ["300", "400", "500", "600", "700"],
   style: ["normal", "italic"],
   subsets: ["latin"],
   display: "swap",
   variable: "--font-instrument",
 });
 
-const outfit = Outfit({
+// Body sans — Inter Tight. Replaces Outfit. Inter Tight at 500/600 reads as
+// Stripe Press / Financial Times — confident editorial, not template default.
+const interTight = Inter_Tight({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   display: "swap",
   variable: "--font-outfit",
@@ -24,8 +30,7 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
 });
 
-// Used exclusively inside the APEX sample-build mockup so the preview
-// reads as visually distinct from the BuiltbyBrian wordmark/site.
+// APEX-only fonts — keep the mockup visually separate from BuiltbyBrian.
 const fraunces = Fraunces({
   weight: ["400", "600", "700", "900"],
   style: ["normal", "italic"],
@@ -39,6 +44,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-geist-mono",
+});
+
+// Handwritten signature — used for the Footer "— Brian" sign-off and any
+// real human touches that should not look typeset.
+const caveat = Caveat({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-caveat",
 });
 
 export const metadata: Metadata = {
@@ -72,7 +86,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${instrumentSerif.variable} ${outfit.variable} ${jetbrainsMono.variable} ${fraunces.variable} ${geistMono.variable}`}
+      className={`${newsreader.variable} ${interTight.variable} ${jetbrainsMono.variable} ${fraunces.variable} ${geistMono.variable} ${caveat.variable}`}
     >
       <body>
         <PublicLayout>{children}</PublicLayout>

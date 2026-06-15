@@ -24,14 +24,23 @@ export default function Footer() {
           <h2 className="font-serif text-[clamp(40px,7vw,84px)] leading-[0.95] tracking-[-0.025em] text-ink font-normal max-w-3xl">
             Let&apos;s build something <span className="italic text-forest">together.</span>
           </h2>
-          <a
-            href="/contact"
-            className="group inline-flex items-center gap-2 bg-forest text-paper font-semibold px-6 py-3.5 rounded-[6px] hover:bg-forest-deep transition-colors text-[14px] mt-8"
-            style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.5)" }}
-          >
-            Start a project
-            <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-[2px] group-hover:-translate-y-[2px]" />
-          </a>
+          <div className="flex flex-col sm:flex-row sm:items-end gap-6 mt-8">
+            <a
+              href="/contact"
+              className="group inline-flex items-center gap-2 bg-forest text-paper font-semibold px-6 py-3.5 rounded-[6px] hover:bg-forest-deep transition-colors text-[14px]"
+              style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.5)" }}
+            >
+              Start a project
+              <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-[2px] group-hover:-translate-y-[2px]" />
+            </a>
+            {/* Hand-signed sign-off — Caveat. Genuine personality detail. */}
+            <span
+              className="text-ink-soft text-[28px] sm:text-[34px] leading-none -translate-y-1"
+              style={{ fontFamily: "var(--font-caveat), cursive" }}
+            >
+              — Brian
+            </span>
+          </div>
         </div>
 
         {/* Mid grid */}

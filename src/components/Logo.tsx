@@ -17,7 +17,7 @@ export default function Logo({ light: _light = false, showTagline = true }: Logo
         <span className="bg-paper-soft rounded-[4px] px-2.5 pt-[6px] pb-[5px] block">
           <span className="flex items-center gap-1.5">
             <span aria-hidden className="w-1 h-1 rounded-full bg-forest flex-shrink-0" />
-            <span className="font-serif text-[15px] sm:text-[16px] leading-none text-ink tracking-tight whitespace-nowrap">
+            <span className="font-serif text-[15px] sm:text-[16px] leading-none text-ink tracking-tight whitespace-nowrap wordmark-draw inline-block">
               Built<span className="italic text-clay px-[1px]">by</span>Brian
             </span>
           </span>

@@ -71,16 +71,21 @@ export default function Hero() {
           </Link>
         </div>
 
-        {/* Industry chips — 4 verticals I've actually built for */}
-        <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-2 editorial-rise" style={{ animationDelay: '0.3s' }}>
-          {industries.map((label) => (
-            <span
-              key={label}
-              className="inline-flex items-center justify-center font-mono text-[11px] sm:text-[12px] tracking-wide bg-paper-soft border border-rule text-ink-soft px-3 py-2 rounded-[4px] hover:border-forest hover:text-forest transition-colors"
-            >
-              {label}
-            </span>
-          ))}
+        {/* Industry chips — hand-placed: subtle off-grid shift + micro rotations
+            so the row reads as arranged, not auto-generated */}
+        <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:ml-3 editorial-rise" style={{ animationDelay: '0.3s' }}>
+          {industries.map((label, i) => {
+            const tilts = ['-1deg', '0.6deg', '-0.4deg', '1deg'];
+            return (
+              <span
+                key={label}
+                className="inline-flex items-center justify-center font-mono text-[11px] sm:text-[12px] tracking-wide bg-paper-soft border border-rule text-ink-soft px-3 py-2 rounded-[4px] hover:border-forest hover:text-forest transition-all hover:rotate-0"
+                style={{ transform: `rotate(${tilts[i % tilts.length]})` }}
+              >
+                {label}
+              </span>
+            );
+          })}
         </div>
 
         {/* Stats — 2 across, just the verifiable ones */}

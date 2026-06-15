@@ -143,6 +143,16 @@ export default function About() {
               </p>
             </div>
 
+            {/* Margin note — handwritten aside, book-footnote feel */}
+            <div className="relative pl-4 sm:pl-5 border-l-2 border-forest/30 mb-8">
+              <span
+                className="text-ink-soft text-[20px] sm:text-[22px] leading-snug block"
+                style={{ fontFamily: "var(--font-caveat), cursive" }}
+              >
+                P.S. — if your current site looks like it was built in 2014, we should probably talk.
+              </span>
+            </div>
+
             {/* Skills */}
             <div className="mb-8 pb-8 border-b border-rule">
               <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-muted mb-3">

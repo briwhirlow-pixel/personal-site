@@ -7,15 +7,15 @@ import Reveal from "./Reveal";
 const faqs = [
   {
     q: "How much does a website cost?",
-    a: "Every project is different, but most sites I build range from $750 for a simple landing page to $5,000+ for a full custom e-commerce store. After a quick discovery call I can give you an exact quote — no surprises.",
+    a: "Every project is different, but most sites I build range from $750 for a simple landing page to $5,000+ for a full custom ecommerce store. After a quick discovery call I can give you an exact quote , no surprises.",
   },
   {
     q: "How long does it take?",
-    a: "You'll have a first draft in your hands within 5 days of the discovery call. Full projects typically wrap in 1–4 weeks depending on scope and how quickly feedback comes in.",
+    a: "You'll have a first draft in your hands within 5 days of the discovery call. Full projects typically wrap in 1 to 4 weeks depending on scope and how quickly feedback comes in.",
   },
   {
     q: "How many revisions do I get?",
-    a: "Every package includes 2 rounds of revisions. Additional rounds are available at $75 each — though in practice, most projects are dialed in within those two rounds.",
+    a: "Every package includes 2 rounds of revisions. Additional rounds are available at $75 each , though in practice, most projects are dialed in within those two rounds.",
   },
   {
     q: "Do I need to provide content and copy?",
@@ -23,11 +23,11 @@ const faqs = [
   },
   {
     q: "Will my site work on mobile?",
-    a: "Every site I build is fully responsive — tested across phones, tablets, and desktops before it ever goes live. Mobile-first is the default, not an afterthought.",
+    a: "Every site I build is fully responsive , tested across phones, tablets, and desktops before it ever goes live. Mobile first is the default, not an afterthought.",
   },
   {
     q: "How does payment work?",
-    a: "50% upfront to secure your project slot, 50% on delivery before files are handed over. For larger projects I offer a 3-payment split: 33% to start, 33% at design approval, 33% on launch. No work begins until the deposit is received.",
+    a: "50% upfront to secure your project slot, 50% on delivery before files are handed over. For larger projects I offer a 3 payment split: 33% to start, 33% at design approval, 33% on launch. No work begins until the deposit is received.",
   },
   {
     q: "Do you offer ongoing maintenance?",

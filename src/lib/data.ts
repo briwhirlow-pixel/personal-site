@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "Brian Whirlow",
   tagline: "Web Designer & Developer",
   description:
-    "Hand-built websites for restaurants, shops, and studios in Philadelphia and South Jersey. One person, start to finish.",
+    "Hand built websites for restaurants, shops, and studios in Philadelphia and South Jersey. One person, start to finish.",
   email: "brianwhirlowbusiness@gmail.com",
   calendlyUrl: "https://calendly.com/brianwhirlowbusiness/30min",
   social: {
@@ -24,10 +24,10 @@ export const services: ServiceTier[] = [
   {
     name: "Starter",
     price: "Starting at $750",
-    description: "Perfect for small businesses who need a clean, professional online presence — fast.",
+    description: "Perfect for small businesses who need a clean, professional online presence , fast.",
     features: [
       "Up to 5 pages",
-      "Mobile-responsive design",
+      "Mobile responsive design",
       "Contact form",
       "Basic SEO setup",
       "2 rounds of revisions included",
@@ -53,9 +53,9 @@ export const services: ServiceTier[] = [
   {
     name: "Custom",
     price: "Starting at $3,000",
-    description: "E-commerce, web apps, ongoing retainers — if you have a bigger vision, I can build it.",
+    description: "Ecommerce, web apps, ongoing retainers , if you have a bigger vision, I can build it.",
     features: [
-      "E-commerce stores",
+      "Ecommerce stores",
       "Custom web applications",
       "API integrations",
       "Ongoing maintenance",
@@ -77,25 +77,25 @@ export type WebsiteType = {
 
 export const websiteTypes: WebsiteType[] = [
   {
-    name: "E-Commerce Store",
+    name: "Ecommerce Store",
     tagline: "Sell online with confidence",
-    description: "Beautiful online stores built to convert browsers into buyers — seamless checkout, product pages, and inventory management.",
-    includes: ["Product catalog & collections", "Secure payment processing", "Mobile-first checkout", "Order tracking & confirmations"],
+    description: "Beautiful online stores built to convert browsers into buyers , seamless checkout, product pages, and inventory management.",
+    includes: ["Product catalog & collections", "Secure payment processing", "Mobile first checkout", "Order tracking & confirmations"],
     mockupKey: "ecommerce",
     emoji: "🛍️",
   },
   {
     name: "Portfolio & Personal Brand",
     tagline: "Make a lasting first impression",
-    description: "A polished, image-forward site to showcase your work and attract the clients or opportunities you actually want.",
-    includes: ["Full-screen project galleries", "About & services pages", "Client inquiry form", "Blog or case study support"],
+    description: "A polished, image forward site to showcase your work and attract the clients or opportunities you actually want.",
+    includes: ["Full screen project galleries", "About & services pages", "Client inquiry form", "Blog or case study support"],
     mockupKey: "portfolio",
     emoji: "✦",
   },
   {
     name: "Restaurant & Hospitality",
     tagline: "Fill tables and build loyalty",
-    description: "Warm, story-driven sites that showcase your menu, ambiance, and make it easy for guests to book a table or order online.",
+    description: "Warm, story driven sites that showcase your menu, ambiance, and make it easy for guests to book a table or order online.",
     includes: ["Menu & specials pages", "Reservation integration", "Location & hours", "Online ordering ready"],
     mockupKey: "restaurant",
     emoji: "🍽️",
@@ -103,7 +103,7 @@ export const websiteTypes: WebsiteType[] = [
   {
     name: "Business & Services",
     tagline: "Convert visitors into clients",
-    description: "Professional lead-generation sites for consultants, agencies, and service businesses — built to build trust and capture inquiries.",
+    description: "Professional lead generation sites for consultants, agencies, and service businesses , built to build trust and capture inquiries.",
     includes: ["Service & pricing pages", "Lead capture forms", "Testimonials & case studies", "Calendar booking integration"],
     mockupKey: "business",
     emoji: "💼",
@@ -111,7 +111,7 @@ export const websiteTypes: WebsiteType[] = [
   {
     name: "Real Estate & Property",
     tagline: "Showcase listings and capture leads",
-    description: "Clean, high-converting property sites with immersive photo galleries, search filters, and built-in lead capture.",
+    description: "Clean, high converting property sites with immersive photo galleries, search filters, and built in lead capture.",
     includes: ["Property listing pages", "Search & filter functionality", "Agent bio & contact", "Virtual tour integration"],
     mockupKey: "realestate",
     emoji: "🏡",
@@ -119,8 +119,8 @@ export const websiteTypes: WebsiteType[] = [
   {
     name: "Health, Wellness & Fitness",
     tagline: "Grow your practice or studio",
-    description: "Fresh, professional sites for gyms, studios, therapists, and wellness brands — with class schedules, booking, and membership flows.",
-    includes: ["Class schedule & booking", "Membership sign-up", "Trainer & practitioner profiles", "Blog & resources"],
+    description: "Fresh, professional sites for gyms, studios, therapists, and wellness brands , with class schedules, booking, and membership flows.",
+    includes: ["Class schedule & booking", "Membership signup", "Trainer & practitioner profiles", "Blog & resources"],
     mockupKey: "health",
     emoji: "💪",
   },
@@ -131,13 +131,13 @@ export const liveProjects = [
     name: "APEX Performance Studio",
     category: "Health, Wellness & Fitness",
     tag: "Fitness Studio",
-    description: "A premium fitness studio site built as a portfolio sample — photo-driven design with real imagery, branded logo mark, six class pages with image cards, trainer profiles, three-tier pricing, and a trial-pass booking flow.",
+    description: "A premium fitness studio site built as a portfolio sample , photo driven design with real imagery, branded logo mark, six class pages with image cards, trainer profiles, three tier pricing, and a trial pass booking flow.",
     url: "https://apex-fitness-navy.vercel.app",
     features: [
       "Six disciplines · full class schedule",
       "Coach profile pages",
-      "Three-tier membership pricing",
-      "Trial-pass booking flow",
+      "Three tier membership pricing",
+      "Trial pass booking flow",
     ],
     accentColor: "#e41313",
     bgFrom: "#1a1a1a",
@@ -147,9 +147,9 @@ export const liveProjects = [
 
 export const budgetOptions = [
   "Under $500",
-  "$500 – $1,000",
-  "$1,000 – $2,500",
-  "$2,500 – $5,000",
+  "$500  to  $1,000",
+  "$1,000  to  $2,500",
+  "$2,500  to  $5,000",
   "$5,000+",
   "Not sure yet",
 ] as const;

@@ -97,7 +97,7 @@ export async function POST(request: Request) {
       from: `"byBrian Contact Form" <${process.env.GMAIL_USER}>`,
       to: process.env.CONTACT_TO_EMAIL || process.env.GMAIL_USER,
       replyTo: email,
-      subject: `New lead: ${name} — ${websiteType || budget}`,
+      subject: `New lead: ${name}: ${websiteType || budget}`,
       text: [
         `Name: ${name}`,
         `Email: ${email}`,
@@ -114,7 +114,7 @@ export async function POST(request: Request) {
       ].join("\n"),
     });
 
-    // Send confirmation to the lead — plain, human, signed.
+    // Send confirmation to the lead , plain, human, signed.
     await transporter.sendMail({
       from: `"Brian Whirlow" <${process.env.GMAIL_USER}>`,
       to: email,
@@ -129,7 +129,7 @@ export async function POST(request: Request) {
         "",
         closing,
         "",
-        "— Brian",
+        "Brian",
         "brianwhirlowbusiness@gmail.com",
       ].join("\n"),
       html: `
@@ -141,7 +141,7 @@ export async function POST(request: Request) {
             <strong>${escapeHtml(budget)}</strong> budget, target launch <strong>${escapeHtml(launchDate || "(not specified)")}</strong>.
           </p>
           <p style="margin: 0 0 22px;">${escapeHtml(closing)}</p>
-          <p style="margin: 0 0 4px;">— Brian</p>
+          <p style="margin: 0 0 4px;">Brian</p>
           <p style="margin: 0; color: #64748B; font-size: 13px;">
             <a href="mailto:brianwhirlowbusiness@gmail.com" style="color: #2563EB; text-decoration: none;">brianwhirlowbusiness@gmail.com</a>
           </p>

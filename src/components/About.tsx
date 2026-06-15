@@ -5,11 +5,11 @@ import Reveal from "./Reveal";
 const skills = [
   "Next.js", "React", "TypeScript", "Tailwind CSS",
   "Node.js", "Supabase", "Shopify", "Framer",
-  "Figma", "SEO", "E-Commerce", "CMS",
+  "Figma", "SEO", "Ecommerce", "CMS",
 ];
 
 const badges = [
-  { value: "5-Day", label: "First Draft" },
+  { value: "5 Day", label: "First Draft" },
   { value: "5+", label: "Years Exp." },
   { value: "5.0★", label: "Rating" },
 ];
@@ -125,16 +125,15 @@ export default function About() {
 
             <div className="space-y-4 text-ink-soft text-[15px] sm:text-[16px] leading-[1.65] mt-7 mb-8 font-medium">
               <p>
-                I&apos;m Brian — a web designer and developer based in the Philadelphia / South Jersey area.
+                I&apos;m Brian, a web designer and developer based in the Philadelphia / South Jersey area.
                 With <span className="text-ink font-semibold">5 years of building websites</span> under my belt,
                 I turned that passion into a business helping local brands grow online.
               </p>
               <p>
-                I&apos;ve worked with restaurants, e-commerce brands, photographers, and service businesses —
+                I&apos;ve worked with restaurants, ecommerce brands, photographers, and service businesses,
                 turning slow, outdated sites into their{" "}
-                <span className="text-ink font-semibold">best-performing sales tool</span>.
-                You&apos;ll always know where your project stands — no ghosting, no vague timelines,
-                just clean work, delivered fast.
+                <span className="text-ink font-semibold">best performing sales tool</span>.
+                You&apos;ll always know where your project stands. No vague timelines, just clean work, delivered fast.
               </p>
               <p>
                 I hold a degree in Management Information Systems and am currently finishing my MBA

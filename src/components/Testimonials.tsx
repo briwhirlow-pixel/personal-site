@@ -12,7 +12,7 @@ const reviews = [
     name: "Priya S.",
     date: "November 2025",
     rating: 5,
-    text: "I came to Brian needing a Shopify store that actually felt premium — not just a generic template. He designed every page from scratch and integrated our product catalog, a loyalty rewards app, and email capture. He also handled our SEO setup so we started showing up in Google searches we never ranked for before. Super professional, great communicator, and the site looks stunning.",
+    text: "I came to Brian needing a Shopify store that actually felt premium , not just a generic template. He designed every page from scratch and integrated our product catalog, a loyalty rewards app, and email capture. He also handled our SEO setup so we started showing up in Google searches we never ranked for before. Super professional, great communicator, and the site looks stunning.",
     tag: "E-Commerce",
   },
   {
@@ -63,7 +63,7 @@ export default function Testimonials() {
           </p>
         </Reveal>
 
-        {/* Editorial pull-quotes — vertical scroll, full-bleed, no cards.
+        {/* Editorial pull-quotes , vertical scroll, full-bleed, no cards.
             Each quote owns its row. Reads like a magazine column, not a grid. */}
         <div className="space-y-20 sm:space-y-24">
           {reviews.map((review, i) => (
@@ -80,7 +80,7 @@ export default function Testimonials() {
                   </span>
                 </div>
 
-                {/* The quote itself — big editorial serif, no border, no card */}
+                {/* The quote itself , big editorial serif, no border, no card */}
                 <blockquote className="font-serif text-[clamp(22px,3.2vw,36px)] leading-[1.25] tracking-tight text-ink font-normal">
                   <span aria-hidden className="text-clay font-serif text-[1.5em] leading-[0] align-[-0.2em] mr-1">&ldquo;</span>
                   {review.text}

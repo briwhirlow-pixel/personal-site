@@ -24,7 +24,7 @@ export default function Hero() {
         <div className="flex items-center pb-4 border-b border-rule">
           <span className="font-serif font-semibold text-[12px] tracking-[0.2em] text-ink-muted uppercase flex items-center gap-2.5">
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
-            Now accepting new projects — limited spots
+            Now accepting new projects. Limited spots
           </span>
         </div>
       </div>
@@ -46,7 +46,7 @@ export default function Hero() {
         <p className="mt-10 md:mt-12 text-ink-soft text-[17px] sm:text-[19px] leading-[1.55] max-w-2xl font-medium editorial-rise" style={{ animationDelay: '0.1s' }}>
           I design and build websites for restaurants, shops, studios, and the
           local businesses that put their name on the door.{" "}
-          <span className="text-ink font-semibold">Five-day first drafts. One person, start to finish.</span>
+          <span className="text-ink font-semibold">Five day first drafts. One person, start to finish.</span>
         </p>
 
         {/* CTAs */}

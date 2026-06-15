@@ -13,7 +13,7 @@ export default function FeaturedProject() {
     <section className="relative bg-paper text-ink py-20 sm:py-24">
       <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-12">
 
-        {/* Editorial intro — no kicker pill, no "Index/00X" */}
+        {/* Editorial intro , no kicker pill, no "Index/00X" */}
         <Reveal>
           <div className="max-w-3xl mb-10 sm:mb-14">
             <span className="font-serif font-semibold text-[10.5px] tracking-[0.22em] uppercase text-ink-muted font-semibold flex items-center gap-2.5 mb-4">
@@ -24,7 +24,7 @@ export default function FeaturedProject() {
               A live sample build.
             </h2>
             <p className="text-ink-soft text-[16px] sm:text-[17px] leading-relaxed font-medium mt-4 max-w-xl">
-              I built APEX Performance Studio end-to-end as a portfolio piece — designed, coded, deployed, and live. Click through to see the full site.
+              I built APEX Performance Studio end to end as a portfolio piece , designed, coded, deployed, and live. Click through to see the full site.
             </p>
           </div>
         </Reveal>
@@ -105,7 +105,7 @@ export default function FeaturedProject() {
                         className="text-[8px] sm:text-[10px] leading-snug mt-1.5"
                         style={{ color: "rgba(255,255,255,0.7)" }}
                       >
-                        No pressure, no gimmicks — just results.
+                        No pressure, no gimmicks , just results.
                       </p>
 
                       <span
@@ -181,7 +181,7 @@ export default function FeaturedProject() {
         <Reveal delay={200}>
           <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-rule">
             <p className="text-ink-muted text-[13px] font-medium">
-              More categories I build across — restaurants, e-commerce, photography, and studio work.
+              More categories I build across , restaurants, ecommerce, photography, and studio work.
             </p>
             <Link
               href="/work"

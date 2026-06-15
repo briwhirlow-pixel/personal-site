@@ -9,8 +9,8 @@ const tierAccents = [
 ] as const;
 
 const valueProps = [
-  { Icon: Zap, label: "Fast turnaround", sub: "2–4 week delivery" },
-  { Icon: Smartphone, label: "Mobile-first", sub: "Tested on every screen" },
+  { Icon: Zap, label: "Fast turnaround", sub: "2 to 4 week delivery" },
+  { Icon: Smartphone, label: "Mobile first", sub: "Tested on every screen" },
   { Icon: Search, label: "SEO ready", sub: "Built to be found" },
   { Icon: Package, label: "You own it", sub: "Full code handoff" },
 ];
@@ -42,8 +42,8 @@ export default function Services() {
             <span className="italic text-forest">pricing.</span>
           </h1>
           <p className="text-ink-soft text-[17px] md:text-[19px] mt-6 leading-relaxed max-w-2xl font-medium">
-            One-time project fee. Pick the package that fits, or reach out for something custom.
-            Hosting is optional — you always get your code.
+            One time project fee. Pick the package that fits, or reach out for something custom.
+            Hosting is optional. You always get your code.
           </p>
         </Reveal>
 
@@ -122,7 +122,7 @@ export default function Services() {
           })}
         </div>
 
-        {/* Payment terms — editorial data row */}
+        {/* Payment terms , editorial data row */}
         <Reveal delay={160} className="mt-12">
           <div className="bg-paper-soft border border-rule rounded-[6px] px-6 py-6 grid md:grid-cols-3 gap-y-5 gap-x-8">
             <div className="relative pl-4">
@@ -167,7 +167,7 @@ export default function Services() {
         {/* After launch */}
         <Reveal delay={200} className="mt-16">
           <div className="flex items-baseline pb-3 border-b border-rule mb-8">
-            <span className="font-serif font-semibold text-[12px] tracking-[0.2em] uppercase text-ink-muted">After launch — your choice</span>
+            <span className="font-serif font-semibold text-[12px] tracking-[0.2em] uppercase text-ink-muted">After launch, your choice</span>
           </div>
 
           <div className="grid md:grid-cols-2 gap-5">
@@ -176,11 +176,11 @@ export default function Services() {
               <FolderArchive size={20} className="text-forest mb-4" strokeWidth={1.75} />
               <h3 className="font-serif text-[24px] font-normal text-ink tracking-tight mb-2">Take your files</h3>
               <p className="text-ink-soft text-[13px] leading-relaxed mb-4 font-medium">
-                Get the full source code delivered via Google Drive. Host it anywhere — Vercel,
+                Get the full source code delivered via Google Drive. Host it anywhere. Vercel,
                 Netlify, your own server. You own it completely.
               </p>
               <div className="flex flex-wrap gap-2">
-                {["Full source code", "Host anywhere", "One-time cost"].map((tag) => (
+                {["Full source code", "Host anywhere", "One time cost"].map((tag) => (
                   <span key={tag} className="font-serif font-semibold text-[10px] tracking-[0.15em] uppercase bg-paper text-ink-soft border border-rule px-2.5 py-1 rounded-[3px]">
                     {tag}
                   </span>
@@ -193,7 +193,7 @@ export default function Services() {
               <Globe size={20} className="text-forest mb-4" strokeWidth={1.75} />
               <h3 className="font-serif text-[24px] font-normal text-ink tracking-tight mb-2">Managed care plans</h3>
               <p className="text-ink-soft text-[13px] leading-relaxed mb-5 font-medium">
-                I handle hosting, SSL, and deployments. Pick the plan that fits — cancel anytime,
+                I handle hosting, SSL, and deployments. Pick the plan that fits. Cancel anytime,
                 pay yearly and save 2 months.
               </p>
               <div className="grid grid-cols-3 gap-2">

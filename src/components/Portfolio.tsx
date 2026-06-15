@@ -36,7 +36,7 @@ const mockupThemes: Record<
   },
   portfolio: {
     navBg: '#0F0F0F', heroBg: '#0F0F0F', headline: '#F5F1EA', accent: '#D4B68A', imgBg: '#2A2A2A',
-    brand: 'MARA WONG', label: 'Selected works', h1: 'Photographs,', accentWord: '2024–2026.', cta: 'Archive',
+    brand: 'MARA WONG', label: 'Selected works', h1: 'Photographs,', accentWord: '2024 to 2026.', cta: 'Archive',
   },
   restaurant: {
     navBg: '#FBF7EF', heroBg: '#FBF7EF', headline: '#2C1A0E', accent: '#B45309', imgBg: '#E9C97A',
@@ -52,7 +52,7 @@ const mockupThemes: Record<
   },
   health: {
     navBg: '#FFFFFF', heroBg: '#EFEAE2', headline: '#1A2E22', accent: '#3F6B4A', imgBg: '#C7D3BC',
-    brand: 'STILLWATER', label: 'Pilates studio', h1: 'Strong,', accentWord: 'breath-led classes.', cta: 'Book',
+    brand: 'STILLWATER', label: 'Pilates studio', h1: 'Strong,', accentWord: 'breath led classes.', cta: 'Book',
   },
 };
 
@@ -63,7 +63,7 @@ function BrowserMockup({ mockupKey }: { mockupKey: string }) {
       className="w-full rounded-[6px] overflow-hidden border border-rule"
       style={{ aspectRatio: '16/10', background: t.heroBg }}
     >
-      {/* Refined header bar — wordmark + nav, no garish chrome dots */}
+      {/* Refined header bar , wordmark + nav, no garish chrome dots */}
       <div className="flex items-center justify-between h-[22px] px-3" style={{ background: t.navBg }}>
         <span
           className="text-[8px] font-serif font-semibold font-bold tracking-[0.18em] uppercase leading-none"
@@ -82,7 +82,7 @@ function BrowserMockup({ mockupKey }: { mockupKey: string }) {
         </div>
       </div>
 
-      {/* Hero — kicker + serif headline + CTA + thumbnail row */}
+      {/* Hero , kicker + serif headline + CTA + thumbnail row */}
       <div className="px-4 pt-3.5 pb-3 flex flex-col" style={{ height: 'calc(100% - 22px)' }}>
         <span
           className="text-[7px] font-serif font-semibold font-bold tracking-[0.22em] uppercase leading-none"
@@ -138,7 +138,7 @@ export default function Portfolio() {
               Types of sites I build.
             </h2>
             <p className="text-ink-soft text-[16px] leading-relaxed font-medium max-w-xl">
-              Restaurants, shops, studios, services. Each one needs a different rhythm — these are the categories I take on most.
+              Restaurants, shops, studios, services. Each one needs a different rhythm , these are the categories I take on most.
             </p>
           </Reveal>
 
@@ -200,7 +200,7 @@ export default function Portfolio() {
                                 Experience the APEX Difference
                               </p>
                               <p className="text-[6px] mt-1" style={{ color: 'rgba(255,255,255,0.65)' }}>
-                                No pressure — just results.
+                                No pressure , just results.
                               </p>
                               <span className="mt-1.5 h-4 px-2.5 flex items-center text-[6px] uppercase tracking-[0.06em] font-semibold" style={{ background: '#e41313', color: '#fff', borderRadius: 9999 }}>
                                 Sign Up Today

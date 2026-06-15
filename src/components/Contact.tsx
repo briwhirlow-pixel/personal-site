@@ -35,11 +35,11 @@ function getTomorrow(): string {
 const faqs = [
   {
     q: "How long does a typical project take?",
-    a: "Most sites are done in 2–4 weeks. You get a first draft within 5 days of project kickoff so you're never left waiting.",
+    a: "Most sites are done in 2 to 4 weeks. You get a first draft within 5 days of project kickoff so you're never left waiting.",
   },
   {
     q: "Do you offer payment plans?",
-    a: "Yes — 50% upfront to start, 50% on delivery. Larger projects can split into thirds at agreed milestones.",
+    a: "Yes , 50% upfront to start, 50% on delivery. Larger projects can split into thirds at agreed milestones.",
   },
   {
     q: "What if I need changes after launch?",
@@ -47,7 +47,7 @@ const faqs = [
   },
   {
     q: "Do I own the website?",
-    a: "Always. You get the full source code delivered to you. Host it anywhere — no lock-in, ever.",
+    a: "Always. You get the full source code delivered to you. Host it anywhere , no lock in, ever.",
   },
 ];
 
@@ -69,7 +69,7 @@ export default function Contact() {
   const selectLaunch = (option: string) => {
     setLaunchOption(option);
     if (option !== "custom") {
-      setValue("launchDate", `${option} — ${getDateFromOption(option)}`);
+      setValue("launchDate", `${option} , ${getDateFromOption(option)}`);
     } else {
       setValue("launchDate", "");
     }
@@ -105,23 +105,23 @@ export default function Contact() {
 
   const steps = [
     { Icon: ClipboardList, title: "Fill out this form", time: "2 min", desc: "Tell me what you need, your timeline, and budget.", active: true },
-    { Icon: Phone, title: "Free 30-min discovery call", time: "Free", desc: "We align on goals, design direction, and scope — I answer everything.", active: false },
-    { Icon: Zap, title: "I build your site", time: "2–4 weeks", desc: "Regular check-ins so you always know where things stand.", active: false },
-    { Icon: Rocket, title: "Launch your way", time: "Go live", desc: "Take your files and host anywhere — or let me manage hosting for $49/mo. Either way, you own it.", active: false },
+    { Icon: Phone, title: "Free 30 min discovery call", time: "Free", desc: "We align on goals, design direction, and scope , I answer everything.", active: false },
+    { Icon: Zap, title: "I build your site", time: "2 to 4 weeks", desc: "Regular check ins so you always know where things stand.", active: false },
+    { Icon: Rocket, title: "Launch your way", time: "Go live", desc: "Take your files and host anywhere , or let me manage hosting for $49/mo. Either way, you own it.", active: false },
   ];
 
   return (
     <section id="contact" className="relative bg-paper text-ink pt-20 pb-24">
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12">
 
-        {/* Opening — no kicker. Just the headline. */}
+        {/* Opening , no kicker. Just the headline. */}
         <Reveal>
           <div className="max-w-3xl mb-14 pt-4">
             <h2 className="font-serif text-[clamp(36px,6vw,72px)] leading-[0.95] tracking-[-0.025em] text-ink font-normal">
               Tell me what you&apos;re building.
             </h2>
             <p className="text-ink-soft text-[16px] sm:text-[17px] mt-5 leading-relaxed font-medium max-w-2xl">
-              Fill out the form and I&apos;ll email you back within a day — usually within a few hours. No commitment.
+              Fill out the form and I&apos;ll email you back within a day , usually within a few hours. No commitment.
             </p>
           </div>
         </Reveal>
@@ -131,7 +131,7 @@ export default function Contact() {
           {/* Left column */}
           <Reveal delay={100}>
             <p className="text-ink-soft text-[15px] leading-relaxed mb-8 font-medium">
-              Tell me what you need. I&apos;ll review your project and reach out personally — no commitment, no fluff.
+              Tell me what you need. I&apos;ll review your project and reach out personally , no commitment, no fluff.
             </p>
 
             {/* Contact options */}
@@ -161,7 +161,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="font-serif font-semibold text-[10px] text-ink-muted uppercase tracking-[0.18em] font-semibold">Skip the form</p>
-                    <p className="text-ink text-[14px] font-semibold mt-0.5">Book a free 30-min discovery call →</p>
+                    <p className="text-ink text-[14px] font-semibold mt-0.5">Book a free 30 min discovery call →</p>
                   </div>
                 </a>
               ) : (
@@ -171,7 +171,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="font-serif font-semibold text-[10px] text-ink-muted uppercase tracking-[0.18em] font-semibold">Response Time</p>
-                    <p className="text-ink text-[14px] font-semibold mt-0.5">Within 24 hours — usually same day</p>
+                    <p className="text-ink text-[14px] font-semibold mt-0.5">Within 24 hours , usually same day</p>
                   </div>
                 </div>
               )}
@@ -247,7 +247,7 @@ export default function Contact() {
 
           </Reveal>
 
-          {/* Right — form */}
+          {/* Right , form */}
           <Reveal delay={200}>
             {status === "success" ? (
               <div className="bg-paper-soft border border-rule rounded-[8px] p-8 sm:p-10" role="status" aria-live="polite">
@@ -257,9 +257,9 @@ export default function Contact() {
                 <h3 className="font-serif text-[28px] text-ink mb-3 leading-tight">Got it.</h3>
                 <p className="text-ink-soft text-[15px] leading-relaxed mb-2 font-medium">
                   I&apos;ll email you back from <span className="font-semibold text-ink">brianwhirlowbusiness@gmail.com</span> by{" "}
-                  <span className="font-semibold text-ink">{getTomorrow()}</span> — usually within a few hours.
+                  <span className="font-semibold text-ink">{getTomorrow()}</span> , usually within a few hours.
                 </p>
-                <p className="text-ink-soft text-[14px] mb-7 font-medium">— Brian</p>
+                <p className="text-ink-soft text-[14px] mb-7 font-medium">, Brian</p>
                 {hasCalendly && (
                   <a
                     href={siteConfig.calendlyUrl}
@@ -316,7 +316,7 @@ export default function Contact() {
 
                     <div>
                       <label htmlFor="contact-phone" className="block font-serif font-semibold text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">
-                        Phone <span className="text-ink-muted normal-case font-medium tracking-normal">— optional</span>
+                        Phone <span className="text-ink-muted normal-case font-medium tracking-normal">, optional</span>
                       </label>
                       <input id="contact-phone" type="tel" placeholder="(555) 000-0000" className={inputClass()}
                         {...register("phone")} />
@@ -335,7 +335,7 @@ export default function Contact() {
                     <button type="button" onClick={goToStep2}
                       className="w-full bg-forest text-paper font-semibold py-3.5 px-6 rounded-[6px] hover:bg-forest-deep transition-colors text-[14px] tracking-wide"
                       style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.4)" }}>
-                      Next — Choose Your Budget →
+                      Next , Choose Your Budget →
                     </button>
                     <p className="text-center text-[11px] text-ink-muted font-serif font-semibold tracking-wide -mt-1">FREE QUOTE · NO COMMITMENT</p>
                   </>
@@ -355,15 +355,15 @@ export default function Contact() {
                       >
                         <option value="">Select a type…</option>
                         <option value="Business / Brochure Site">Business / Brochure Site</option>
-                        <option value="E-Commerce Store">E-Commerce Store</option>
+                        <option value="Ecommerce Store">Ecommerce Store</option>
                         <option value="Portfolio / Personal Brand">Portfolio / Personal Brand</option>
                         <option value="Restaurant / Food & Beverage">Restaurant / Food & Beverage</option>
                         <option value="Real Estate">Real Estate</option>
                         <option value="Health, Wellness & Fitness">Health, Wellness & Fitness</option>
                         <option value="Blog / Content Site">Blog / Content Site</option>
                         <option value="Landing Page">Landing Page</option>
-                        <option value="Non-Profit / Community">Non-Profit / Community</option>
-                        <option value="custom">Other — I&apos;ll describe it below</option>
+                        <option value="Nonprofit / Community">Nonprofit / Community</option>
+                        <option value="custom">Other , I&apos;ll describe it below</option>
                       </select>
                       {errors.websiteType && <p id="contact-type-error" className="text-clay text-[12px] mt-1">{errors.websiteType.message}</p>}
                       {websiteTypeValue === "custom" && (
@@ -423,7 +423,7 @@ export default function Contact() {
                       </div>
                       <div>
                         <p className="text-[12px] text-ink-soft leading-relaxed italic font-medium">&ldquo;He designed every page from scratch, handled our SEO setup, and we started showing up in Google searches we never ranked for before. Super professional.&rdquo;</p>
-                        <p className="text-[11px] font-semibold text-ink mt-1.5">Priya S. — E-Commerce Client</p>
+                        <p className="text-[11px] font-semibold text-ink mt-1.5">Priya S. , Ecommerce Client</p>
                       </div>
                     </div>
 

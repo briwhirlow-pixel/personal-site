@@ -18,7 +18,7 @@ export default function ReviewCTA() {
   const sendReview = () => {
     if (!canSend) return;
     const subject = encodeURIComponent(
-      `Review: ${rating} star${rating !== 1 ? "s" : ""} — BuiltbyBrian Web Design`
+      `Review: ${rating} star${rating !== 1 ? "s" : ""} , BuiltbyBrian Web Design`
     );
     const body = encodeURIComponent(
       [
@@ -27,7 +27,7 @@ export default function ReviewCTA() {
         `Experience with BuiltbyBrian Web Design:`,
         review.trim(),
         ``,
-        `— ${name.trim()}`,
+        `, ${name.trim()}`,
       ].join("\n")
     );
     window.location.href = `mailto:brianwhirlowbusiness@gmail.com?subject=${subject}&body=${body}`;
@@ -47,7 +47,7 @@ export default function ReviewCTA() {
                     Worked together?
                   </h3>
                   <p className="text-ink-soft text-[14px] sm:text-[15px] leading-relaxed mt-2 font-medium">
-                    Leave a quick rating and a sentence or two — I&apos;ll ask before posting it anywhere.
+                    Leave a quick rating and a sentence or two , I&apos;ll ask before posting it anywhere.
                   </p>
                 </div>
                 <button
@@ -67,7 +67,7 @@ export default function ReviewCTA() {
                   Tell me about working with BuiltbyBrian.
                 </h3>
                 <p className="text-ink-soft text-[13px] mt-2 font-medium">
-                  Takes about a minute. Sends straight to my inbox — nothing publishes without your OK.
+                  Takes about a minute. Sends straight to my inbox , nothing publishes without your OK.
                 </p>
 
                 {/* Star rating */}

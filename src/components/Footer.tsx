@@ -38,7 +38,7 @@ export default function Footer() {
               className="text-ink-soft text-[28px] sm:text-[34px] leading-none -translate-y-1"
               style={{ fontFamily: "var(--font-caveat), cursive" }}
             >
-              — Brian
+              Brian
             </span>
           </div>
         </div>
@@ -54,7 +54,7 @@ export default function Footer() {
             </div>
             <p className="text-ink-soft text-[13px] mt-3 leading-relaxed font-medium max-w-xs">
               {siteConfig.tagline}.<br />
-              Hand-built websites for small businesses.
+              Hand built websites for small businesses.
             </p>
           </div>
           <div>
@@ -73,7 +73,7 @@ export default function Footer() {
               {siteConfig.email}
             </a>
             <p className="text-ink-muted text-[12.5px] mt-2 font-medium leading-relaxed">
-              Response within 24 hours — usually same day.
+              Response within 24 hours, usually same day.
             </p>
           </div>
         </div>
@@ -84,6 +84,13 @@ export default function Footer() {
             © {year} {siteConfig.name}. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
+            <a
+              href="/api/brand-avatar"
+              download="builtbybrian-logo.png"
+              className="font-serif font-semibold text-[11px] text-ink-muted hover:text-forest transition-colors tracking-wide uppercase"
+            >
+              Download logo
+            </a>
             <a
               href={siteConfig.social.linkedin}
               target="_blank"

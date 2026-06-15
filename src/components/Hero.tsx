@@ -22,7 +22,7 @@ export default function Hero() {
       {/* Top editorial meta */}
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12 pt-28 md:pt-32">
         <div className="flex items-center pb-4 border-b border-rule">
-          <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase flex items-center gap-2.5">
+          <span className="font-serif font-semibold text-[12px] tracking-[0.2em] text-ink-muted uppercase flex items-center gap-2.5">
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
             Now accepting new projects — limited spots
           </span>
@@ -54,7 +54,7 @@ export default function Hero() {
           <Link
             href="/contact"
             className="group inline-flex items-center gap-2.5 bg-forest text-paper px-6 sm:px-7 py-3.5 sm:py-4 rounded-[6px] font-semibold text-[14px] sm:text-[15px] hover:bg-forest-deep transition-colors"
-            style={{ boxShadow: "0 8px 24px -8px rgba(45,106,79,0.5)" }}
+            style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.5)" }}
           >
             Start a project
             <span aria-hidden className="font-serif text-[18px] leading-none transition-transform group-hover:translate-x-[2px] group-hover:-translate-y-[2px]">↗</span>
@@ -78,7 +78,7 @@ export default function Hero() {
             return (
               <span
                 key={label}
-                className="inline-flex items-center justify-center font-mono text-[11px] sm:text-[12px] tracking-wide bg-paper-soft border border-rule text-ink-soft px-3 py-2 rounded-[4px] hover:border-forest hover:text-forest transition-all hover:rotate-0"
+                className="inline-flex items-center justify-center font-serif font-semibold text-[11px] sm:text-[12px] tracking-wide bg-paper-soft border border-rule text-ink-soft px-3 py-2 rounded-[4px] hover:border-forest hover:text-forest transition-all hover:rotate-0"
                 style={{ transform: `rotate(${tilts[i % tilts.length]})` }}
               >
                 {label}
@@ -94,7 +94,7 @@ export default function Hero() {
             { label: "Starting at", value: "$750", unit: "" },
           ].map((s) => (
             <div key={s.label}>
-              <p className="font-mono text-[10px] tracking-[0.22em] text-ink-muted uppercase">
+              <p className="font-serif font-semibold text-[10px] tracking-[0.22em] text-ink-muted uppercase">
                 {s.label}
               </p>
               <p className="font-sans text-[clamp(32px,5vw,56px)] text-ink leading-none tracking-tight font-bold mt-3 tabular-nums">
@@ -123,19 +123,19 @@ function WavyUnderline() {
     >
       <path
         d="M 2 8 Q 200 5, 398 7"
-        stroke="#B7541F"
+        stroke="#0EA5E9"
         strokeWidth="9"
         fill="none"
         strokeLinecap="round"
-        opacity="0.18"
+        opacity="0.25"
       />
       <path
         d="M 4 9 Q 200 6, 396 8"
-        stroke="#B7541F"
+        stroke="#0EA5E9"
         strokeWidth="4"
         fill="none"
         strokeLinecap="round"
-        opacity="0.92"
+        opacity="0.95"
       />
     </svg>
   );

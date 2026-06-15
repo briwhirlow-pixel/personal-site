@@ -16,16 +16,14 @@
   --color-rule: #E2E8F0;
   --color-rule-bright: #CBD5E1;
 
-  /* PRIMARY — bottle-green emerald. Distinct from corporate slate-blue
-     default; matches the "forest" token name; pairs with cream paper. */
-  --color-forest: #2D6A4F;
-  --color-forest-deep: #1B4332;
-  --color-forest-bright: #52B788;
+  /* PRIMARY — electric blue (named "forest" historically; value is blue) */
+  --color-forest: #2563EB;
+  --color-forest-deep: #1E40AF;
+  --color-forest-bright: #3B82F6;
 
-  /* SECONDARY — warm rust. Ties subtly to the APEX sample-build palette
-     while staying recognisably the BuiltbyBrian brand. */
-  --color-clay: #B7541F;
-  --color-clay-soft: #D17040;
+  /* SECONDARY — sky blue (named "clay" historically; value is sky) */
+  --color-clay: #0EA5E9;
+  --color-clay-soft: #38BDF8;
 
   /* HIGHLIGHT — gold for star ratings only */
   --color-butter: #FACC15;
@@ -41,12 +39,12 @@
   --color-fg: #1A1A2E;
   --color-fg-soft: #475569;
   --color-fg-muted: #64748B;
-  --color-accent: #2D6A4F;
-  --color-accent-bright: #52B788;
-  --color-accent-deep: #1B4332;
-  --color-coral: #B7541F;
-  --color-coral-soft: #D17040;
-  --color-mint: #52B788;
+  --color-accent: #2563EB;
+  --color-accent-bright: #3B82F6;
+  --color-accent-deep: #1E40AF;
+  --color-coral: #0EA5E9;
+  --color-coral-soft: #38BDF8;
+  --color-mint: #3B82F6;
   --color-gold: #FACC15;
 
   /* Type */

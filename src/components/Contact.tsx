@@ -144,7 +144,7 @@ export default function Contact() {
                   <Mail size={15} className="text-forest group-hover:text-paper transition-colors" strokeWidth={1.75} />
                 </div>
                 <div>
-                  <p className="font-mono text-[10px] text-ink-muted uppercase tracking-[0.18em] font-semibold">Email Directly</p>
+                  <p className="font-serif font-semibold text-[10px] text-ink-muted uppercase tracking-[0.18em] font-semibold">Email Directly</p>
                   <p className="text-ink text-[14px] font-semibold mt-0.5">{siteConfig.email}</p>
                 </div>
               </a>
@@ -160,7 +160,7 @@ export default function Contact() {
                     <CalendarDays size={15} className="text-forest group-hover:text-paper transition-colors" strokeWidth={1.75} />
                   </div>
                   <div>
-                    <p className="font-mono text-[10px] text-ink-muted uppercase tracking-[0.18em] font-semibold">Skip the form</p>
+                    <p className="font-serif font-semibold text-[10px] text-ink-muted uppercase tracking-[0.18em] font-semibold">Skip the form</p>
                     <p className="text-ink text-[14px] font-semibold mt-0.5">Book a free 30-min discovery call →</p>
                   </div>
                 </a>
@@ -170,7 +170,7 @@ export default function Contact() {
                     <CalendarDays size={15} className="text-forest" strokeWidth={1.75} />
                   </div>
                   <div>
-                    <p className="font-mono text-[10px] text-ink-muted uppercase tracking-[0.18em] font-semibold">Response Time</p>
+                    <p className="font-serif font-semibold text-[10px] text-ink-muted uppercase tracking-[0.18em] font-semibold">Response Time</p>
                     <p className="text-ink text-[14px] font-semibold mt-0.5">Within 24 hours — usually same day</p>
                   </div>
                 </div>
@@ -179,7 +179,7 @@ export default function Contact() {
 
             {/* How it works */}
             <div className="mb-10">
-              <p className="font-mono text-[10px] text-ink-muted uppercase tracking-[0.22em] font-semibold mb-6">
+              <p className="font-serif font-semibold text-[10px] text-ink-muted uppercase tracking-[0.22em] font-semibold mb-6">
                 How it works
               </p>
               <div className="relative">
@@ -191,7 +191,7 @@ export default function Contact() {
                         className={`relative z-10 w-10 h-10 rounded-[6px] flex items-center justify-center flex-shrink-0 border transition-all duration-300 ${
                           item.active ? "bg-forest border-forest" : "bg-paper border-rule group-hover:border-forest/50"
                         }`}
-                        style={item.active ? { boxShadow: "0 0 0 4px rgba(45,106,79,0.1)" } : undefined}
+                        style={item.active ? { boxShadow: "0 0 0 4px rgba(37,99,235,0.1)" } : undefined}
                       >
                         <item.Icon size={15} className={item.active ? "text-paper" : "text-ink-soft"} strokeWidth={1.75} />
                       </div>
@@ -201,10 +201,10 @@ export default function Contact() {
                         }`}
                       >
                         <div className="flex items-center gap-2 mb-1">
-                          <span className={`font-mono text-[9.5px] font-semibold tracking-[0.22em] uppercase ${item.active ? "text-forest" : "text-ink-muted"}`}>
+                          <span className={`font-serif font-semibold text-[9.5px] font-semibold tracking-[0.22em] uppercase ${item.active ? "text-forest" : "text-ink-muted"}`}>
                             Step 0{i + 1}
                           </span>
-                          <span className="font-mono text-[9.5px] font-medium text-forest bg-forest/10 px-1.5 py-0.5 rounded-[3px]">{item.time}</span>
+                          <span className="font-serif font-semibold text-[9.5px] font-medium text-forest bg-forest/10 px-1.5 py-0.5 rounded-[3px]">{item.time}</span>
                         </div>
                         <p className="text-[13.5px] font-semibold text-ink leading-snug">{item.title}</p>
                         <p className="text-[12px] text-ink-soft leading-relaxed mt-0.5 font-medium">{item.desc}</p>
@@ -217,7 +217,7 @@ export default function Contact() {
 
             {/* FAQ */}
             <div>
-              <p className="font-mono text-[10px] text-ink-muted uppercase tracking-[0.22em] font-semibold mb-3">
+              <p className="font-serif font-semibold text-[10px] text-ink-muted uppercase tracking-[0.22em] font-semibold mb-3">
                 Common questions
               </p>
               <div className="space-y-2">
@@ -281,11 +281,11 @@ export default function Contact() {
                 <div className="flex items-center gap-2 mb-2">
                   {[1, 2].map((s) => (
                     <div key={s} className="flex items-center gap-2">
-                      <div className={`w-6 h-6 rounded-[4px] flex items-center justify-center text-[11px] font-bold font-mono transition-all ${formStep >= s ? "bg-forest text-paper" : "bg-paper border border-rule text-ink-muted"}`}>{s}</div>
+                      <div className={`w-6 h-6 rounded-[4px] flex items-center justify-center text-[11px] font-bold font-serif font-semibold transition-all ${formStep >= s ? "bg-forest text-paper" : "bg-paper border border-rule text-ink-muted"}`}>{s}</div>
                       {s < 2 && <div className={`h-px w-8 transition-all ${formStep >= 2 ? "bg-forest" : "bg-rule"}`} />}
                     </div>
                   ))}
-                  <span className="font-mono text-[10px] tracking-[0.18em] uppercase text-ink-muted ml-1">
+                  <span className="font-serif font-semibold text-[10px] tracking-[0.18em] uppercase text-ink-muted ml-1">
                     {formStep === 1 ? "The basics" : "A few more details"}
                   </span>
                 </div>
@@ -295,7 +295,7 @@ export default function Contact() {
                   <>
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <label htmlFor="contact-name" className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Your Name</label>
+                        <label htmlFor="contact-name" className="block font-serif font-semibold text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Your Name</label>
                         <input id="contact-name" type="text" placeholder="Jane Smith"
                           className={inputClass(!!errors.name)}
                           aria-invalid={!!errors.name}
@@ -304,7 +304,7 @@ export default function Contact() {
                         {errors.name && <p id="contact-name-error" className="text-clay text-[12px] mt-1">{errors.name.message}</p>}
                       </div>
                       <div>
-                        <label htmlFor="contact-email" className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Email</label>
+                        <label htmlFor="contact-email" className="block font-serif font-semibold text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Email</label>
                         <input id="contact-email" type="email" placeholder="jane@example.com"
                           className={inputClass(!!errors.email)}
                           aria-invalid={!!errors.email}
@@ -315,7 +315,7 @@ export default function Contact() {
                     </div>
 
                     <div>
-                      <label htmlFor="contact-phone" className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">
+                      <label htmlFor="contact-phone" className="block font-serif font-semibold text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">
                         Phone <span className="text-ink-muted normal-case font-medium tracking-normal">— optional</span>
                       </label>
                       <input id="contact-phone" type="tel" placeholder="(555) 000-0000" className={inputClass()}
@@ -323,7 +323,7 @@ export default function Contact() {
                     </div>
 
                     <div>
-                      <label htmlFor="contact-message" className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Tell Me About Your Project</label>
+                      <label htmlFor="contact-message" className="block font-serif font-semibold text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Tell Me About Your Project</label>
                       <textarea id="contact-message" rows={5} placeholder="What do you need built? What's the goal? Any details help."
                         className={`${inputClass(!!errors.message)} resize-none`}
                         aria-invalid={!!errors.message}
@@ -334,10 +334,10 @@ export default function Contact() {
 
                     <button type="button" onClick={goToStep2}
                       className="w-full bg-forest text-paper font-semibold py-3.5 px-6 rounded-[6px] hover:bg-forest-deep transition-colors text-[14px] tracking-wide"
-                      style={{ boxShadow: "0 8px 24px -8px rgba(45,106,79,0.4)" }}>
+                      style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.4)" }}>
                       Next — Choose Your Budget →
                     </button>
-                    <p className="text-center text-[11px] text-ink-muted font-mono tracking-wide -mt-1">FREE QUOTE · NO COMMITMENT</p>
+                    <p className="text-center text-[11px] text-ink-muted font-serif font-semibold tracking-wide -mt-1">FREE QUOTE · NO COMMITMENT</p>
                   </>
                 )}
 
@@ -345,7 +345,7 @@ export default function Contact() {
                 {formStep === 2 && (
                   <>
                     <div>
-                      <label htmlFor="contact-type" className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Type of Website</label>
+                      <label htmlFor="contact-type" className="block font-serif font-semibold text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Type of Website</label>
                       <select id="contact-type"
                         className={inputClass(!!errors.websiteType)}
                         aria-invalid={!!errors.websiteType}
@@ -379,7 +379,7 @@ export default function Contact() {
                     </div>
 
                     <div>
-                      <label htmlFor="contact-budget" className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Budget Range</label>
+                      <label htmlFor="contact-budget" className="block font-serif font-semibold text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Budget Range</label>
                       <select id="contact-budget"
                         className={inputClass(!!errors.budget)}
                         aria-invalid={!!errors.budget}
@@ -392,7 +392,7 @@ export default function Contact() {
                     </div>
 
                     <div>
-                      <label className="block font-mono text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-3">Expected Launch Date</label>
+                      <label className="block font-serif font-semibold text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-3">Expected Launch Date</label>
                       <input type="hidden" {...register("launchDate")} />
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
                         {launchOptions.map((opt) => (
@@ -404,7 +404,7 @@ export default function Contact() {
                             }`}>
                             <span className="block text-[12.5px] font-semibold">{opt.label}</span>
                             {launchOption === opt.value && opt.value !== "custom" && (
-                              <span className="block font-mono text-[10px] mt-0.5 opacity-70 tracking-wide">{getDateFromOption(opt.value)}</span>
+                              <span className="block font-serif font-semibold text-[10px] mt-0.5 opacity-70 tracking-wide">{getDateFromOption(opt.value)}</span>
                             )}
                           </button>
                         ))}
@@ -419,7 +419,7 @@ export default function Contact() {
                     {/* Testimonial proof */}
                     <div className="bg-paper border border-rule rounded-[6px] p-4 flex gap-3 items-start">
                       <div className="w-9 h-9 rounded-full bg-forest flex items-center justify-center flex-shrink-0">
-                        <span className="text-paper text-[10px] font-bold font-mono">PS</span>
+                        <span className="text-paper text-[10px] font-bold font-serif font-semibold">PS</span>
                       </div>
                       <div>
                         <p className="text-[12px] text-ink-soft leading-relaxed italic font-medium">&ldquo;He designed every page from scratch, handled our SEO setup, and we started showing up in Google searches we never ranked for before. Super professional.&rdquo;</p>
@@ -439,10 +439,10 @@ export default function Contact() {
                     <div>
                       <button type="submit" disabled={status === "loading"}
                         className="w-full bg-forest text-paper font-semibold py-3.5 px-6 rounded-[6px] hover:bg-forest-deep disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-[14px] tracking-wide"
-                        style={{ boxShadow: "0 8px 24px -8px rgba(45,106,79,0.4)" }}>
+                        style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.4)" }}>
                         {status === "loading" ? "Sending…" : "Get My Free Quote →"}
                       </button>
-                      <p className="text-center text-[11px] text-ink-muted font-mono tracking-wide mt-2.5">
+                      <p className="text-center text-[11px] text-ink-muted font-serif font-semibold tracking-wide mt-2.5">
                         NO COMMITMENT · 24-HOUR RESPONSE
                       </p>
                     </div>

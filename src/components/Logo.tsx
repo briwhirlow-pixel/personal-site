@@ -22,7 +22,7 @@ export default function Logo({ light: _light = false, showTagline = true }: Logo
             </span>
           </span>
           {showTagline && (
-            <span className="block font-mono text-[6.5px] sm:text-[7px] tracking-[0.28em] uppercase text-ink-muted leading-none font-semibold mt-[4px] text-center">
+            <span className="block font-serif font-semibold text-[7.5px] sm:text-[8px] tracking-[0.24em] uppercase text-ink-muted leading-none mt-[4px] text-center">
               Web Design
             </span>
           )}

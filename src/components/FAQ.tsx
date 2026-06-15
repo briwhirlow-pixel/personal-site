@@ -49,7 +49,7 @@ export default function FAQ() {
         {/* Section header */}
         <Reveal>
           <div className="flex items-baseline pb-4 border-b border-rule mb-12">
-            <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
+            <span className="font-serif font-semibold text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
               Frequently Asked
             </span>
           </div>
@@ -76,7 +76,7 @@ export default function FAQ() {
                   onClick={() => setOpen(open === i ? null : i)}
                 >
                   <span className="flex items-baseline gap-3">
-                    <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-clay font-semibold flex-shrink-0">
+                    <span className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-clay font-semibold flex-shrink-0">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="text-[14px] sm:text-[15px] font-semibold text-ink leading-snug">{faq.q}</span>

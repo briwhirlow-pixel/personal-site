@@ -72,7 +72,7 @@ export default function ReviewCTA() {
 
                 {/* Star rating */}
                 <div className="mt-6">
-                  <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-muted mb-3">
+                  <p className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-ink-muted mb-3">
                     Your rating
                   </p>
                   <div className="flex items-center gap-1.5" role="radiogroup" aria-label="Rating from 1 to 5 stars">
@@ -101,7 +101,7 @@ export default function ReviewCTA() {
                         </button>
                       );
                     })}
-                    <span className="text-ink-muted text-[12px] font-mono ml-3 tracking-wide">
+                    <span className="text-ink-muted text-[12px] font-serif font-semibold ml-3 tracking-wide">
                       {rating > 0 ? `${rating} / 5` : "Pick one"}
                     </span>
                   </div>
@@ -109,7 +109,7 @@ export default function ReviewCTA() {
 
                 {/* Review textarea */}
                 <div className="mt-6">
-                  <label htmlFor="review-text" className="block font-mono text-[10px] tracking-[0.22em] uppercase text-ink-muted mb-2">
+                  <label htmlFor="review-text" className="block font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-ink-muted mb-2">
                     Describe your experience
                   </label>
                   <textarea
@@ -127,7 +127,7 @@ export default function ReviewCTA() {
 
                 {/* Name */}
                 <div className="mt-5">
-                  <label htmlFor="review-name" className="block font-mono text-[10px] tracking-[0.22em] uppercase text-ink-muted mb-2">
+                  <label htmlFor="review-name" className="block font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-ink-muted mb-2">
                     Your name
                   </label>
                   <input

@@ -66,7 +66,7 @@ function BrowserMockup({ mockupKey }: { mockupKey: string }) {
       {/* Refined header bar — wordmark + nav, no garish chrome dots */}
       <div className="flex items-center justify-between h-[22px] px-3" style={{ background: t.navBg }}>
         <span
-          className="text-[8px] font-mono font-bold tracking-[0.18em] uppercase leading-none"
+          className="text-[8px] font-serif font-semibold font-bold tracking-[0.18em] uppercase leading-none"
           style={{ color: t.headline }}
         >
           {t.brand}
@@ -85,7 +85,7 @@ function BrowserMockup({ mockupKey }: { mockupKey: string }) {
       {/* Hero — kicker + serif headline + CTA + thumbnail row */}
       <div className="px-4 pt-3.5 pb-3 flex flex-col" style={{ height: 'calc(100% - 22px)' }}>
         <span
-          className="text-[7px] font-mono font-bold tracking-[0.22em] uppercase leading-none"
+          className="text-[7px] font-serif font-semibold font-bold tracking-[0.22em] uppercase leading-none"
           style={{ color: t.accent }}
         >
           {t.label}
@@ -101,7 +101,7 @@ function BrowserMockup({ mockupKey }: { mockupKey: string }) {
 
         <div className="mt-auto flex items-end justify-between gap-2 pt-2">
           <span
-            className="inline-flex items-center text-[8px] font-semibold font-mono uppercase tracking-[0.15em] px-2.5 py-1 rounded-full leading-none"
+            className="inline-flex items-center text-[8px] font-semibold font-serif font-semibold uppercase tracking-[0.15em] px-2.5 py-1 rounded-full leading-none"
             style={{ background: t.accent, color: t.navBg }}
           >
             {t.cta} →
@@ -124,7 +124,7 @@ export default function Portfolio() {
         {/* Section header */}
         <Reveal>
           <div className="flex items-baseline pb-4 border-b border-rule mb-12">
-            <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase flex items-center gap-2.5">
+            <span className="font-serif font-semibold text-[10.5px] tracking-[0.22em] text-ink-muted uppercase flex items-center gap-2.5">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
               What I Build
             </span>
@@ -144,7 +144,7 @@ export default function Portfolio() {
 
           {liveProjects.length > 0 && (
             <Reveal delay={100} className="flex flex-col">
-              <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-muted mb-3">
+              <p className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-ink-muted mb-3">
                 Sample Build
               </p>
               {(() => {
@@ -164,7 +164,7 @@ export default function Portfolio() {
                             <div className="w-2 h-2 rounded-full bg-[#FFBD2E]" />
                             <div className="w-2 h-2 rounded-full bg-[#28CA41]" />
                             <div className="flex-1 mx-2 bg-white/10 rounded-full h-3 flex items-center px-2">
-                              <span className="text-white/40 text-[8px] font-mono truncate">{project.url.replace('https://', '')}</span>
+                              <span className="text-white/40 text-[8px] font-serif font-semibold truncate">{project.url.replace('https://', '')}</span>
                             </div>
                           </div>
                           <div
@@ -220,13 +220,13 @@ export default function Portfolio() {
                       </div>
                       <div className="p-4 flex-1 flex flex-col">
                         <div className="flex items-center gap-1.5 mb-2 flex-wrap">
-                          <span className="font-mono text-[10px] font-semibold tracking-[0.18em] uppercase text-forest bg-forest/10 px-2 py-1 rounded-[3px]">
+                          <span className="font-serif font-semibold text-[10px] font-semibold tracking-[0.18em] uppercase text-forest bg-forest/10 px-2 py-1 rounded-[3px]">
                             {project.tag}
                           </span>
-                          <span className="font-mono text-[10px] font-semibold tracking-[0.18em] uppercase text-ink-muted bg-paper border border-rule px-2 py-1 rounded-[3px]">
+                          <span className="font-serif font-semibold text-[10px] font-semibold tracking-[0.18em] uppercase text-ink-muted bg-paper border border-rule px-2 py-1 rounded-[3px]">
                             Sample
                           </span>
-                          <span className="font-mono text-[10px] font-medium text-clay flex items-center gap-1.5 tracking-wide uppercase">
+                          <span className="font-serif font-semibold text-[10px] font-medium text-clay flex items-center gap-1.5 tracking-wide uppercase">
                             <span className="w-1.5 h-1.5 rounded-full bg-clay pulse-dot inline-block" />
                             Live demo
                           </span>
@@ -270,7 +270,7 @@ export default function Portfolio() {
                         <Icon size={16} className="text-forest" strokeWidth={1.75} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-mono text-[9.5px] font-semibold tracking-[0.18em] uppercase text-forest leading-none mb-1.5">
+                        <p className="font-serif font-semibold text-[9.5px] font-semibold tracking-[0.18em] uppercase text-forest leading-none mb-1.5">
                           {type.tagline}
                         </p>
                         <h3 className="font-serif text-[20px] text-ink tracking-tight leading-tight">{type.name}</h3>

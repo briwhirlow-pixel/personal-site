@@ -59,7 +59,7 @@ export default async function Image() {
                 width: 12,
                 height: 12,
                 borderRadius: 12,
-                background: "#B7541F",
+                background: "#0EA5E9",
                 display: "flex",
               }}
             />
@@ -90,7 +90,7 @@ export default async function Image() {
           >
             <span style={{ display: "flex" }}>Hand-built websites</span>
             <span style={{ display: "flex" }}>
-              <span style={{ fontFamily: "Instrument Serif", fontStyle: "italic", color: "#2D6A4F" }}>
+              <span style={{ fontFamily: "Instrument Serif", fontStyle: "italic", color: "#2563EB" }}>
                 for small businesses.
               </span>
             </span>
@@ -113,7 +113,7 @@ export default async function Image() {
                 width: 10,
                 height: 10,
                 borderRadius: 10,
-                background: "#2D6A4F",
+                background: "#2563EB",
                 display: "flex",
                 marginRight: 4,
               }}
@@ -133,7 +133,7 @@ export default async function Image() {
                 fontFamily: "Instrument Serif",
                 fontSize: 44,
                 fontStyle: "italic",
-                color: "#B7541F",
+                color: "#0EA5E9",
                 display: "flex",
               }}
             >

@@ -17,7 +17,7 @@ export default function Footer() {
 
         {/* Top — large editorial signature */}
         <div className="pb-12 mb-12 border-b border-rule">
-          <p className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-ink-muted mb-4 flex items-center gap-2.5">
+          <p className="font-serif font-semibold text-[10.5px] tracking-[0.22em] uppercase text-ink-muted mb-4 flex items-center gap-2.5">
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay" aria-hidden />
             Philadelphia / South Jersey
           </p>
@@ -28,7 +28,7 @@ export default function Footer() {
             <a
               href="/contact"
               className="group inline-flex items-center gap-2 bg-forest text-paper font-semibold px-6 py-3.5 rounded-[6px] hover:bg-forest-deep transition-colors text-[14px]"
-              style={{ boxShadow: "0 8px 24px -8px rgba(45,106,79,0.5)" }}
+              style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.5)" }}
             >
               Start a project
               <span aria-hidden className="font-serif text-[17px] leading-none transition-transform group-hover:translate-x-[2px] group-hover:-translate-y-[2px]">↗</span>
@@ -58,7 +58,7 @@ export default function Footer() {
             </p>
           </div>
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] font-semibold text-ink-muted mb-4">Navigation</p>
+            <p className="font-serif font-semibold text-[10px] uppercase tracking-[0.22em] font-semibold text-ink-muted mb-4">Navigation</p>
             <nav className="flex flex-col gap-2.5">
               {footerLinks.map((link) => (
                 <a key={link.label} href={link.href} className="text-[14px] text-ink-soft hover:text-forest transition-colors font-medium w-fit">
@@ -68,7 +68,7 @@ export default function Footer() {
             </nav>
           </div>
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] font-semibold text-ink-muted mb-4">Get in touch</p>
+            <p className="font-serif font-semibold text-[10px] uppercase tracking-[0.22em] font-semibold text-ink-muted mb-4">Get in touch</p>
             <a href={`mailto:${siteConfig.email}`} className="text-[14px] text-ink hover:text-forest transition-colors font-semibold block">
               {siteConfig.email}
             </a>
@@ -80,7 +80,7 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="font-mono text-[11px] text-ink-muted tracking-wide">
+          <p className="font-serif font-semibold text-[11px] text-ink-muted tracking-wide">
             © {year} {siteConfig.name}. All rights reserved.
           </p>
           <div className="flex items-center gap-4">

@@ -16,7 +16,7 @@ export default function FeaturedProject() {
         {/* Editorial intro — no kicker pill, no "Index/00X" */}
         <Reveal>
           <div className="max-w-3xl mb-10 sm:mb-14">
-            <span className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-ink-muted font-semibold flex items-center gap-2.5 mb-4">
+            <span className="font-serif font-semibold text-[10.5px] tracking-[0.22em] uppercase text-ink-muted font-semibold flex items-center gap-2.5 mb-4">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
               Sample build · Live
             </span>
@@ -49,7 +49,7 @@ export default function FeaturedProject() {
                     <div className="w-2 h-2 rounded-full bg-[#FFBD2E]" />
                     <div className="w-2 h-2 rounded-full bg-[#28CA41]" />
                     <div className="flex-1 mx-3 bg-white/10 rounded-full h-3.5 flex items-center px-3">
-                      <span className="text-white/40 text-[10px] font-mono truncate">
+                      <span className="text-white/40 text-[10px] font-serif font-semibold truncate">
                         {hostname}
                       </span>
                     </div>
@@ -136,13 +136,13 @@ export default function FeaturedProject() {
               {/* Project info */}
               <div className="md:col-span-5 p-6 sm:p-8 md:py-10 md:pr-10 flex flex-col">
                 <div className="flex items-center gap-2 mb-4 flex-wrap">
-                  <span className="font-mono text-[10px] font-semibold tracking-[0.18em] uppercase text-forest bg-forest/10 px-2 py-1 rounded-[3px]">
+                  <span className="font-serif font-semibold text-[10px] font-semibold tracking-[0.18em] uppercase text-forest bg-forest/10 px-2 py-1 rounded-[3px]">
                     {project.tag}
                   </span>
-                  <span className="font-mono text-[10px] font-semibold tracking-[0.18em] uppercase text-ink-muted bg-paper border border-rule px-2 py-1 rounded-[3px]">
+                  <span className="font-serif font-semibold text-[10px] font-semibold tracking-[0.18em] uppercase text-ink-muted bg-paper border border-rule px-2 py-1 rounded-[3px]">
                     Sample
                   </span>
-                  <span className="font-mono text-[10px] font-medium text-clay flex items-center gap-1.5 tracking-wide uppercase">
+                  <span className="font-serif font-semibold text-[10px] font-medium text-clay flex items-center gap-1.5 tracking-wide uppercase">
                     <span className="w-1.5 h-1.5 rounded-full bg-clay pulse-dot inline-block" />
                     Live demo
                   </span>

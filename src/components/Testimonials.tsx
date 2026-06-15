@@ -71,11 +71,11 @@ export default function Testimonials() {
               <article className="relative">
                 {/* Editorial metadata row */}
                 <div className="flex items-center gap-4 mb-5">
-                  <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-muted font-semibold">
+                  <span className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-ink-muted font-semibold">
                     Nº 0{i + 1}
                   </span>
                   <span aria-hidden className="flex-1 border-t border-rule" />
-                  <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-clay font-semibold">
+                  <span className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-clay font-semibold">
                     {review.tag}
                   </span>
                 </div>
@@ -92,7 +92,7 @@ export default function Testimonials() {
                   <Stars />
                   <div className="flex items-baseline gap-3">
                     <span className="text-ink text-[14px] font-semibold">{review.name}</span>
-                    <span className="font-mono text-[10.5px] text-ink-muted tracking-wide">{review.date}</span>
+                    <span className="font-serif font-semibold text-[10.5px] text-ink-muted tracking-wide">{review.date}</span>
                   </div>
                 </div>
               </article>
@@ -103,7 +103,7 @@ export default function Testimonials() {
         {/* Compact row for the "left 5 stars, no text" reviews */}
         <Reveal delay={240}>
           <div className="mt-24 pt-10 border-t border-rule">
-            <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-muted font-semibold mb-5">
+            <p className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-ink-muted font-semibold mb-5">
               And five-star ratings from
             </p>
             <div className="flex flex-wrap gap-x-8 gap-y-3">
@@ -111,7 +111,7 @@ export default function Testimonials() {
                 <div key={r.name} className="flex items-center gap-3">
                   <Stars size={11} />
                   <span className="text-ink text-[14px] font-semibold">{r.name}</span>
-                  <span className="font-mono text-[10.5px] text-ink-muted tracking-wide">{r.date}</span>
+                  <span className="font-serif font-semibold text-[10.5px] text-ink-muted tracking-wide">{r.date}</span>
                 </div>
               ))}
             </div>

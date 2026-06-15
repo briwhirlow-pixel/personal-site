@@ -67,7 +67,7 @@ export default function About() {
 
                   <div className="relative z-10 px-7 sm:px-8 py-10 text-center"
                        style={{ textShadow: "0 2px 18px rgba(0,0,0,0.95), 0 2px 6px rgba(0,0,0,0.8)" }}>
-                    <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-paper/60">The designer</p>
+                    <p className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-paper/60">The designer</p>
                     <p className="font-serif text-[clamp(30px,4.5vw,40px)] leading-[1.05] tracking-tight mt-3 text-paper">
                       Brian <span className="italic">Whirlow</span>
                     </p>
@@ -108,7 +108,7 @@ export default function About() {
                   {badges.map((b) => (
                     <div key={b.label} className="bg-paper-soft px-2 py-3 text-center">
                       <p className="font-sans font-bold text-ink text-[15px] leading-none">{b.value}</p>
-                      <p className="font-mono text-[8px] tracking-[0.18em] uppercase text-ink-muted mt-1.5">{b.label}</p>
+                      <p className="font-serif font-semibold text-[8px] tracking-[0.18em] uppercase text-ink-muted mt-1.5">{b.label}</p>
                     </div>
                   ))}
                 </div>
@@ -155,14 +155,14 @@ export default function About() {
 
             {/* Skills */}
             <div className="mb-8 pb-8 border-b border-rule">
-              <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-muted mb-3">
+              <p className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-ink-muted mb-3">
                 Tools & Technologies
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {skills.map((skill) => (
                   <span
                     key={skill}
-                    className="font-mono text-[11px] tracking-wide bg-paper-soft border border-rule text-ink-soft px-2.5 py-1.5 rounded-[3px] hover:border-forest hover:text-forest transition-colors"
+                    className="font-serif font-semibold text-[11px] tracking-wide bg-paper-soft border border-rule text-ink-soft px-2.5 py-1.5 rounded-[3px] hover:border-forest hover:text-forest transition-colors"
                   >
                     {skill}
                   </span>
@@ -174,7 +174,7 @@ export default function About() {
               <a
                 href="/contact"
                 className="group inline-flex items-center gap-2 bg-forest text-paper font-semibold px-6 py-3.5 rounded-[6px] hover:bg-forest-deep transition-colors text-[14px]"
-                style={{ boxShadow: "0 8px 24px -8px rgba(45,106,79,0.5)" }}
+                style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.5)" }}
               >
                 Work with me
                 <span aria-hidden className="font-serif text-[17px] leading-none transition-transform group-hover:translate-x-[2px] group-hover:-translate-y-[2px]">↗</span>

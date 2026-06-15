@@ -4,7 +4,7 @@ import Reveal from "./Reveal";
 
 const tierAccents = [
   { label: "Tier 01", color: "text-ink-muted", glow: "rgba(100,116,139,0.2)" },
-  { label: "Tier 02", color: "text-forest", glow: "rgba(45,106,79,0.3)" },
+  { label: "Tier 02", color: "text-forest", glow: "rgba(37,99,235,0.3)" },
   { label: "Tier 03", color: "text-ink-muted", glow: "rgba(100,116,139,0.2)" },
 ] as const;
 
@@ -29,7 +29,7 @@ export default function Services() {
         {/* Section header */}
         <Reveal>
           <div className="flex items-baseline pb-4 border-b border-rule mb-12">
-            <span className="font-mono text-[10.5px] tracking-[0.22em] text-ink-muted uppercase flex items-center gap-2.5">
+            <span className="font-serif font-semibold text-[12px] tracking-[0.2em] text-ink-muted uppercase flex items-center gap-2.5">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
               Services & Pricing
             </span>
@@ -78,13 +78,13 @@ export default function Services() {
                   }
                 >
                   <div className="mb-5">
-                    <p className={`font-mono text-[10px] tracking-[0.22em] uppercase ${accent.color}`}>
+                    <p className={`font-serif font-semibold text-[10px] tracking-[0.22em] uppercase ${accent.color}`}>
                       {accent.label}
                     </p>
                     <h3 className="font-serif text-[32px] font-normal tracking-tight text-ink mt-2 leading-tight">
                       {tier.name}
                     </h3>
-                    <p className="text-forest font-mono text-[15px] font-semibold mt-2">{tier.price}</p>
+                    <p className="text-forest font-serif font-semibold text-[15px] font-semibold mt-2">{tier.price}</p>
                   </div>
 
                   <p className="text-ink-soft text-[14px] leading-relaxed mb-6 pb-6 border-b border-rule font-medium">
@@ -109,7 +109,7 @@ export default function Services() {
                     }`}
                     style={
                       isHighlighted
-                        ? { boxShadow: "0 8px 24px -6px rgba(45,106,79,0.4)" }
+                        ? { boxShadow: "0 8px 24px -6px rgba(37,99,235,0.4)" }
                         : undefined
                     }
                   >
@@ -127,17 +127,17 @@ export default function Services() {
           <div className="bg-paper-soft border border-rule rounded-[6px] px-6 py-6 grid md:grid-cols-3 gap-y-5 gap-x-8">
             <div className="relative pl-4">
               <span className="absolute left-0 top-1 bottom-1 w-[2px] rounded-full bg-forest" aria-hidden />
-              <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-muted">Standard terms</p>
+              <p className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-ink-muted">Standard terms</p>
               <p className="text-ink text-[14px] mt-2 font-medium">50% deposit · 50% on delivery</p>
             </div>
             <div className="relative pl-4">
               <span className="absolute left-0 top-1 bottom-1 w-[2px] rounded-full bg-clay" aria-hidden />
-              <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-muted">Larger projects</p>
+              <p className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-ink-muted">Larger projects</p>
               <p className="text-ink text-[14px] mt-2 font-medium">⅓ / ⅓ / ⅓ milestone splits</p>
             </div>
             <div className="relative pl-4">
               <span className="absolute left-0 top-1 bottom-1 w-[2px] rounded-full bg-butter" aria-hidden />
-              <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-muted">Slot reserved</p>
+              <p className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-ink-muted">Slot reserved</p>
               <p className="text-ink text-[14px] mt-2 font-medium">Project secured with deposit</p>
             </div>
           </div>
@@ -146,7 +146,7 @@ export default function Services() {
         {/* Accepted payments */}
         <Reveal delay={180} className="mt-6">
           <div className="flex items-center justify-center gap-4 flex-wrap">
-            <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-muted">We accept</span>
+            <span className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-ink-muted">We accept</span>
             <div className="flex items-center gap-2.5 bg-paper-soft border border-rule rounded-[6px] px-4 py-2.5">
               <svg width="20" height="20" viewBox="0 0 111 111" fill="none">
                 <rect width="111" height="111" rx="22" fill="#008CFF" />
@@ -167,7 +167,7 @@ export default function Services() {
         {/* After launch */}
         <Reveal delay={200} className="mt-16">
           <div className="flex items-baseline pb-3 border-b border-rule mb-8">
-            <span className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-ink-muted">After launch — your choice</span>
+            <span className="font-serif font-semibold text-[12px] tracking-[0.2em] uppercase text-ink-muted">After launch — your choice</span>
           </div>
 
           <div className="grid md:grid-cols-2 gap-5">
@@ -181,7 +181,7 @@ export default function Services() {
               </p>
               <div className="flex flex-wrap gap-2">
                 {["Full source code", "Host anywhere", "One-time cost"].map((tag) => (
-                  <span key={tag} className="font-mono text-[10px] tracking-[0.15em] uppercase bg-paper text-ink-soft border border-rule px-2.5 py-1 rounded-[3px]">
+                  <span key={tag} className="font-serif font-semibold text-[10px] tracking-[0.15em] uppercase bg-paper text-ink-soft border border-rule px-2.5 py-1 rounded-[3px]">
                     {tag}
                   </span>
                 ))}
@@ -204,8 +204,8 @@ export default function Services() {
                       plan.highlighted ? "border-forest bg-forest/5" : "border-rule bg-paper"
                     }`}
                   >
-                    <p className="font-mono text-[9px] tracking-[0.18em] uppercase text-ink-muted">{plan.name}</p>
-                    <p className="text-forest text-[13px] font-semibold mt-1.5 mb-2 font-mono">{plan.price}</p>
+                    <p className="font-serif font-semibold text-[9px] tracking-[0.18em] uppercase text-ink-muted">{plan.name}</p>
+                    <p className="text-forest text-[13px] font-semibold mt-1.5 mb-2 font-serif font-semibold">{plan.price}</p>
                     <ul className="space-y-1">
                       {plan.features.map((f) => (
                         <li key={f} className="text-[10px] text-ink-soft flex items-start gap-1 leading-snug">

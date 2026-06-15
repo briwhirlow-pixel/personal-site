@@ -61,10 +61,10 @@ export default function Navbar() {
           <Link
             href="/contact"
             className="group inline-flex items-center gap-2 text-[13px] font-semibold bg-forest text-paper px-5 py-2.5 rounded-[6px] hover:bg-forest-deep transition-colors"
-            style={{ boxShadow: "0 4px 16px -6px rgba(45,106,79,0.45)" }}
+            style={{ boxShadow: "0 4px 16px -6px rgba(37,99,235,0.45)" }}
           >
             Start a project
-            <span aria-hidden className="text-paper/70 font-mono text-[11px]">↵</span>
+            <span aria-hidden className="text-paper/70 font-serif font-semibold text-[11px]">↵</span>
           </Link>
         </div>
 

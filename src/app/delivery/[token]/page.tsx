@@ -115,7 +115,7 @@ export default function DeliveryPage({ params }: { params: Promise<{ token: stri
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   placeholder="e.g. pine-4829"
-                  className="w-full bg-white/[0.06] border border-white/[0.10] rounded-xl px-4 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-[#2563EB]/60 focus:ring-1 focus:ring-[#2563EB]/40 text-[15px] tracking-widest font-mono transition"
+                  className="w-full bg-white/[0.06] border border-white/[0.10] rounded-xl px-4 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-[#2563EB]/60 focus:ring-1 focus:ring-[#2563EB]/40 text-[15px] tracking-widest font-serif font-semibold transition"
                   autoFocus
                 />
                 {error && (
@@ -198,7 +198,7 @@ export default function DeliveryPage({ params }: { params: Promise<{ token: stri
             {data.credentials && (
               <div className="bg-white/[0.04] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
                 <p className="text-white/30 text-[11px] uppercase tracking-widest font-semibold mb-4">Credentials & Notes</p>
-                <pre className="text-white/60 text-[13px] leading-relaxed whitespace-pre-wrap font-mono bg-black/20 rounded-xl p-4">
+                <pre className="text-white/60 text-[13px] leading-relaxed whitespace-pre-wrap font-serif font-semibold bg-black/20 rounded-xl p-4">
                   {data.credentials}
                 </pre>
               </div>

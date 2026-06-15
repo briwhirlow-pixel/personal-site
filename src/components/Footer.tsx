@@ -38,7 +38,7 @@ export default function Footer() {
               className="text-ink-soft text-[28px] sm:text-[34px] leading-none -translate-y-1"
               style={{ fontFamily: "var(--font-caveat), cursive" }}
             >
-              Brian
+              — Brian
             </span>
           </div>
         </div>

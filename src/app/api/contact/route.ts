@@ -129,7 +129,7 @@ export async function POST(request: Request) {
         "",
         closing,
         "",
-        "Brian",
+        "— Brian",
         "brianwhirlowbusiness@gmail.com",
       ].join("\n"),
       html: `
@@ -141,7 +141,7 @@ export async function POST(request: Request) {
             <strong>${escapeHtml(budget)}</strong> budget, target launch <strong>${escapeHtml(launchDate || "(not specified)")}</strong>.
           </p>
           <p style="margin: 0 0 22px;">${escapeHtml(closing)}</p>
-          <p style="margin: 0 0 4px;">Brian</p>
+          <p style="margin: 0 0 4px;">— Brian</p>
           <p style="margin: 0; color: #64748B; font-size: 13px;">
             <a href="mailto:brianwhirlowbusiness@gmail.com" style="color: #2563EB; text-decoration: none;">brianwhirlowbusiness@gmail.com</a>
           </p>

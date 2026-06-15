@@ -259,7 +259,7 @@ export default function Contact() {
                   I&apos;ll email you back from <span className="font-semibold text-ink">brianwhirlowbusiness@gmail.com</span> by{" "}
                   <span className="font-semibold text-ink">{getTomorrow()}</span> , usually within a few hours.
                 </p>
-                <p className="text-ink-soft text-[14px] mb-7 font-medium">, Brian</p>
+                <p className="text-ink-soft text-[14px] mb-7 font-medium">— Brian</p>
                 {hasCalendly && (
                   <a
                     href={siteConfig.calendlyUrl}

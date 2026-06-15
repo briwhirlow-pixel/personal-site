@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
 
 const industries = [
   "Restaurant", "E-Commerce", "Portfolio", "Photography",
@@ -55,10 +54,10 @@ export default function Hero() {
           <Link
             href="/contact"
             className="group inline-flex items-center gap-2.5 bg-forest text-paper px-6 sm:px-7 py-3.5 sm:py-4 rounded-[6px] font-semibold text-[14px] sm:text-[15px] hover:bg-forest-deep transition-colors"
-            style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.5)" }}
+            style={{ boxShadow: "0 8px 24px -8px rgba(45,106,79,0.5)" }}
           >
             Start a project
-            <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-[2px] group-hover:-translate-y-[2px]" />
+            <span aria-hidden className="font-serif text-[18px] leading-none transition-transform group-hover:translate-x-[2px] group-hover:-translate-y-[2px]">↗</span>
           </Link>
           <Link
             href="/work"
@@ -110,20 +109,33 @@ export default function Hero() {
   );
 }
 
+// Marker stroke — two passes (faint bleed underneath, crisp top stroke).
+// Replaces the previous wavy underline pattern, which had become a Stripe
+// Press / SaaS template tell. This reads as a confident hand-drawn mark.
 function WavyUnderline() {
   return (
     <svg
       aria-hidden
-      className="absolute left-0 right-0 -bottom-2 w-full h-3"
-      viewBox="0 0 400 12"
+      className="absolute left-0 right-0 -bottom-1.5 w-full pointer-events-none"
+      style={{ height: 14 }}
+      viewBox="0 0 400 16"
       preserveAspectRatio="none"
     >
       <path
-        d="M 2 6 Q 50 1 100 6 T 200 6 T 300 6 T 398 6"
-        stroke="#0EA5E9"
-        strokeWidth="3.5"
+        d="M 2 8 Q 200 5, 398 7"
+        stroke="#B7541F"
+        strokeWidth="9"
         fill="none"
         strokeLinecap="round"
+        opacity="0.18"
+      />
+      <path
+        d="M 4 9 Q 200 6, 396 8"
+        stroke="#B7541F"
+        strokeWidth="4"
+        fill="none"
+        strokeLinecap="round"
+        opacity="0.92"
       />
     </svg>
   );

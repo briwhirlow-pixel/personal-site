@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowUp, ArrowUpRight } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 
 export default function FloatingCTA() {
   const [visible, setVisible] = useState(false);
@@ -21,14 +21,14 @@ export default function FloatingCTA() {
         href="/contact"
         style={{
           bottom: 'calc(1.5rem + env(safe-area-inset-bottom, 0px))',
-          boxShadow: "0 8px 24px -6px rgba(37,99,235,0.5)",
+          boxShadow: "0 8px 24px -6px rgba(45,106,79,0.5)",
         }}
         className={`fixed right-6 z-40 inline-flex items-center gap-2 bg-forest text-paper font-semibold px-5 py-3 rounded-[6px] hover:bg-forest-deep transition-all duration-300 text-[13px] ${
           visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0 pointer-events-none"
         }`}
       >
         Start a project
-        <ArrowUpRight size={14} strokeWidth={2} />
+        <span aria-hidden className="font-serif text-[15px] leading-none">↗</span>
       </a>
 
       <button

@@ -1,6 +1,6 @@
 'use client';
 import { websiteTypes, liveProjects, WebsiteType } from "@/lib/data";
-import { ShoppingBag, Frame, UtensilsCrossed, Briefcase, Home, Dumbbell, Check, ArrowUpRight } from "lucide-react";
+import { ShoppingBag, Frame, UtensilsCrossed, Briefcase, Home, Dumbbell, Check } from "lucide-react";
 import Reveal from "./Reveal";
 
 const iconByKey: Record<string, React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>> = {
@@ -243,7 +243,7 @@ export default function Portfolio() {
                         </ul>
                         <div className="mt-4 flex items-center gap-1.5 text-[12px] font-semibold text-ink-soft group-hover:text-forest transition-colors">
                           Visit the sample site
-                          <ArrowUpRight size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                          <span aria-hidden className="font-serif text-[14px] leading-none group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
                         </div>
                       </div>
                     </a>

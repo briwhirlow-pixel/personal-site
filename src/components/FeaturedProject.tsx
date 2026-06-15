@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { liveProjects } from "@/lib/data";
-import { ArrowUpRight, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import Reveal from "./Reveal";
 
 export default function FeaturedProject() {
@@ -170,10 +170,7 @@ export default function FeaturedProject() {
                 </ul>
                 <div className="mt-auto flex items-center gap-1.5 text-[13px] font-semibold text-ink group-hover:text-forest transition-colors">
                   Visit the sample site
-                  <ArrowUpRight
-                    size={13}
-                    className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
-                  />
+                  <span aria-hidden className="font-serif text-[16px] leading-none group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
                 </div>
               </div>
             </div>

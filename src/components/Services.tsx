@@ -4,7 +4,7 @@ import Reveal from "./Reveal";
 
 const tierAccents = [
   { label: "Tier 01", color: "text-ink-muted", glow: "rgba(100,116,139,0.2)" },
-  { label: "Tier 02", color: "text-forest", glow: "rgba(37,99,235,0.3)" },
+  { label: "Tier 02", color: "text-forest", glow: "rgba(45,106,79,0.3)" },
   { label: "Tier 03", color: "text-ink-muted", glow: "rgba(100,116,139,0.2)" },
 ] as const;
 
@@ -109,7 +109,7 @@ export default function Services() {
                     }`}
                     style={
                       isHighlighted
-                        ? { boxShadow: "0 8px 24px -6px rgba(37,99,235,0.4)" }
+                        ? { boxShadow: "0 8px 24px -6px rgba(45,106,79,0.4)" }
                         : undefined
                     }
                   >

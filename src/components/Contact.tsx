@@ -191,7 +191,7 @@ export default function Contact() {
                         className={`relative z-10 w-10 h-10 rounded-[6px] flex items-center justify-center flex-shrink-0 border transition-all duration-300 ${
                           item.active ? "bg-forest border-forest" : "bg-paper border-rule group-hover:border-forest/50"
                         }`}
-                        style={item.active ? { boxShadow: "0 0 0 4px rgba(37,99,235,0.1)" } : undefined}
+                        style={item.active ? { boxShadow: "0 0 0 4px rgba(45,106,79,0.1)" } : undefined}
                       >
                         <item.Icon size={15} className={item.active ? "text-paper" : "text-ink-soft"} strokeWidth={1.75} />
                       </div>
@@ -334,7 +334,7 @@ export default function Contact() {
 
                     <button type="button" onClick={goToStep2}
                       className="w-full bg-forest text-paper font-semibold py-3.5 px-6 rounded-[6px] hover:bg-forest-deep transition-colors text-[14px] tracking-wide"
-                      style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.4)" }}>
+                      style={{ boxShadow: "0 8px 24px -8px rgba(45,106,79,0.4)" }}>
                       Next — Choose Your Budget →
                     </button>
                     <p className="text-center text-[11px] text-ink-muted font-mono tracking-wide -mt-1">FREE QUOTE · NO COMMITMENT</p>
@@ -439,7 +439,7 @@ export default function Contact() {
                     <div>
                       <button type="submit" disabled={status === "loading"}
                         className="w-full bg-forest text-paper font-semibold py-3.5 px-6 rounded-[6px] hover:bg-forest-deep disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-[14px] tracking-wide"
-                        style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.4)" }}>
+                        style={{ boxShadow: "0 8px 24px -8px rgba(45,106,79,0.4)" }}>
                         {status === "loading" ? "Sending…" : "Get My Free Quote →"}
                       </button>
                       <p className="text-center text-[11px] text-ink-muted font-mono tracking-wide mt-2.5">

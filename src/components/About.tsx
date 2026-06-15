@@ -1,4 +1,4 @@
-import { Linkedin, Facebook, Mail, ArrowUpRight } from "lucide-react";
+import { Linkedin, Facebook, Mail } from "lucide-react";
 import { siteConfig } from "@/lib/data";
 import Reveal from "./Reveal";
 
@@ -174,10 +174,10 @@ export default function About() {
               <a
                 href="/contact"
                 className="group inline-flex items-center gap-2 bg-forest text-paper font-semibold px-6 py-3.5 rounded-[6px] hover:bg-forest-deep transition-colors text-[14px]"
-                style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.5)" }}
+                style={{ boxShadow: "0 8px 24px -8px rgba(45,106,79,0.5)" }}
               >
                 Work with me
-                <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-[2px] group-hover:-translate-y-[2px]" />
+                <span aria-hidden className="font-serif text-[17px] leading-none transition-transform group-hover:translate-x-[2px] group-hover:-translate-y-[2px]">↗</span>
               </a>
               <a
                 href="/services"

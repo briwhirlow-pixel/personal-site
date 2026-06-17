@@ -159,6 +159,17 @@ html {
 .phone-auto-2 { animation: phone-scroll 12s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate; animation-delay: 1.5s; }
 .phone-auto-3 { animation: phone-scroll 8s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate; animation-delay: 3.5s; }
 
+/* ── Hero carousel — auto-slide between two pages ── */
+@keyframes hero-slide {
+  0%, 38%   { transform: translateX(0); }
+  42%, 88%  { transform: translateX(-50%); }
+  92%, 100% { transform: translateX(0); }
+}
+
+.hero-carousel {
+  animation: hero-slide 8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
 /* ── Hero logo animations ── */
 @keyframes cursor-blink {
   0%, 49% { opacity: 1; }
@@ -189,7 +200,8 @@ html {
   .phone-auto-3,
   .hero-cursor-blink,
   .hero-screen-glow,
-  .hero-logo-float { animation: none; }
+  .hero-logo-float,
+  .hero-carousel { animation: none; }
 }
 
 @layer base {

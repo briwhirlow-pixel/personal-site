@@ -159,6 +159,16 @@ html {
 .phone-auto-2 { animation: phone-scroll 12s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate; animation-delay: 1.5s; }
 .phone-auto-3 { animation: phone-scroll 8s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate; animation-delay: 3.5s; }
 
+/* ── Reviews marquee — continuous horizontal scroll ── */
+@keyframes reviews-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.reviews-marquee {
+  animation: reviews-scroll 35s linear infinite;
+}
+
 /* ── Hero carousel — auto-slide between two pages ── */
 @keyframes hero-slide {
   0%, 28%    { transform: translateX(0); }
@@ -202,7 +212,8 @@ html {
   .hero-cursor-blink,
   .hero-screen-glow,
   .hero-logo-float,
-  .hero-carousel { animation: none; }
+  .hero-carousel,
+  .reviews-marquee { animation: none; }
 }
 
 @layer base {

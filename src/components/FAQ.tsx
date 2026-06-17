@@ -46,43 +46,32 @@ export default function FAQ() {
     <section id="faq" className="relative bg-paper text-ink pt-16 pb-24">
       <div className="relative max-w-3xl mx-auto px-5 sm:px-8 md:px-12">
 
-        {/* Section header */}
-        <Reveal>
-          <div className="flex items-baseline pb-4 border-b border-rule mb-12">
-            <span className="font-serif font-semibold text-[10.5px] tracking-[0.22em] text-ink-muted uppercase">
-              Frequently Asked
-            </span>
-          </div>
-        </Reveal>
-
-        <Reveal className="mb-12">
-          <h2 className="font-serif text-[clamp(36px,5.5vw,64px)] leading-[0.95] tracking-[-0.025em] text-ink font-normal">
-            Questions people{" "}
-            <span className="italic text-forest">actually ask.</span>
-          </h2>
+        <Reveal className="mb-10">
+          <p
+            className="font-display font-bold leading-snug tracking-tight text-ink"
+            style={{ fontSize: 'clamp(22px, 3.5vw, 32px)' }}
+          >
+            Questions people ask.
+          </p>
         </Reveal>
 
         <div className="space-y-2">
           {faqs.map((faq, i) => (
             <Reveal key={i} delay={i * 40}>
               <div
-                className={`border rounded-[6px] overflow-hidden transition-all duration-300 ${
+                className={`border overflow-hidden transition-all duration-300 ${
                   open === i ? "border-forest/40 bg-paper-soft" : "border-rule bg-paper-soft/40 hover:border-rule-bright"
                 }`}
               >
                 <button
                   type="button"
                   className="w-full flex items-center justify-between px-5 py-4 sm:px-6 sm:py-5 text-left gap-4"
+                  style={{ minHeight: 48 }}
                   onClick={() => setOpen(open === i ? null : i)}
                 >
-                  <span className="flex items-baseline gap-3">
-                    <span className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-clay font-semibold flex-shrink-0">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="text-[14px] sm:text-[15px] font-semibold text-ink leading-snug">{faq.q}</span>
-                  </span>
+                  <span className="text-[14px] sm:text-[15px] font-semibold text-ink leading-snug">{faq.q}</span>
                   <span
-                    className={`flex-shrink-0 w-7 h-7 rounded-[4px] flex items-center justify-center border transition-all duration-300 ${
+                    className={`flex-shrink-0 w-7 h-7 flex items-center justify-center border transition-all duration-300 ${
                       open === i ? "bg-forest border-forest rotate-45" : "border-rule text-ink-soft"
                     }`}
                   >
@@ -90,7 +79,7 @@ export default function FAQ() {
                   </span>
                 </button>
                 <div className={`transition-all duration-300 ease-in-out overflow-hidden ${open === i ? "max-h-96" : "max-h-0"}`}>
-                  <p className="px-5 sm:px-6 pb-5 pl-12 sm:pl-14 text-ink-soft text-[13.5px] sm:text-[14.5px] leading-relaxed font-medium">
+                  <p className="px-5 sm:px-6 pb-5 text-ink-soft text-[13.5px] sm:text-[14.5px] leading-relaxed font-medium">
                     {faq.a}
                   </p>
                 </div>

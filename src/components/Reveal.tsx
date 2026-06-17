@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState, ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 interface RevealProps {
   children: ReactNode;
@@ -10,19 +10,23 @@ interface RevealProps {
 
 export default function Reveal({ children, delay = 0, className = '' }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setReducedMotion(mq.matches);
-    if (mq.matches) { setVisible(true); return; }
+    if (mq.matches) return;
+
+    setVisible(false);
+
     const el = ref.current;
     if (!el) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setVisible(true);
+          setAnimate(true);
+          setTimeout(() => setVisible(true), delay);
           observer.disconnect();
         }
       },
@@ -30,7 +34,7 @@ export default function Reveal({ children, delay = 0, className = '' }: RevealPr
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [delay]);
 
   return (
     <div
@@ -38,7 +42,8 @@ export default function Reveal({ children, delay = 0, className = '' }: RevealPr
       className={className}
       style={{
         opacity: visible ? 1 : 0,
-        transition: reducedMotion ? 'none' : `opacity 0.5s ease ${delay}ms`,
+        transform: visible ? 'none' : 'translateY(12px)',
+        transition: animate ? `opacity 0.5s ease ${delay}ms, transform 0.5s ease ${delay}ms` : 'none',
       }}
     >
       {children}

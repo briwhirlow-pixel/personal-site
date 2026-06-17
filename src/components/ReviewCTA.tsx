@@ -35,15 +35,18 @@ export default function ReviewCTA() {
   };
 
   return (
-    <section className="relative bg-paper text-ink py-16 sm:py-20">
+    <section className="relative bg-paper-soft text-ink py-16 sm:py-20">
       <div className="max-w-3xl mx-auto px-5 sm:px-8 md:px-12">
         <Reveal>
-          <div className="bg-paper-soft border border-rule rounded-[8px] p-8 sm:p-10">
+          <div className="bg-paper-soft border border-rule p-8 sm:p-10">
 
             {view === "cta" && (
               <div className="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-8">
                 <div className="flex-1">
-                  <h3 className="font-serif text-[clamp(24px,3.5vw,32px)] leading-tight tracking-tight text-ink font-normal">
+                  <h3
+                    className="font-display font-bold leading-tight tracking-tight text-ink"
+                    style={{ fontSize: 'clamp(24px, 3.5vw, 32px)' }}
+                  >
                     Worked together?
                   </h3>
                   <p className="text-ink-soft text-[14px] sm:text-[15px] leading-relaxed mt-2 font-medium">
@@ -53,7 +56,8 @@ export default function ReviewCTA() {
                 <button
                   type="button"
                   onClick={() => setView("form")}
-                  className="inline-flex items-center gap-2 bg-forest text-paper font-semibold px-5 py-3 rounded-[6px] hover:bg-forest-deep transition-colors text-[14px] flex-shrink-0"
+                  className="inline-flex items-center gap-2 bg-clay text-ink font-semibold px-5 py-3 hover:bg-clay-deep transition-colors text-[14px] flex-shrink-0 active:scale-[0.98]"
+                  style={{ minHeight: 48 }}
                 >
                   <Star size={15} strokeWidth={1.75} />
                   Write a review
@@ -63,16 +67,18 @@ export default function ReviewCTA() {
 
             {view === "form" && (
               <div>
-                <h3 className="font-serif text-[clamp(22px,3.2vw,28px)] leading-tight tracking-tight text-ink font-normal">
+                <h3
+                  className="font-display font-bold leading-tight tracking-tight text-ink"
+                  style={{ fontSize: 'clamp(22px, 3.2vw, 28px)' }}
+                >
                   Tell me about working with BuiltbyBrian.
                 </h3>
                 <p className="text-ink-soft text-[13px] mt-2 font-medium">
                   Takes about a minute. Sends straight to my inbox , nothing publishes without your OK.
                 </p>
 
-                {/* Star rating */}
                 <div className="mt-6">
-                  <p className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-ink-muted mb-3">
+                  <p className="text-[10px] tracking-[0.12em] uppercase text-ink-muted font-semibold mb-3">
                     Your rating
                   </p>
                   <div className="flex items-center gap-1.5" role="radiogroup" aria-label="Rating from 1 to 5 stars">
@@ -90,7 +96,8 @@ export default function ReviewCTA() {
                           onFocus={() => setHover(n)}
                           onBlur={() => setHover(0)}
                           onClick={() => setRating(n)}
-                          className="p-1 -m-1 transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-forest/40 rounded"
+                          className="p-1.5 -m-1 transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-forest/40"
+                          style={{ minWidth: 44, minHeight: 44 }}
                         >
                           <Star
                             size={28}
@@ -101,15 +108,14 @@ export default function ReviewCTA() {
                         </button>
                       );
                     })}
-                    <span className="text-ink-muted text-[12px] font-serif font-semibold ml-3 tracking-wide">
+                    <span className="text-ink-muted text-[12px] font-semibold ml-3 tracking-wide">
                       {rating > 0 ? `${rating} / 5` : "Pick one"}
                     </span>
                   </div>
                 </div>
 
-                {/* Review textarea */}
                 <div className="mt-6">
-                  <label htmlFor="review-text" className="block font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-ink-muted mb-2">
+                  <label htmlFor="review-text" className="block text-[10px] tracking-[0.12em] uppercase text-ink-muted font-semibold mb-2">
                     Describe your experience
                   </label>
                   <textarea
@@ -118,16 +124,15 @@ export default function ReviewCTA() {
                     value={review}
                     onChange={(e) => setReview(e.target.value)}
                     placeholder="What was the project? How did it go? Anything stand out?"
-                    className="w-full bg-paper border border-rule rounded-[6px] px-4 py-3 text-[14px] text-ink placeholder:text-ink-muted focus:outline-none focus:border-forest focus:ring-2 focus:ring-forest/20 transition font-medium resize-none"
+                    className="w-full bg-paper border border-rule px-4 py-3 text-[14px] text-ink placeholder:text-ink-muted focus:outline-none focus:border-forest focus:ring-2 focus:ring-forest/20 transition font-medium resize-none"
                   />
                   <p className="text-ink-muted text-[11px] mt-1.5 font-medium">
                     {review.trim().length < 10 ? "A sentence or two is plenty." : "Looks good."}
                   </p>
                 </div>
 
-                {/* Name */}
                 <div className="mt-5">
-                  <label htmlFor="review-name" className="block font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-ink-muted mb-2">
+                  <label htmlFor="review-name" className="block text-[10px] tracking-[0.12em] uppercase text-ink-muted font-semibold mb-2">
                     Your name
                   </label>
                   <input
@@ -136,16 +141,16 @@ export default function ReviewCTA() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Jane S."
-                    className="w-full bg-paper border border-rule rounded-[6px] px-4 py-3 text-[14px] text-ink placeholder:text-ink-muted focus:outline-none focus:border-forest focus:ring-2 focus:ring-forest/20 transition font-medium"
+                    className="w-full bg-paper border border-rule px-4 py-3 text-[14px] text-ink placeholder:text-ink-muted focus:outline-none focus:border-forest focus:ring-2 focus:ring-forest/20 transition font-medium"
                   />
                 </div>
 
-                {/* Actions */}
                 <div className="mt-7 flex flex-col-reverse sm:flex-row items-stretch sm:items-center gap-3">
                   <button
                     type="button"
                     onClick={() => setView("cta")}
                     className="text-ink-muted hover:text-ink-soft text-[13px] font-medium transition-colors sm:mr-auto"
+                    style={{ minHeight: 44 }}
                   >
                     ← Back
                   </button>
@@ -153,7 +158,8 @@ export default function ReviewCTA() {
                     type="button"
                     onClick={sendReview}
                     disabled={!canSend}
-                    className="inline-flex items-center justify-center gap-2 bg-forest text-paper font-semibold px-5 py-3 rounded-[6px] hover:bg-forest-deep disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-[14px]"
+                    className="inline-flex items-center justify-center gap-2 bg-clay text-ink font-semibold px-5 py-3 hover:bg-clay-deep disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-[14px] active:scale-[0.98]"
+                    style={{ minHeight: 48 }}
                   >
                     <Mail size={15} strokeWidth={1.75} />
                     Send review
@@ -164,11 +170,11 @@ export default function ReviewCTA() {
 
             {view === "sent" && (
               <div role="status" aria-live="polite" className="flex flex-col sm:flex-row sm:items-center gap-5">
-                <div className="w-12 h-12 bg-forest rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 bg-forest flex items-center justify-center flex-shrink-0">
                   <Check size={20} className="text-paper" strokeWidth={2.5} />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-serif text-[24px] text-ink leading-tight tracking-tight">
+                  <h3 className="font-display font-bold text-[24px] text-ink leading-tight tracking-tight">
                     Thanks, {name.split(" ")[0] || "friend"}.
                   </h3>
                   <p className="text-ink-soft text-[14px] mt-1 font-medium">
@@ -183,6 +189,7 @@ export default function ReviewCTA() {
                       setReview("");
                     }}
                     className="text-forest hover:text-forest-deep text-[13px] font-semibold border-b border-forest/30 pb-0.5 mt-3"
+                    style={{ minHeight: 44 }}
                   >
                     Leave another →
                   </button>

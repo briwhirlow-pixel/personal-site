@@ -8,8 +8,7 @@ export default function FloatingCTA() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const heroHeight = window.innerHeight;
-      setVisible(window.scrollY > heroHeight * 0.8);
+      setVisible(window.scrollY > window.innerHeight * 0.8);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -21,20 +20,25 @@ export default function FloatingCTA() {
         href="/contact"
         style={{
           bottom: 'calc(1.5rem + env(safe-area-inset-bottom, 0px))',
-          boxShadow: "0 8px 24px -6px rgba(37,99,235,0.5)",
+          boxShadow: "0 8px 24px -6px rgba(232,88,58,0.5)",
+          minHeight: 44,
         }}
-        className={`fixed right-6 z-40 inline-flex items-center gap-2 bg-forest text-paper font-semibold px-5 py-3 rounded-[6px] hover:bg-forest-deep transition-all duration-300 text-[13px] ${
+        className={`fixed right-5 z-40 inline-flex items-center gap-2 bg-clay text-ink font-semibold px-5 py-3 hover:bg-clay-deep transition-all duration-300 text-[13px] active:scale-[0.97] ${
           visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0 pointer-events-none"
         }`}
       >
         Start a project
-        <span aria-hidden className="font-serif text-[15px] leading-none">↗</span>
+        <span aria-hidden className="text-[14px] leading-none">→</span>
       </a>
 
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        style={{ bottom: 'calc(1.5rem + env(safe-area-inset-bottom, 0px))' }}
-        className={`fixed left-6 z-40 w-10 h-10 rounded-full bg-paper border border-rule flex items-center justify-center text-ink-muted hover:text-forest hover:border-forest/40 transition-all duration-300 ${
+        style={{
+          bottom: 'calc(1.5rem + env(safe-area-inset-bottom, 0px))',
+          minWidth: 44,
+          minHeight: 44,
+        }}
+        className={`fixed left-5 z-40 w-11 h-11 bg-paper-soft border border-rule flex items-center justify-center text-ink-muted hover:text-forest hover:border-rule-bright transition-all duration-300 ${
           visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0 pointer-events-none"
         }`}
         aria-label="Back to top"

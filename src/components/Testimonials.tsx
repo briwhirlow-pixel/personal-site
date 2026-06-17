@@ -50,60 +50,57 @@ function Stars({ size = 13 }: { size?: number }) {
 
 export default function Testimonials() {
   return (
-    <section id="reviews" className="relative bg-paper text-ink pt-20 pb-24">
-      <div className="relative max-w-5xl mx-auto px-5 sm:px-8 md:px-12">
+    <section id="reviews" className="relative bg-paper-soft text-ink pt-20 pb-24">
+      <div className="relative max-w-3xl mx-auto px-5 sm:px-8 md:px-12">
 
-        {/* Opening */}
-        <Reveal className="max-w-3xl mb-20 pt-4">
-          <h2 className="font-serif text-[clamp(36px,6vw,72px)] leading-[0.95] tracking-[-0.025em] text-ink font-normal">
+        {/* Narrow editorial column — structurally different from other sections */}
+        <Reveal className="mb-20 pt-4">
+          <h2
+            className="font-display font-bold leading-[1.05] tracking-tight text-ink"
+            style={{ fontSize: 'clamp(28px, 4.5vw, 44px)' }}
+          >
             What clients have said.
           </h2>
-          <p className="text-ink-soft text-[16px] sm:text-[17px] mt-5 leading-relaxed font-medium">
+          <p className="text-ink-soft text-[15px] mt-4 leading-relaxed font-medium">
             Pulled straight from the reviews. Nothing rewritten, nothing trimmed.
           </p>
         </Reveal>
 
-        {/* Editorial pull-quotes , vertical scroll, full-bleed, no cards.
-            Each quote owns its row. Reads like a magazine column, not a grid. */}
         <div className="space-y-20 sm:space-y-24">
           {reviews.map((review, i) => (
             <Reveal key={review.name} delay={i * 60}>
               <article className="relative">
-                {/* Editorial metadata row */}
                 <div className="flex items-center gap-4 mb-5">
-                  <span className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-ink-muted font-semibold">
-                    Nº 0{i + 1}
+                  <span className="text-[11px] font-semibold tracking-[0.15em] uppercase text-clay">
+                    {review.tag}
                   </span>
                   <span aria-hidden className="flex-1 border-t border-rule" />
-                  <span className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-clay font-semibold">
-                    {review.tag}
+                  <span className="text-[11px] text-ink-muted font-medium">
+                    {review.date}
                   </span>
                 </div>
 
-                {/* The quote itself , big editorial serif, no border, no card */}
-                <blockquote className="font-serif text-[clamp(22px,3.2vw,36px)] leading-[1.25] tracking-tight text-ink font-normal">
-                  <span aria-hidden className="text-clay font-serif text-[1.5em] leading-[0] align-[-0.2em] mr-1">&ldquo;</span>
+                <blockquote
+                  className="font-display font-bold leading-[1.3] tracking-tight text-ink"
+                  style={{ fontSize: 'clamp(20px, 2.8vw, 30px)' }}
+                >
+                  <span aria-hidden className="text-clay text-[1.4em] leading-[0] align-[-0.2em] mr-1">&ldquo;</span>
                   {review.text}
-                  <span aria-hidden className="text-clay font-serif text-[1.5em] leading-[0] align-[-0.3em] ml-1">&rdquo;</span>
+                  <span aria-hidden className="text-clay text-[1.4em] leading-[0] align-[-0.3em] ml-1">&rdquo;</span>
                 </blockquote>
 
-                {/* Byline */}
                 <div className="mt-6 flex items-center gap-4">
                   <Stars />
-                  <div className="flex items-baseline gap-3">
-                    <span className="text-ink text-[14px] font-semibold">{review.name}</span>
-                    <span className="font-serif font-semibold text-[10.5px] text-ink-muted tracking-wide">{review.date}</span>
-                  </div>
+                  <span className="text-ink text-[14px] font-semibold">{review.name}</span>
                 </div>
               </article>
             </Reveal>
           ))}
         </div>
 
-        {/* Compact row for the "left 5 stars, no text" reviews */}
         <Reveal delay={240}>
           <div className="mt-24 pt-10 border-t border-rule">
-            <p className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-ink-muted font-semibold mb-5">
+            <p className="text-[11px] tracking-[0.12em] uppercase text-ink-muted font-semibold mb-5">
               And five-star ratings from
             </p>
             <div className="flex flex-wrap gap-x-8 gap-y-3">
@@ -111,14 +108,13 @@ export default function Testimonials() {
                 <div key={r.name} className="flex items-center gap-3">
                   <Stars size={11} />
                   <span className="text-ink text-[14px] font-semibold">{r.name}</span>
-                  <span className="font-serif font-semibold text-[10.5px] text-ink-muted tracking-wide">{r.date}</span>
+                  <span className="text-[11px] text-ink-muted font-medium">{r.date}</span>
                 </div>
               ))}
             </div>
           </div>
         </Reveal>
 
-        {/* Bottom anchor line */}
         <Reveal delay={300}>
           <div className="mt-16 pt-8 border-t border-rule flex items-center gap-3">
             <Stars />

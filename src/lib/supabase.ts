@@ -29,6 +29,3 @@ export function getSupabaseAdmin(): SupabaseClient {
 export function getSupabaseClient(): SupabaseClient {
   return getSupabase();
 }
-
-// Re-export for legacy route compatibility
-export type { WeekLog } from '@/lib/gym';

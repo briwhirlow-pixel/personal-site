@@ -34,12 +34,12 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled || menuOpen
-          ? "bg-paper/90 backdrop-blur-md border-b border-rule"
-          : "bg-paper/60 backdrop-blur-sm border-b border-transparent"
+          ? "bg-paper/95 backdrop-blur-md border-b border-rule"
+          : "bg-transparent border-b border-transparent"
       }`}
     >
-      <nav className="max-w-6xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center" aria-label="BuiltByBrian — home">
+      <nav className="max-w-6xl mx-auto px-5 sm:px-8 md:px-10 h-16 flex items-center justify-between">
+        <Link href="/" className="flex items-center" aria-label="BuiltByBrian home">
           <Logo />
         </Link>
 
@@ -60,18 +60,19 @@ export default function Navbar() {
           })}
           <Link
             href="/contact"
-            className="group inline-flex items-center gap-2 text-[13px] font-semibold bg-forest text-paper px-5 py-2.5 rounded-[6px] hover:bg-forest-deep transition-colors"
-            style={{ boxShadow: "0 4px 16px -6px rgba(37,99,235,0.45)" }}
+            className="inline-flex items-center gap-2 text-[13px] font-semibold bg-clay text-ink px-5 py-2.5 hover:bg-clay-deep transition-colors active:scale-[0.98]"
+            style={{ boxShadow: "0 4px 16px -6px rgba(232,88,58,0.45)" }}
           >
             Start a project
-            <span aria-hidden className="text-paper/70 font-serif font-semibold text-[11px]">↵</span>
+            <span aria-hidden className="text-[11px]">→</span>
           </Link>
         </div>
 
         <button
-          className="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-[5px]"
+          className="md:hidden flex flex-col justify-center items-center w-11 h-11 gap-[5px] -mr-2"
           onClick={() => setMenuOpen((v) => !v)}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
+          style={{ minWidth: 44, minHeight: 44 }}
         >
           <span className={`block h-px w-6 bg-ink transition-all duration-200 ${menuOpen ? "rotate-45 translate-y-[6px]" : ""}`} />
           <span className={`block h-px w-6 bg-ink transition-all duration-200 ${menuOpen ? "opacity-0" : ""}`} />
@@ -80,14 +81,15 @@ export default function Navbar() {
       </nav>
 
       {menuOpen && (
-        <div className="md:hidden bg-paper border-t border-rule px-6 py-2 flex flex-col">
+        <div className="md:hidden bg-paper border-t border-rule px-5 pb-6 flex flex-col">
           {navLinks.map((link) => {
             const active = pathname === link.href || pathname.startsWith(link.href + "/");
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[16px] py-4 border-b border-rule font-serif ${active ? "text-ink" : "text-ink-soft"}`}
+                className={`text-[17px] py-4 border-b border-rule font-display font-bold ${active ? "text-forest" : "text-ink-soft"}`}
+                style={{ minHeight: 48 }}
               >
                 {link.label}
               </Link>
@@ -95,9 +97,10 @@ export default function Navbar() {
           })}
           <Link
             href="/contact"
-            className="mt-5 mb-3 text-center text-[14px] font-semibold bg-forest text-paper px-5 py-3.5 rounded-[6px]"
+            className="mt-6 text-center text-[15px] font-semibold bg-clay text-ink px-5 py-4 hover:bg-clay-deep transition-colors"
+            style={{ minHeight: 48 }}
           >
-            Start a project
+            Start a project →
           </Link>
         </div>
       )}

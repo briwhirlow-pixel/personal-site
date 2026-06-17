@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Mail, CalendarDays, ClipboardList, Phone, Zap, Rocket, Check, ChevronDown } from "lucide-react";
+import { Mail, CalendarDays, Check, ChevronDown } from "lucide-react";
 import { budgetOptions, launchOptions, siteConfig } from "@/lib/data";
 import Reveal from "./Reveal";
 
@@ -32,7 +32,7 @@ function getTomorrow(): string {
   return d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
 }
 
-const faqs = [
+const contactFaqs = [
   {
     q: "How long does a typical project take?",
     a: "Most sites are done in 2 to 4 weeks. You get a first draft within 5 days of project kickoff so you're never left waiting.",
@@ -99,25 +99,20 @@ export default function Contact() {
   const inputClass = (hasError?: boolean) =>
     `w-full bg-paper border ${
       hasError ? "border-clay" : "border-rule"
-    } rounded-[6px] px-4 py-3 text-[14px] text-ink placeholder:text-ink-muted focus:outline-none focus:border-forest focus:ring-2 focus:ring-forest/20 transition font-medium`;
+    } px-4 py-3 text-[14px] text-ink placeholder:text-ink-muted focus:outline-none focus:border-forest focus:ring-2 focus:ring-forest/20 transition font-medium`;
 
   const hasCalendly = Boolean(siteConfig.calendlyUrl);
-
-  const steps = [
-    { Icon: ClipboardList, title: "Fill out this form", time: "2 min", desc: "Tell me what you need, your timeline, and budget.", active: true },
-    { Icon: Phone, title: "Free 30 min discovery call", time: "Free", desc: "We align on goals, design direction, and scope , I answer everything.", active: false },
-    { Icon: Zap, title: "I build your site", time: "2 to 4 weeks", desc: "Regular check ins so you always know where things stand.", active: false },
-    { Icon: Rocket, title: "Launch your way", time: "Go live", desc: "Take your files and host anywhere , or let me manage hosting for $49/mo. Either way, you own it.", active: false },
-  ];
 
   return (
     <section id="contact" className="relative bg-paper text-ink pt-20 pb-24">
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12">
 
-        {/* Opening , no kicker. Just the headline. */}
         <Reveal>
           <div className="max-w-3xl mb-14 pt-4">
-            <h2 className="font-serif text-[clamp(36px,6vw,72px)] leading-[0.95] tracking-[-0.025em] text-ink font-normal">
+            <h2
+              className="font-display font-extrabold leading-[0.95] tracking-[-0.025em] text-ink"
+              style={{ fontSize: 'clamp(36px, 6vw, 72px)' }}
+            >
               Tell me what you&apos;re building.
             </h2>
             <p className="text-ink-soft text-[16px] sm:text-[17px] mt-5 leading-relaxed font-medium max-w-2xl">
@@ -128,23 +123,19 @@ export default function Contact() {
 
         <div className="grid md:grid-cols-2 gap-10 sm:gap-12 items-start">
 
-          {/* Left column */}
+          {/* Left column — contact options + FAQ only, no step sequence */}
           <Reveal delay={100}>
-            <p className="text-ink-soft text-[15px] leading-relaxed mb-8 font-medium">
-              Tell me what you need. I&apos;ll review your project and reach out personally , no commitment, no fluff.
-            </p>
-
-            {/* Contact options */}
             <div className="space-y-2 mb-10">
               <a
                 href={`mailto:${siteConfig.email}`}
-                className="flex items-center gap-4 group p-4 rounded-[6px] hover:bg-paper-soft border border-transparent hover:border-rule transition-colors"
+                className="flex items-center gap-4 group p-4 hover:bg-paper-soft border border-transparent hover:border-rule transition-colors"
+                style={{ minHeight: 48 }}
               >
-                <div className="w-10 h-10 rounded-[6px] border border-rule bg-paper-soft flex items-center justify-center group-hover:bg-forest group-hover:border-forest transition-colors flex-shrink-0">
+                <div className="w-10 h-10 border border-rule bg-paper-soft flex items-center justify-center group-hover:bg-forest group-hover:border-forest transition-colors flex-shrink-0">
                   <Mail size={15} className="text-forest group-hover:text-paper transition-colors" strokeWidth={1.75} />
                 </div>
                 <div>
-                  <p className="font-serif font-semibold text-[10px] text-ink-muted uppercase tracking-[0.18em] font-semibold">Email Directly</p>
+                  <p className="text-[10px] text-ink-muted uppercase tracking-[0.12em] font-semibold">Email directly</p>
                   <p className="text-ink text-[14px] font-semibold mt-0.5">{siteConfig.email}</p>
                 </div>
               </a>
@@ -154,79 +145,43 @@ export default function Contact() {
                   href={siteConfig.calendlyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 group p-4 rounded-[6px] hover:bg-paper-soft border border-transparent hover:border-rule transition-colors"
+                  className="flex items-center gap-4 group p-4 hover:bg-paper-soft border border-transparent hover:border-rule transition-colors"
+                  style={{ minHeight: 48 }}
                 >
-                  <div className="w-10 h-10 rounded-[6px] border border-rule bg-paper-soft flex items-center justify-center group-hover:bg-forest group-hover:border-forest transition-colors flex-shrink-0">
+                  <div className="w-10 h-10 border border-rule bg-paper-soft flex items-center justify-center group-hover:bg-forest group-hover:border-forest transition-colors flex-shrink-0">
                     <CalendarDays size={15} className="text-forest group-hover:text-paper transition-colors" strokeWidth={1.75} />
                   </div>
                   <div>
-                    <p className="font-serif font-semibold text-[10px] text-ink-muted uppercase tracking-[0.18em] font-semibold">Skip the form</p>
+                    <p className="text-[10px] text-ink-muted uppercase tracking-[0.12em] font-semibold">Skip the form</p>
                     <p className="text-ink text-[14px] font-semibold mt-0.5">Book a free 30 min discovery call →</p>
                   </div>
                 </a>
               ) : (
-                <div className="flex items-center gap-4 p-4 rounded-[6px] bg-paper-soft border border-rule">
-                  <div className="w-10 h-10 rounded-[6px] border border-rule bg-paper flex items-center justify-center flex-shrink-0">
+                <div className="flex items-center gap-4 p-4 bg-paper-soft border border-rule">
+                  <div className="w-10 h-10 border border-rule bg-paper flex items-center justify-center flex-shrink-0">
                     <CalendarDays size={15} className="text-forest" strokeWidth={1.75} />
                   </div>
                   <div>
-                    <p className="font-serif font-semibold text-[10px] text-ink-muted uppercase tracking-[0.18em] font-semibold">Response Time</p>
+                    <p className="text-[10px] text-ink-muted uppercase tracking-[0.12em] font-semibold">Response time</p>
                     <p className="text-ink text-[14px] font-semibold mt-0.5">Within 24 hours , usually same day</p>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* How it works */}
-            <div className="mb-10">
-              <p className="font-serif font-semibold text-[10px] text-ink-muted uppercase tracking-[0.22em] font-semibold mb-6">
-                How it works
-              </p>
-              <div className="relative">
-                <div className="absolute left-[19px] top-8 bottom-8 w-px bg-rule" />
-                <div className="space-y-1">
-                  {steps.map((item, i) => (
-                    <div key={i} className="flex items-start gap-4 group relative">
-                      <div
-                        className={`relative z-10 w-10 h-10 rounded-[6px] flex items-center justify-center flex-shrink-0 border transition-all duration-300 ${
-                          item.active ? "bg-forest border-forest" : "bg-paper border-rule group-hover:border-forest/50"
-                        }`}
-                        style={item.active ? { boxShadow: "0 0 0 4px rgba(37,99,235,0.1)" } : undefined}
-                      >
-                        <item.Icon size={15} className={item.active ? "text-paper" : "text-ink-soft"} strokeWidth={1.75} />
-                      </div>
-                      <div
-                        className={`flex-1 mb-1 px-4 py-3 rounded-[6px] transition-all duration-300 ${
-                          item.active ? "bg-forest/5 border border-forest/20" : "bg-transparent group-hover:bg-paper-soft"
-                        }`}
-                      >
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className={`font-serif font-semibold text-[9.5px] font-semibold tracking-[0.22em] uppercase ${item.active ? "text-forest" : "text-ink-muted"}`}>
-                            Step 0{i + 1}
-                          </span>
-                          <span className="font-serif font-semibold text-[9.5px] font-medium text-forest bg-forest/10 px-1.5 py-0.5 rounded-[3px]">{item.time}</span>
-                        </div>
-                        <p className="text-[13.5px] font-semibold text-ink leading-snug">{item.title}</p>
-                        <p className="text-[12px] text-ink-soft leading-relaxed mt-0.5 font-medium">{item.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
             {/* FAQ */}
             <div>
-              <p className="font-serif font-semibold text-[10px] text-ink-muted uppercase tracking-[0.22em] font-semibold mb-3">
+              <p className="text-[10px] text-ink-muted uppercase tracking-[0.12em] font-semibold mb-3">
                 Common questions
               </p>
               <div className="space-y-2">
-                {faqs.map((faq, i) => (
-                  <div key={i} className="border border-rule rounded-[6px] overflow-hidden bg-paper-soft">
+                {contactFaqs.map((faq, i) => (
+                  <div key={i} className="border border-rule overflow-hidden bg-paper-soft">
                     <button
                       type="button"
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}
                       className="w-full flex items-center justify-between px-4 py-3.5 text-left gap-3"
+                      style={{ minHeight: 44 }}
                     >
                       <span className="text-[13px] font-semibold text-ink leading-snug">{faq.q}</span>
                       <ChevronDown
@@ -250,22 +205,23 @@ export default function Contact() {
           {/* Right , form */}
           <Reveal delay={200}>
             {status === "success" ? (
-              <div className="bg-paper-soft border border-rule rounded-[8px] p-8 sm:p-10" role="status" aria-live="polite">
-                <div className="w-12 h-12 bg-forest rounded-full flex items-center justify-center mb-5">
+              <div className="bg-paper-soft border border-rule p-8 sm:p-10" role="status" aria-live="polite">
+                <div className="w-12 h-12 bg-forest flex items-center justify-center mb-5">
                   <Check size={20} className="text-paper" strokeWidth={2.5} />
                 </div>
-                <h3 className="font-serif text-[28px] text-ink mb-3 leading-tight">Got it.</h3>
+                <h3 className="font-display font-bold text-[28px] text-ink mb-3 leading-tight">Got it.</h3>
                 <p className="text-ink-soft text-[15px] leading-relaxed mb-2 font-medium">
                   I&apos;ll email you back from <span className="font-semibold text-ink">brianwhirlowbusiness@gmail.com</span> by{" "}
                   <span className="font-semibold text-ink">{getTomorrow()}</span> , usually within a few hours.
                 </p>
-                <p className="text-ink-soft text-[14px] mb-7 font-medium">— Brian</p>
+                <p className="text-ink-muted text-[14px] mb-7 font-display font-bold">Brian</p>
                 {hasCalendly && (
                   <a
                     href={siteConfig.calendlyUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-forest text-paper font-semibold px-5 py-3 rounded-[6px] hover:bg-forest-deep transition-colors text-[13px] mr-3"
+                    className="inline-flex items-center gap-2 bg-forest text-paper font-semibold px-5 py-3 hover:bg-forest-deep transition-colors text-[13px] mr-3"
+                    style={{ minHeight: 44 }}
                   >
                     Or grab a call slot →
                   </a>
@@ -275,27 +231,22 @@ export default function Contact() {
                 </a>
               </div>
             ) : (
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 bg-paper-soft border border-rule rounded-[8px] p-6 sm:p-7">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 bg-paper-soft border border-rule p-6 sm:p-7">
 
-                {/* Step indicator */}
-                <div className="flex items-center gap-2 mb-2">
-                  {[1, 2].map((s) => (
-                    <div key={s} className="flex items-center gap-2">
-                      <div className={`w-6 h-6 rounded-[4px] flex items-center justify-center text-[11px] font-bold font-serif font-semibold transition-all ${formStep >= s ? "bg-forest text-paper" : "bg-paper border border-rule text-ink-muted"}`}>{s}</div>
-                      {s < 2 && <div className={`h-px w-8 transition-all ${formStep >= 2 ? "bg-forest" : "bg-rule"}`} />}
-                    </div>
-                  ))}
-                  <span className="font-serif font-semibold text-[10px] tracking-[0.18em] uppercase text-ink-muted ml-1">
+                {/* Step indicator — no numbers, just progress bar */}
+                <div className="flex items-center gap-3 mb-2">
+                  <div className={`h-1 flex-1 transition-colors ${formStep >= 1 ? "bg-forest" : "bg-rule"}`} />
+                  <div className={`h-1 flex-1 transition-colors ${formStep >= 2 ? "bg-forest" : "bg-rule"}`} />
+                  <span className="text-[10px] tracking-[0.12em] uppercase text-ink-muted font-semibold ml-1">
                     {formStep === 1 ? "The basics" : "A few more details"}
                   </span>
                 </div>
 
-                {/* Step 1 */}
                 {formStep === 1 && (
                   <>
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <label htmlFor="contact-name" className="block font-serif font-semibold text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Your Name</label>
+                        <label htmlFor="contact-name" className="block text-[10px] font-semibold text-ink tracking-[0.12em] uppercase mb-2">Your Name</label>
                         <input id="contact-name" type="text" placeholder="Jane Smith"
                           className={inputClass(!!errors.name)}
                           aria-invalid={!!errors.name}
@@ -304,7 +255,7 @@ export default function Contact() {
                         {errors.name && <p id="contact-name-error" className="text-clay text-[12px] mt-1">{errors.name.message}</p>}
                       </div>
                       <div>
-                        <label htmlFor="contact-email" className="block font-serif font-semibold text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Email</label>
+                        <label htmlFor="contact-email" className="block text-[10px] font-semibold text-ink tracking-[0.12em] uppercase mb-2">Email</label>
                         <input id="contact-email" type="email" placeholder="jane@example.com"
                           className={inputClass(!!errors.email)}
                           aria-invalid={!!errors.email}
@@ -315,7 +266,7 @@ export default function Contact() {
                     </div>
 
                     <div>
-                      <label htmlFor="contact-phone" className="block font-serif font-semibold text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">
+                      <label htmlFor="contact-phone" className="block text-[10px] font-semibold text-ink tracking-[0.12em] uppercase mb-2">
                         Phone <span className="text-ink-muted normal-case font-medium tracking-normal">, optional</span>
                       </label>
                       <input id="contact-phone" type="tel" placeholder="(555) 000-0000" className={inputClass()}
@@ -323,7 +274,7 @@ export default function Contact() {
                     </div>
 
                     <div>
-                      <label htmlFor="contact-message" className="block font-serif font-semibold text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Tell Me About Your Project</label>
+                      <label htmlFor="contact-message" className="block text-[10px] font-semibold text-ink tracking-[0.12em] uppercase mb-2">Tell Me About Your Project</label>
                       <textarea id="contact-message" rows={5} placeholder="What do you need built? What's the goal? Any details help."
                         className={`${inputClass(!!errors.message)} resize-none`}
                         aria-invalid={!!errors.message}
@@ -333,19 +284,18 @@ export default function Contact() {
                     </div>
 
                     <button type="button" onClick={goToStep2}
-                      className="w-full bg-forest text-paper font-semibold py-3.5 px-6 rounded-[6px] hover:bg-forest-deep transition-colors text-[14px] tracking-wide"
-                      style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.4)" }}>
+                      className="w-full bg-clay text-ink font-semibold py-4 px-6 hover:bg-clay-deep transition-colors text-[14px] active:scale-[0.98]"
+                      style={{ boxShadow: "0 8px 24px -8px rgba(232,88,58,0.4)", minHeight: 48 }}>
                       Next , Choose Your Budget →
                     </button>
-                    <p className="text-center text-[11px] text-ink-muted font-serif font-semibold tracking-wide -mt-1">FREE QUOTE · NO COMMITMENT</p>
+                    <p className="text-center text-[11px] text-ink-muted font-semibold tracking-[0.1em] uppercase -mt-1">Free quote · No commitment</p>
                   </>
                 )}
 
-                {/* Step 2 */}
                 {formStep === 2 && (
                   <>
                     <div>
-                      <label htmlFor="contact-type" className="block font-serif font-semibold text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Type of Website</label>
+                      <label htmlFor="contact-type" className="block text-[10px] font-semibold text-ink tracking-[0.12em] uppercase mb-2">Type of Website</label>
                       <select id="contact-type"
                         className={inputClass(!!errors.websiteType)}
                         aria-invalid={!!errors.websiteType}
@@ -379,7 +329,7 @@ export default function Contact() {
                     </div>
 
                     <div>
-                      <label htmlFor="contact-budget" className="block font-serif font-semibold text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-2">Budget Range</label>
+                      <label htmlFor="contact-budget" className="block text-[10px] font-semibold text-ink tracking-[0.12em] uppercase mb-2">Budget Range</label>
                       <select id="contact-budget"
                         className={inputClass(!!errors.budget)}
                         aria-invalid={!!errors.budget}
@@ -392,19 +342,21 @@ export default function Contact() {
                     </div>
 
                     <div>
-                      <label className="block font-serif font-semibold text-[10px] font-semibold text-ink tracking-[0.18em] uppercase mb-3">Expected Launch Date</label>
+                      <label className="block text-[10px] font-semibold text-ink tracking-[0.12em] uppercase mb-3">Expected Launch Date</label>
                       <input type="hidden" {...register("launchDate")} />
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
                         {launchOptions.map((opt) => (
                           <button key={opt.value} type="button" onClick={() => selectLaunch(opt.value)}
-                            className={`py-2.5 px-3 rounded-[6px] border text-left transition-all ${
+                            className={`py-2.5 px-3 border text-left transition-all ${
                               launchOption === opt.value
                                 ? "border-forest bg-forest/10 text-forest"
                                 : "border-rule text-ink-soft hover:border-forest/40 bg-paper"
-                            }`}>
+                            }`}
+                            style={{ minHeight: 44 }}
+                          >
                             <span className="block text-[12.5px] font-semibold">{opt.label}</span>
                             {launchOption === opt.value && opt.value !== "custom" && (
-                              <span className="block font-serif font-semibold text-[10px] mt-0.5 opacity-70 tracking-wide">{getDateFromOption(opt.value)}</span>
+                              <span className="block text-[10px] mt-0.5 opacity-70 tracking-wide">{getDateFromOption(opt.value)}</span>
                             )}
                           </button>
                         ))}
@@ -416,13 +368,12 @@ export default function Contact() {
                       )}
                     </div>
 
-                    {/* Testimonial proof */}
-                    <div className="bg-paper border border-rule rounded-[6px] p-4 flex gap-3 items-start">
-                      <div className="w-9 h-9 rounded-full bg-forest flex items-center justify-center flex-shrink-0">
-                        <span className="text-paper text-[10px] font-bold font-serif font-semibold">PS</span>
+                    <div className="bg-paper border border-rule p-4 flex gap-3 items-start">
+                      <div className="w-9 h-9 bg-forest flex items-center justify-center flex-shrink-0">
+                        <span className="text-paper text-[10px] font-bold font-display">PS</span>
                       </div>
                       <div>
-                        <p className="text-[12px] text-ink-soft leading-relaxed italic font-medium">&ldquo;He designed every page from scratch, handled our SEO setup, and we started showing up in Google searches we never ranked for before. Super professional.&rdquo;</p>
+                        <p className="text-[12px] text-ink-soft leading-relaxed font-medium">&ldquo;He designed every page from scratch, handled our SEO setup, and we started showing up in Google searches we never ranked for before. Super professional.&rdquo;</p>
                         <p className="text-[11px] font-semibold text-ink mt-1.5">Priya S. , Ecommerce Client</p>
                       </div>
                     </div>
@@ -438,17 +389,19 @@ export default function Contact() {
 
                     <div>
                       <button type="submit" disabled={status === "loading"}
-                        className="w-full bg-forest text-paper font-semibold py-3.5 px-6 rounded-[6px] hover:bg-forest-deep disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-[14px] tracking-wide"
-                        style={{ boxShadow: "0 8px 24px -8px rgba(37,99,235,0.4)" }}>
+                        className="w-full bg-clay text-ink font-semibold py-4 px-6 hover:bg-clay-deep disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-[14px] active:scale-[0.98]"
+                        style={{ boxShadow: "0 8px 24px -8px rgba(232,88,58,0.4)", minHeight: 48 }}>
                         {status === "loading" ? "Sending…" : "Get My Free Quote →"}
                       </button>
-                      <p className="text-center text-[11px] text-ink-muted font-serif font-semibold tracking-wide mt-2.5">
-                        NO COMMITMENT · 24-HOUR RESPONSE
+                      <p className="text-center text-[11px] text-ink-muted font-semibold tracking-[0.1em] uppercase mt-2.5">
+                        No commitment · 24-hour response
                       </p>
                     </div>
 
                     <button type="button" onClick={() => setFormStep(1)}
-                      className="w-full text-center text-[12px] text-ink-muted hover:text-ink-soft transition font-medium">
+                      className="w-full text-center text-[12px] text-ink-muted hover:text-ink-soft transition font-medium"
+                      style={{ minHeight: 44 }}
+                    >
                       ← Back
                     </button>
                   </>

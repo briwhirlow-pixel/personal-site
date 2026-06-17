@@ -1,294 +1,162 @@
 'use client';
 import { websiteTypes, liveProjects, WebsiteType } from "@/lib/data";
-import { ShoppingBag, Frame, UtensilsCrossed, Briefcase, Home, Dumbbell, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import Reveal from "./Reveal";
 
-const iconByKey: Record<string, React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>> = {
-  ecommerce: ShoppingBag,
-  portfolio: Frame,
-  restaurant: UtensilsCrossed,
-  business: Briefcase,
-  realestate: Home,
-  health: Dumbbell,
-};
-
-// Each mockup is an art-directed editorial preview, not a wireframe.
-// brand = small wordmark in the bar; label = mono kicker; h1/accent = serif headline;
-// cta = pill button text. Placeholder names are fictional but tonally fitting.
-const mockupThemes: Record<
-  string,
-  {
-    navBg: string;
-    heroBg: string;
-    headline: string;
-    accent: string;
-    imgBg: string;
-    brand: string;
-    label: string;
-    h1: string;
-    accentWord: string;
-    cta: string;
-  }
-> = {
-  ecommerce: {
-    navBg: '#FFFFFF', heroBg: '#F8F4EF', headline: '#0F172A', accent: '#1F2937', imgBg: '#E8DCC9',
-    brand: 'BLOOM', label: 'New season', h1: 'Spring pieces,', accentWord: 'now live.', cta: 'Shop',
-  },
-  portfolio: {
-    navBg: '#0F0F0F', heroBg: '#0F0F0F', headline: '#F5F1EA', accent: '#D4B68A', imgBg: '#2A2A2A',
-    brand: 'MARA WONG', label: 'Selected works', h1: 'Photographs,', accentWord: '2024 to 2026.', cta: 'Archive',
-  },
-  restaurant: {
-    navBg: '#FBF7EF', heroBg: '#FBF7EF', headline: '#2C1A0E', accent: '#B45309', imgBg: '#E9C97A',
-    brand: 'Maison Vert', label: "Tonight's menu", h1: 'Seasonal · local,', accentWord: 'open from five.', cta: 'Reserve',
-  },
-  business: {
-    navBg: '#0F1F3D', heroBg: '#0F1F3D', headline: '#F1F5F9', accent: '#60A5FA', imgBg: '#1E3A8A',
-    brand: 'NORTHCAP', label: 'Advisory', h1: 'Capital strategy,', accentWord: 'made calm.', cta: 'Talk to us',
-  },
-  realestate: {
-    navBg: '#F5F0E8', heroBg: '#F5F0E8', headline: '#1C2B1A', accent: '#4A7C59', imgBg: '#C9D6B8',
-    brand: 'Pinewood', label: 'Featured listings', h1: 'Homes across', accentWord: 'South Jersey.', cta: 'Browse',
-  },
-  health: {
-    navBg: '#FFFFFF', heroBg: '#EFEAE2', headline: '#1A2E22', accent: '#3F6B4A', imgBg: '#C7D3BC',
-    brand: 'STILLWATER', label: 'Pilates studio', h1: 'Strong,', accentWord: 'breath led classes.', cta: 'Book',
-  },
-};
-
-function BrowserMockup({ mockupKey }: { mockupKey: string }) {
-  const t = mockupThemes[mockupKey] ?? mockupThemes.business;
-  return (
-    <div
-      className="w-full rounded-[6px] overflow-hidden border border-rule"
-      style={{ aspectRatio: '16/10', background: t.heroBg }}
-    >
-      {/* Refined header bar , wordmark + nav, no garish chrome dots */}
-      <div className="flex items-center justify-between h-[22px] px-3" style={{ background: t.navBg }}>
-        <span
-          className="text-[8px] font-serif font-semibold font-bold tracking-[0.18em] uppercase leading-none"
-          style={{ color: t.headline }}
-        >
-          {t.brand}
-        </span>
-        <div className="flex gap-2">
-          {[10, 8, 10].map((w, i) => (
-            <span
-              key={i}
-              className="h-[2px] rounded-full"
-              style={{ width: w, background: t.headline, opacity: 0.35 }}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Hero , kicker + serif headline + CTA + thumbnail row */}
-      <div className="px-4 pt-3.5 pb-3 flex flex-col" style={{ height: 'calc(100% - 22px)' }}>
-        <span
-          className="text-[7px] font-serif font-semibold font-bold tracking-[0.22em] uppercase leading-none"
-          style={{ color: t.accent }}
-        >
-          {t.label}
-        </span>
-        <span
-          className="font-serif tracking-tight mt-2 leading-[1.05]"
-          style={{ color: t.headline, fontSize: 'clamp(15px, 2.2vw, 21px)' }}
-        >
-          {t.h1}
-          <br />
-          <span className="italic" style={{ color: t.accent }}>{t.accentWord}</span>
-        </span>
-
-        <div className="mt-auto flex items-end justify-between gap-2 pt-2">
-          <span
-            className="inline-flex items-center text-[8px] font-semibold font-serif font-semibold uppercase tracking-[0.15em] px-2.5 py-1 rounded-full leading-none"
-            style={{ background: t.accent, color: t.navBg }}
-          >
-            {t.cta} →
-          </span>
-          <div className="flex gap-1">
-            <span className="w-6 h-6 rounded-[3px]" style={{ background: t.imgBg }} />
-            <span className="w-6 h-6 rounded-[3px]" style={{ background: t.imgBg, opacity: 0.6 }} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function Portfolio() {
+  const project = liveProjects[0];
+
   return (
     <section id="portfolio" className="relative bg-paper text-ink pt-20 pb-28">
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12">
 
-        {/* Section header */}
         <Reveal>
-          <div className="flex items-baseline pb-4 border-b border-rule mb-12">
-            <span className="font-serif font-semibold text-[10.5px] tracking-[0.22em] text-ink-muted uppercase flex items-center gap-2.5">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-clay pulse-dot" aria-hidden />
-              What I Build
-            </span>
-          </div>
+          <h2
+            className="font-display font-extrabold leading-[0.95] tracking-[-0.025em] text-ink max-w-3xl mb-5"
+            style={{ fontSize: 'clamp(36px, 6vw, 72px)' }}
+          >
+            Types of sites I build.
+          </h2>
+          <p className="text-ink-soft text-[16px] sm:text-[17px] leading-relaxed font-medium max-w-xl mb-14">
+            Restaurants, shops, studios, services. Each one needs a different rhythm , these are the categories I take on most.
+          </p>
         </Reveal>
 
-        {/* Heading + live project */}
-        <div className="grid sm:grid-cols-3 gap-5 mb-5">
-          <Reveal className="sm:col-span-2 flex flex-col justify-start">
-            <h2 className="font-serif text-[clamp(36px,6vw,72px)] leading-[0.95] tracking-[-0.025em] text-ink font-normal mb-5">
-              Types of sites I build.
-            </h2>
-            <p className="text-ink-soft text-[16px] leading-relaxed font-medium max-w-xl">
-              Restaurants, shops, studios, services. Each one needs a different rhythm , these are the categories I take on most.
-            </p>
-          </Reveal>
-
-          {liveProjects.length > 0 && (
-            <Reveal delay={100} className="flex flex-col">
-              <p className="font-serif font-semibold text-[10px] tracking-[0.22em] uppercase text-ink-muted mb-3">
-                Sample Build
-              </p>
-              {(() => {
-                const project = liveProjects[0];
-                return (
-                  <div className="flex-1">
-                    <a
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group block rounded-[6px] overflow-hidden border border-rule hover:border-forest/40 transition-colors flex-col flex bg-paper-soft"
-                    >
-                      <div className="p-3 pb-0">
-                        <div className="w-full rounded-[4px] overflow-hidden border border-rule" style={{ aspectRatio: '16/9' }}>
-                          <div className="flex items-center gap-1.5 px-3 h-[22px] bg-[#f0f0f2]">
-                            <div className="w-2 h-2 rounded-full bg-[#FF5F57]" />
-                            <div className="w-2 h-2 rounded-full bg-[#FFBD2E]" />
-                            <div className="w-2 h-2 rounded-full bg-[#28CA41]" />
-                            <div className="flex-1 mx-2 bg-black/5 rounded-full h-3 flex items-center px-2">
-                              <span className="text-black/30 text-[8px] font-serif font-semibold truncate">{project.url.replace('https://', '')}</span>
-                            </div>
-                          </div>
-                          <div
-                            className="flex flex-col"
-                            style={{
-                              height: 'calc(100% - 22px)',
-                              fontFamily: 'system-ui, sans-serif',
-                            }}
-                          >
-                            <div className="flex items-center justify-between px-2.5 h-[20px] bg-white/90 border-b border-[#e8e8ea]">
-                              <span className="text-[7px] font-bold tracking-[-0.02em] text-[#1f2535]">APEX</span>
-                              <div className="flex items-center gap-2">
-                                <div className="flex gap-2 text-[5.5px] text-[#999]">
-                                  <span>Programs</span>
-                                  <span>Coaches</span>
-                                </div>
-                                <span className="text-[5.5px] font-semibold text-white bg-[#0D7264] px-1.5 py-0.5">Free Pass</span>
-                              </div>
-                            </div>
-                            <div
-                              className="flex-1 flex flex-col justify-end p-3"
-                              style={{
-                                backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.65)), url(https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=400)',
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center',
-                              }}
-                            >
-                              <p className="leading-[0.95] tracking-[-0.02em] font-bold" style={{ color: '#fff', fontSize: 'clamp(11px,1.8vw,18px)' }}>
-                                An hour
-                                <br />
-                                at the limit.
-                              </p>
-                              <div className="flex gap-1 mt-1.5">
-                                <span className="h-4 px-2 flex items-center text-[5.5px] font-semibold" style={{ background: '#fff', color: '#1f2535' }}>
-                                  Get Your Free Pass
-                                </span>
-                              </div>
-                            </div>
-                            <div className="flex justify-between px-2 py-1 bg-black/60 text-[5px] text-white/45">
-                              <span>Open today</span>
-                              <span>(610) 555-0174</span>
-                              <span>First class free</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="p-4 flex-1 flex flex-col">
-                        <div className="flex items-center gap-1.5 mb-2 flex-wrap">
-                          <span className="font-serif font-semibold text-[10px] font-semibold tracking-[0.18em] uppercase text-forest bg-forest/10 px-2 py-1 rounded-[3px]">
-                            {project.tag}
-                          </span>
-                          <span className="font-serif font-semibold text-[10px] font-semibold tracking-[0.18em] uppercase text-ink-muted bg-paper border border-rule px-2 py-1 rounded-[3px]">
-                            Sample
-                          </span>
-                          <span className="font-serif font-semibold text-[10px] font-medium text-clay flex items-center gap-1.5 tracking-wide uppercase">
-                            <span className="w-1.5 h-1.5 rounded-full bg-clay pulse-dot inline-block" />
-                            Live demo
-                          </span>
-                        </div>
-                        <h3 className="font-serif text-[22px] text-ink leading-tight tracking-tight mb-1">{project.name}</h3>
-                        <p className="text-ink-soft text-[12.5px] leading-relaxed mb-3 font-medium">{project.description}</p>
-                        <ul className="mt-auto space-y-1.5">
-                          {project.features.map((f) => (
-                            <li key={f} className="flex items-center gap-2 text-[12px] text-ink-soft font-medium">
-                              <Check size={11} className="text-forest flex-shrink-0" strokeWidth={2.5} />
-                              {f}
-                            </li>
-                          ))}
-                        </ul>
-                        <div className="mt-4 flex items-center gap-1.5 text-[12px] font-semibold text-ink-soft group-hover:text-forest transition-colors">
-                          Visit the sample site
-                          <span aria-hidden className="font-serif text-[14px] leading-none group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                );
-              })()}
-            </Reveal>
-          )}
-        </div>
-
-        {/* Website type cards */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
-          {websiteTypes.map((type: WebsiteType, i: number) => {
-            const Icon = iconByKey[type.mockupKey] || Briefcase;
-            return (
-              <Reveal key={type.name} delay={i * 80} direction="up">
-                <div className="group rounded-[6px] overflow-hidden border border-rule hover:border-forest/40 transition-colors flex flex-col h-full bg-paper-soft">
-                  <div className="p-3 pb-0">
-                    <BrowserMockup mockupKey={type.mockupKey} />
-                  </div>
-                  <div className="p-5 flex-1 flex flex-col">
-                    <div className="flex items-start gap-3 mb-3">
-                      <div className="w-9 h-9 rounded-[6px] bg-forest/10 border border-forest/15 flex items-center justify-center flex-shrink-0">
-                        <Icon size={16} className="text-forest" strokeWidth={1.75} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-serif font-semibold text-[9.5px] font-semibold tracking-[0.18em] uppercase text-forest leading-none mb-1.5">
-                          {type.tagline}
-                        </p>
-                        <h3 className="font-serif text-[20px] text-ink tracking-tight leading-tight">{type.name}</h3>
+        {/* Live project — featured, asymmetric */}
+        {project && (
+          <Reveal delay={60}>
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group block overflow-hidden border border-rule hover:border-rule-bright transition-colors bg-paper-soft mb-14"
+            >
+              <div className="grid md:grid-cols-[1.3fr_1fr]">
+                <div className="p-4 sm:p-5 md:p-6">
+                  <div
+                    className="w-full overflow-hidden border border-rule"
+                    style={{ aspectRatio: "16/10" }}
+                  >
+                    <div className="flex items-center gap-1.5 px-3 h-[24px] bg-[#f0f0f2]">
+                      <div className="w-2 h-2 rounded-full bg-[#FF5F57]" />
+                      <div className="w-2 h-2 rounded-full bg-[#FFBD2E]" />
+                      <div className="w-2 h-2 rounded-full bg-[#28CA41]" />
+                      <div className="flex-1 mx-3 bg-black/5 rounded-full h-3.5 flex items-center px-3">
+                        <span className="text-black/30 text-[10px] font-semibold truncate">
+                          {project.url.replace('https://', '')}
+                        </span>
                       </div>
                     </div>
-                    <p className="text-ink-soft text-[13px] leading-relaxed mb-4 font-medium">{type.description}</p>
-                    <ul className="mt-auto space-y-1.5">
-                      {type.includes.map((item) => (
-                        <li key={item} className="flex items-start gap-2 text-[12px] text-ink-soft font-medium">
-                          <Check size={11} className="text-forest flex-shrink-0 mt-0.5" strokeWidth={2.5} />
-                          <span className="leading-relaxed">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <a
-                      href="/contact"
-                      className="mt-4 block text-center py-2.5 px-4 rounded-[6px] border border-rule text-[12.5px] font-semibold text-ink hover:bg-forest hover:text-paper hover:border-forest transition-colors"
+                    <div
+                      className="flex flex-col"
+                      style={{ height: "calc(100% - 24px)", fontFamily: "system-ui, sans-serif" }}
                     >
-                      Get a quote →
-                    </a>
+                      <div className="flex items-center justify-between px-4 h-[28px] bg-white/90 border-b border-[#e8e8ea]">
+                        <span className="text-[10px] font-bold tracking-[-0.02em] text-[#1f2535]">APEX</span>
+                        <div className="flex items-center gap-3">
+                          <div className="flex gap-3 text-[7px] text-[#777]">
+                            <span>Programs</span><span>Coaches</span><span>Membership</span>
+                          </div>
+                          <span className="text-[7px] font-semibold text-white bg-[#0D7264] px-2 py-0.5">Free Pass</span>
+                        </div>
+                      </div>
+                      <div
+                        className="flex-1 flex flex-col justify-end p-4"
+                        style={{
+                          backgroundImage: "linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.65)), url(https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=600)",
+                          backgroundSize: "cover", backgroundPosition: "center",
+                        }}
+                      >
+                        <p className="leading-[0.95] tracking-[-0.02em] font-bold" style={{ color: "#fff", fontSize: "clamp(18px, 3vw, 32px)" }}>
+                          An hour<br />at the limit.
+                        </p>
+                        <div className="flex gap-1.5 mt-2.5">
+                          <span className="h-6 px-3 flex items-center text-[8px] font-semibold" style={{ background: "#fff", color: "#1f2535" }}>Get Your Free Pass</span>
+                        </div>
+                      </div>
+                      <div className="flex justify-between px-3 py-1.5 bg-black/60 text-[6px] text-white/50">
+                        <span>Open today · 5am–10pm</span><span>(610) 555-0174</span><span>First class free</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </Reveal>
-            );
-          })}
+
+                <div className="p-6 sm:p-8 md:py-8 md:pr-8 flex flex-col">
+                  <div className="flex items-center gap-2 mb-4 flex-wrap">
+                    <span className="text-[10px] font-semibold tracking-[0.15em] uppercase text-forest bg-forest/10 px-2 py-1">{project.tag}</span>
+                    <span className="text-[10px] font-semibold tracking-[0.15em] uppercase text-ink-muted bg-paper border border-rule px-2 py-1">Sample</span>
+                    <span className="text-[10px] font-medium text-clay flex items-center gap-1.5 tracking-wide uppercase">
+                      <span className="w-1.5 h-1.5 bg-clay pulse-dot inline-block" aria-hidden />
+                      Live
+                    </span>
+                  </div>
+                  <h3
+                    className="font-display font-extrabold text-ink leading-tight tracking-tight mb-2"
+                    style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}
+                  >
+                    {project.name}
+                  </h3>
+                  <p className="text-ink-soft text-[13px] leading-relaxed mb-4 font-medium">{project.description}</p>
+                  <ul className="space-y-2 mb-5">
+                    {project.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2 text-[12px] text-ink-soft font-medium leading-snug">
+                        <Check size={12} className="text-forest flex-shrink-0 mt-0.5" strokeWidth={2.5} />
+                        <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-auto flex items-center gap-1.5 text-[13px] font-semibold text-ink group-hover:text-forest transition-colors">
+                    Visit the sample site
+                    <span aria-hidden className="text-[16px] leading-none group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </Reveal>
+        )}
+
+        {/* Website types — alternating layout, not identical cards */}
+        <Reveal delay={120}>
+          <h3
+            className="font-display font-bold text-ink mb-8"
+            style={{ fontSize: 'clamp(24px, 4vw, 36px)' }}
+          >
+            Categories I take on.
+          </h3>
+        </Reveal>
+
+        <div className="space-y-4">
+          {websiteTypes.map((type: WebsiteType, i: number) => (
+            <Reveal key={type.name} delay={140 + i * 50}>
+              <div className="grid md:grid-cols-[1fr_1.6fr] gap-4 border border-rule hover:border-rule-bright transition-colors bg-paper-soft p-5 sm:p-6">
+                <div>
+                  <span className="text-[10px] font-semibold tracking-[0.15em] uppercase text-forest">
+                    {type.tagline}
+                  </span>
+                  <h4 className="font-display font-bold text-[20px] sm:text-[22px] text-ink tracking-tight leading-tight mt-1">
+                    {type.name}
+                  </h4>
+                  <a
+                    href="/contact"
+                    className="inline-flex items-center gap-1.5 text-forest font-semibold text-[13px] mt-3 border-b border-forest/30 pb-0.5 hover:text-forest-bright hover:border-forest transition-colors"
+                  >
+                    Get a quote <span aria-hidden>→</span>
+                  </a>
+                </div>
+                <div>
+                  <p className="text-ink-soft text-[13px] leading-relaxed font-medium mb-3">{type.description}</p>
+                  <div className="flex flex-wrap gap-x-4 gap-y-1.5">
+                    {type.includes.map((item) => (
+                      <span key={item} className="flex items-center gap-1.5 text-[11px] text-ink-muted font-medium">
+                        <Check size={10} className="text-forest flex-shrink-0" strokeWidth={2.5} />
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

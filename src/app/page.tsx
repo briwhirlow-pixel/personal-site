@@ -5,8 +5,6 @@ import Capabilities from "@/components/Capabilities";
 import FeaturedProject from "@/components/FeaturedProject";
 import Portfolio from "@/components/Portfolio";
 import TestimonialPull from "@/components/TestimonialPull";
-import PhoneShowcase from "@/components/PhoneShowcase";
-import Platforms from "@/components/Platforms";
 import FinalCTA from "@/components/FinalCTA";
 
 export const metadata: Metadata = {
@@ -35,8 +33,6 @@ export default function Home() {
       <FeaturedProject />
       <Portfolio />
       <TestimonialPull />
-      <PhoneShowcase />
-      <Platforms />
       <FinalCTA />
     </main>
   );

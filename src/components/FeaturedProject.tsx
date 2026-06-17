@@ -44,12 +44,12 @@ export default function FeaturedProject() {
                   className="w-full rounded-[6px] overflow-hidden border border-rule"
                   style={{ aspectRatio: "16/10" }}
                 >
-                  <div className="flex items-center gap-1.5 px-3 h-[24px] bg-[#1a1a1a]">
+                  <div className="flex items-center gap-1.5 px-3 h-[24px] bg-[#f0f0f2]">
                     <div className="w-2 h-2 rounded-full bg-[#FF5F57]" />
                     <div className="w-2 h-2 rounded-full bg-[#FFBD2E]" />
                     <div className="w-2 h-2 rounded-full bg-[#28CA41]" />
-                    <div className="flex-1 mx-3 bg-white/10 rounded-full h-3.5 flex items-center px-3">
-                      <span className="text-white/40 text-[10px] font-serif font-semibold truncate">
+                    <div className="flex-1 mx-3 bg-black/5 rounded-full h-3.5 flex items-center px-3">
+                      <span className="text-black/30 text-[10px] font-serif font-semibold truncate">
                         {hostname}
                       </span>
                     </div>
@@ -61,73 +61,68 @@ export default function FeaturedProject() {
                       fontFamily: "system-ui, sans-serif",
                     }}
                   >
-                    {/* Top info bar */}
-                    <div className="flex items-center justify-between px-4 h-[18px] bg-[#111] text-[7px] text-white/50">
-                      <span>2847 N Clark St, Chicago</span>
-                      <span>(312) 555-0174</span>
-                    </div>
-
-                    {/* Nav bar with logo */}
-                    <div className="flex items-center justify-between px-4 h-[28px] bg-white border-b border-[#eee]">
-                      <div className="flex items-center gap-1.5">
-                        <div className="w-4 h-4 bg-[#e41313] rounded-[2px] flex items-center justify-center">
-                          <span className="text-white text-[8px] font-bold leading-none">A</span>
+                    {/* Nav bar — light, clean */}
+                    <div className="flex items-center justify-between px-4 h-[28px] bg-white/90 border-b border-[#e8e8ea]">
+                      <span className="text-[10px] font-bold tracking-[-0.02em] text-[#1f2535]">APEX</span>
+                      <div className="flex items-center gap-3">
+                        <div className="flex gap-3 text-[7px] text-[#777]">
+                          <span>Programs</span>
+                          <span>Coaches</span>
+                          <span>Membership</span>
                         </div>
-                        <span className="text-[9px] font-bold uppercase tracking-[0.05em] text-[#1a1a1a]">APEX</span>
-                      </div>
-                      <div className="flex gap-3 text-[7px] text-[#555]">
-                        <span>Classes</span>
-                        <span>Trainers</span>
-                        <span>Pricing</span>
+                        <span className="text-[7px] font-semibold text-white bg-[#0D7264] px-2 py-0.5">Free Pass</span>
                       </div>
                     </div>
 
                     {/* Hero with gym photo background */}
                     <div
-                      className="flex-1 flex flex-col items-center justify-center text-center relative"
+                      className="flex-1 flex flex-col justify-end p-4 relative"
                       style={{
-                        backgroundImage: "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url(https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=600)",
+                        backgroundImage: "linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.65)), url(https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=600)",
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                       }}
                     >
                       <p
-                        className="leading-[1.15] tracking-wide uppercase font-semibold px-4"
+                        className="leading-[0.95] tracking-[-0.02em] font-bold"
                         style={{
                           color: "#ffffff",
-                          fontSize: "clamp(16px, 2.8vw, 30px)",
+                          fontSize: "clamp(18px, 3vw, 32px)",
                         }}
                       >
-                        Experience the APEX Difference
+                        An hour
+                        <br />
+                        at the limit.
                       </p>
 
                       <p
-                        className="text-[8px] sm:text-[10px] leading-snug mt-1.5"
+                        className="text-[8px] sm:text-[10px] leading-snug mt-2"
                         style={{ color: "rgba(255,255,255,0.7)" }}
                       >
-                        No pressure, no gimmicks , just results.
+                        Six disciplines. Three resident coaches.
                       </p>
 
-                      <span
-                        className="mt-2.5 h-6 px-3.5 flex items-center text-[8px] uppercase tracking-[0.08em] font-semibold"
-                        style={{
-                          background: "#e41313",
-                          color: "#ffffff",
-                          borderRadius: 9999,
-                        }}
-                      >
-                        Sign Up Today
-                      </span>
+                      <div className="flex gap-1.5 mt-2.5">
+                        <span
+                          className="h-6 px-3 flex items-center text-[8px] tracking-[0.01em] font-semibold"
+                          style={{ background: "#ffffff", color: "#1f2535" }}
+                        >
+                          Get Your Free Pass
+                        </span>
+                        <span
+                          className="h-6 px-3 flex items-center text-[8px] tracking-[0.01em] font-semibold"
+                          style={{ border: "1px solid rgba(255,255,255,0.3)", color: "#ffffff" }}
+                        >
+                          View Programs
+                        </span>
+                      </div>
                     </div>
 
-                    {/* Bottom image cards row */}
-                    <div className="flex gap-1.5 px-2 py-2 bg-white">
-                      {["Packages", "Trainers", "Schedule", "About"].map((label) => (
-                        <div key={label} className="flex-1 relative h-[42px] rounded-[3px] overflow-hidden bg-[#333]">
-                          <div className="absolute inset-0 bg-black/40" />
-                          <span className="absolute bottom-1.5 left-2 text-white text-[7px] font-semibold uppercase tracking-wide">{label}</span>
-                        </div>
-                      ))}
+                    {/* Bottom info strip */}
+                    <div className="flex justify-between px-3 py-1.5 bg-black/60 text-[6px] text-white/50">
+                      <span>Open today · 5am–10pm</span>
+                      <span>(610) 555-0174</span>
+                      <span>First class free</span>
                     </div>
                   </div>
                 </div>

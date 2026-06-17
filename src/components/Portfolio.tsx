@@ -159,12 +159,12 @@ export default function Portfolio() {
                     >
                       <div className="p-3 pb-0">
                         <div className="w-full rounded-[4px] overflow-hidden border border-rule" style={{ aspectRatio: '16/9' }}>
-                          <div className="flex items-center gap-1.5 px-3 h-[22px] bg-[#1a1a1a]">
+                          <div className="flex items-center gap-1.5 px-3 h-[22px] bg-[#f0f0f2]">
                             <div className="w-2 h-2 rounded-full bg-[#FF5F57]" />
                             <div className="w-2 h-2 rounded-full bg-[#FFBD2E]" />
                             <div className="w-2 h-2 rounded-full bg-[#28CA41]" />
-                            <div className="flex-1 mx-2 bg-white/10 rounded-full h-3 flex items-center px-2">
-                              <span className="text-white/40 text-[8px] font-serif font-semibold truncate">{project.url.replace('https://', '')}</span>
+                            <div className="flex-1 mx-2 bg-black/5 rounded-full h-3 flex items-center px-2">
+                              <span className="text-black/30 text-[8px] font-serif font-semibold truncate">{project.url.replace('https://', '')}</span>
                             </div>
                           </div>
                           <div
@@ -174,46 +174,39 @@ export default function Portfolio() {
                               fontFamily: 'system-ui, sans-serif',
                             }}
                           >
-                            {/* Mini nav with logo */}
-                            <div className="flex items-center justify-between px-2.5 h-[20px] bg-white border-b border-[#eee]">
-                              <div className="flex items-center gap-1">
-                                <div className="w-3 h-3 bg-[#e41313] rounded-[1px] flex items-center justify-center">
-                                  <span className="text-white text-[6px] font-bold leading-none">A</span>
+                            <div className="flex items-center justify-between px-2.5 h-[20px] bg-white/90 border-b border-[#e8e8ea]">
+                              <span className="text-[7px] font-bold tracking-[-0.02em] text-[#1f2535]">APEX</span>
+                              <div className="flex items-center gap-2">
+                                <div className="flex gap-2 text-[5.5px] text-[#999]">
+                                  <span>Programs</span>
+                                  <span>Coaches</span>
                                 </div>
-                                <span className="text-[7px] font-bold uppercase tracking-[0.04em] text-[#1a1a1a]">APEX</span>
-                              </div>
-                              <div className="flex gap-2 text-[5.5px] text-[#999]">
-                                <span>Classes</span>
-                                <span>Pricing</span>
+                                <span className="text-[5.5px] font-semibold text-white bg-[#0D7264] px-1.5 py-0.5">Free Pass</span>
                               </div>
                             </div>
-                            {/* Hero with photo */}
                             <div
-                              className="flex-1 flex flex-col items-center justify-center text-center"
+                              className="flex-1 flex flex-col justify-end p-3"
                               style={{
-                                backgroundImage: 'linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url(https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=400)',
+                                backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.65)), url(https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=400)',
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
                               }}
                             >
-                              <p className="leading-[1.15] tracking-wide uppercase font-semibold px-2" style={{ color: '#fff', fontSize: 'clamp(10px,1.5vw,15px)' }}>
-                                Experience the APEX Difference
+                              <p className="leading-[0.95] tracking-[-0.02em] font-bold" style={{ color: '#fff', fontSize: 'clamp(11px,1.8vw,18px)' }}>
+                                An hour
+                                <br />
+                                at the limit.
                               </p>
-                              <p className="text-[6px] mt-1" style={{ color: 'rgba(255,255,255,0.65)' }}>
-                                No pressure , just results.
-                              </p>
-                              <span className="mt-1.5 h-4 px-2.5 flex items-center text-[6px] uppercase tracking-[0.06em] font-semibold" style={{ background: '#e41313', color: '#fff', borderRadius: 9999 }}>
-                                Sign Up Today
-                              </span>
+                              <div className="flex gap-1 mt-1.5">
+                                <span className="h-4 px-2 flex items-center text-[5.5px] font-semibold" style={{ background: '#fff', color: '#1f2535' }}>
+                                  Get Your Free Pass
+                                </span>
+                              </div>
                             </div>
-                            {/* Bottom cards */}
-                            <div className="flex gap-1 px-1.5 py-1.5 bg-white">
-                              {['Packages', 'Trainers', 'Schedule', 'About'].map((l) => (
-                                <div key={l} className="flex-1 relative h-[24px] rounded-[2px] overflow-hidden bg-[#444]">
-                                  <div className="absolute inset-0 bg-black/35" />
-                                  <span className="absolute bottom-1 left-1 text-white text-[5px] font-semibold uppercase">{l}</span>
-                                </div>
-                              ))}
+                            <div className="flex justify-between px-2 py-1 bg-black/60 text-[5px] text-white/45">
+                              <span>Open today</span>
+                              <span>(610) 555-0174</span>
+                              <span>First class free</span>
                             </div>
                           </div>
                         </div>

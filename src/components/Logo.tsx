@@ -2,20 +2,21 @@ interface LogoProps {
   light?: boolean;
   showTagline?: boolean;
   animated?: boolean;
+  size?: 'default' | 'hero';
 }
 
-export default function Logo({ light = false, showTagline: _showTagline = true, animated = false }: LogoProps) {
+export default function Logo({ light = false, showTagline: _showTagline = true, animated = false, size = 'default' }: LogoProps) {
   const iconColor = light ? "#fff" : "var(--color-ink)";
+  const isHero = size === 'hero';
 
   return (
     <span
-      className={`inline-flex items-center select-none ${animated ? "gap-5 hero-logo-float" : "gap-2"}`}
+      className={`inline-flex items-center select-none ${isHero ? "gap-5" : "gap-2"} ${animated ? "hero-logo-float" : ""}`}
       aria-label="builtbybrian web design"
     >
-      {/* Laptop icon */}
       <svg
-        width={animated ? "96" : "22"}
-        height={animated ? "78" : "18"}
+        width={isHero ? "96" : "22"}
+        height={isHero ? "78" : "18"}
         viewBox="0 0 24 20"
         fill="none"
         aria-hidden
@@ -25,12 +26,11 @@ export default function Logo({ light = false, showTagline: _showTagline = true, 
         <path d="M1 16.5h22" stroke={iconColor} strokeWidth="1.5" strokeLinecap="round" />
         <path d="M8 14v2.5M16 14v2.5" stroke={iconColor} strokeWidth="1.2" opacity="0.4" />
       </svg>
-      {/* Text */}
       <span className="flex flex-col leading-none">
-        <span className={`font-display font-medium tracking-[-0.03em] ${animated ? "text-[38px] sm:text-[46px]" : "text-[15px] sm:text-[16px]"} ${light ? "text-white" : "text-ink"}`}>
+        <span className={`font-display font-medium tracking-[-0.03em] ${isHero ? "text-[38px] sm:text-[46px]" : "text-[15px] sm:text-[16px]"} ${light ? "text-white" : "text-ink"}`}>
           builtbybrian
         </span>
-        <span className={`tracking-[0.1em] font-medium ${animated ? "text-[13px] sm:text-[16px] mt-[3px]" : "text-[8px] sm:text-[9px] mt-[1px]"} ${light ? "text-white/45" : "text-ink-muted"}`}>
+        <span className={`tracking-[0.1em] font-medium ${isHero ? "text-[13px] sm:text-[16px] mt-[3px]" : "text-[8px] sm:text-[9px] mt-[1px]"} ${light ? "text-white/45" : "text-ink-muted"}`}>
           web design
         </span>
       </span>

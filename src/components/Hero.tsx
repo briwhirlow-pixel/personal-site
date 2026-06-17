@@ -137,20 +137,20 @@ export default function Hero() {
     <section className="relative bg-paper text-ink min-h-[100dvh] flex flex-col justify-center overflow-hidden">
       <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-12 pt-24 sm:pt-28 pb-16 sm:pb-20 w-full">
 
-        {/* Static logo at top center */}
-        <div className="flex justify-center mb-12 sm:mb-16 editorial-rise">
-          <Logo animated={false} />
+        {/* Static logo at top center — large */}
+        <div className="flex justify-center mb-10 sm:mb-14 editorial-rise">
+          <Logo size="hero" />
         </div>
 
         {/* Auto-sliding carousel */}
         <div className="relative w-full overflow-hidden">
-          <div className="hero-carousel flex w-[300%]">
+          <div className="hero-carousel flex w-[400%]">
 
             {/* Slide 1: Heading + description + CTAs */}
-            <div className="w-1/3 flex-shrink-0 flex flex-col items-center justify-center text-center px-4">
+            <div className="w-1/4 flex-shrink-0 flex flex-col items-center justify-center text-center px-4">
               <h1
                 className="font-display font-medium leading-[1.05] tracking-[-0.035em] text-ink text-balance"
-                style={{ fontSize: 'clamp(28px, 5vw, 52px)' }}
+                style={{ fontSize: 'clamp(22px, 3.5vw, 38px)' }}
               >
                 Hand-coded.
                 <br />
@@ -159,23 +159,23 @@ export default function Hero() {
                 Yours forever.
               </h1>
 
-              <p className="mt-6 sm:mt-8 text-ink-soft text-[16px] sm:text-[18px] leading-[1.5] max-w-lg mx-auto text-pretty">
+              <p className="mt-4 sm:mt-6 text-ink-soft text-[14px] sm:text-[16px] leading-[1.5] max-w-md mx-auto text-pretty">
                 Custom websites for restaurants, shops, studios, and service
                 businesses. One designer, start to finish. You own every line of code.
               </p>
 
-              <div className="mt-8 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-center">
+              <div className="mt-6 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-center">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-2.5 bg-clay text-ink px-7 py-4 font-semibold text-[15px] hover:bg-clay-deep transition-colors active:scale-[0.98]"
-                  style={{ boxShadow: '0 8px 24px -8px rgba(14,165,233,0.35)', minHeight: 48 }}
+                  className="inline-flex items-center justify-center gap-2 bg-clay text-ink px-6 py-3 font-semibold text-[14px] hover:bg-clay-deep transition-colors active:scale-[0.98]"
+                  style={{ boxShadow: '0 8px 24px -8px rgba(14,165,233,0.35)', minHeight: 44 }}
                 >
                   Start a project
-                  <span aria-hidden className="text-[16px] leading-none">→</span>
+                  <span aria-hidden className="text-[14px] leading-none">→</span>
                 </Link>
                 <Link
                   href="/work"
-                  className="group inline-flex items-center justify-center gap-2 text-forest text-[15px] font-semibold hover:text-forest-bright transition-colors py-3 sm:py-0"
+                  className="group inline-flex items-center justify-center gap-2 text-forest text-[14px] font-semibold hover:text-forest-bright transition-colors py-2 sm:py-0"
                 >
                   See the work
                   <span className="transition-transform group-hover:translate-x-1">→</span>
@@ -184,14 +184,14 @@ export default function Hero() {
             </div>
 
             {/* Slide 2: Mobile-first phones */}
-            <div className="w-1/3 flex-shrink-0 flex flex-col items-center justify-center text-center px-4">
+            <div className="w-1/4 flex-shrink-0 flex flex-col items-center justify-center text-center px-4">
               <h2
                 className="font-display font-medium leading-[1.05] tracking-[-0.03em] text-ink"
-                style={{ fontSize: "clamp(28px, 5vw, 52px)" }}
+                style={{ fontSize: "clamp(22px, 3.5vw, 38px)" }}
               >
                 Mobile-first. Always.
               </h2>
-              <p className="text-ink-soft text-[15px] sm:text-[17px] leading-relaxed font-medium mt-3 max-w-md">
+              <p className="text-ink-soft text-[14px] sm:text-[15px] leading-relaxed font-medium mt-2 max-w-md">
                 Every site works perfectly on the device your customers actually use.
               </p>
 
@@ -209,34 +209,39 @@ export default function Hero() {
             </div>
 
             {/* Slide 3: Platforms / 90+ */}
-            <div className="w-1/3 flex-shrink-0">
-              <div className="bg-ink rounded-xl px-6 sm:px-10 py-10 sm:py-14 text-white">
-                <div className="grid md:grid-cols-12 gap-6 md:gap-8 items-end">
+            <div className="w-1/4 flex-shrink-0">
+              <div className="bg-ink rounded-xl px-5 sm:px-8 py-8 sm:py-10 text-white">
+                <div className="grid md:grid-cols-12 gap-5 md:gap-6 items-end">
                   <div className="md:col-span-4">
                     <p
                       className="font-display font-medium text-white leading-[0.85] tracking-[-0.04em]"
-                      style={{ fontSize: "clamp(64px, 10vw, 96px)" }}
+                      style={{ fontSize: "clamp(52px, 8vw, 80px)" }}
                     >
                       90<span className="text-forest-bright">+</span>
                     </p>
-                    <p className="text-white/35 text-[13px] font-medium mt-1 leading-snug">
+                    <p className="text-white/35 text-[12px] font-medium mt-1 leading-snug">
                       Lighthouse performance score on every site I deliver.
                     </p>
                   </div>
                   <div className="md:col-span-8">
                     <h2
                       className="font-display font-medium leading-[1.05] tracking-[-0.03em] text-white"
-                      style={{ fontSize: "clamp(22px, 3.5vw, 36px)" }}
+                      style={{ fontSize: "clamp(18px, 3vw, 30px)" }}
                     >
                       Your site works everywhere<br className="hidden sm:block" /> your customers are.
                     </h2>
-                    <p className="text-white/40 text-[14px] font-medium mt-3 max-w-lg leading-relaxed">
+                    <p className="text-white/40 text-[13px] font-medium mt-2 max-w-lg leading-relaxed">
                       Every build ships with SEO, mobile optimization, social preview cards, and performance tuning baked in from day one.
                     </p>
+                    <div className="flex items-center gap-3 mt-4">
+                      <svg viewBox="0 0 24 24" width={18} height={18} fill="currentColor" className="text-white/50"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                      <svg viewBox="0 0 24 24" width={16} height={16} fill="currentColor" className="text-white/50"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                      <svg viewBox="0 0 24 24" width={18} height={18} fill="currentColor" className="text-white/50"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.27-.86-.31-.16-.68-.04-.85.27l-1.87 3.23A10.46 10.46 0 0 0 12 8c-1.58 0-3.07.36-4.44.93L5.68 5.7c-.16-.31-.54-.43-.85-.27-.31.17-.43.55-.27.86L6.4 9.48A9.84 9.84 0 0 0 2 17h20a9.84 9.84 0 0 0-4.4-7.52zM7 14.5a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>
+                    </div>
                   </div>
                 </div>
-                <div className="border-t border-white/8 pt-6 mt-8">
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-y-5 gap-x-4">
+                <div className="border-t border-white/8 pt-5 mt-6">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-y-4 gap-x-3">
                     {[
                       { name: "Google SEO", desc: "Local search rankings", Icon: Search },
                       { name: "Mobile Ready", desc: "iOS + Android perfect", Icon: Smartphone },
@@ -246,15 +251,53 @@ export default function Hero() {
                       { name: "Secure", desc: "HTTPS + best practices", Icon: ShieldCheck },
                     ].map((p) => (
                       <div key={p.name} className="flex items-start gap-2">
-                        <p.Icon size={14} strokeWidth={1.75} className="text-forest-bright flex-shrink-0 mt-0.5" />
+                        <p.Icon size={13} strokeWidth={1.75} className="text-forest-bright flex-shrink-0 mt-0.5" />
                         <div>
-                          <p className="text-[12px] font-semibold text-white leading-tight">{p.name}</p>
-                          <p className="text-[10px] text-white/30 mt-0.5 leading-snug">{p.desc}</p>
+                          <p className="text-[11px] font-semibold text-white leading-tight">{p.name}</p>
+                          <p className="text-[9px] text-white/30 mt-0.5 leading-snug">{p.desc}</p>
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Slide 4: Duplicate of slide 1 for seamless left loop */}
+            <div className="w-1/4 flex-shrink-0 flex flex-col items-center justify-center text-center px-4">
+              <h1
+                className="font-display font-medium leading-[1.05] tracking-[-0.035em] text-ink text-balance"
+                style={{ fontSize: 'clamp(22px, 3.5vw, 38px)' }}
+                aria-hidden
+              >
+                Hand-coded.
+                <br />
+                Personally designed.
+                <br />
+                Yours forever.
+              </h1>
+              <p className="mt-4 sm:mt-6 text-ink-soft text-[14px] sm:text-[16px] leading-[1.5] max-w-md mx-auto text-pretty">
+                Custom websites for restaurants, shops, studios, and service
+                businesses. One designer, start to finish. You own every line of code.
+              </p>
+              <div className="mt-6 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-center">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 bg-clay text-ink px-6 py-3 font-semibold text-[14px] hover:bg-clay-deep transition-colors active:scale-[0.98]"
+                  style={{ boxShadow: '0 8px 24px -8px rgba(14,165,233,0.35)', minHeight: 44 }}
+                  tabIndex={-1}
+                >
+                  Start a project
+                  <span aria-hidden className="text-[14px] leading-none">→</span>
+                </Link>
+                <Link
+                  href="/work"
+                  className="group inline-flex items-center justify-center gap-2 text-forest text-[14px] font-semibold hover:text-forest-bright transition-colors py-2 sm:py-0"
+                  tabIndex={-1}
+                >
+                  See the work
+                  <span className="transition-transform group-hover:translate-x-1">→</span>
+                </Link>
               </div>
             </div>
 

@@ -161,14 +161,14 @@ html {
 
 /* ── Hero carousel — auto-slide between two pages ── */
 @keyframes hero-slide {
-  0%, 25%    { transform: translateX(0); }
-  30%, 55%   { transform: translateX(-33.333%); }
-  60%, 88%   { transform: translateX(-66.666%); }
-  93%, 100%  { transform: translateX(0); }
+  0%, 28%    { transform: translateX(0); }
+  33%, 61%   { transform: translateX(-25%); }
+  66%, 94%   { transform: translateX(-50%); }
+  100%       { transform: translateX(-75%); }
 }
 
 .hero-carousel {
-  animation: hero-slide 12s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  animation: hero-slide 14s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
 /* ── Hero logo animations ── */

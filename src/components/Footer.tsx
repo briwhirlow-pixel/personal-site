@@ -29,7 +29,7 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-8">
             <a
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 bg-clay text-ink font-semibold px-6 py-4 hover:bg-clay-deep transition-colors text-[14px] active:scale-[0.98]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-clay text-ink font-semibold px-6 py-4 hover:bg-clay-deep transition-colors text-[14px] active:scale-[0.98]"
               style={{ boxShadow: "0 8px 24px -8px rgba(14,165,233,0.35)", minHeight: 48 }}
             >
               Start a project
@@ -52,7 +52,7 @@ export default function Footer() {
             <p className="text-[10px] uppercase tracking-[0.15em] font-semibold text-ink-muted mb-4">Navigation</p>
             <nav className="flex flex-col gap-2.5">
               {footerLinks.map((link) => (
-                <a key={link.label} href={link.href} className="text-[14px] text-ink-soft hover:text-forest transition-colors font-medium w-fit">
+                <a key={link.label} href={link.href} className="text-[14px] text-ink-soft hover:text-forest transition-colors font-medium w-fit py-2 block" style={{ minHeight: 44 }}>
                   {link.label}
                 </a>
               ))}
@@ -60,11 +60,11 @@ export default function Footer() {
           </div>
           <div>
             <p className="text-[10px] uppercase tracking-[0.15em] font-semibold text-ink-muted mb-4">Get in touch</p>
-            <a href={`mailto:${siteConfig.email}`} className="text-[14px] text-ink hover:text-forest transition-colors font-semibold block">
+            <a href={`mailto:${siteConfig.email}`} className="text-[14px] text-ink hover:text-forest transition-colors font-semibold block py-2">
               {siteConfig.email}
             </a>
             <p className="text-ink-muted text-[12.5px] mt-2 font-medium leading-relaxed">
-              Response within 24 hours, usually same day.
+              Response within 72 hours, usually same day.
             </p>
           </div>
         </div>

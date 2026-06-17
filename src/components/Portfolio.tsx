@@ -223,53 +223,120 @@ function RestaurantMockup() {
   );
 }
 
-/* ─── 3. STREETWEAR — bold poster lookbook, scrolls through sections ─── */
+/* ─── 3. STREETWEAR MARKETPLACE — Grailed-style, Impact/condensed grotesque font ─── */
 function EcommerceMockup() {
+  const headFont = "Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif";
+  const bodyFont = "'Arial Narrow', 'Helvetica Neue', Helvetica, Arial, sans-serif";
   return (
     <CardWrapper label="Streetwear Marketplace" cardBg="#1a1a1a" labelColor="#fff">
       <BrowserChrome url="vaultarchive.com" dark />
-      <div className="mockup-scroll-deep" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif" }}>
+      <div className="mockup-scroll-deep" style={{ fontFamily: bodyFont }}>
 
-        {/* Poster 1: Hero — massive wordmark, product silhouettes rising from bottom */}
-        <div className="relative bg-white flex flex-col items-center justify-center" style={{ height: "280px" }}>
-          <p className="text-[56px] font-black tracking-[-0.06em] text-[#1a1a1a] leading-[0.8]">VAULT</p>
-          <p className="text-[8px] tracking-[0.4em] text-[#bbb] uppercase mt-3">Archive · Curate · Collect</p>
-          <div className="absolute bottom-0 left-0 right-0 flex items-end gap-px">
-            <div className="flex-1 bg-[#e8e2d8]" style={{ height: "100px" }} />
-            <div className="flex-1 bg-[#d4cbc0]" style={{ height: "140px" }} />
-            <div className="flex-1 bg-[#c7bdb0]" style={{ height: "80px" }} />
-            <div className="flex-1 bg-[#dbd4c8]" style={{ height: "115px" }} />
+        {/* Top bar: logo + search + auth */}
+        <div className="flex items-center justify-between px-3 h-[22px] bg-white border-b border-[#e5e5e5]">
+          <span className="text-[10px] tracking-[0.06em] text-[#1a1a1a] uppercase" style={{ fontFamily: headFont }}>VAULT</span>
+          <div className="flex-1 mx-2 h-[12px] bg-[#f5f5f5] border border-[#e0e0e0] flex items-center px-1.5">
+            <svg width="6" height="6" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+            <span className="text-[4.5px] text-[#999] ml-1">Search for anything</span>
+            <span className="ml-auto text-[4px] font-bold text-white bg-[#1a1a1a] px-1 py-[1px]">SEARCH</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="text-[4.5px] font-bold text-[#1a1a1a] border border-[#1a1a1a] px-1 py-[1px]">SELL</span>
+            <span className="text-[4.5px] text-[#666]">Sign Up</span>
+            <span className="text-[4.5px] font-bold text-white bg-[#1a1a1a] px-1.5 py-[1px]">LOG IN</span>
           </div>
         </div>
 
-        {/* Poster 2: Bold promo — Crav Burgers energy */}
-        <div className="bg-[#e8583a] flex flex-col items-center justify-center text-center" style={{ height: "200px" }}>
-          <p className="text-[38px] font-black text-white leading-[0.82] tracking-[-0.03em]">ZERO<br/>SELLER<br/>FEES</p>
-          <p className="text-[8px] text-white/50 mt-3 tracking-[0.08em] uppercase">This season · 40 designers</p>
+        {/* Category nav */}
+        <div className="flex items-center justify-center gap-3 px-3 h-[16px] bg-white border-b border-[#e5e5e5]">
+          {["DESIGNERS", "MENSWEAR", "WOMENSWEAR", "SNEAKERS", "STAFF PICKS", "COLLECTIONS"].map(cat => (
+            <span key={cat} className="text-[4px] font-bold text-[#1a1a1a] tracking-[0.04em]">{cat}</span>
+          ))}
         </div>
 
-        {/* Poster 3: Editorial lookbook spread */}
-        <div className="bg-[#f5f4ef] p-5 flex gap-3" style={{ height: "240px" }}>
-          <div className="flex-1 flex flex-col">
-            <div className="flex-1 bg-[#d4cbc0] mb-2" />
-            <p className="text-[13px] font-black text-[#1a1a1a]">Kapital</p>
-            <p className="text-[7px] text-[#999]">Boro Work Jacket</p>
-            <p className="text-[15px] font-black text-[#1a1a1a] mt-0.5">$740</p>
+        {/* Hero banner */}
+        <div className="relative" style={{ height: "130px", background: "linear-gradient(135deg, #2c4a7c 0%, #1a3560 40%, #3a5a8a 100%)" }}>
+          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 70% 40%, rgba(255,165,50,0.15) 0%, transparent 50%)" }} />
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+            <p className="text-[5px] text-white/60 tracking-[0.15em] uppercase font-bold">Team Gear, Designer Collabs + More</p>
+            <p className="text-[18px] text-white mt-1 leading-none tracking-[0.02em] uppercase" style={{ fontFamily: headFont }}>The Summer Edit</p>
+            <div className="mt-2 h-[14px] px-3 flex items-center text-[5.5px] font-bold border border-white/50 text-white tracking-[0.1em] uppercase">
+              Shop Now
+            </div>
           </div>
-          <div className="flex-1 flex flex-col">
-            <div className="flex-1 bg-[#c7bdb0] mb-2" />
-            <p className="text-[13px] font-black text-[#1a1a1a]">Needles</p>
-            <p className="text-[7px] text-[#999]">Rebuild Flannel</p>
-            <p className="text-[15px] font-black text-[#1a1a1a] mt-0.5">$285</p>
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+            <div className="w-[4px] h-[4px] rounded-full bg-white" />
+            <div className="w-[4px] h-[4px] rounded-full bg-white/30" />
+            <div className="w-[4px] h-[4px] rounded-full bg-white/30" />
+            <div className="w-[4px] h-[4px] rounded-full bg-white/30" />
+          </div>
+          <div className="absolute left-1.5 top-1/2 -translate-y-1/2 text-[10px] text-white/40">‹</div>
+          <div className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[10px] text-white/40">›</div>
+        </div>
+
+        {/* Product sections */}
+        <div className="bg-white px-3 pt-3 pb-2">
+          <div className="mb-3">
+            <p className="text-[4px] text-[#999] uppercase tracking-[0.05em]">Supreme, Chrome Hearts, Helmut Lang +More</p>
+            <p className="text-[7px] font-bold text-[#1a1a1a] mb-1.5">Trending: Apparel</p>
+            <div className="flex gap-1">
+              {[
+                { bg: "#8b7b6b", label: "Kapital", price: "$740" },
+                { bg: "#5c5c5c", label: "Rick Owens", price: "$520" },
+                { bg: "#a89080", label: "Needles", price: "$285" },
+                { bg: "#6b6b5b", label: "Stüssy", price: "$95" },
+              ].map(p => (
+                <div key={p.label} className="flex-1">
+                  <div className="aspect-square" style={{ background: p.bg }} />
+                  <p className="text-[4.5px] text-[#1a1a1a] mt-0.5 truncate">{p.label}</p>
+                  <p className="text-[4.5px] font-bold text-[#1a1a1a]">{p.price}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-3">
+            <p className="text-[4px] text-[#999] uppercase tracking-[0.05em]">Nike, Jordan Brand, New Balance +More</p>
+            <p className="text-[7px] font-bold text-[#1a1a1a] mb-1.5">Trending: Footwear</p>
+            <div className="flex gap-1">
+              {[
+                { bg: "#d4cbc0", label: "AJ1 Chicago", price: "$380" },
+                { bg: "#b8b0a4", label: "NB 990v6", price: "$175" },
+                { bg: "#c7bdb0", label: "Dunk Low", price: "$140" },
+                { bg: "#e0d8cc", label: "Gel-Kayano", price: "$160" },
+              ].map(p => (
+                <div key={p.label} className="flex-1">
+                  <div className="aspect-square" style={{ background: p.bg }} />
+                  <p className="text-[4.5px] text-[#1a1a1a] mt-0.5 truncate">{p.label}</p>
+                  <p className="text-[4.5px] font-bold text-[#1a1a1a]">{p.price}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <p className="text-[4px] text-[#999] uppercase tracking-[0.05em]">From Vault</p>
+            <p className="text-[7px] font-bold text-[#1a1a1a] mb-1.5">Staff Picks</p>
+            <div className="flex gap-1">
+              {[
+                { bg: "#7a6a5a", label: "Margiela Tabi", price: "$620" },
+                { bg: "#4a4a4a", label: "Raf Simons", price: "$450" },
+                { bg: "#9a8a7a", label: "Visvim", price: "$890" },
+                { bg: "#5a5a5a", label: "Undercover", price: "$340" },
+              ].map(p => (
+                <div key={p.label} className="flex-1">
+                  <div className="aspect-square" style={{ background: p.bg }} />
+                  <p className="text-[4.5px] text-[#1a1a1a] mt-0.5 truncate">{p.label}</p>
+                  <p className="text-[4.5px] font-bold text-[#1a1a1a]">{p.price}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Poster 4: Dark closer */}
-        <div className="bg-[#1a1a1a] flex flex-col items-center justify-center text-center" style={{ height: "180px" }}>
-          <p className="text-[26px] font-black text-white leading-[0.88] tracking-[-0.02em]">Buy. Sell.<br/>No middleman.</p>
-          <div className="mt-4 h-[22px] px-5 flex items-center text-[8px] font-bold border border-white/30 text-white tracking-[0.06em]">
-            SHOP NOW
-          </div>
+        <div className="px-3 py-2 bg-[#1a1a1a] flex justify-between text-[4.5px] text-white/40">
+          <span>Vault Archive · Buy &amp; Sell</span>
+          <span>Built by Brian</span>
         </div>
       </div>
     </CardWrapper>
@@ -347,20 +414,22 @@ function PortfolioMockup() {
   );
 }
 
-/* ─── 5. LUXURY REAL ESTATE — Baruh Team style: clean white, bold pricing, property cards ─── */
+/* ─── 5. LUXURY REAL ESTATE — Palatino serif headings, navy + gold, premium feel ─── */
 function RealEstateMockup() {
+  const headFont = "'Palatino Linotype', Palatino, 'Book Antiqua', serif";
+  const bodyFont = "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif";
   return (
     <CardWrapper label="Luxury Real Estate" cardBg="#1e3a5f" labelColor="#fff">
       <BrowserChrome url="baruhteam.com" dark />
-      <div className="mockup-zoom-right" style={{ fontFamily: "system-ui, sans-serif" }}>
+      <div className="mockup-zoom-right" style={{ fontFamily: bodyFont }}>
         {/* Nav */}
         <div className="flex items-center justify-between px-4 h-[24px] bg-white border-b border-[#eee]">
-          <span className="text-[10px] font-bold text-[#1a1a2e] tracking-[-0.02em]">BARUH</span>
+          <span className="text-[10px] tracking-[0.12em] text-[#1e3a5f] uppercase" style={{ fontFamily: headFont }}>Baruh</span>
           <div className="flex items-center gap-3 text-[5px] text-[#777]">
             <span>Listings</span>
             <span>Neighborhoods</span>
             <span>About</span>
-            <span className="font-bold text-[#1a1a2e]">Contact</span>
+            <span className="font-bold text-[#1e3a5f]">Contact</span>
           </div>
         </div>
 
@@ -372,7 +441,7 @@ function RealEstateMockup() {
           backgroundPosition: "center",
         }}>
           <div className="absolute bottom-3 left-4 right-4">
-            <p className="text-[16px] font-bold text-[#1a1a2e] leading-[1]">
+            <p className="text-[16px] leading-[1] text-[#1e3a5f] italic" style={{ fontFamily: headFont }}>
               Expertise. Integrity.<br/>Creativity.
             </p>
           </div>
@@ -381,12 +450,12 @@ function RealEstateMockup() {
         {/* Search bar */}
         <div className="mx-4 -mt-1 bg-white border border-[#e5e5e5] px-3 py-2 flex items-center gap-2">
           <span className="text-[6px] text-[#999]">Search by city, neighborhood, or address...</span>
-          <span className="ml-auto text-[6px] font-bold text-white bg-[#1a1a2e] px-2 py-0.5">Search</span>
+          <span className="ml-auto text-[6px] font-bold text-white bg-[#1e3a5f] px-2 py-0.5">Search</span>
         </div>
 
         {/* Featured listings */}
         <div className="px-4 pt-4 pb-2 bg-white">
-          <p className="text-[8px] font-bold text-[#1a1a2e] mb-2">Featured Listings</p>
+          <p className="text-[8px] text-[#1e3a5f] mb-2 italic" style={{ fontFamily: headFont }}>Featured Listings</p>
           <div className="grid grid-cols-2 gap-2">
             {[
               { addr: "814 Waverly Rd", loc: "Bryn Mawr", price: "$1,450,000", beds: 5, baths: 4, bg: "#e8e2d8" },
@@ -395,8 +464,8 @@ function RealEstateMockup() {
               <div key={p.addr} className="border border-[#eee]">
                 <div style={{ height: "55px", background: p.bg }} />
                 <div className="p-2">
-                  <p className="text-[10px] font-bold text-[#1a1a2e]">{p.price}</p>
-                  <p className="text-[6px] text-[#1a1a2e] font-medium mt-0.5">{p.addr}</p>
+                  <p className="text-[10px] font-bold text-[#1e3a5f]" style={{ fontFamily: headFont }}>{p.price}</p>
+                  <p className="text-[6px] text-[#1e3a5f] font-medium mt-0.5">{p.addr}</p>
                   <p className="text-[5px] text-[#999] mt-0.5">{p.loc} · {p.beds} beds · {p.baths} baths</p>
                 </div>
               </div>
@@ -406,7 +475,7 @@ function RealEstateMockup() {
 
         {/* Team */}
         <div className="px-4 py-3 bg-[#f8f7f5] border-t border-[#eee]">
-          <p className="text-[8px] font-bold text-[#1a1a2e] mb-2">Meet the Team</p>
+          <p className="text-[8px] text-[#1e3a5f] mb-2 italic" style={{ fontFamily: headFont }}>Meet the Team</p>
           <div className="flex gap-2">
             {[
               { n: "Sarah Baruh", t: "Lead Agent" },
@@ -415,7 +484,7 @@ function RealEstateMockup() {
             ].map(a => (
               <div key={a.n} className="flex-1 text-center">
                 <div className="w-8 h-8 mx-auto rounded-full bg-[#d5ccc0]" />
-                <p className="text-[6px] font-bold text-[#1a1a2e] mt-1">{a.n}</p>
+                <p className="text-[6px] font-bold text-[#1e3a5f] mt-1">{a.n}</p>
                 <p className="text-[5px] text-[#999]">{a.t}</p>
               </div>
             ))}
@@ -423,7 +492,7 @@ function RealEstateMockup() {
         </div>
 
         {/* Footer */}
-        <div className="px-4 py-2 bg-[#1a1a2e] text-center">
+        <div className="px-4 py-2 bg-[#1e3a5f] text-center">
           <p className="text-[5px] text-white/40">Philadelphia · Main Line · Jersey Shore</p>
         </div>
       </div>
@@ -431,20 +500,22 @@ function RealEstateMockup() {
   );
 }
 
-/* ─── 6. HAIR & BEAUTY — Salon Chris style: wide pan, white/gold, photography ─── */
+/* ─── 6. HAIR & BEAUTY — Didot/Bodoni fashion-editorial serif, blush + charcoal ─── */
 function SalonMockup() {
+  const headFont = "'Didot', 'Bodoni MT', 'Noto Serif Display', 'Times New Roman', serif";
+  const bodyFont = "'Futura', 'Century Gothic', 'Trebuchet MS', sans-serif";
   return (
     <CardWrapper label="Hair &amp; Beauty" cardBg="#f5e1d0">
       <BrowserChrome url="salonchristopher.com" />
-      <div className="mockup-pan flex" style={{ fontFamily: "system-ui, sans-serif", width: "175%", height: "270px" }}>
+      <div className="mockup-pan flex" style={{ fontFamily: bodyFont, width: "175%", height: "270px" }}>
 
-        {/* Left: Brand panel — white, clean Salon Chris feel */}
+        {/* Left: Brand panel — fashion editorial, Didot serif */}
         <div className="w-[35%] flex-shrink-0 bg-white flex flex-col items-center justify-center text-center px-6 relative">
-          <p className="text-[9px] font-bold text-[#1a1a1a] tracking-[0.08em] uppercase">Christopher</p>
-          <p className="text-[26px] text-[#1a1a1a] font-bold leading-[0.9] mt-2 tracking-[-0.02em]">
-            Where<br/>artistry<br/>meets<br/><span className="text-[#c9a96e]">confidence.</span>
+          <p className="text-[9px] text-[#333] tracking-[0.2em] uppercase" style={{ fontFamily: bodyFont }}>Christopher</p>
+          <p className="text-[28px] text-[#333] leading-[0.88] mt-2 tracking-[-0.01em] italic" style={{ fontFamily: headFont }}>
+            Where<br/>artistry<br/>meets<br/><span className="not-italic text-[#c9a96e]">confidence.</span>
           </p>
-          <div className="mt-5 h-[20px] px-5 flex items-center text-[8px] font-bold bg-[#1a1a1a] text-white tracking-[0.04em]">
+          <div className="mt-5 h-[20px] px-5 flex items-center text-[7px] tracking-[0.12em] uppercase bg-[#333] text-white" style={{ fontFamily: bodyFont }}>
             Book Now
           </div>
         </div>
@@ -456,9 +527,9 @@ function SalonMockup() {
           backgroundPosition: "center 25%",
         }} />
 
-        {/* Right: Services + gold accents */}
+        {/* Right: Services — Didot prices, thin body font */}
         <div className="flex-1 bg-[#faf9f7] flex flex-col justify-center px-6">
-          <p className="text-[8px] font-bold text-[#1a1a1a] uppercase tracking-[0.06em] mb-4">Services</p>
+          <p className="text-[8px] text-[#333] uppercase tracking-[0.15em] mb-4" style={{ fontFamily: bodyFont }}>Services</p>
           {[
             { s: "Color & Highlights", p: "$165+" },
             { s: "Precision Cut", p: "$75+" },
@@ -466,11 +537,11 @@ function SalonMockup() {
             { s: "Bridal", p: "$400+" },
           ].map(svc => (
             <div key={svc.s} className="flex justify-between py-2 border-b border-[#eee]">
-              <span className="text-[11px] text-[#1a1a1a] font-medium">{svc.s}</span>
-              <span className="text-[11px] font-bold text-[#c9a96e]">{svc.p}</span>
+              <span className="text-[11px] text-[#333]" style={{ fontFamily: bodyFont }}>{svc.s}</span>
+              <span className="text-[12px] italic text-[#c9a96e]" style={{ fontFamily: headFont }}>{svc.p}</span>
             </div>
           ))}
-          <p className="text-[6px] text-[#999] mt-3 uppercase tracking-[0.08em]">Sewell, NJ · Tues–Sat</p>
+          <p className="text-[6px] text-[#999] mt-3 uppercase tracking-[0.12em]" style={{ fontFamily: bodyFont }}>Sewell, NJ · Tues–Sat</p>
         </div>
       </div>
     </CardWrapper>

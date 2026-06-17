@@ -14,12 +14,12 @@ export default function FinalCTA() {
           </h2>
           <p className="text-ink-soft text-[16px] sm:text-[17px] leading-relaxed font-medium mt-5 max-w-lg mx-auto">
             Tell me about your business and I&apos;ll send a free project
-            estimate within 24 hours.
+            estimate within 72 hours.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2.5 bg-clay text-ink px-8 py-4 font-semibold text-[15px] hover:bg-clay-deep transition-colors active:scale-[0.98]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-clay text-ink px-8 py-4 font-semibold text-[15px] hover:bg-clay-deep transition-colors active:scale-[0.98]"
               style={{
                 boxShadow: "0 8px 24px -8px rgba(14,165,233,0.35)",
                 minHeight: 48,
@@ -32,7 +32,8 @@ export default function FinalCTA() {
             </Link>
             <Link
               href="/services"
-              className="group inline-flex items-center justify-center gap-2 text-ink-soft text-[15px] font-medium hover:text-ink transition-colors py-3"
+              className="w-full sm:w-auto group inline-flex items-center justify-center gap-2 text-ink-soft text-[15px] font-medium hover:text-ink transition-colors py-3"
+              style={{ minHeight: 44 }}
             >
               View pricing
               <span className="transition-transform group-hover:translate-x-1">

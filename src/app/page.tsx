@@ -5,8 +5,6 @@ import Capabilities from "@/components/Capabilities";
 import FeaturedProject from "@/components/FeaturedProject";
 import Portfolio from "@/components/Portfolio";
 import TestimonialPull from "@/components/TestimonialPull";
-import FinalCTA from "@/components/FinalCTA";
-
 export const metadata: Metadata = {
   title: "BuiltbyBrian — Web Designer & Developer",
   description: "Hand-built websites for restaurants, shops, and studios in Philadelphia and South Jersey. First draft in 5 days.",
@@ -33,7 +31,6 @@ export default function Home() {
       <FeaturedProject />
       <Portfolio />
       <TestimonialPull />
-      <FinalCTA />
     </main>
   );
 }

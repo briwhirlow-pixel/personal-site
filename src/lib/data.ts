@@ -1,8 +1,8 @@
 export const siteConfig = {
   name: "Brian Whirlow",
-  tagline: "Web Designer & Developer",
+  tagline: "Hand-coded. Personally designed. Yours forever.",
   description:
-    "Hand built websites for restaurants, shops, and studios in Philadelphia and South Jersey. One person, start to finish.",
+    "Custom websites for restaurants, shops, and studios in Philadelphia/South Jersey. One designer, start to finish. You own the code.",
   email: "brianwhirlowbusiness@gmail.com",
   calendlyUrl: "https://calendly.com/brianwhirlowbusiness/30min",
   social: {

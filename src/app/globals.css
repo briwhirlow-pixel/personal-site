@@ -2,48 +2,44 @@
 @plugin "@tailwindcss/forms";
 
 @theme {
-  /* ──────────────────────────────────────────────
-     Brian's brand system — warm near-black + gold + punch
-     Derived from logo + studio aesthetic, not generated.
-     ────────────────────────────────────────────── */
+  /* Surfaces — warm light gray */
+  --color-paper: #ECEBE6;
+  --color-paper-soft: #F5F4F1;
+  --color-paper-deep: #E0DED8;
 
-  /* Surfaces — warm near-black */
-  --color-paper: #0c0a08;
-  --color-paper-soft: #14110d;
-  --color-paper-deep: #1c1814;
+  /* Text — navy heading + slate body */
+  --color-ink: #1A1A2E;
+  --color-ink-soft: #475569;
+  --color-ink-muted: #64748B;
 
-  /* Ink — cream on dark */
-  --color-ink: #f0ece4;
-  --color-ink-soft: #b5a892;
-  --color-ink-muted: #6b5a3e;
+  /* Rules */
+  --color-rule: #E2E8F0;
+  --color-rule-bright: #CBD5E1;
 
-  /* Borders — gold-tinted */
-  --color-rule: rgba(212, 168, 67, 0.12);
-  --color-rule-bright: rgba(212, 168, 67, 0.25);
+  /* PRIMARY — electric blue */
+  --color-forest: #2563EB;
+  --color-forest-deep: #1E40AF;
+  --color-forest-bright: #3B82F6;
 
-  /* Primary accent — gold */
-  --color-forest: #d4a843;
-  --color-forest-deep: #c49832;
-  --color-forest-bright: #e0b855;
-
-  /* Secondary accent — punch (orange-red) */
-  --color-clay: #e8583a;
-  --color-clay-soft: #f06848;
-  --color-clay-deep: #d44828;
+  /* SECONDARY — sky blue (CTA buttons) */
+  --color-clay: #0EA5E9;
+  --color-clay-soft: #38BDF8;
+  --color-clay-deep: #0284C7;
 
   /* Stars */
-  --color-butter: #d4a843;
-  --color-butter-soft: #e0b855;
+  --color-butter: #FACC15;
+  --color-butter-soft: #FDE047;
 
-  /* Type — two families only */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  /* Type — two families */
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument), ui-serif, Georgia, "Times New Roman", serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
 html {
   scroll-behavior: smooth;
-  background: #0c0a08;
+  background: #ECEBE6;
 }
 
 @keyframes editorial-rise {
@@ -65,64 +61,136 @@ html {
 .pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
 .marquee-loop { animation: marquee 22s linear infinite; will-change: transform; }
 
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.025;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  background-size: 220px 220px;
+::selection { background: rgba(37, 99, 235, 0.15); color: #1A1A2E; }
+
+/* ── Mockup hover animations — all transition-based for reliability ── */
+
+/* 1. Vertical scroll down (APEX) */
+.mockup-scroll {
+  transform: translateY(0);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.group:hover .mockup-scroll {
+  transform: translateY(-60%);
+  transition: transform 6s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-::selection { background: rgba(212, 168, 67, 0.25); color: #f0ece4; }
+/* 2. Zoom into hero (Restaurant) */
+.mockup-zoom {
+  transform: scale(1) translate(0, 0);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: top left;
+}
+.group:hover .mockup-zoom {
+  transform: scale(1.5) translate(-8%, -12%);
+  transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* 3. Deep scroll — longer content, scrolls further (Streetwear) */
+.mockup-scroll-deep {
+  transform: translateY(0);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.group:hover .mockup-scroll-deep {
+  transform: translateY(-68%);
+  transition: transform 8s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* 4. Diagonal drift with scale (Portfolio) */
+.mockup-drift {
+  transform: translate(0, 0) scale(1);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: top center;
+}
+.group:hover .mockup-drift {
+  transform: translate(-5%, -35%) scale(1.12);
+  transition: transform 5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* 5. Zoom from center-right (Real Estate) */
+.mockup-zoom-right {
+  transform: scale(1) translate(0, 0);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: 75% 35%;
+}
+.group:hover .mockup-zoom-right {
+  transform: scale(1.6);
+  transition: transform 4.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* 6. Horizontal pan (Salon — wider content) */
+.mockup-pan {
+  transform: translateX(0);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.group:hover .mockup-pan {
+  transform: translateX(-38%);
+  transition: transform 5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mockup-scroll, .group:hover .mockup-scroll,
+  .mockup-zoom, .group:hover .mockup-zoom,
+  .mockup-scroll-deep, .group:hover .mockup-scroll-deep,
+  .mockup-drift, .group:hover .mockup-drift,
+  .mockup-zoom-right, .group:hover .mockup-zoom-right,
+  .mockup-pan, .group:hover .mockup-pan {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ── Logo marquee — infinite horizontal scroll ── */
+@keyframes marquee-slide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee-slide 30s linear infinite;
+  width: max-content;
+}
+
+/* ── Phone showcase auto-scroll — continuous loop, alternates direction ── */
+@keyframes phone-scroll {
+  0%, 10% { transform: translateY(0); }
+  90%, 100% { transform: translateY(-52%); }
+}
+.phone-auto-1 { animation: phone-scroll 9s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate; }
+.phone-auto-2 { animation: phone-scroll 12s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate; animation-delay: 1.5s; }
+.phone-auto-3 { animation: phone-scroll 8s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate; animation-delay: 3.5s; }
+
+/* ── Hero logo animations ── */
+@keyframes cursor-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes screen-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+  50% { box-shadow: 0 0 24px -6px rgba(37, 99, 235, 0.18); }
+}
+
+@keyframes logo-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.hero-cursor-blink { animation: cursor-blink 1.1s step-end infinite; }
+.hero-screen-glow { animation: screen-glow 3s ease-in-out infinite; animation-delay: 0.8s; }
+.hero-logo-float { animation: logo-float 4s ease-in-out infinite; animation-delay: 1s; }
 
 @media (prefers-reduced-motion: reduce) {
   .editorial-rise,
   .pulse-dot,
-  .marquee-loop { animation: none; }
+  .marquee-loop,
+  .marquee-track,
+  .phone-auto-1,
+  .phone-auto-2,
+  .phone-auto-3,
+  .hero-cursor-blink,
+  .hero-screen-glow,
+  .hero-logo-float { animation: none; }
 }
-
-/* Gym tracker — admin page only */
-.rest-slider {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 4px;
-  border-radius: 9999px;
-  background: rgba(255,255,255,0.1);
-  outline: none;
-  cursor: pointer;
-}
-.rest-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #30D158;
-  cursor: pointer;
-  box-shadow: 0 0 0 5px rgba(48,209,88,0.18), 0 2px 8px rgba(0,0,0,0.4);
-  transition: box-shadow 0.15s;
-}
-.rest-slider:active::-webkit-slider-thumb {
-  box-shadow: 0 0 0 8px rgba(48,209,88,0.25), 0 2px 8px rgba(0,0,0,0.4);
-}
-.rest-slider::-moz-range-thumb {
-  width: 28px;
-  height: 28px;
-  border: none;
-  border-radius: 50%;
-  background: #30D158;
-  cursor: pointer;
-  box-shadow: 0 0 0 5px rgba(48,209,88,0.18);
-}
-.rest-slider::-webkit-slider-runnable-track { border-radius: 9999px; }
-.stepper-input::-webkit-inner-spin-button,
-.stepper-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-.stepper-input { -moz-appearance: textfield; }
 
 @layer base {
   body {

@@ -61,7 +61,7 @@ export default function Navbar() {
           <Link
             href="/contact"
             className="inline-flex items-center gap-2 text-[13px] font-semibold bg-clay text-ink px-5 py-2.5 hover:bg-clay-deep transition-colors active:scale-[0.98]"
-            style={{ boxShadow: "0 4px 16px -6px rgba(232,88,58,0.45)" }}
+            style={{ boxShadow: "0 4px 16px -6px rgba(14,165,233,0.35)" }}
           >
             Start a project
             <span aria-hidden className="text-[11px]">→</span>
@@ -88,7 +88,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[17px] py-4 border-b border-rule font-display font-bold ${active ? "text-forest" : "text-ink-soft"}`}
+                className={`text-[17px] py-4 border-b border-rule font-display font-medium ${active ? "text-forest" : "text-ink-soft"}`}
                 style={{ minHeight: 48 }}
               >
                 {link.label}

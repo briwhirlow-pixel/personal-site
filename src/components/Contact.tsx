@@ -110,7 +110,7 @@ export default function Contact() {
         <Reveal>
           <div className="max-w-3xl mb-14 pt-4">
             <h2
-              className="font-display font-extrabold leading-[0.95] tracking-[-0.025em] text-ink"
+              className="font-display font-medium leading-[1.05] tracking-[-0.03em] text-ink"
               style={{ fontSize: 'clamp(36px, 6vw, 72px)' }}
             >
               Tell me what you&apos;re building.
@@ -209,12 +209,12 @@ export default function Contact() {
                 <div className="w-12 h-12 bg-forest flex items-center justify-center mb-5">
                   <Check size={20} className="text-paper" strokeWidth={2.5} />
                 </div>
-                <h3 className="font-display font-bold text-[28px] text-ink mb-3 leading-tight">Got it.</h3>
+                <h3 className="font-display font-medium text-[28px] text-ink mb-3 leading-tight tracking-[-0.02em]">Got it.</h3>
                 <p className="text-ink-soft text-[15px] leading-relaxed mb-2 font-medium">
                   I&apos;ll email you back from <span className="font-semibold text-ink">brianwhirlowbusiness@gmail.com</span> by{" "}
                   <span className="font-semibold text-ink">{getTomorrow()}</span> , usually within a few hours.
                 </p>
-                <p className="text-ink-muted text-[14px] mb-7 font-display font-bold">Brian</p>
+                <p className="text-ink-muted text-[14px] mb-7 font-display font-medium">Brian</p>
                 {hasCalendly && (
                   <a
                     href={siteConfig.calendlyUrl}
@@ -285,7 +285,7 @@ export default function Contact() {
 
                     <button type="button" onClick={goToStep2}
                       className="w-full bg-clay text-ink font-semibold py-4 px-6 hover:bg-clay-deep transition-colors text-[14px] active:scale-[0.98]"
-                      style={{ boxShadow: "0 8px 24px -8px rgba(232,88,58,0.4)", minHeight: 48 }}>
+                      style={{ boxShadow: "0 8px 24px -8px rgba(14,165,233,0.35)", minHeight: 48 }}>
                       Next , Choose Your Budget →
                     </button>
                     <p className="text-center text-[11px] text-ink-muted font-semibold tracking-[0.1em] uppercase -mt-1">Free quote · No commitment</p>
@@ -390,7 +390,7 @@ export default function Contact() {
                     <div>
                       <button type="submit" disabled={status === "loading"}
                         className="w-full bg-clay text-ink font-semibold py-4 px-6 hover:bg-clay-deep disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-[14px] active:scale-[0.98]"
-                        style={{ boxShadow: "0 8px 24px -8px rgba(232,88,58,0.4)", minHeight: 48 }}>
+                        style={{ boxShadow: "0 8px 24px -8px rgba(14,165,233,0.35)", minHeight: 48 }}>
                         {status === "loading" ? "Sending…" : "Get My Free Quote →"}
                       </button>
                       <p className="text-center text-[11px] text-ink-muted font-semibold tracking-[0.1em] uppercase mt-2.5">

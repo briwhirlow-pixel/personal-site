@@ -48,7 +48,7 @@ export default function FAQ() {
 
         <Reveal className="mb-10">
           <p
-            className="font-display font-bold leading-snug tracking-tight text-ink"
+            className="font-display font-medium leading-[1.05] tracking-[-0.03em] text-ink"
             style={{ fontSize: 'clamp(22px, 3.5vw, 32px)' }}
           >
             Questions people ask.

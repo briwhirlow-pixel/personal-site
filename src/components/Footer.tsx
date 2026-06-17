@@ -1,5 +1,6 @@
 import { siteConfig } from "@/lib/data";
 import { Linkedin } from "lucide-react";
+import Logo from "./Logo";
 
 const footerLinks = [
   { label: "About", href: "/about" },
@@ -16,13 +17,12 @@ export default function Footer() {
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12 pt-20 pb-10">
 
         <div className="pb-12 mb-12 border-b border-rule">
-          <p className="text-[11px] tracking-[0.12em] uppercase text-ink-muted font-semibold mb-4 flex items-center gap-2.5">
-            <span className="inline-block w-1.5 h-1.5 bg-clay" aria-hidden />
+          <p className="text-ink-muted text-[14px] font-medium mb-4">
             Philadelphia / South Jersey
           </p>
           <h2
-            className="font-display font-extrabold leading-[0.95] tracking-[-0.025em] text-ink max-w-3xl"
-            style={{ fontSize: 'clamp(40px, 7vw, 84px)' }}
+            className="font-display font-medium leading-[1.05] tracking-[-0.03em] text-ink max-w-3xl"
+            style={{ fontSize: 'clamp(36px, 6vw, 64px)' }}
           >
             Let&apos;s build something great.
           </h2>
@@ -30,12 +30,12 @@ export default function Footer() {
             <a
               href="/contact"
               className="inline-flex items-center justify-center gap-2 bg-clay text-ink font-semibold px-6 py-4 hover:bg-clay-deep transition-colors text-[14px] active:scale-[0.98]"
-              style={{ boxShadow: "0 8px 24px -8px rgba(232,88,58,0.45)", minHeight: 48 }}
+              style={{ boxShadow: "0 8px 24px -8px rgba(14,165,233,0.35)", minHeight: 48 }}
             >
               Start a project
               <span aria-hidden className="text-[15px] leading-none">→</span>
             </a>
-            <span className="text-ink-soft text-[15px] font-display font-bold">
+            <span className="text-ink-soft text-[15px] font-display font-medium">
               Brian Whirlow
             </span>
           </div>
@@ -43,15 +43,9 @@ export default function Footer() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr] gap-8 md:gap-10 pb-10 mb-10 border-b border-rule">
           <div>
-            <div className="inline-flex items-baseline gap-2">
-              <span aria-hidden className="inline-block w-1.5 h-1.5 bg-forest translate-y-[-2px]" />
-              <span className="font-display font-bold text-[22px] leading-none tracking-tight text-ink">
-                Built<span className="text-clay px-[1px]">by</span>Brian
-              </span>
-            </div>
+            <Logo />
             <p className="text-ink-soft text-[13px] mt-3 leading-relaxed font-medium max-w-xs">
-              {siteConfig.tagline}.<br />
-              Hand built websites for small businesses.
+              {siteConfig.tagline}
             </p>
           </div>
           <div>

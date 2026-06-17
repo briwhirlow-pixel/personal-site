@@ -1,19 +1,22 @@
 import type { Metadata } from "next";
-import { Syne, Inter } from "next/font/google";
+import { Newsreader, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/data";
 import PublicLayout from "@/components/PublicLayout";
 
-const syne = Syne({
+const newsreader = Newsreader({
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-syne",
+  variable: "--font-instrument",
 });
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
+  weight: ["300", "400", "500", "600", "700", "800"],
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-outfit",
 });
 
 export const metadata: Metadata = {
@@ -45,7 +48,7 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${syne.variable} ${inter.variable}`}>
+    <html lang="en" className={`${newsreader.variable} ${jakarta.variable}`}>
       <body>
         <PublicLayout>{children}</PublicLayout>
       </body>

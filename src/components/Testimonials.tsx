@@ -56,7 +56,7 @@ export default function Testimonials() {
         {/* Narrow editorial column — structurally different from other sections */}
         <Reveal className="mb-20 pt-4">
           <h2
-            className="font-display font-bold leading-[1.05] tracking-tight text-ink"
+            className="font-display font-medium leading-[1.05] tracking-[-0.03em] text-ink"
             style={{ fontSize: 'clamp(28px, 4.5vw, 44px)' }}
           >
             What clients have said.
@@ -81,7 +81,7 @@ export default function Testimonials() {
                 </div>
 
                 <blockquote
-                  className="font-display font-bold leading-[1.3] tracking-tight text-ink"
+                  className="font-display font-medium leading-[1.3] tracking-[-0.02em] text-ink"
                   style={{ fontSize: 'clamp(20px, 2.8vw, 30px)' }}
                 >
                   <span aria-hidden className="text-clay text-[1.4em] leading-[0] align-[-0.2em] mr-1">&ldquo;</span>

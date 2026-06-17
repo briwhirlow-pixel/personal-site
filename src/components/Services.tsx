@@ -18,7 +18,7 @@ export default function Services() {
 
         <Reveal className="max-w-3xl mb-10">
           <h1
-            className="font-display font-extrabold leading-[0.95] tracking-[-0.025em] text-ink"
+            className="font-display font-medium leading-[1.05] tracking-[-0.03em] text-ink"
             style={{ fontSize: 'clamp(40px, 7vw, 72px)' }}
           >
             Simple, transparent pricing.
@@ -48,12 +48,12 @@ export default function Services() {
           <Reveal>
             <div
               className="relative p-8 sm:p-10 flex flex-col h-full bg-paper-soft border border-forest"
-              style={{ boxShadow: "0 24px 60px -24px rgba(212,168,67,0.2)" }}
+              style={{ boxShadow: "0 24px 60px -24px rgba(37,99,235,0.12)" }}
             >
               <div className="mb-6">
                 <span className="text-[11px] font-semibold tracking-[0.15em] uppercase text-forest">Most popular</span>
                 <h3
-                  className="font-display font-extrabold tracking-tight text-ink mt-2 leading-tight"
+                  className="font-display font-medium tracking-tight text-ink mt-2 leading-tight"
                   style={{ fontSize: 'clamp(28px, 4vw, 40px)' }}
                 >
                   {featured.name}
@@ -77,7 +77,7 @@ export default function Services() {
               <a
                 href="/contact"
                 className="inline-flex items-center justify-center gap-2 py-4 px-6 bg-clay text-ink font-semibold text-[14px] hover:bg-clay-deep transition-colors active:scale-[0.98]"
-                style={{ boxShadow: "0 8px 24px -6px rgba(232,88,58,0.4)", minHeight: 48 }}
+                style={{ boxShadow: "0 8px 24px -6px rgba(14,165,233,0.35)", minHeight: 48 }}
               >
                 {featured.cta} <span aria-hidden>→</span>
               </a>
@@ -89,7 +89,7 @@ export default function Services() {
               <Reveal key={tier.name} delay={i * 80}>
                 <div className="relative p-6 sm:p-7 flex flex-col h-full bg-paper-soft border border-rule hover:border-rule-bright transition-colors">
                   <div className="mb-4">
-                    <h3 className="font-display font-bold text-[22px] tracking-tight text-ink leading-tight">
+                    <h3 className="font-display font-medium text-[22px] tracking-tight text-ink leading-tight">
                       {tier.name}
                     </h3>
                     <p className="text-forest font-semibold text-[14px] mt-1">{tier.price}</p>
@@ -140,7 +140,7 @@ export default function Services() {
         {/* After launch — two options, asymmetric */}
         <Reveal delay={200} className="mt-16">
           <h2
-            className="font-display font-bold text-ink mb-8"
+            className="font-display font-medium text-ink mb-8"
             style={{ fontSize: 'clamp(24px, 4vw, 36px)' }}
           >
             After launch, your choice.
@@ -149,7 +149,7 @@ export default function Services() {
           <div className="grid md:grid-cols-[1.3fr_1fr] gap-5">
             <div className="bg-paper-soft border border-rule p-7">
               <FolderArchive size={20} className="text-forest mb-4" strokeWidth={1.75} />
-              <h3 className="font-display font-bold text-[20px] text-ink tracking-tight mb-2">Take your files</h3>
+              <h3 className="font-display font-medium text-[20px] text-ink tracking-tight mb-2">Take your files</h3>
               <p className="text-ink-soft text-[13px] leading-relaxed mb-4 font-medium">
                 Get the full source code delivered via Google Drive. Host it anywhere. Vercel,
                 Netlify, your own server. You own it completely.
@@ -165,7 +165,7 @@ export default function Services() {
 
             <div className="bg-paper-soft border border-rule p-7">
               <Globe size={20} className="text-forest mb-4" strokeWidth={1.75} />
-              <h3 className="font-display font-bold text-[20px] text-ink tracking-tight mb-2">Managed care plans</h3>
+              <h3 className="font-display font-medium text-[20px] text-ink tracking-tight mb-2">Managed care plans</h3>
               <p className="text-ink-soft text-[13px] leading-relaxed mb-5 font-medium">
                 I handle hosting, SSL, and deployments. Cancel anytime.
               </p>

@@ -20,7 +20,7 @@ export default function FloatingCTA() {
         href="/contact"
         style={{
           bottom: 'calc(1.5rem + env(safe-area-inset-bottom, 0px))',
-          boxShadow: "0 8px 24px -6px rgba(232,88,58,0.5)",
+          boxShadow: "0 8px 24px -6px rgba(14,165,233,0.4)",
           minHeight: 44,
         }}
         className={`fixed right-5 z-40 inline-flex items-center gap-2 bg-clay text-ink font-semibold px-5 py-3 hover:bg-clay-deep transition-all duration-300 text-[13px] active:scale-[0.97] ${

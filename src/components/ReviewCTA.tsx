@@ -44,7 +44,7 @@ export default function ReviewCTA() {
               <div className="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-8">
                 <div className="flex-1">
                   <h3
-                    className="font-display font-bold leading-tight tracking-tight text-ink"
+                    className="font-display font-medium leading-tight tracking-[-0.02em] text-ink"
                     style={{ fontSize: 'clamp(24px, 3.5vw, 32px)' }}
                   >
                     Worked together?
@@ -68,7 +68,7 @@ export default function ReviewCTA() {
             {view === "form" && (
               <div>
                 <h3
-                  className="font-display font-bold leading-tight tracking-tight text-ink"
+                  className="font-display font-medium leading-tight tracking-[-0.02em] text-ink"
                   style={{ fontSize: 'clamp(22px, 3.2vw, 28px)' }}
                 >
                   Tell me about working with BuiltbyBrian.
@@ -174,7 +174,7 @@ export default function ReviewCTA() {
                   <Check size={20} className="text-paper" strokeWidth={2.5} />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-display font-bold text-[24px] text-ink leading-tight tracking-tight">
+                  <h3 className="font-display font-medium text-[24px] text-ink leading-tight tracking-[-0.02em]">
                     Thanks, {name.split(" ")[0] || "friend"}.
                   </h3>
                   <p className="text-ink-soft text-[14px] mt-1 font-medium">

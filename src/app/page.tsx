@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
+import ValueProp from "@/components/ValueProp";
+import Capabilities from "@/components/Capabilities";
 import FeaturedProject from "@/components/FeaturedProject";
+import Portfolio from "@/components/Portfolio";
+import TestimonialPull from "@/components/TestimonialPull";
+import PhoneShowcase from "@/components/PhoneShowcase";
+import Platforms from "@/components/Platforms";
+import FinalCTA from "@/components/FinalCTA";
 
 export const metadata: Metadata = {
   title: "BuiltbyBrian — Web Designer & Developer",
@@ -23,7 +30,14 @@ export default function Home() {
   return (
     <main>
       <Hero />
+      <ValueProp />
+      <Capabilities />
       <FeaturedProject />
+      <Portfolio />
+      <TestimonialPull />
+      <PhoneShowcase />
+      <Platforms />
+      <FinalCTA />
     </main>
   );
 }

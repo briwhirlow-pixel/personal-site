@@ -273,7 +273,7 @@ function SportsMini() {
 
 const REAL_SLIDES = 3;
 const TOTAL_SLIDES = REAL_SLIDES + 1;
-const AUTO_MS = 5000;
+const AUTO_MS = 3500;
 const TRANSITION_MS = 700;
 
 export default function Hero() {

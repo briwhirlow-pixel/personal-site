@@ -111,6 +111,16 @@ export default function Services() {
               </svg>
               <span className="text-[14px] font-bold text-[#6D1ED4]">Zelle</span>
             </div>
+            <div className="w-[1px] h-5 bg-rule" />
+            <div className="flex items-center gap-2">
+              {/* PayPal official logo mark */}
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                <rect width="32" height="32" rx="6" fill="#003087"/>
+                <path d="M21.5 11.2c0 3.1-2.5 5.3-5.8 5.3h-1.2l-.8 4.8h-2.4l.3-1.6 2.1-12.4h4.2c2.2 0 3.6 1.4 3.6 3.9z" fill="#009CDE"/>
+                <path d="M19.8 9.8c0 3.1-2.5 5.3-5.8 5.3h-1.2l-.8 4.8H9.6l2.4-14h4.2c2.2 0 3.6 1.4 3.6 3.9z" fill="white"/>
+              </svg>
+              <span className="text-[14px] font-bold text-[#003087]">PayPal</span>
+            </div>
           </div>
         </Reveal>
 

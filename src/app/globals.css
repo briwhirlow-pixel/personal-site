@@ -38,11 +38,13 @@
 }
 
 html {
-  scroll-behavior: smooth;
   background: #ECEBE6;
 }
+html.smooth-scroll {
+  scroll-behavior: smooth;
+}
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  html.smooth-scroll { scroll-behavior: auto; }
 }
 
 @keyframes editorial-rise {

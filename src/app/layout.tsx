@@ -3,6 +3,7 @@ import { Newsreader, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/data";
 import PublicLayout from "@/components/PublicLayout";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const newsreader = Newsreader({
   weight: ["300", "400", "500", "600", "700"],
@@ -50,6 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${newsreader.variable} ${jakarta.variable}`}>
       <body>
+        <SmoothScroll />
         <PublicLayout>{children}</PublicLayout>
       </body>
     </html>

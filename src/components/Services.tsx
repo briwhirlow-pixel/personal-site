@@ -104,22 +104,30 @@ export default function Services() {
             </div>
             <div className="w-[1px] h-5 bg-rule" />
             <div className="flex items-center gap-2">
-              {/* Zelle official logo mark */}
+              {/* Zelle app icon */}
               <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-                <rect width="32" height="32" rx="6" fill="#6D1ED4"/>
-                <path d="M21.5 9.5v2.7H14.2l7.3 8.6v2.7H10.5v-2.7h7.1l-7.1-8.6V9.5H21.5z" fill="white"/>
+                <defs>
+                  <linearGradient id="zelle-bg" x1="16" y1="0" x2="16" y2="32" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" stopColor="#8C30F5"/>
+                    <stop offset="1" stopColor="#6D1ED4"/>
+                  </linearGradient>
+                </defs>
+                <rect width="32" height="32" rx="7" fill="url(#zelle-bg)"/>
+                <path d="M21.8 9.5v1.2l-7.6 9.1h7.6v2.7H10.2v-1.2l7.6-9.1H10.5V9.5H21.8z" fill="white"/>
+                <line x1="13" y1="9.5" x2="15.5" y2="9.5" stroke="white" strokeWidth="1.3" strokeLinecap="round"/>
+                <line x1="16.5" y1="22.5" x2="19" y2="22.5" stroke="white" strokeWidth="1.3" strokeLinecap="round"/>
               </svg>
               <span className="text-[14px] font-bold text-[#6D1ED4]">Zelle</span>
             </div>
             <div className="w-[1px] h-5 bg-rule" />
             <div className="flex items-center gap-2">
-              {/* PayPal official logo mark */}
+              {/* PayPal double-P logo mark */}
               <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-                <rect width="32" height="32" rx="6" fill="#003087"/>
-                <path d="M21.5 11.2c0 3.1-2.5 5.3-5.8 5.3h-1.2l-.8 4.8h-2.4l.3-1.6 2.1-12.4h4.2c2.2 0 3.6 1.4 3.6 3.9z" fill="#009CDE"/>
-                <path d="M19.8 9.8c0 3.1-2.5 5.3-5.8 5.3h-1.2l-.8 4.8H9.6l2.4-14h4.2c2.2 0 3.6 1.4 3.6 3.9z" fill="white"/>
+                <path d="M23.4 10.4c0-0.1 0-0.2 0-0.3 0-3.2-2.6-4.6-5.8-4.6h-6.4c-0.5 0-0.9 0.3-1 0.8L7.8 22.1c-0.1 0.4 0.2 0.7 0.6 0.7h3.8l-0.3 1.6c-0.1 0.3 0.2 0.6 0.5 0.6h3.2c0.4 0 0.7-0.3 0.8-0.7l0.7-4.2h1.8c3.7 0 6.2-2.5 6.8-5.9 0.4-1.5 0.1-2.9-0.7-3.8h-1.6z" fill="#009CDE"/>
+                <path d="M21.8 10.1c-0.6 3.4-3.1 5.9-6.8 5.9h-2.5l-1.2 7.2h-2.9l0.3-1.6 1-5.6 0.7-4.2c0.1-0.5 0.5-0.8 1-0.8h6.4c1.4 0 2.6 0.3 3.4 0.9-0.2-0.7-0.1-1.5 0.6-1.8z" fill="#003087"/>
+                <path d="M12.5 16h2.5c3.7 0 6.2-2.5 6.8-5.9 0.2-0.3 0.2-0.6 0.2-0.9-0.8-0.6-2-0.9-3.4-0.9h-6.4c-0.5 0-0.9 0.3-1 0.8l-0.7 4.2-1 5.6h3.3l0.7-2.9z" fill="#012169"/>
               </svg>
-              <span className="text-[14px] font-bold text-[#003087]">PayPal</span>
+              <span className="text-[14px] font-bold text-[#003087]">Pay<span className="text-[#009CDE]">Pal</span></span>
             </div>
           </div>
         </Reveal>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BuiltByBwhirl — Instagram Profile Logo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #1a1a1a;
+    color: #f0ece4;
+    font-family: 'Syne', system-ui, sans-serif;
+    gap: 32px;
+    padding: 40px 20px;
+  }
+  h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
+  p { font-size: 14px; color: #888; max-width: 400px; text-align: center; line-height: 1.6; }
+  .preview-row {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .preview-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .preview-box span {
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  canvas {
+    border-radius: 50%;
+    box-shadow: 0 20px 60px -10px rgba(0,0,0,0.5);
+  }
+  .small { width: 110px; height: 110px; }
+  .medium { width: 320px; height: 320px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #d4a843;
+    color: #0c0a08;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 14px 28px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn:hover { background: #e8583a; color: #f0ece4; }
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+</style>
+</head>
+<body>
+
+<h1>Your Instagram Profile Logo</h1>
+<p>Right-click to save, or use the download buttons below. The logo is 1080x1080px — Instagram will crop it to a circle automatically.</p>
+
+<div class="preview-row">
+  <div class="preview-box">
+    <canvas id="logo-main" width="1080" height="1080" class="medium"></canvas>
+    <span>Full size preview</span>
+  </div>
+  <div class="preview-box">
+    <canvas id="logo-small" width="1080" height="1080" class="small"></canvas>
+    <span>How it looks on IG</span>
+  </div>
+</div>
+
+<div class="btn-row">
+  <button class="btn" onclick="download('dark')">Download Dark Version</button>
+  <button class="btn" onclick="download('gold')">Download Gold Version</button>
+  <button class="btn" onclick="download('punch')">Download Orange Version</button>
+</div>
+
+<script>
+function drawLogo(canvas, variant) {
+  const ctx = canvas.getContext('2d');
+  const s = canvas.width;
+  const cx = s / 2;
+  const cy = s / 2;
+
+  ctx.clearRect(0, 0, s, s);
+
+  const colors = {
+    dark:  { bg: '#0c0a08', letter: '#f0ece4', accent: '#d4a843', sub: '#d4a843' },
+    gold:  { bg: '#d4a843', letter: '#0c0a08', accent: '#e8583a', sub: '#0c0a08' },
+    punch: { bg: '#e8583a', letter: '#f0ece4', accent: '#d4a843', sub: '#f0ece4' },
+  };
+  const c = colors[variant] || colors.dark;
+
+  // Background circle
+  ctx.beginPath();
+  ctx.arc(cx, cy, s / 2, 0, Math.PI * 2);
+  ctx.fillStyle = c.bg;
+  ctx.fill();
+
+  // Accent slash behind the B
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(s * 0.58, s * 0.12);
+  ctx.lineTo(s * 0.72, s * 0.12);
+  ctx.lineTo(s * 0.42, s * 0.88);
+  ctx.lineTo(s * 0.28, s * 0.88);
+  ctx.closePath();
+  ctx.fillStyle = c.accent;
+  ctx.globalAlpha = 0.2;
+  ctx.fill();
+  ctx.restore();
+
+  // Main "B" letter
+  ctx.font = `800 ${s * 0.62}px 'Syne', sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = c.letter;
+  ctx.fillText('B', cx - s * 0.01, cy - s * 0.02);
+
+  // Small accent dot
+  ctx.beginPath();
+  ctx.arc(s * 0.72, s * 0.72, s * 0.05, 0, Math.PI * 2);
+  ctx.fillStyle = c.accent;
+  ctx.fill();
+
+  // "BUILT BY BWHIRL" tiny text at bottom
+  ctx.font = `700 ${s * 0.038}px 'Syne', sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.fillStyle = c.sub;
+  ctx.globalAlpha = 0.6;
+  ctx.fillText('BUILTBYBWHIRL', cx, s * 0.87);
+  ctx.globalAlpha = 1;
+}
+
+function download(variant) {
+  const tmpCanvas = document.createElement('canvas');
+  tmpCanvas.width = 1080;
+  tmpCanvas.height = 1080;
+  drawLogo(tmpCanvas, variant);
+
+  const link = document.createElement('a');
+  link.download = `builtbybwhirl-ig-logo-${variant}.png`;
+  link.href = tmpCanvas.toDataURL('image/png');
+  link.click();
+}
+
+// Wait for font to load, then draw
+document.fonts.ready.then(() => {
+  drawLogo(document.getElementById('logo-main'), 'dark');
+  drawLogo(document.getElementById('logo-small'), 'dark');
+});
+</script>
+
+</body>
+</html>

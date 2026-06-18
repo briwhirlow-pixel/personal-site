@@ -6,24 +6,18 @@ import Logo from './Logo';
 
 function PhoneScroll({ children, duration = 10000 }: { children: React.ReactNode; duration?: number }) {
   const [scrolled, setScrolled] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setReducedMotion(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
-  useEffect(() => {
-    if (reducedMotion) return;
     const id = setInterval(() => setScrolled(s => !s), duration);
     return () => clearInterval(id);
-  }, [duration, reducedMotion]);
+  }, [duration]);
   return (
     <div
       style={{
-        transform: reducedMotion ? 'none' : scrolled ? 'translateY(-52%)' : 'translateY(0)',
-        transition: reducedMotion ? 'none' : `transform ${duration * 0.8}ms cubic-bezier(0.45, 0, 0.55, 1)`,
+        transform: scrolled ? 'translateY(-52%)' : 'translateY(0)',
+        WebkitTransform: scrolled ? 'translateY(-52%)' : 'translateY(0)',
+        transition: `transform ${duration * 0.8}ms cubic-bezier(0.45, 0, 0.55, 1)`,
+        WebkitTransition: `-webkit-transform ${duration * 0.8}ms cubic-bezier(0.45, 0, 0.55, 1)`,
+        willChange: 'transform',
       }}
     >
       {children}

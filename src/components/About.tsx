@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Linkedin, Facebook, Mail } from "lucide-react";
+import { Linkedin, Facebook, Mail, Download } from "lucide-react";
 import { siteConfig } from "@/lib/data";
 import Reveal from "./Reveal";
 
@@ -54,6 +54,16 @@ export default function About() {
                   <Mail size={16} strokeWidth={1.75} />
                 </a>
               </div>
+
+              <a
+                href="/api/about-card"
+                download="brian-whirlow-about.png"
+                className="flex items-center justify-center gap-2 text-[12px] font-semibold text-ink-muted hover:text-forest border border-rule bg-paper px-3 py-2 mb-4 transition-colors self-center"
+                style={{ minHeight: 44 }}
+              >
+                <Download size={14} strokeWidth={2} />
+                Save for Instagram
+              </a>
 
               <div className="grid grid-cols-2 gap-2">
                 <div className="flex flex-col gap-2">

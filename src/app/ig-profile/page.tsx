@@ -128,32 +128,32 @@ function H2() {
   );
 }
 
-// H3 — Site logo mirror (icon + bold wordmark, "by" in sky blue) ─
+// H3 — Bold wordmark + hand-drawn underline + WEB DESIGN ─────
 function H3() {
   return (
     <div style={{
       width: "100%", height: "100%",
-      background: "#EAE3D5",
-      display: "flex", alignItems: "center", justifyContent: "center",
+      background: CREAM_WARM,
+      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
       fontFamily: FONT,
       padding: 40,
     }}>
-      <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 18 }}>
-        <svg width="76" height="62" viewBox="0 0 24 20" fill="none" aria-hidden style={{ flexShrink: 0 }}>
-          <rect x="3" y="1" width="18" height="13" rx="2" stroke="#0E0C0A" strokeWidth="1.5" />
-          <path d="M1 16.5h22" stroke="#0E0C0A" strokeWidth="1.5" strokeLinecap="round" />
-          <path d="M8 14v2.5M16 14v2.5" stroke="#0E0C0A" strokeWidth="1.2" opacity="0.4" />
+      <div style={{
+        transform: "rotate(-1.5deg)",
+        display: "flex", flexDirection: "column", alignItems: "center",
+      }}>
+        <span style={{ fontSize: 40, fontWeight: 800, letterSpacing: "-0.015em" }}>
+          <span style={{ color: "#0E0C0A" }}>built</span>
+          <span style={{ color: "#0EA5E9" }}>by</span>
+          <span style={{ color: "#0E0C0A" }}>brian</span>
+        </span>
+        <svg width="280" height="22" viewBox="0 0 260 22" style={{ marginTop: 10 }}>
+          <path
+            d="M 8 12 Q 40 5, 80 11 T 160 9 Q 200 15, 240 8 T 254 12"
+            stroke="#0E0C0A" strokeWidth="3.4" fill="none" strokeLinecap="round"
+          />
         </svg>
-        <div style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
-          <span style={{ fontSize: 32, fontWeight: 800, letterSpacing: "-0.025em" }}>
-            <span style={{ color: "#0E0C0A" }}>built</span>
-            <span style={{ color: "#0EA5E9" }}>by</span>
-            <span style={{ color: "#0E0C0A" }}>brian</span>
-          </span>
-          <span style={{ fontSize: 10, color: "rgba(14,12,10,0.55)", letterSpacing: "0.32em", marginTop: 8, fontWeight: 500 }}>
-            web design
-          </span>
-        </div>
+        <span style={{ fontSize: 17, color: "#0E0C0A", letterSpacing: "0.42em", marginTop: 20, fontWeight: 700 }}>WEB DESIGN</span>
       </div>
     </div>
   );
@@ -249,7 +249,7 @@ export default function IGProfilePreview() {
   const variants = [
     { id: "h1", Component: H1, name: "H1 — Letterpress", description: "Bone paper + ink black. Pressed metal-type feel with letterpress shadow and a printer's ornament." },
     { id: "h2", Component: H2, name: "H2 — Riso Two-Color", description: "Ultramarine + hot pink double-print with misregister offset and halftone dot grain. Indie print shop." },
-    { id: "h3", Component: H3, name: "H3 — Site Logo (bold)", description: "Mirrors your site logo lockup: monitor icon + wordmark + web design tagline. Bold 800 weight with 'by' in sky blue (#0EA5E9, same as the Start a project button)." },
+    { id: "h3", Component: H3, name: "H3 — Bold + Sky Blue 'by'", description: "Bold wordmark with 'by' colored sky blue (#0EA5E9, same as the Start a project button). Hand-drawn underline + WEB DESIGN tagline. NOW LIVE AS THE SITE LOGO." },
     { id: "h4", Component: H4, name: "H4 — Diner Sign Painter", description: "Cream + diner red with hand-painted shadow + stars. Mid-century shop sign / hometown menu." },
     { id: "h5", Component: H5, name: "H5 — Stadium Patch", description: "Chenille felt diagonal weave, dashed embroidered border, varsity-block wordmark. Philly sports patch." },
     { id: "h6", Component: H6, name: "H6 — Photocopy Zine", description: "B&W with intentional photocopy noise, slight rotation, hand-stamped 'NO. 01' label. Anti-polish on purpose." },

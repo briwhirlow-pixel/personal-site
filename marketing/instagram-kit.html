@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BuiltbyBrian — Instagram Marketing Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E9EDF3; --paper-soft:#FFFFFF; --paper-deep:#DBE2EB;
+    --ink:#1A1A2E; --ink-soft:#475569; --ink-muted:#64748B;
+    --rule:#E2E8F0; --rule-bright:#CBD5E1;
+    --blue:#2563EB; --blue-deep:#1E40AF; --blue-bright:#3B82F6;
+    --sky:#0EA5E9; --sky-soft:#38BDF8;
+    --gold:#FACC15;
+    --serif:'Instrument Serif', Georgia, serif;
+    --sans:'Outfit', system-ui, sans-serif;
+    --mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  body{padding:32px 16px 120px;}
+  .wrap{max-width:1180px;margin:0 auto;}
+
+  /* utility */
+  .mono{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-muted);}
+  .serif{font-family:var(--serif);font-weight:400;}
+  .italic{font-style:italic;color:var(--blue);}
+  .rule{height:1px;background:var(--rule);width:100%;}
+  .pulse{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--sky);box-shadow:0 0 0 0 rgba(14,165,233,.45);animation:pulse 2s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(14,165,233,.5);}70%{box-shadow:0 0 0 10px rgba(14,165,233,0);}100%{box-shadow:0 0 0 0 rgba(14,165,233,0);}}
+
+  /* cover */
+  .cover{background:var(--paper-soft);border:1px solid var(--rule);border-radius:8px;padding:48px 40px;margin-bottom:40px;position:relative;overflow:hidden;}
+  .cover .index-row{display:flex;justify-content:space-between;align-items:center;padding-bottom:18px;border-bottom:1px solid var(--rule);margin-bottom:36px;}
+  .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,84px);line-height:.95;letter-spacing:-.025em;font-weight:400;color:var(--ink);}
+  .cover h1 .accent{font-style:italic;color:var(--blue);}
+  .cover .lede{margin-top:24px;font-size:18px;line-height:1.6;color:var(--ink-soft);max-width:680px;font-weight:500;}
+  .cover .quick-stats{margin-top:36px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .cover .quick-stats .cell{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:18px;}
+  .cover .quick-stats .v{font-family:var(--serif);font-size:32px;color:var(--ink);line-height:1;}
+  .cover .quick-stats .l{margin-top:8px;}
+
+  /* sections */
+  section{margin-bottom:48px;}
+  .sec-head{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:14px;border-bottom:1px solid var(--rule);margin-bottom:32px;}
+  .sec-head .left{display:flex;align-items:center;gap:10px;}
+  .sec-title{font-family:var(--serif);font-size:clamp(28px,4vw,42px);line-height:1.05;letter-spacing:-.02em;color:var(--ink);margin-bottom:18px;font-weight:400;}
+  .sec-title .italic{font-style:italic;color:var(--blue);}
+  .sec-lead{font-size:16px;color:var(--ink-soft);max-width:760px;line-height:1.65;margin-bottom:26px;font-weight:500;}
+
+  /* card grids */
+  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  @media (max-width:900px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr 1fr;} }
+  @media (max-width:640px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr;} body{padding:18px 10px 80px;} .cover{padding:30px 22px;} }
+
+  .card{background:var(--paper-soft);border:1px solid var(--rule);border-radius:6px;padding:22px;}
+  .card .ord{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-muted);}
+  .card h3{font-family:var(--serif);font-size:24px;line-height:1.1;color:var(--ink);margin-top:8px;font-weight:400;}
+  .card p{margin-top:8px;font-size:13.5px;line-height:1.55;color:var(--ink-soft);font-weight:500;}
+  .card ul{margin-top:10px;list-style:none;}
+  .card ul li{font-size:13px;color:var(--ink-soft);margin-top:6px;padding-left:14px;position:relative;line-height:1.55;}
+  .card ul li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;background:var(--blue);border-radius:50%;}
+
+  /* pillar bars */
+  .pillar{display:grid;grid-template-columns:120px 1fr 60px;gap:18px;align-items:center;background:var(--paper-soft);border:1px solid var(--rule);border-radius:6px;padding:18px 20px;margin-bottom:10px;}
+  .pillar .name{font-family:var(--serif);font-size:22px;color:var(--ink);}
+  .pillar .desc{font-size:13px;color:var(--ink-soft);line-height:1.55;font-weight:500;}
+  .pillar .pct{text-align:right;font-family:var(--mono);font-size:13px;color:var(--blue);font-weight:600;}
+
+  /* week plan */
+  .week{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  @media (max-width:900px){.week{grid-template-columns:1fr 1fr;}}
+  @media (max-width:640px){.week{grid-template-columns:1fr;}}
+  .week .w{background:var(--paper-soft);border:1px solid var(--rule);border-radius:6px;padding:18px;}
+  .week .w .num{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--ink-muted);text-transform:uppercase;}
+  .week .w .ttl{font-family:var(--serif);font-size:22px;color:var(--ink);margin-top:6px;line-height:1.15;}
+  .week .w ul{margin-top:10px;list-style:none;}
+  .week .w ul li{font-size:12.5px;color:var(--ink-soft);padding:6px 0;border-bottom:1px dashed var(--rule);line-height:1.5;}
+  .week .w ul li:last-child{border-bottom:0;}
+
+  /* hashtag chips */
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+  .chip{font-family:var(--mono);font-size:11px;letter-spacing:.05em;background:var(--paper);border:1px solid var(--rule);color:var(--ink-soft);padding:5px 10px;border-radius:4px;}
+  .chip.hot{border-color:var(--blue);color:var(--blue);background:rgba(37,99,235,.06);}
+
+  /* === IG POSTS === */
+  .post-block{margin-top:22px;background:var(--paper-soft);border:1px solid var(--rule);border-radius:8px;padding:24px;}
+  .post-block-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;padding-bottom:14px;border-bottom:1px solid var(--rule);margin-bottom:18px;}
+  .post-block-head .title{font-family:var(--serif);font-size:24px;line-height:1.15;color:var(--ink);}
+  .post-block-head .meta{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-muted);text-align:right;}
+  .post-block-head .meta .tag{display:inline-block;background:var(--blue);color:#fff;padding:3px 8px;border-radius:3px;margin-left:6px;letter-spacing:.12em;}
+
+  .post-grid{display:grid;grid-template-columns:minmax(280px,400px) 1fr;gap:24px;align-items:start;}
+  @media (max-width:760px){ .post-grid{grid-template-columns:1fr;} }
+
+  /* IG canvas wrapper (renders at 360x450 visible, designed at 1080x1350) */
+  .ig{width:100%;max-width:400px;aspect-ratio:4/5;border-radius:14px;overflow:hidden;position:relative;border:1px solid var(--rule);box-shadow:0 18px 40px -22px rgba(26,26,46,.25);}
+  .ig-inner{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:34px 30px;color:var(--ink);background:var(--paper-soft);}
+  .ig.dark .ig-inner{color:#fff;background:var(--ink);}
+  .ig.blue .ig-inner{color:#fff;background:linear-gradient(160deg,var(--blue),var(--blue-deep));}
+  .ig.cream .ig-inner{background:var(--paper);}
+  .ig.gradient .ig-inner{background:radial-gradient(120% 80% at 0% 0%,#fff 0%,var(--paper) 60%,var(--paper-deep) 100%);}
+  .ig.studio .ig-inner{background:linear-gradient(180deg,var(--paper-soft) 0%,var(--paper) 100%);}
+
+  .ig .ig-top,.ig .ig-bottom{display:flex;justify-content:space-between;align-items:center;}
+  .ig .label{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:inherit;opacity:.7;}
+  .ig.blue .label,.ig.dark .label{opacity:.85;}
+  .ig .dot{width:6px;height:6px;border-radius:50%;background:var(--sky);box-shadow:0 0 8px var(--sky);display:inline-block;margin-right:8px;vertical-align:middle;}
+  .ig .brand{font-family:var(--serif);font-size:14px;color:inherit;opacity:.9;}
+  .ig .brand .ital{font-style:italic;}
+
+  .ig .ig-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:18px 0;}
+  .ig .ig-body h2{font-family:var(--serif);font-size:34px;line-height:1.02;letter-spacing:-.015em;font-weight:400;}
+  .ig.lg h2{font-size:42px;}
+  .ig .ig-body h2 em{font-style:italic;color:var(--blue);}
+  .ig.dark .ig-body h2 em,.ig.blue .ig-body h2 em{color:var(--sky-soft);}
+  .ig .ig-body .kicker{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:inherit;opacity:.7;margin-bottom:14px;}
+  .ig .ig-body .sub{margin-top:12px;font-size:13px;line-height:1.55;color:inherit;opacity:.78;max-width:90%;}
+
+  .ig .num-list{margin-top:16px;display:flex;flex-direction:column;gap:8px;}
+  .ig .num-list li{display:flex;gap:10px;font-size:12.5px;line-height:1.45;align-items:flex-start;list-style:none;color:inherit;opacity:.92;}
+  .ig .num-list .n{font-family:var(--mono);font-size:10px;background:rgba(37,99,235,.12);color:var(--blue);width:18px;height:18px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-weight:600;}
+  .ig.dark .num-list .n,.ig.blue .num-list .n{background:rgba(255,255,255,.16);color:#fff;}
+
+  .ig .price-row{display:flex;align-items:baseline;gap:10px;margin-top:10px;}
+  .ig .price-row .v{font-family:var(--serif);font-size:64px;line-height:1;color:var(--blue);}
+  .ig.dark .price-row .v,.ig.blue .price-row .v{color:var(--sky-soft);}
+  .ig .price-row .v small{font-size:18px;color:inherit;opacity:.8;}
+
+  .ig .tag-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
+  .ig .tag-row span{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;background:rgba(37,99,235,.08);color:var(--blue);padding:4px 8px;border-radius:3px;}
+  .ig.dark .tag-row span,.ig.blue .tag-row span{background:rgba(255,255,255,.14);color:#fff;}
+
+  .ig .cta{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:inherit;opacity:.8;}
+  .ig .swipe::after{content:"  →";opacity:.7;}
+
+  /* caption blocks */
+  .post-caption{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:18px 18px;position:relative;}
+  .post-caption .clabel{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+  .post-caption .copybtn{font-family:var(--mono);font-size:10px;letter-spacing:.15em;background:var(--blue);color:#fff;border:0;padding:4px 9px;border-radius:3px;cursor:pointer;}
+  .post-caption pre{font-family:var(--sans);font-size:13.5px;color:var(--ink);white-space:pre-wrap;line-height:1.6;font-weight:500;}
+  .post-caption .tags{margin-top:12px;padding-top:12px;border-top:1px dashed var(--rule);font-family:var(--mono);font-size:11px;color:var(--blue);line-height:1.7;word-break:break-word;}
+  .post-tips{background:rgba(37,99,235,.04);border:1px solid rgba(37,99,235,.18);border-radius:6px;padding:14px 16px;margin-top:14px;}
+  .post-tips .tip-label{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--blue);text-transform:uppercase;margin-bottom:8px;}
+  .post-tips p{font-size:13px;color:var(--ink-soft);line-height:1.55;font-weight:500;}
+
+  .toc{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;background:var(--paper-soft);border:1px solid var(--rule);border-radius:6px;padding:18px;}
+  @media (max-width:640px){ .toc{grid-template-columns:1fr;} }
+  .toc a{font-size:13px;color:var(--ink-soft);text-decoration:none;padding:6px 8px;border-radius:4px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:500;}
+  .toc a:hover{background:var(--paper);color:var(--blue);}
+  .toc a .n{font-family:var(--mono);font-size:10.5px;color:var(--ink-muted);}
+
+  /* big mock anchor for site */
+  .footer-note{margin-top:40px;text-align:center;}
+  .footer-note p{font-size:13px;color:var(--ink-muted);}
+  .footer-note .url{font-family:var(--mono);font-size:12px;color:var(--blue);}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- COVER -->
+  <div class="cover">
+    <div class="index-row">
+      <span class="mono"><span class="pulse"></span>&nbsp;&nbsp;BuiltbyBrian · Instagram Marketing Kit</span>
+      <span class="mono">Issue / 001 · Jun 2026</span>
+    </div>
+    <h1>Build the audience.<br/>Then build the <span class="accent">pipeline.</span></h1>
+    <p class="lede">A 30-day Instagram playbook tailored to BuiltbyBrian — positioning, content pillars, posting cadence, hashtags, and 22 ready-to-post visuals with captions and hashtags written and waiting. Screenshot a card, paste the caption, post. Repeat.</p>
+    <div class="quick-stats">
+      <div class="cell"><div class="v">22</div><div class="l mono">Posts ready</div></div>
+      <div class="cell"><div class="v">5</div><div class="l mono">Content pillars</div></div>
+      <div class="cell"><div class="v">3-4</div><div class="l mono">Posts / week</div></div>
+      <div class="cell"><div class="v">30</div><div class="l mono">Day rollout</div></div>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <section>
+    <div class="sec-head">
+      <div class="left"><span class="pulse"></span><span class="mono">Index</span></div>
+      <span class="mono">Issue / 001 · TOC</span>
+    </div>
+    <div class="toc">
+      <a href="#positioning"><span>Positioning &amp; brand voice</span><span class="n">001</span></a>
+      <a href="#pillars"><span>The 5 content pillars</span><span class="n">002</span></a>
+      <a href="#cadence"><span>Posting cadence &amp; best times</span><span class="n">003</span></a>
+      <a href="#hashtags"><span>Hashtag strategy</span><span class="n">004</span></a>
+      <a href="#profile"><span>Profile optimization</span><span class="n">005</span></a>
+      <a href="#plan"><span>The 30-day rollout</span><span class="n">006</span></a>
+      <a href="#growth"><span>Growth tactics — off-feed</span><span class="n">007</span></a>
+      <a href="#posts"><span>22 ready-to-post Instagram posts</span><span class="n">008</span></a>
+    </div>
+  </section>
+
+  <!-- POSITIONING -->
+  <section id="positioning">
+    <div class="sec-head"><div class="left"><span class="pulse"></span><span class="mono">001 · Positioning</span></div><span class="mono">Voice / Tone</span></div>
+    <h2 class="sec-title">You are the one-person studio that <span class="italic">hand-builds.</span></h2>
+    <p class="sec-lead">Every piece of content should reinforce one core idea: <strong>BuiltbyBrian is a real human, in Philly + South Jersey, who hand-builds custom websites for local businesses — fast, fairly priced, and you own the code forever.</strong> That's the moat against Wix, Squarespace, and faceless agencies. Lean into it relentlessly.</p>
+    <div class="grid-2">
+      <div class="card">
+        <div class="ord">Brand voice</div>
+        <h3>Editorial. Direct. Anti-fluff.</h3>
+        <ul>
+          <li>Italic serif for emphasis — mirrors the site's existing voice.</li>
+          <li>Short declarative sentences. Numbers and specifics over adjectives.</li>
+          <li>"You" focused. Always talking to the small business owner, never about them.</li>
+          <li>Confident but not flexing — proof + transparency over hype.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="ord">Don't say</div>
+        <h3>The fluff list — avoid</h3>
+        <ul>
+          <li>"Take your business to the next level"</li>
+          <li>"Cutting-edge / world-class / game-changing"</li>
+          <li>Made-up stats or revision counts not on the site</li>
+          <li>Generic AI-flavor phrases ("In today's digital landscape…")</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILLARS -->
+  <section id="pillars">
+    <div class="sec-head"><div class="left"><span class="pulse"></span><span class="mono">002 · Content pillars</span></div><span class="mono">Rotation / 5</span></div>
+    <h2 class="sec-title">Five buckets. Rotate every <span class="italic">week.</span></h2>
+    <p class="sec-lead">Mix pillars across the week so the feed feels alive. Education builds trust at scale; reveals close the deal; founder + local posts make you human.</p>
+
+    <div class="pillar"><div class="name">Education</div><div class="desc"><strong>Carousels and tip posts.</strong> "5 mistakes restaurants make on their menu page." "Why your site isn't ranking." This pillar does the heaviest reach lifting and earns saves + shares.</div><div class="pct">40%</div></div>
+    <div class="pillar"><div class="name">Build in public</div><div class="desc"><strong>Process, screen recordings, BTS.</strong> Show the actual work — Figma frames, code, deploy logs, kickoff calls. Reels live here.</div><div class="pct">20%</div></div>
+    <div class="pillar"><div class="name">Proof &amp; reveals</div><div class="desc"><strong>Project launches and testimonials.</strong> APEX is the anchor; future client launches go here. 5★ reviews. Before/after when allowed.</div><div class="pct">20%</div></div>
+    <div class="pillar"><div class="name">Founder &amp; local</div><div class="desc"><strong>You — Brian.</strong> Philly skyline, SJ coffee shop, MBA cap shot, 5-year origin story. Builds the human bond.</div><div class="pct">10%</div></div>
+    <div class="pillar"><div class="name">Direct offers</div><div class="desc"><strong>Open slots, care plans, transparent pricing.</strong> Earned trust → ask. Don't be shy. Roughly 1 of every 10 posts.</div><div class="pct">10%</div></div>
+  </section>
+
+  <!-- CADENCE -->
+  <section id="cadence">
+    <div class="sec-head"><div class="left"><span class="pulse"></span><span class="mono">003 · Cadence</span></div><span class="mono">Posting / week</span></div>
+    <h2 class="sec-title">The schedule that keeps you <span class="italic">visible.</span></h2>
+    <div class="grid-2">
+      <div class="card">
+        <div class="ord">Feed cadence</div>
+        <h3>3–4 posts per week, minimum</h3>
+        <p><strong>Monday:</strong> Education carousel (heavy save rate).<br/>
+        <strong>Wednesday:</strong> Build-in-public or Reel.<br/>
+        <strong>Friday:</strong> Founder, proof, or local post.<br/>
+        <strong>Sunday (bonus):</strong> Direct offer / open slot.</p>
+      </div>
+      <div class="card">
+        <div class="ord">Stories</div>
+        <h3>Daily, 2–4 frames</h3>
+        <p>WIP screenshots, polls ("Which homepage feels stronger?"), behind-the-scenes from your day, repost client mentions, milestone screenshots (Lighthouse 100s, new launch).</p>
+      </div>
+      <div class="card">
+        <div class="ord">Reels</div>
+        <h3>1–2 per week (algorithm boost)</h3>
+        <p>Short, fast cuts. Screen recordings + a voiceover. 15–30 seconds is the sweet spot. Use trending audio when it fits.</p>
+      </div>
+      <div class="card">
+        <div class="ord">Best windows · ET</div>
+        <h3>Local-biz scroll hours</h3>
+        <ul>
+          <li>Tue–Thu 11:30am–1:00pm (lunch scroll)</li>
+          <li>Tue–Thu 7:00–9:00pm (post-dinner)</li>
+          <li>Reels: Wed–Fri 6–9pm hit hardest</li>
+          <li>Avoid Saturday mornings (lowest engagement for B2B local)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- HASHTAGS -->
+  <section id="hashtags">
+    <div class="sec-head"><div class="left"><span class="pulse"></span><span class="mono">004 · Hashtags</span></div><span class="mono">8–12 per post</span></div>
+    <h2 class="sec-title">Mix sizes. Stay <span class="italic">local.</span></h2>
+    <p class="sec-lead">Pick 8–12 per post. Mix 2–3 hot/local + 3–4 niche pro + 2–3 audience pain points + your brand tags. Avoid mega tags (#design, #marketing) — they bury you.</p>
+    <div class="grid-3">
+      <div class="card">
+        <div class="ord">Local · Philly &amp; SJ</div>
+        <h3>Your highest ROI</h3>
+        <div class="chips">
+          <span class="chip hot">#PhillySmallBusiness</span>
+          <span class="chip hot">#PhillyBusiness</span>
+          <span class="chip hot">#PhillySmallBiz</span>
+          <span class="chip hot">#SouthJerseyBusiness</span>
+          <span class="chip">#SouthJerseySmallBusiness</span>
+          <span class="chip">#PhillyEntrepreneur</span>
+          <span class="chip">#PhillyMade</span>
+          <span class="chip">#ShopLocalPhilly</span>
+          <span class="chip">#PhillyFood</span>
+          <span class="chip">#PhillyFitness</span>
+          <span class="chip">#PhillyRestaurants</span>
+          <span class="chip">#SouthJerseyEats</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ord">Niche professional</div>
+        <h3>Peer + ICP discovery</h3>
+        <div class="chips">
+          <span class="chip">#WebDesigner</span>
+          <span class="chip">#WebDesignerPhiladelphia</span>
+          <span class="chip">#FreelanceWebDesigner</span>
+          <span class="chip">#FreelanceDeveloper</span>
+          <span class="chip">#NextJS</span>
+          <span class="chip">#ReactDeveloper</span>
+          <span class="chip">#CustomWebDesign</span>
+          <span class="chip">#WebDesignStudio</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ord">Audience pains</div>
+        <h3>What your ICP searches</h3>
+        <div class="chips">
+          <span class="chip">#SmallBusinessOwner</span>
+          <span class="chip">#SmallBusinessTips</span>
+          <span class="chip">#SmallBusinessMarketing</span>
+          <span class="chip">#WebDesignTips</span>
+          <span class="chip">#RestaurantMarketing</span>
+          <span class="chip">#GymOwner</span>
+          <span class="chip">#StudioOwner</span>
+          <span class="chip">#LocalBusiness</span>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:18px;">
+      <div class="ord">Brand</div>
+      <h3>Yours — use on every post</h3>
+      <div class="chips">
+        <span class="chip hot">#BuiltByBrian</span>
+        <span class="chip hot">#BuiltByBwhirl</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROFILE -->
+  <section id="profile">
+    <div class="sec-head"><div class="left"><span class="pulse"></span><span class="mono">005 · Profile</span></div><span class="mono">First impression</span></div>
+    <h2 class="sec-title">Make the bio a <span class="italic">vending machine.</span></h2>
+    <p class="sec-lead">Someone lands on your profile cold. They have 4 seconds to decide. Bio answers WHO + WHAT + WHERE + NEXT STEP. Nothing else.</p>
+    <div class="grid-2">
+      <div class="card">
+        <div class="ord">Bio · ready to paste</div>
+        <h3>Plug this into the IG bio</h3>
+        <pre style="font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--ink);background:var(--paper);padding:14px;border-radius:4px;margin-top:10px;white-space:pre-wrap;font-weight:500;">Hand-built websites for Philly + SJ businesses
+One person · Start to finish · You own it
+↓ Free 30-min discovery call</pre>
+        <p style="margin-top:12px;">Link in bio → <span class="mono" style="color:var(--blue);">builtbybwhirl.com</span> (or Linktree if you want to split between Calendly + site)</p>
+      </div>
+      <div class="card">
+        <div class="ord">Highlights</div>
+        <h3>Five covers to build</h3>
+        <ul>
+          <li><strong>WORK</strong> — APEX reveal + future launches</li>
+          <li><strong>PROCESS</strong> — 5-day timeline, kickoff to launch</li>
+          <li><strong>PRICING</strong> — Starter / Pro / Custom transparent</li>
+          <li><strong>REVIEWS</strong> — 5★ testimonials and screenshots</li>
+          <li><strong>ABOUT</strong> — Brian, Philly, MBA, the philosophy</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 30-DAY PLAN -->
+  <section id="plan">
+    <div class="sec-head"><div class="left"><span class="pulse"></span><span class="mono">006 · The rollout</span></div><span class="mono">30-day plan</span></div>
+    <h2 class="sec-title">First month — built to <span class="italic">compound.</span></h2>
+    <p class="sec-lead">Each week has a focus. The post numbers refer to the 22-post library below — they're already designed for the order.</p>
+    <div class="week">
+      <div class="w">
+        <div class="num">Week 01 · Brand setup</div>
+        <div class="ttl">Plant the flag</div>
+        <ul>
+          <li>Post 09 — Founder story (anchor pinned)</li>
+          <li>Post 21 — The stack / under the hood</li>
+          <li>Post 22 — Built in Philly. For Philly.</li>
+        </ul>
+      </div>
+      <div class="w">
+        <div class="num">Week 02 · Education</div>
+        <div class="ttl">Earn the saves</div>
+        <ul>
+          <li>Post 02 — 5 signs restaurant site is killing reservations</li>
+          <li>Post 12 — Stop using these on your homepage</li>
+          <li>Post 18 — Hidden cost of a slow website</li>
+        </ul>
+      </div>
+      <div class="w">
+        <div class="num">Week 03 · Proof</div>
+        <div class="ttl">Reveal the goods</div>
+        <ul>
+          <li>Post 03 — APEX launch reveal</li>
+          <li>Post 07 — 5 days, blank page to first draft</li>
+          <li>Post 14 — Why no templates</li>
+        </ul>
+      </div>
+      <div class="w">
+        <div class="num">Week 04 · Convert</div>
+        <div class="ttl">Make the ask</div>
+        <ul>
+          <li>Post 01 — What $750 actually gets you</li>
+          <li>Post 11 — 🟢 1 slot open this month</li>
+          <li>Post 20 — Care plans after launch</li>
+        </ul>
+      </div>
+    </div>
+    <p class="sec-lead" style="margin-top:24px;">Sprinkle Reels (Posts 06 + 15), single-image hot takes (Posts 04, 13, 17), and offers (Posts 11, 19) across the gaps. The rest of the library (Posts 05, 08, 10, 16) is your backup for any week you fall behind.</p>
+  </section>
+
+  <!-- GROWTH -->
+  <section id="growth">
+    <div class="sec-head"><div class="left"><span class="pulse"></span><span class="mono">007 · Off-feed growth</span></div><span class="mono">Multipliers</span></div>
+    <h2 class="sec-title">Posting is half. The other half is <span class="italic">leaving the post.</span></h2>
+    <div class="grid-2">
+      <div class="card">
+        <div class="ord">Engagement loop · daily 15 min</div>
+        <h3>Comment to be seen</h3>
+        <ul>
+          <li>Follow 30–50 local Philly + SJ small biz accounts (restaurants, gyms, shops, salons).</li>
+          <li>Leave 10 thoughtful comments / day on their posts — not "🔥" but actual sentences.</li>
+          <li>Your name appears in <em>their</em> follower's notifications. Profile clicks compound.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="ord">Cold DM · 5/week</div>
+        <h3>Soft, specific, no pitch</h3>
+        <ul>
+          <li>Find a local biz with a weak site you'd actually love to rebuild.</li>
+          <li>Send a personalized note. ONE specific compliment + ONE specific observation.</li>
+          <li>No price, no link, no ask the first message. The hook is curiosity.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="ord">Cross-channel · free reach</div>
+        <h3>Recycle every post</h3>
+        <ul>
+          <li><strong>LinkedIn</strong> — repurpose every educational carousel. Different audience, same content.</li>
+          <li><strong>Facebook (your Marketplace base)</strong> — post launches and Reels into local Philly biz groups.</li>
+          <li><strong>Threads</strong> — break carousels into a 3-post thread for second-wave reach.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="ord">Tag everything</div>
+        <h3>Borrowed audiences</h3>
+        <ul>
+          <li>Tag clients on every reveal post (APEX first).</li>
+          <li>Tag location every time (Philadelphia / specific SJ town).</li>
+          <li>Tag tools used (@vercel @supabase @resend) — they sometimes reshare.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- 22 READY-TO-POST INSTAGRAM POSTS -->
+  <!-- ============================================== -->
+  <section id="posts">
+    <div class="sec-head"><div class="left"><span class="pulse"></span><span class="mono">008 · The library</span></div><span class="mono">22 posts · ready</span></div>
+    <h2 class="sec-title">22 posts. Captions written. Just <span class="italic">screenshot &amp; share.</span></h2>
+    <p class="sec-lead">Each post below has a 4:5 visual (the standard Instagram portrait size). On phone: long-press → screenshot, crop to the card. On laptop: right-click the visual, screenshot the region, send to your phone. Caption is in the white box — tap the COPY button to grab it.</p>
+  </section>
+
+  <!-- ===== POST 01 ===== -->
+  <div class="post-block" id="post-01">
+    <div class="post-block-head">
+      <div class="title">01 · What $750 actually gets you</div>
+      <div class="meta">Carousel · 6 slides<span class="tag">DIRECT OFFER</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig studio">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>BUILTBYBRIAN · STARTER</span><span class="label">01 / 06</span></div>
+          <div class="ig-body">
+            <div class="kicker">Tier 01 · One-time</div>
+            <div class="price-row"><div class="v">$750<small>+</small></div></div>
+            <h2 style="margin-top:14px;">A real website,<br/><em>hand-built.</em></h2>
+            <div class="sub">Up to 5 pages · Mobile-first · Contact form · Basic SEO · 2 rounds of revisions · Code is yours forever.</div>
+            <div class="tag-row"><span>NEXT.JS</span><span>REACT</span><span>VERCEL READY</span></div>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta swipe">Swipe</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>Hand-built. Mobile-first. Yours forever.
+
+Most "cheap" websites today are dragged-and-dropped templates that fight you the second you want to grow. Here's what $750 actually buys when a real developer hand-builds it for you 👇
+
+✓ Up to 5 custom pages
+✓ Mobile-first, tested on every screen
+✓ Contact form wired to your inbox
+✓ Basic SEO so Google can actually find you
+✓ 2 rounds of revisions
+✓ Full source code — you own it forever
+
+No subscriptions. No Wix overlords. Just a real website that works.
+
+Booked 1 project this month. DM "Starter" or tap the link in bio to lock yours in.</pre>
+          <div class="tags">#PhillySmallBusiness #SmallBusinessOwner #WebDesignerPhiladelphia #SouthJerseyBusiness #FreelanceWebDesigner #SmallBusinessMarketing #BuiltByBrian #WebDesignTips #PhillyBusiness #BuiltByBwhirl</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>Pin this as the first post in week 4. Best as a 6-slide carousel — split the bullet list across slides 2–5, end with a CTA card. Reply to every DM within 4 hours.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 02 ===== -->
+  <div class="post-block" id="post-02">
+    <div class="post-block-head">
+      <div class="title">02 · 5 signs your restaurant website is killing reservations</div>
+      <div class="meta">Carousel · 7 slides<span class="tag">EDUCATION</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig dark">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>NICHE · RESTAURANTS</span><span class="label">01 / 07</span></div>
+          <div class="ig-body">
+            <div class="kicker">SAVE THIS FOR LATER</div>
+            <h2>5 silent killers<br/>on your <em>menu page.</em></h2>
+            <div class="sub">Your food is great. Your website is sending people to the spot next door.</div>
+            <ul class="num-list">
+              <li><span class="n">1</span><span>Menu is a PDF</span></li>
+              <li><span class="n">2</span><span>Phone isn't tap-to-call</span></li>
+              <li><span class="n">3</span><span>No reservation above the fold</span></li>
+              <li><span class="n">4</span><span>Slow on 4G</span></li>
+              <li><span class="n">5</span><span>Hours buried 3 clicks deep</span></li>
+            </ul>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta swipe">Swipe</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>Your menu is great. Your website is sending people to the spot next door.
+
+5 silent killers I see on almost every restaurant site in Philly + SJ 👇
+
+1. Menu is a PDF (mobile = 🥲)
+2. Phone number isn't tap-to-call
+3. No reservation link above the fold
+4. Slow loading on 4G
+5. Hours buried 3 clicks deep
+
+Fix any one and you'll feel it this weekend.
+
+I build hospitality sites that fill tables, not just look pretty. Comment "MENU" and I'll send you the 1-page checklist I use before launch.</pre>
+          <div class="tags">#PhillyRestaurants #PhillyFood #SouthJerseyEats #RestaurantMarketing #SmallBusinessOwner #PhillyEats #FoodieOfPhilly #RestaurantWebsite #WebDesigner #PhillySmallBiz #BuiltByBrian</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>The "comment MENU" hook drives algorithm — every comment is a signal. Have a 1-page checklist ready as a DM auto-reply. Use ManyChat or just batch-reply manually for the first month.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 03 ===== -->
+  <div class="post-block" id="post-03">
+    <div class="post-block-head">
+      <div class="title">03 · APEX Performance Studio · launch reveal</div>
+      <div class="meta">Carousel · 5 slides<span class="tag">PROOF · REVEAL</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig blue lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>NEW LAUNCH · FITNESS</span><span class="label">01 / 05</span></div>
+          <div class="ig-body">
+            <div class="kicker">JUST SHIPPED</div>
+            <h2>APEX<br/>Performance<br/><em>Studio.</em></h2>
+            <div class="sub">Multi-page fitness studio site — schedules, trainer profiles, 3-tier membership pricing, free trial booking form.</div>
+            <div class="tag-row"><span>SCHEDULE</span><span>TRAINERS</span><span>MEMBERSHIPS</span><span>BOOKINGS</span></div>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta swipe">Live link in bio</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>Just launched: APEX Performance Studio.
+
+A multi-page fitness studio site — 6 class types with a full schedule, trainer profile pages, 3-tier membership pricing, and a free trial booking form that drops leads straight into the inbox.
+
+Built clean. Built custom. Built to convert.
+
+Live link in bio. Swipe to see the pages →
+
+If you run a studio, a gym, or a wellness brand and your website is still stuck in 2019 — let's talk. One slot left this month.</pre>
+          <div class="tags">#FitnessStudio #GymOwner #PhillyFitness #SouthJerseyFitness #WebDesigner #FreelanceDeveloper #SmallBusinessMarketing #StudioOwner #FitnessMarketing #BuiltByBrian</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>Slide 1 is the cover. Slides 2–4 are clean screenshots of the site (homepage, class schedule, membership pricing). Slide 5 is a "what we built" recap. Tag APEX if they have an IG. Drop the live link in the first comment too.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 04 ===== -->
+  <div class="post-block" id="post-04">
+    <div class="post-block-head">
+      <div class="title">04 · Your website doesn't need to be 50 pages</div>
+      <div class="meta">Single image<span class="tag">EDUCATION · HOT TAKE</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig cream lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>HOT TAKE / 004</span><span class="label">SAVE THIS</span></div>
+          <div class="ig-body">
+            <div class="kicker">FRIENDLY REMINDER</div>
+            <h2>Your site<br/>doesn't need<br/>to be <em>50 pages.</em></h2>
+            <div class="sub">You need 5 pages that work. Home. Services. About. Proof. Contact. That's it. Anything more is procrastination disguised as planning.</div>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta">@builtbybwhirl</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>Hot take: your small business doesn't need 50 pages.
+
+You need 5 pages that work.
+
+→ A homepage that answers "what do you do?" in 3 seconds
+→ A services page that doesn't make people scroll forever
+→ An about page with a real photo of a real person
+→ A portfolio/menu/proof page
+→ A contact page where the form actually submits
+
+Stop paying for what you don't need. Stop "planning" what you should be shipping.
+
+If your current site is 30+ pages of nobody-reads-this — DM me. I'll show you what 5 great pages looks like.</pre>
+          <div class="tags">#WebDesignTips #SmallBusinessOwner #PhillyBusiness #WebDesigner #FreelanceWebDesigner #MarketingTips #BuiltByBrian #SmallBusinessTips #WebDesign</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>Single-image hot takes are the highest engagement-per-effort post type. Aim for one per week. Read like an essay opening — confident, declarative, then you back it up in the caption.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 05 ===== -->
+  <div class="post-block" id="post-05">
+    <div class="post-block-head">
+      <div class="title">05 · The "$16/month" website math nobody talks about</div>
+      <div class="meta">Carousel · 6 slides<span class="tag">EDUCATION · OFFER</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig dark lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>RECEIPTS / 005</span><span class="label">01 / 06</span></div>
+          <div class="ig-body">
+            <div class="kicker">THE MATH</div>
+            <h2>"$16 a month."<br/>For <em>how long?</em></h2>
+            <div class="sub">Wix Premium runs $16-49/mo. That's $192-588 every year. Forever. Plus plugin fees, domain renewals — and you still don't own the code.</div>
+            <ul class="num-list">
+              <li><span class="n">1Y</span><span>$192–588 to rent</span></li>
+              <li><span class="n">3Y</span><span>$576–1,764</span></li>
+              <li><span class="n">5Y</span><span>$960–2,940</span></li>
+            </ul>
+            <div class="sub" style="margin-top:14px;">Custom from me, one time: $750–$1,200. Code in your hand.</div>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta swipe">Swipe for breakdown</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>The "$16/month website" math nobody talks about 💸
+
+Wix / Squarespace Premium: $16-49/mo → $192-588/year
+Templates everyone uses: $0 but your brand looks like everyone else's
+Hidden domain renewals + plugin fees: another $50-200/year
+And you still don't own the code.
+
+Custom from me, one time: $750-$1,200, code in your hand.
+
+Year 1 of Wix = Year 5 of subscription rot.
+
+If you've been waiting to "do this right," this is the year. Drop a 🛠 and I'll DM you my Starter or Professional breakdown.</pre>
+          <div class="tags">#SmallBusinessOwner #WebDesign #WixVsCustom #SquarespaceVsCustom #PhillyBusiness #SouthJerseyBusiness #WebDesigner #SmallBusinessTips #BuiltByBrian #PhillySmallBiz</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>Comparison posts get shared. Slide 2 = the 5-year cost table. Slide 3 = "what you actually own." Slide 4 = your offer. Slide 5 = CTA.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 06 ===== -->
+  <div class="post-block" id="post-06">
+    <div class="post-block-head">
+      <div class="title">06 · POV: you hire a one-person studio (Reel)</div>
+      <div class="meta">Reel · 15–25 sec<span class="tag">BUILD IN PUBLIC</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig blue lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>REEL · POV</span><span class="label">▶</span></div>
+          <div class="ig-body">
+            <div class="kicker">YOU TEXT. I ANSWER.</div>
+            <h2>You hire a<br/>one-person <em>studio.</em></h2>
+            <div class="sub">No PM forwarding your message to the junior. Just the person building it, replying to you in hours.</div>
+            <div class="tag-row"><span>FIRST DRAFT IN 5 DAYS</span><span>LAUNCH IN 2–4 WEEKS</span></div>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta">▶ Watch</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>POV: you hire a one-person studio instead of an agency.
+
+→ You text the designer. The designer answers.
+→ No account manager forwarding your texts to a project manager forwarding them to a junior designer.
+→ Decisions in hours, not weeks.
+→ First draft in 5 days.
+
+This is how 5-star projects get shipped.
+
+If you're done playing telephone with agencies — let's talk. 30-min discovery call, link in bio.</pre>
+          <div class="tags">#WebDesigner #FreelanceLife #FreelanceDeveloper #SmallBusinessMarketing #PhillyDesigner #BuiltByBrian #FreelanceWebDesigner #SmallBusinessOwner</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Reel concept</div>
+          <p>Split screen. <strong>Left half:</strong> "AGENCY" — corporate stock footage of meetings, then a phone showing "We'll get back to you next Tuesday." <strong>Right half:</strong> "BRIAN" — you at your desk, screen recording of replying to a client text within an hour, Figma frames flying by. Closing card: "Built by Brian. One person. Start to finish." Use a trending lo-fi or boom-bap audio.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 07 ===== -->
+  <div class="post-block" id="post-07">
+    <div class="post-block-head">
+      <div class="title">07 · 5 days, blank page to first draft</div>
+      <div class="meta">Carousel · 6 slides<span class="tag">BUILD IN PUBLIC</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig cream lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>THE PROCESS / 007</span><span class="label">01 / 06</span></div>
+          <div class="ig-body">
+            <div class="kicker">5 DAYS · BLANK PAGE TO DRAFT</div>
+            <h2>Day 01<br/>to<br/>Day <em>05.</em></h2>
+            <ul class="num-list">
+              <li><span class="n">1</span><span>Kickoff — too many questions on purpose</span></li>
+              <li><span class="n">2</span><span>Copy + sitemap. Words before pixels.</span></li>
+              <li><span class="n">3</span><span>Design system — type, color, components</span></li>
+              <li><span class="n">4</span><span>Build. Real code, not a template.</span></li>
+              <li><span class="n">5</span><span>First draft in your inbox.</span></li>
+            </ul>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta swipe">Process</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>Day 1: kickoff call. I ask too many questions on purpose.
+Day 2: copy + sitemap. Words before pixels.
+Day 3: design system — type, color, components.
+Day 4: build it. Real code, not a template.
+Day 5: first draft in your inbox.
+
+You give feedback. We revise. You launch.
+
+This is what 5 years of doing this gets you.
+
+If you've been told "websites take 3 months" — they don't. Not when one person owns the whole thing.</pre>
+          <div class="tags">#WebDesignProcess #BehindTheScenes #FreelanceDeveloper #SmallBusinessOwner #WebDesigner #PhillyDesigner #BuiltByBrian #WebDesign</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>Use real screenshots from a past project for the middle slides. Show Figma frames, code snippets, a deploy log. People love seeing the actual work — it builds enormous trust.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 08 ===== -->
+  <div class="post-block" id="post-08">
+    <div class="post-block-head">
+      <div class="title">08 · 3 things every Philly small business homepage needs</div>
+      <div class="meta">Carousel · 5 slides<span class="tag">EDUCATION · LOCAL</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig studio lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>PHILLY HOMEPAGE / 008</span><span class="label">01 / 05</span></div>
+          <div class="ig-body">
+            <div class="kicker">PHILA / SJ</div>
+            <h2>3 things<br/>every homepage<br/><em>needs.</em></h2>
+            <ul class="num-list">
+              <li><span class="n">1</span><span>A "we help WHO do WHAT" headline above the fold</span></li>
+              <li><span class="n">2</span><span>Proof in the first 5 seconds (photo, review, number)</span></li>
+              <li><span class="n">3</span><span>ONE next action. Not five.</span></li>
+            </ul>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta swipe">Save</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>After 5 years building sites for Philly + South Jersey businesses, these 3 things show up on every homepage that actually converts 👇
+
+1. A clear "we help [WHO] do [WHAT]" headline. Above the fold. No ambiguity.
+
+2. A reason to trust you in the first 5 seconds — a real photo, a review, a number, anything human.
+
+3. One single next action. Not "book OR call OR email OR newsletter signup." Pick one. Make it big.
+
+Save this for when you're ready to refresh yours.</pre>
+          <div class="tags">#PhillyBusiness #SmallBusinessTips #WebDesignTips #SouthJerseyBusiness #MarketingTips #SmallBusinessOwner #WebDesigner #PhillySmallBusiness #BuiltByBrian</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>"Save this" CTAs are gold for the algorithm. Mention saving in the caption, not just in the image — IG counts both.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 09 ===== -->
+  <div class="post-block" id="post-09">
+    <div class="post-block-head">
+      <div class="title">09 · Why I started this studio</div>
+      <div class="meta">Single + photo<span class="tag">FOUNDER · PIN THIS</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig studio lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>FOUNDER / 009</span><span class="label">PIN</span></div>
+          <div class="ig-body">
+            <div class="kicker">HELLO — I'M BRIAN</div>
+            <h2>5 years<br/>of building<br/>for <em>local.</em></h2>
+            <div class="sub">Designer + developer. Philly + South Jersey. Restaurants, studios, shops, service businesses. One person, start to finish.</div>
+            <div class="tag-row"><span>MIS DEGREE</span><span>MBA · SUSTAINABLE BIZ</span><span>5.0★</span></div>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta">Discovery call · bio</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>5 years ago I built my first website for a friend's small business.
+
+A week later they sent me a screenshot of a booking that came in from Google.
+
+That feeling — building something real for a real person who needed it — never left.
+
+Today I run BuiltbyBrian out of Philly. One person, start to finish, for restaurants, studios, shops, and service businesses across PA + NJ. I've got a degree in Management Information Systems and I'm finishing my MBA in Sustainable Business right now.
+
+If you've been putting off your website because it felt overwhelming — I built this studio for you specifically.
+
+Discovery calls are free, 30 minutes, no hard sell. Link in bio.</pre>
+          <div class="tags">#FounderStory #SmallBusinessOwner #PhillyBusiness #WebDesigner #FreelanceLife #BuiltByBrian #FreelanceDeveloper #SouthJerseyBusiness #PhillyEntrepreneur</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>Pin this post to the top of your profile. Use a real, friendly photo of you (not a logo). This is the post first-time visitors will read after hitting the bio.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 10 ===== -->
+  <div class="post-block" id="post-10">
+    <div class="post-block-head">
+      <div class="title">10 · Where does $1,200 actually go?</div>
+      <div class="meta">Carousel · 7 slides<span class="tag">EDUCATION · PRICING</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig studio lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>TRANSPARENT PRICING</span><span class="label">01 / 07</span></div>
+          <div class="ig-body">
+            <div class="kicker">TIER 02 · PROFESSIONAL</div>
+            <div class="price-row"><div class="v">$1,200<small>+</small></div></div>
+            <h2 style="margin-top:14px;">Where does<br/>the money <em>go?</em></h2>
+            <ul class="num-list">
+              <li><span class="n">1</span><span>Discovery + strategy</span></li>
+              <li><span class="n">2</span><span>Custom design system</span></li>
+              <li><span class="n">3</span><span>10 pages of hand-written code</span></li>
+              <li><span class="n">4</span><span>CMS, SEO, analytics</span></li>
+              <li><span class="n">5</span><span>2 rounds of revisions</span></li>
+            </ul>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta swipe">Swipe</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>Where does $1,200 actually go on a Professional-tier website? 💰
+
+Slide 1: Discovery + strategy — the call where I ask too many questions on purpose
+Slide 2: Custom design system — type, color, components built for YOUR brand
+Slide 3: Build — up to 10 pages of clean, hand-written code
+Slide 4: CMS so you can update content without calling me
+Slide 5: SEO + analytics so you can actually measure what's working
+Slide 6: 2 rounds of revisions baked in
+
+That's a website that pays for itself the first time a new client books from it.
+
+Transparent pricing on the site — no surprise estimates, no "depends on scope." Link in bio.</pre>
+          <div class="tags">#WebDesignPricing #SmallBusinessOwner #WebDesigner #PhillyBusiness #FreelanceDeveloper #PricingTransparency #SouthJerseyBusiness #BuiltByBrian #WebDesignTips</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>Transparency posts are conversion gold — they pre-qualify leads. The people who scroll past aren't your customers anyway.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 11 ===== -->
+  <div class="post-block" id="post-11">
+    <div class="post-block-head">
+      <div class="title">11 · 🟢 1 build slot open</div>
+      <div class="meta">Single image<span class="tag">DIRECT OFFER</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig blue lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>ACCEPTING · 1 SLOT</span><span class="label">THIS MONTH</span></div>
+          <div class="ig-body">
+            <div class="kicker">🟢 OPEN</div>
+            <h2>1 build slot.<br/>This <em>month.</em></h2>
+            <div class="sub">5-day first draft. 2-4 week delivery. Code is yours forever. First deposit locks the slot.</div>
+            <div class="tag-row"><span>STARTER · $750+</span><span>PRO · $1,200+</span><span>CUSTOM · $3,000+</span></div>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta">DM "SLOT"</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>🟢 1 build slot open this month.
+
+If you've been "meaning to redo the website all year" — this is your reminder.
+
+5-day first draft. 2-4 week delivery. Code is yours forever.
+
+DM "SLOT" or tap the link in bio to book a free 30-min discovery call.
+
+(Slot fills first-come, first-deposit. No hard sell on the call — just see if we're a fit.)</pre>
+          <div class="tags">#PhillyBusiness #SouthJerseyBusiness #WebDesigner #SmallBusinessOwner #FreelanceWebDesigner #BuiltByBrian #PhillySmallBusiness #WebDesignerPhiladelphia</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>Run this once per month. Urgency is built into the "1 slot" framing. Be honest — if it fills, post a "FILLED" follow-up Story. That honesty alone builds enormous trust.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 12 ===== -->
+  <div class="post-block" id="post-12">
+    <div class="post-block-head">
+      <div class="title">12 · 5 things to remove from your homepage</div>
+      <div class="meta">Carousel · 6 slides<span class="tag">EDUCATION</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig dark lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>STOP DOING THIS / 012</span><span class="label">01 / 06</span></div>
+          <div class="ig-body">
+            <div class="kicker">REMOVE TODAY</div>
+            <h2>5 things to<br/>delete from your<br/><em>homepage.</em></h2>
+            <ul class="num-list">
+              <li><span class="n">1</span><span>Auto-playing video that crashes phones</span></li>
+              <li><span class="n">2</span><span>6-slide hero carousel (nobody waits)</span></li>
+              <li><span class="n">3</span><span>Lorem ipsum you forgot to replace</span></li>
+              <li><span class="n">4</span><span>Forms asking for 11 fields</span></li>
+              <li><span class="n">5</span><span>Pop-ups firing before scroll</span></li>
+            </ul>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta swipe">Swipe</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>5 things I beg you to remove from your homepage 🛑
+
+1. The auto-playing video that crashes phones
+2. The 6-slide hero carousel (people stop after slide 1)
+3. "Lorem ipsum" you forgot to replace (yes, I still see this)
+4. The contact form that asks for 11 fields
+5. Pop-ups that fire before someone reads a single word
+
+Each one of these costs you customers daily.
+
+If your site has any of these — comment "AUDIT" and I'll do a free 5-minute teardown in your DMs.</pre>
+          <div class="tags">#WebDesignTips #SmallBusinessOwner #MarketingTips #PhillyBusiness #WebDesigner #UXTips #BuiltByBrian #SmallBusinessTips #SouthJerseyBusiness</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>Free "AUDIT" comment offers are the highest-converting lead gen on Instagram. Cap yourself at 3/day so quality stays high. Each one is a warm conversation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 13 ===== -->
+  <div class="post-block" id="post-13">
+    <div class="post-block-head">
+      <div class="title">13 · The 30-second tap-to-call fix</div>
+      <div class="meta">Single image<span class="tag">EDUCATION · QUICK WIN</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig cream lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>QUICK FIX / 013</span><span class="label">30 SECONDS</span></div>
+          <div class="ig-body">
+            <div class="kicker">FREE TIP</div>
+            <h2>Make your<br/>phone number<br/><em>tap-to-call.</em></h2>
+            <div class="sub">On every page. In the header. At the bottom. In the contact section. Mobile users won't long-press to copy. They'll just go elsewhere.</div>
+            <div class="tag-row"><span>RESTAURANT</span><span>SALON</span><span>SERVICES</span></div>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta">@builtbybwhirl</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>30-second fix for any restaurant, salon, or service business website:
+
+Make your phone number tap-to-call.
+
+On every page. In the header. At the bottom. In the contact section.
+
+Mobile users won't long-press to copy. They'll just go elsewhere.
+
+It's a one-line code change. Send this to your web person.
+
+(Don't have one? You know where to find me.)</pre>
+          <div class="tags">#WebDesignTips #SmallBusinessOwner #RestaurantMarketing #LocalBusiness #PhillyBusiness #MobileWeb #WebDesigner #BuiltByBrian #SmallBusinessTips</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>"Send this to your web person" is sneaky-good — it gets your post shared into DMs (huge algorithm boost) AND seeded with the actual decision-maker.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 14 ===== -->
+  <div class="post-block" id="post-14">
+    <div class="post-block-head">
+      <div class="title">14 · I don't use templates. Here's why.</div>
+      <div class="meta">Carousel · 6 slides<span class="tag">EDUCATION · POSITIONING</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig studio lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>NO TEMPLATES / 014</span><span class="label">01 / 06</span></div>
+          <div class="ig-body">
+            <div class="kicker">THE WHOLE POINT</div>
+            <h2>I don't<br/>use <em>templates.</em><br/>Ever.</h2>
+            <ul class="num-list">
+              <li><span class="n">01</span><span>Templates assume you're generic. You aren't.</span></li>
+              <li><span class="n">02</span><span>You inherit their design debt</span></li>
+              <li><span class="n">03</span><span>Migration always costs more</span></li>
+              <li><span class="n">04</span><span>Your competitors look just like you</span></li>
+            </ul>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta swipe">Swipe</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>Why no templates. Ever.
+
+1. Templates assume your business is generic. It isn't.
+
+2. They lock you into someone else's design decisions — and someone else's design debt.
+
+3. Every "easy" template I've ever migrated a client off of cost more in cleanup than the original build would have.
+
+4. Your competitors are using the same 5 templates. You'll look like them. You don't want to look like them.
+
+5. Hand-built means custom — for your customer, your story, your goals.
+
+Hand-built is the whole point.</pre>
+          <div class="tags">#WebDesigner #CustomWebDesign #FreelanceDeveloper #SmallBusinessOwner #PhillyBusiness #BuiltByBrian #WebDesign #FreelanceWebDesigner #SouthJerseyBusiness</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>This post is your brand positioning in carousel form. Repost (with light edits) every 4-6 weeks — new followers haven't seen it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 15 ===== -->
+  <div class="post-block" id="post-15">
+    <div class="post-block-head">
+      <div class="title">15 · "How long does it actually take?" (Reel)</div>
+      <div class="meta">Reel · 20–30 sec<span class="tag">BUILD IN PUBLIC</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig dark lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>REEL · TIMELINE</span><span class="label">▶</span></div>
+          <div class="ig-body">
+            <div class="kicker">TIMELINE</div>
+            <h2>"How long<br/>will it <em>take?"</em></h2>
+            <ul class="num-list">
+              <li><span class="n">D1</span><span>Kickoff call</span></li>
+              <li><span class="n">D5</span><span>First draft</span></li>
+              <li><span class="n">W2</span><span>Revisions</span></li>
+              <li><span class="n">W3–4</span><span>Launch 🚀</span></li>
+            </ul>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta">▶ Watch</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>"How long will it take?"
+
+Day 1: kickoff
+Day 5: first draft
+Week 2: revisions
+Week 3-4: launch 🚀
+
+That's it. Most local businesses are 2-4 weeks away from a website that finally feels like them.
+
+Stop scoping it for "next quarter." Start scoping it for "next month."</pre>
+          <div class="tags">#WebDesignProcess #FreelanceDeveloper #SmallBusinessOwner #WebDesigner #BuiltByBrian #WebDesignTips #SmallBusinessTips</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Reel concept</div>
+          <p>Time-lapse vibe. Each line of the timeline cuts to a real moment: kickoff call (your laptop on a desk), Figma frames flying through, terminal/deploy log scrolling, the live site loading on a phone. 25 seconds. Add captions on every cut — most people watch muted.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 16 ===== -->
+  <div class="post-block" id="post-16">
+    <div class="post-block-head">
+      <div class="title">16 · Things I include for free</div>
+      <div class="meta">Carousel · 5 slides<span class="tag">VALUE STACK</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig studio lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>NO UPCHARGE / 016</span><span class="label">01 / 05</span></div>
+          <div class="ig-body">
+            <div class="kicker">INCLUDED · EVERY TIER</div>
+            <h2>Things I<br/>include <em>for free.</em></h2>
+            <ul class="num-list">
+              <li><span class="n">✓</span><span>Mobile-first design, tested on every screen</span></li>
+              <li><span class="n">✓</span><span>Basic SEO setup</span></li>
+              <li><span class="n">✓</span><span>Source code handoff — you own it</span></li>
+              <li><span class="n">✓</span><span>Host setup (Vercel, Netlify)</span></li>
+              <li><span class="n">✓</span><span>30-min training call</span></li>
+            </ul>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta swipe">Swipe</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>Stuff baked into every project — no upcharge 🎁
+
+→ Mobile-first design (literally every screen tested)
+→ Basic SEO setup so Google can index it
+→ Source code handoff (you own everything)
+→ Setup on the host of your choice (Vercel, Netlify, etc.)
+→ 2 rounds of revisions
+→ A 30-min training call so you can update content yourself
+
+I'm not building this to nickel-and-dime you. I'm building it so it works.
+
+Tap the bio if you want to see the full breakdown.</pre>
+          <div class="tags">#WebDesigner #FreelanceDeveloper #SmallBusinessOwner #PhillyBusiness #WebDesign #BuiltByBrian #SouthJerseyBusiness #SmallBusinessTips</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>Value-stack posts pre-handle objections. If a prospect is comparing you to a cheaper option that "doesn't include X," this post closes the gap before the call.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 17 ===== -->
+  <div class="post-block" id="post-17">
+    <div class="post-block-head">
+      <div class="title">17 · Your website isn't a "digital business card"</div>
+      <div class="meta">Single image<span class="tag">HOT TAKE</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig blue lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>SHIFT THE FRAME / 017</span><span class="label">HOT TAKE</span></div>
+          <div class="ig-body">
+            <div class="kicker">REFRAME</div>
+            <h2>Your website<br/>isn't a digital<br/><em>business card.</em></h2>
+            <div class="sub">It's the only employee that works for you 24/7, never calls out, and closes deals while you sleep.</div>
+            <div class="tag-row"><span>STOP TREATING IT LIKE OVERHEAD</span></div>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta">@builtbybwhirl</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>Your website isn't a "digital business card."
+
+It's the only employee that works for you 24/7, never calls out, and closes deals while you sleep.
+
+Stop treating it like overhead.
+Start treating it like your best salesperson.
+
+If yours isn't pulling its weight — tap the bio. Free 30-min audit call.</pre>
+          <div class="tags">#SmallBusinessOwner #WebDesign #MarketingTips #PhillyBusiness #WebDesigner #BuiltByBrian #SmallBusinessTips #SouthJerseyBusiness</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>This reframe is your sharpest sales line. Use it in DMs, on calls, anywhere. The IG post seeds the language.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 18 ===== -->
+  <div class="post-block" id="post-18">
+    <div class="post-block-head">
+      <div class="title">18 · The hidden cost of a slow website</div>
+      <div class="meta">Carousel · 5 slides<span class="tag">EDUCATION · TECH</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig dark lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>PAGE SPEED / 018</span><span class="label">01 / 05</span></div>
+          <div class="ig-body">
+            <div class="kicker">GOOGLE'S NUMBER · NOT MINE</div>
+            <h2>1 second<br/>= a <em>7% drop</em><br/>in conversions.</h2>
+            <div class="sub">A 4-second site is leaving roughly 28% of leads on the table. What's slowing it down? Bloated themes, 10 marketing scripts, autoplay video, unoptimized images.</div>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta swipe">Swipe</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>Every 1 second of load time = roughly 7% drop in conversions (Google's number, not mine).
+
+Translation: a 4-second site is leaving ~28% of leads on the table.
+
+What slows sites down 👇
+→ Massive unoptimized images
+→ 10 marketing scripts firing at once
+→ Auto-playing video on the homepage
+→ A theme stacked with plugins you don't use
+
+I build everything custom and lean from day one. Fast by default, not as an upgrade.
+
+If you don't know your site's speed, run it through Google PageSpeed Insights right now. Then DM me the score. We'll go from there.</pre>
+          <div class="tags">#WebDesignTips #SmallBusinessOwner #MarketingTips #PageSpeed #WebDesigner #SEO #PhillyBusiness #BuiltByBrian #SouthJerseyBusiness</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>"DM me your score" is a clean lead funnel. The cold prospect runs the test, gets the bad score, sends it to you — now you're on the inside of their problem.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 19 ===== -->
+  <div class="post-block" id="post-19">
+    <div class="post-block-head">
+      <div class="title">19 · Open for restaurants this month</div>
+      <div class="meta">Single image<span class="tag">NICHE OFFER</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig cream lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>HOSPITALITY · 1 SLOT</span><span class="label">THIS MONTH</span></div>
+          <div class="ig-body">
+            <div class="kicker">RESTAURANTS</div>
+            <h2>1 slot. This<br/>month. For a<br/><em>restaurant.</em></h2>
+            <div class="sub">Menu pages that don't break on mobile. Reservation links that convert. Photo galleries that make people hungry.</div>
+            <div class="tag-row"><span>PHILLY</span><span>SOUTH JERSEY</span></div>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta">DM "MENU"</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>Restaurants — I have 1 slot this month specifically for hospitality.
+
+Menu pages that don't break on mobile. Reservation links that actually convert. Photo galleries that make people hungry.
+
+If you're tired of explaining to customers where the menu lives — let's fix it.
+
+Free 30-min call to scope it out. DM "MENU" or tap the link in bio.</pre>
+          <div class="tags">#PhillyRestaurants #SouthJerseyEats #RestaurantOwner #PhillyFood #FoodieOfPhilly #RestaurantMarketing #WebDesigner #BuiltByBrian #PhillyEats</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>Niche offer posts beat broad offer posts every time. Run this once, then run a "1 slot for fitness/studios" version, then "1 slot for retail/shops." Same template, different vertical.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 20 ===== -->
+  <div class="post-block" id="post-20">
+    <div class="post-block-head">
+      <div class="title">20 · After launch — your options</div>
+      <div class="meta">Carousel · 6 slides<span class="tag">CARE PLANS · UPSELL</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig studio lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>AFTER LAUNCH / 020</span><span class="label">01 / 06</span></div>
+          <div class="ig-body">
+            <div class="kicker">YOUR CHOICE</div>
+            <h2>Two paths<br/>after we hit<br/><em>publish.</em></h2>
+            <ul class="num-list">
+              <li><span class="n">🅰</span><span>Take your files. Host anywhere. One-time cost.</span></li>
+              <li><span class="n">🅱</span><span>I manage it — Basic $49 · Starter $99 · Growth $149/mo</span></li>
+            </ul>
+            <div class="sub" style="margin-top:14px;">Cancel anytime. Pay yearly, save 2 months. The choice is always yours.</div>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta swipe">Swipe</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>After you launch — you have options 🛠️
+
+🅰️ Take your files. Full source code, host anywhere. One-time cost. Done.
+
+🅱️ Let me host it for you:
+• Basic — $49/mo (hosting, SSL, backups, monitoring)
+• Starter — $99/mo (+ 1 hr edits/month + priority support)
+• Growth — $149/mo (+ 2 hrs edits + monthly SEO report)
+
+Cancel anytime. Pay yearly, save 2 months.
+
+The choice is always yours. That's the whole point.</pre>
+          <div class="tags">#WebDesigner #SmallBusinessOwner #PhillyBusiness #WebHosting #FreelanceDeveloper #BuiltByBrian #SouthJerseyBusiness #WebDesignTips</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>This post sells the recurring revenue. Save it for after you've earned some trust (week 4+). The "🅰 or 🅱" framing makes the buying decision feel low-pressure.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 21 ===== -->
+  <div class="post-block" id="post-21">
+    <div class="post-block-head">
+      <div class="title">21 · What's under the hood when I build for you</div>
+      <div class="meta">Carousel · 5 slides<span class="tag">CREDIBILITY · STACK</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig dark lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>UNDER THE HOOD / 021</span><span class="label">01 / 05</span></div>
+          <div class="ig-body">
+            <div class="kicker">THE STACK</div>
+            <h2>Enterprise tools.<br/><em>Small-biz</em> pricing.</h2>
+            <div class="tag-row">
+              <span>NEXT.JS</span>
+              <span>REACT</span>
+              <span>TYPESCRIPT</span>
+              <span>TAILWIND</span>
+              <span>VERCEL</span>
+              <span>SUPABASE</span>
+              <span>SHOPIFY</span>
+            </div>
+            <div class="sub" style="margin-top:14px;">Same framework Hulu, TikTok, and Notion use. Built lean. Hosted on a stack that auto-scales.</div>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta swipe">Swipe</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>What's under the hood when I build you a site:
+
+→ Next.js + React (the same framework Hulu, TikTok, and Notion use)
+→ TypeScript (so bugs get caught before they ship)
+→ Tailwind for design system consistency
+→ Vercel for hosting that auto-scales
+→ Supabase or Shopify when you need a backend
+
+Translation: enterprise-grade tools, small-business pricing.
+
+When you outgrow your starter site, you don't have to rip it down and start over. The foundation scales with you.</pre>
+          <div class="tags">#WebDeveloper #NextJS #React #TypeScript #FreelanceDeveloper #WebDesigner #SmallBusinessOwner #BuiltByBrian #WebDesign</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>Credibility post. Run this in week 1 or 2 to seed the legitimacy. The Hulu / TikTok / Notion analogy makes "Next.js" mean something to non-technical clients.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST 22 ===== -->
+  <div class="post-block" id="post-22">
+    <div class="post-block-head">
+      <div class="title">22 · Built in Philly. For Philly.</div>
+      <div class="meta">Single image<span class="tag">LOCAL · FOUNDER</span></div>
+    </div>
+    <div class="post-grid">
+      <div class="ig blue lg">
+        <div class="ig-inner">
+          <div class="ig-top"><span class="label"><span class="dot"></span>HOMETOWN / 022</span><span class="label">PHILA / SJ</span></div>
+          <div class="ig-body">
+            <div class="kicker">REPRESENTING</div>
+            <h2>Built in Philly.<br/>Built for <em>Philly.</em></h2>
+            <div class="sub">And South Jersey. And anywhere else you want to grow.</div>
+            <div class="tag-row"><span>SHOP LOCAL</span><span>WORK LOCAL</span><span>BUILD LOCAL</span></div>
+          </div>
+          <div class="ig-bottom"><span class="brand">Built<span class="ital">by</span>Brian</span><span class="cta">@builtbybwhirl</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="post-caption">
+          <div class="clabel"><span>Caption · ready to copy</span><button class="copybtn" onclick="copyCaption(this)">COPY</button></div>
+<pre>Built in Philly. Built for Philly.
+
+(And South Jersey. And anywhere else you want to grow.)
+
+Local businesses keep this city alive. Yours deserves a website that does the same.
+
+If you're a Philly / SJ owner reading this — drop a 🏛 in the comments. I'll send you my "Philly small business homepage checklist" in your DMs.</pre>
+          <div class="tags">#PhillySmallBusiness #PhillyBusiness #SouthJerseyBusiness #ShopLocal #PhillyMade #WebDesignerPhiladelphia #PhillyEntrepreneur #BuiltByBrian #PhillySmallBiz</div>
+        </div>
+        <div class="post-tips">
+          <div class="tip-label">Posting tip</div>
+          <p>Pair with a real photo of Philly skyline or your favorite SJ block in Stories. Local pride posts build community and engagement — they also get reposted by local hashtags accounts.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <p>That's the kit. 22 posts × 3 months = roughly 6 months of feed runway if you mix in Stories + Reels.</p>
+    <p class="url" style="margin-top:8px;">builtbybwhirl.com · @builtbybwhirl</p>
+  </div>
+
+</div>
+
+<script>
+  function copyCaption(btn){
+    const block = btn.closest('.post-caption');
+    const pre = block.querySelector('pre').innerText;
+    const tags = block.querySelector('.tags').innerText;
+    const text = pre + '\n\n' + tags;
+    navigator.clipboard.writeText(text).then(()=>{
+      const old = btn.innerText;
+      btn.innerText = 'COPIED ✓';
+      btn.style.background = '#0EA5E9';
+      setTimeout(()=>{ btn.innerText = old; btn.style.background = ''; }, 1800);
+    });
+  }
+</script>
+</body>
+</html>

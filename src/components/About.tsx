@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Linkedin, Facebook, Mail } from "lucide-react";
 import { siteConfig } from "@/lib/data";
 import Reveal from "./Reveal";
@@ -7,87 +8,53 @@ export default function About() {
     <section id="about" className="relative bg-paper text-ink pt-20 pb-28">
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12">
 
-        <div className="grid md:grid-cols-12 gap-x-10 gap-y-12 items-start pt-4">
+        {/* Top half — name, title, socials, bio */}
+        <div className="max-w-3xl mb-16 sm:mb-20">
+          <Reveal>
+            <h1
+              className="font-display font-extrabold leading-[1.05] tracking-[-0.025em] text-ink"
+              style={{ fontSize: 'clamp(36px, 7vw, 64px)' }}
+            >
+              Brian Whirlow
+            </h1>
+            <p className="font-display font-extrabold tracking-[-0.025em] text-ink-soft text-[17px] sm:text-[19px] mt-2">
+              Designer & Developer · Philadelphia / South Jersey
+            </p>
 
-          {/* Left — photo card, no decorative frame */}
-          <Reveal className="md:col-span-5">
-            <div className="relative bg-paper-soft border border-rule overflow-hidden">
-              <div
-                className="aspect-[4/5] relative overflow-hidden flex flex-col justify-center"
-                style={{
-                  backgroundImage: "url(/images/about-marbled.png)",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center center",
-                }}
+            <div className="flex items-center gap-2 mt-6">
+              <a
+                href={siteConfig.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="w-11 h-11 border border-rule bg-paper-soft flex items-center justify-center text-ink-soft hover:bg-forest hover:text-white hover:border-forest transition-colors"
+                style={{ minWidth: 44, minHeight: 44 }}
               >
-                <span
-                  aria-hidden
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(12,10,8,0.5) 0%, rgba(12,10,8,0.65) 45%, rgba(12,10,8,0.5) 100%)",
-                  }}
-                />
-
-                <div
-                  className="relative z-10 px-7 sm:px-8 py-10 text-center"
-                  style={{ textShadow: "0 2px 18px rgba(0,0,0,0.95), 0 2px 6px rgba(0,0,0,0.8)" }}
-                >
-                  <p
-                    className="font-display font-extrabold leading-[1.05] tracking-tight mt-3 text-white"
-                    style={{ fontSize: 'clamp(28px, 4.5vw, 38px)' }}
-                  >
-                    Brian Whirlow
-                  </p>
-                  <p className="text-white/70 text-[13px] mt-2 font-medium">
-                    Designer & Developer · Philadelphia/South Jersey
-                  </p>
-
-                  <div className="flex items-center justify-center gap-2 mt-6">
-                    <a
-                      href={siteConfig.social.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="LinkedIn"
-                      className="w-11 h-11 border border-white/20 bg-white/10 flex items-center justify-center text-white hover:bg-forest hover:text-white hover:border-forest transition-colors"
-                      style={{ minWidth: 44, minHeight: 44 }}
-                    >
-                      <Linkedin size={16} strokeWidth={1.75} />
-                    </a>
-                    <a
-                      href="https://www.facebook.com/marketplace/profile/100001427946097/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Facebook"
-                      className="w-11 h-11 border border-white/20 bg-white/10 flex items-center justify-center text-white hover:bg-forest hover:text-white hover:border-forest transition-colors"
-                      style={{ minWidth: 44, minHeight: 44 }}
-                    >
-                      <Facebook size={16} strokeWidth={1.75} />
-                    </a>
-                    <a
-                      href={`mailto:${siteConfig.email}`}
-                      aria-label="Email"
-                      className="w-11 h-11 border border-white/20 bg-white/10 flex items-center justify-center text-white hover:bg-forest hover:text-white hover:border-forest transition-colors"
-                      style={{ minWidth: 44, minHeight: 44 }}
-                    >
-                      <Mail size={16} strokeWidth={1.75} />
-                    </a>
-                  </div>
-                </div>
-              </div>
+                <Linkedin size={16} strokeWidth={1.75} />
+              </a>
+              <a
+                href="https://www.facebook.com/marketplace/profile/100001427946097/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="w-11 h-11 border border-rule bg-paper-soft flex items-center justify-center text-ink-soft hover:bg-forest hover:text-white hover:border-forest transition-colors"
+                style={{ minWidth: 44, minHeight: 44 }}
+              >
+                <Facebook size={16} strokeWidth={1.75} />
+              </a>
+              <a
+                href={`mailto:${siteConfig.email}`}
+                aria-label="Email"
+                className="w-11 h-11 border border-rule bg-paper-soft flex items-center justify-center text-ink-soft hover:bg-forest hover:text-white hover:border-forest transition-colors"
+                style={{ minWidth: 44, minHeight: 44 }}
+              >
+                <Mail size={16} strokeWidth={1.75} />
+              </a>
             </div>
           </Reveal>
 
-          {/* Right — bio */}
-          <Reveal delay={100} className="md:col-span-7">
-            <h2
-              className="font-display font-medium leading-[1.05] tracking-[-0.03em] text-ink"
-              style={{ fontSize: 'clamp(30px, 5vw, 50px)' }}
-            >
-              I build websites that convert visitors into customers.
-            </h2>
-
-            <div className="space-y-4 text-ink-soft text-[15px] sm:text-[16px] leading-[1.65] mt-7 mb-8 font-medium">
+          <Reveal delay={80}>
+            <div className="space-y-4 text-ink-soft text-[15px] sm:text-[16px] leading-[1.65] mt-8 mb-8 font-medium">
               <p>
                 I&apos;m Brian, a web designer and developer based in the Philadelphia/South Jersey area.
                 With <span className="text-ink font-semibold">5 years of building websites</span> under my belt,
@@ -101,7 +68,7 @@ export default function About() {
               </p>
               <p>
                 I hold a degree in Management Information Systems and am currently finishing my MBA
-                in Sustainable Business and Management. When I&apos;m not building websites, I&apos;m
+                in Business Analytics. When I&apos;m not building websites, I&apos;m
                 hiking, working out, traveling, and spending time with family and friends.
               </p>
             </div>
@@ -125,6 +92,36 @@ export default function About() {
             </div>
           </Reveal>
         </div>
+
+        {/* Bottom half — then & now photos */}
+        <Reveal delay={160}>
+          <div className="grid grid-cols-2 gap-4 sm:gap-6">
+            <div className="relative overflow-hidden">
+              <div className="aspect-[4/5] relative">
+                <Image
+                  src="/images/brian-young.jpg"
+                  alt="Brian as a kid at the computer"
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 768px) 45vw, 50vw"
+                />
+              </div>
+              <p className="mt-3 text-[13px] text-ink-muted font-medium">Then</p>
+            </div>
+            <div className="relative overflow-hidden">
+              <div className="aspect-[4/5] relative">
+                <Image
+                  src="/images/brian-now.jpg"
+                  alt="Brian today"
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 768px) 45vw, 50vw"
+                />
+              </div>
+              <p className="mt-3 text-[13px] text-ink-muted font-medium">Now</p>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

@@ -4,19 +4,24 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Logo from './Logo';
 
-function PhoneScroll({ children, duration = 10000 }: { children: React.ReactNode; duration?: number }) {
+function PhoneScroll({ children, duration = 5000 }: { children: React.ReactNode; duration?: number }) {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
+    // Kick off the first scroll immediately so motion is visible on first
+    // glimpse (was waiting full `duration` before any transition, which on
+    // mobile meant the carousel advanced past slide 2 before phones moved).
+    const kickoff = setTimeout(() => setScrolled(true), 400);
     const id = setInterval(() => setScrolled(s => !s), duration);
-    return () => clearInterval(id);
+    return () => { clearInterval(id); clearTimeout(kickoff); };
   }, [duration]);
+  const transitionMs = Math.max(duration - 400, 1500);
   return (
     <div
       style={{
-        transform: scrolled ? 'translateY(-52%)' : 'translateY(0)',
-        WebkitTransform: scrolled ? 'translateY(-52%)' : 'translateY(0)',
-        transition: `transform ${duration * 0.8}ms cubic-bezier(0.45, 0, 0.55, 1)`,
-        WebkitTransition: `-webkit-transform ${duration * 0.8}ms cubic-bezier(0.45, 0, 0.55, 1)`,
+        transform: scrolled ? 'translateY(-55%)' : 'translateY(0)',
+        WebkitTransform: scrolled ? 'translateY(-55%)' : 'translateY(0)',
+        transition: `transform ${transitionMs}ms cubic-bezier(0.45, 0, 0.55, 1)`,
+        WebkitTransition: `-webkit-transform ${transitionMs}ms cubic-bezier(0.45, 0, 0.55, 1)`,
         willChange: 'transform',
       }}
     >
@@ -58,7 +63,7 @@ function StatusBar({ light = false }: { light?: boolean }) {
 
 function HomepageMini() {
   return (
-    <PhoneScroll duration={9000}>
+    <PhoneScroll duration={5000}>
       <div className="bg-[#FEFBF6]" style={{ fontFamily: "'EB Garamond', 'Garamond', 'Palatino Linotype', serif", minHeight: 350 }}>
         <StatusBar />
         <div className="bg-[#1B4332] px-3 py-2">
@@ -116,7 +121,7 @@ function HomepageMini() {
 
 function FitnessMini() {
   return (
-    <PhoneScroll duration={12000}>
+    <PhoneScroll duration={6000}>
       <div className="bg-[#0e0e0e]" style={{ fontFamily: "'DM Sans', 'Helvetica Neue', Arial, sans-serif", minHeight: 350 }}>
         <StatusBar light />
         <div className="px-3 pt-1 pb-2">
@@ -172,7 +177,7 @@ function FitnessMini() {
 
 function SportsMini() {
   return (
-    <PhoneScroll duration={8000}>
+    <PhoneScroll duration={4500}>
       <div className="bg-[#F4F5F7]" style={{ fontFamily: "'Arial Narrow', 'Barlow Condensed', 'Oswald', sans-serif", minHeight: 350 }}>
         <StatusBar />
         <div className="bg-[#002B5C] px-3 py-2">

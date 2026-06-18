@@ -19,14 +19,14 @@ export async function GET() {
     (
       <div
         style={{
-          width: '100%',
-          height: '100%',
+          width: 1080,
+          height: 1350,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           background: '#ECEBE6',
-          padding: 60,
+          padding: 50,
         }}
       >
         <div
@@ -34,89 +34,81 @@ export async function GET() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            width: '100%',
-            height: '100%',
+            width: 980,
+            height: 1250,
             background: '#F5F4F1',
             border: '2px solid #E2E8F0',
-            padding: 48,
+            padding: '44px 40px 40px 40px',
           }}
         >
-          {/* Name */}
           <span
             style={{
               fontSize: 72,
               fontWeight: 800,
               color: '#1A1A2E',
               letterSpacing: '-0.025em',
-              lineHeight: 1.05,
-              textAlign: 'center',
+              lineHeight: 1,
             }}
           >
             Brian Whirlow
           </span>
 
-          {/* Title */}
           <span
             style={{
-              fontSize: 28,
-              fontWeight: 800,
+              fontSize: 26,
+              fontWeight: 700,
               color: '#64748B',
-              letterSpacing: '-0.025em',
-              marginTop: 8,
-              textAlign: 'center',
+              letterSpacing: '-0.02em',
+              marginTop: 10,
             }}
           >
             Designer & Developer · South Jersey / Philadelphia
           </span>
 
-          {/* Photos */}
           <div
             style={{
               display: 'flex',
-              gap: 12,
-              marginTop: 48,
-              width: '100%',
-              flex: 1,
+              marginTop: 40,
+              width: 900,
+              height: 940,
+              gap: 10,
             }}
           >
-            {/* Left — stacked */}
             <div
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 12,
-                width: '50%',
+                width: 445,
+                height: 940,
+                gap: 10,
               }}
             >
-              <img
-                src={youngSrc}
-                style={{
-                  width: '100%',
-                  flex: 1,
-                  objectFit: 'cover',
-                  border: '2px solid #E2E8F0',
-                }}
-              />
-              <img
-                src={beachSrc}
-                style={{
-                  width: '100%',
-                  flex: 1,
-                  objectFit: 'cover',
-                  border: '2px solid #E2E8F0',
-                }}
-              />
+              <div style={{ display: 'flex', width: 445, height: 465, overflow: 'hidden', border: '2px solid #E2E8F0' }}>
+                <img
+                  src={youngSrc}
+                  width={445}
+                  height={465}
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
+              <div style={{ display: 'flex', width: 445, height: 465, overflow: 'hidden', border: '2px solid #E2E8F0' }}>
+                <img
+                  src={beachSrc}
+                  width={445}
+                  height={465}
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
             </div>
 
-            {/* Right — full height */}
-            <img
-              src={nowSrc}
-              style={{
-                width: '50%',
-                objectFit: 'cover',
-                border: '2px solid #E2E8F0',
-              }}
-            />
+            <div style={{ display: 'flex', width: 445, height: 940, overflow: 'hidden', border: '2px solid #E2E8F0' }}>
+              <img
+                src={nowSrc}
+                width={445}
+                height={940}
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
           </div>
         </div>
       </div>

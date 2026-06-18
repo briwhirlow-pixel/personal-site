@@ -205,6 +205,9 @@ html.smooth-scroll {
   .mockup-pan     { transform: translateX(-19%); transition: none; }
 }
 
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
 @layer base {
   body {
     @apply bg-paper text-ink antialiased font-sans;

@@ -8,26 +8,26 @@ export default function About() {
     <section id="about" className="relative bg-paper text-ink pt-20 pb-28">
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12">
 
-        {/* Top half — name, title, socials, bio */}
-        <div className="max-w-3xl mb-16 sm:mb-20">
-          <Reveal>
+        <Reveal>
+          <div className="max-w-2xl bg-paper-soft border border-rule p-6 sm:p-8 md:p-10">
+
             <h1
               className="font-display font-extrabold leading-[1.05] tracking-[-0.025em] text-ink"
-              style={{ fontSize: 'clamp(36px, 7vw, 64px)' }}
+              style={{ fontSize: 'clamp(32px, 6vw, 56px)' }}
             >
               Brian Whirlow
             </h1>
-            <p className="font-display font-extrabold tracking-[-0.025em] text-ink-soft text-[17px] sm:text-[19px] mt-2">
+            <p className="font-display font-extrabold tracking-[-0.025em] text-ink-soft text-[15px] sm:text-[17px] mt-1">
               Designer & Developer · Philadelphia / South Jersey
             </p>
 
-            <div className="flex items-center gap-2 mt-6">
+            <div className="flex items-center gap-2 mt-5">
               <a
                 href={siteConfig.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="w-11 h-11 border border-rule bg-paper-soft flex items-center justify-center text-ink-soft hover:bg-forest hover:text-white hover:border-forest transition-colors"
+                className="w-11 h-11 border border-rule bg-paper flex items-center justify-center text-ink-soft hover:bg-forest hover:text-white hover:border-forest transition-colors"
                 style={{ minWidth: 44, minHeight: 44 }}
               >
                 <Linkedin size={16} strokeWidth={1.75} />
@@ -37,7 +37,7 @@ export default function About() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="w-11 h-11 border border-rule bg-paper-soft flex items-center justify-center text-ink-soft hover:bg-forest hover:text-white hover:border-forest transition-colors"
+                className="w-11 h-11 border border-rule bg-paper flex items-center justify-center text-ink-soft hover:bg-forest hover:text-white hover:border-forest transition-colors"
                 style={{ minWidth: 44, minHeight: 44 }}
               >
                 <Facebook size={16} strokeWidth={1.75} />
@@ -45,16 +45,14 @@ export default function About() {
               <a
                 href={`mailto:${siteConfig.email}`}
                 aria-label="Email"
-                className="w-11 h-11 border border-rule bg-paper-soft flex items-center justify-center text-ink-soft hover:bg-forest hover:text-white hover:border-forest transition-colors"
+                className="w-11 h-11 border border-rule bg-paper flex items-center justify-center text-ink-soft hover:bg-forest hover:text-white hover:border-forest transition-colors"
                 style={{ minWidth: 44, minHeight: 44 }}
               >
                 <Mail size={16} strokeWidth={1.75} />
               </a>
             </div>
-          </Reveal>
 
-          <Reveal delay={80}>
-            <div className="space-y-4 text-ink-soft text-[15px] sm:text-[16px] leading-[1.65] mt-8 mb-8 font-medium">
+            <div className="space-y-4 text-ink-soft text-[15px] sm:text-[16px] leading-[1.65] mt-7 mb-7 font-medium">
               <p>
                 I&apos;m Brian, a web designer and developer based in the Philadelphia/South Jersey area.
                 With <span className="text-ink font-semibold">5 years of building websites</span> under my belt,
@@ -73,7 +71,7 @@ export default function About() {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row flex-wrap gap-3">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 mb-8">
               <a
                 href="/contact"
                 className="inline-flex items-center justify-center gap-2 bg-clay text-ink font-semibold px-6 py-4 hover:bg-clay-deep transition-colors text-[14px] active:scale-[0.98]"
@@ -90,36 +88,30 @@ export default function About() {
                 View services
               </a>
             </div>
-          </Reveal>
-        </div>
 
-        {/* Bottom half — then & now photos */}
-        <Reveal delay={160}>
-          <div className="grid grid-cols-2 gap-4 sm:gap-6">
-            <div className="relative overflow-hidden">
-              <div className="aspect-[4/5] relative">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+              <div className="overflow-hidden border border-rule">
                 <Image
                   src="/images/brian-young.jpg"
                   alt="Brian as a kid at the computer"
-                  fill
-                  className="object-cover"
-                  sizes="(min-width: 768px) 45vw, 50vw"
+                  width={800}
+                  height={600}
+                  className="w-full h-auto"
+                  sizes="(min-width: 768px) 300px, 45vw"
                 />
               </div>
-              <p className="mt-3 text-[13px] text-ink-muted font-medium">Then</p>
-            </div>
-            <div className="relative overflow-hidden">
-              <div className="aspect-[4/5] relative">
+              <div className="overflow-hidden border border-rule">
                 <Image
                   src="/images/brian-now.jpg"
                   alt="Brian today"
-                  fill
-                  className="object-cover"
-                  sizes="(min-width: 768px) 45vw, 50vw"
+                  width={800}
+                  height={1000}
+                  className="w-full h-auto"
+                  sizes="(min-width: 768px) 300px, 45vw"
                 />
               </div>
-              <p className="mt-3 text-[13px] text-ink-muted font-medium">Now</p>
             </div>
+
           </div>
         </Reveal>
       </div>

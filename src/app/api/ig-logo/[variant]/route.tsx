@@ -92,7 +92,6 @@ function renderH3() {
       padding: 40 * SCALE,
     }}>
       <div style={{
-        transform: "rotate(-1.5deg)",
         display: "flex", flexDirection: "column", alignItems: "center",
       }}>
         <div style={{ display: "flex", flexDirection: "row", fontSize: 40 * SCALE, fontWeight: 800, letterSpacing: "-0.015em" }}>

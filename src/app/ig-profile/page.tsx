@@ -139,7 +139,6 @@ function H3() {
       padding: 40,
     }}>
       <div style={{
-        transform: "rotate(-1.5deg)",
         display: "flex", flexDirection: "column", alignItems: "center",
       }}>
         <span style={{ fontSize: 40, fontWeight: 800, letterSpacing: "-0.015em" }}>

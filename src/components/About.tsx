@@ -8,23 +8,23 @@ export default function About() {
     <section id="about" className="relative bg-paper text-ink pt-20 pb-28">
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12">
 
-        <div className="grid md:grid-cols-12 gap-x-10 gap-y-12 items-start pt-4">
+        <div className="grid md:grid-cols-12 gap-x-10 gap-y-12 items-stretch pt-4">
 
           {/* Left — card with name, socials, photos */}
-          <Reveal className="md:col-span-5">
-            <div className="bg-paper-soft border border-rule p-5 sm:p-7">
+          <Reveal className="md:col-span-5 flex">
+            <div className="bg-paper-soft border border-rule p-5 sm:p-7 flex flex-col w-full">
 
               <h1
-                className="font-display font-extrabold leading-[1.05] tracking-[-0.025em] text-ink"
+                className="font-display font-extrabold leading-[1.05] tracking-[-0.025em] text-ink text-center"
                 style={{ fontSize: 'clamp(28px, 5vw, 42px)' }}
               >
                 Brian Whirlow
               </h1>
-              <p className="font-display font-extrabold tracking-[-0.025em] text-ink-soft text-[14px] sm:text-[15px] mt-1">
-                Designer & Developer · Philly / South Jersey
+              <p className="font-display font-extrabold tracking-[-0.025em] text-ink-soft text-[14px] sm:text-[15px] mt-1 text-center">
+                Designer & Developer · South Jersey / Philadelphia
               </p>
 
-              <div className="flex items-center gap-2 mt-5 mb-6">
+              <div className="flex items-center justify-center gap-2 mt-5 mb-6">
                 <a
                   href={siteConfig.social.linkedin}
                   target="_blank"
@@ -55,7 +55,7 @@ export default function About() {
                 </a>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-2">
                 <div className="overflow-hidden border border-rule">
                   <Image
                     src="/images/brian-young.jpg"
@@ -63,7 +63,17 @@ export default function About() {
                     width={800}
                     height={600}
                     className="w-full h-auto"
-                    sizes="(min-width: 768px) 200px, 40vw"
+                    sizes="(min-width: 768px) 140px, 30vw"
+                  />
+                </div>
+                <div className="overflow-hidden border border-rule">
+                  <Image
+                    src="/images/brian-beach.jpg"
+                    alt="Brian at the beach"
+                    width={800}
+                    height={600}
+                    className="w-full h-auto"
+                    sizes="(min-width: 768px) 140px, 30vw"
                   />
                 </div>
                 <div className="overflow-hidden border border-rule">
@@ -73,7 +83,7 @@ export default function About() {
                     width={800}
                     height={1000}
                     className="w-full h-auto"
-                    sizes="(min-width: 768px) 200px, 40vw"
+                    sizes="(min-width: 768px) 140px, 30vw"
                   />
                 </div>
               </div>

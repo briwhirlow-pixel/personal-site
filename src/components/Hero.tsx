@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Logo from './Logo';
 
@@ -247,25 +248,51 @@ function SportsMini() {
   );
 }
 
-export default function Hero() {
-  return (
-    <section className="relative bg-paper text-ink min-h-[100dvh] flex flex-col justify-center overflow-hidden">
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-12 pt-24 sm:pt-28 pb-16 sm:pb-20 w-full">
+const SLIDE_COUNT = 3;
+const AUTO_MS = 5000;
 
-        {/* Static logo at top center — large */}
-        <div className="flex justify-center mb-10 sm:mb-14 editorial-rise">
+export default function Hero() {
+  const [slide, setSlide] = useState(0);
+  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const resetTimer = useCallback(() => {
+    if (timer.current) clearInterval(timer.current);
+    timer.current = setInterval(() => setSlide(s => (s + 1) % SLIDE_COUNT), AUTO_MS);
+  }, []);
+
+  useEffect(() => {
+    resetTimer();
+    return () => { if (timer.current) clearInterval(timer.current); };
+  }, [resetTimer]);
+
+  const goTo = (i: number) => { setSlide(i); resetTimer(); };
+  const next = () => goTo((slide + 1) % SLIDE_COUNT);
+  const prev = () => goTo((slide - 1 + SLIDE_COUNT) % SLIDE_COUNT);
+
+  return (
+    <section className="relative bg-paper text-ink overflow-hidden">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 md:px-12 pt-28 sm:pt-32 pb-12 sm:pb-16 w-full">
+
+        <div className="flex justify-center mb-8 sm:mb-12 editorial-rise">
           <Logo size="hero" />
         </div>
 
-        {/* Auto-sliding carousel */}
         <div className="relative w-full overflow-hidden">
-          <div className="hero-carousel flex w-[400%]">
+          <div
+            className="flex"
+            style={{
+              width: `${SLIDE_COUNT * 100}%`,
+              transform: `translateX(-${slide * (100 / SLIDE_COUNT)}%)`,
+              transition: 'transform 0.7s cubic-bezier(0.45, 0, 0.55, 1)',
+              willChange: 'transform',
+            }}
+          >
 
-            {/* Slide 1: Heading + description + CTAs */}
-            <div className="w-1/4 flex-shrink-0 flex flex-col items-center justify-center text-center px-4">
+            {/* Slide 1: Heading + CTAs */}
+            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-4 py-8 sm:py-16" style={{ width: `${100 / SLIDE_COUNT}%` }}>
               <h1
                 className="font-display font-medium leading-[1.05] tracking-[-0.035em] text-ink text-balance"
-                style={{ fontSize: 'clamp(22px, 3.5vw, 38px)' }}
+                style={{ fontSize: 'clamp(24px, 4.5vw, 42px)' }}
               >
                 Hand-coded.
                 <br />
@@ -273,45 +300,40 @@ export default function Hero() {
                 <br />
                 Yours forever.
               </h1>
-
               <p className="mt-4 sm:mt-6 text-ink-soft text-[16px] leading-[1.5] max-w-md mx-auto text-pretty">
                 Custom websites for restaurants, shops, studios, and service
                 businesses. One designer, start to finish. You own every line of code.
               </p>
-
               <div className="mt-6 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-center">
                 <Link
                   href="/contact"
                   className="inline-flex items-center justify-center gap-2 bg-clay text-ink px-6 py-3 font-semibold text-[14px] hover:bg-clay-deep transition-colors active:scale-[0.98]"
                   style={{ boxShadow: '0 8px 24px -8px rgba(14,165,233,0.35)', minHeight: 44 }}
                 >
-                  Start a project
-                  <span aria-hidden className="text-[14px] leading-none">→</span>
+                  Start a project <span aria-hidden>→</span>
                 </Link>
                 <Link
                   href="/work"
                   className="group inline-flex items-center justify-center gap-2 text-forest text-[14px] font-semibold hover:text-forest-bright transition-colors py-3 sm:py-0"
                   style={{ minHeight: 44 }}
                 >
-                  See the work
-                  <span className="transition-transform group-hover:translate-x-1">→</span>
+                  See the work <span className="transition-transform group-hover:translate-x-1">→</span>
                 </Link>
               </div>
             </div>
 
             {/* Slide 2: Mobile-first phones */}
-            <div className="w-1/4 flex-shrink-0 flex flex-col items-center justify-center text-center px-4">
+            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-4 py-8 sm:py-16" style={{ width: `${100 / SLIDE_COUNT}%` }}>
               <h2
                 className="font-display font-medium leading-[1.05] tracking-[-0.03em] text-ink"
-                style={{ fontSize: "clamp(22px, 3.5vw, 38px)" }}
+                style={{ fontSize: "clamp(24px, 4.5vw, 42px)" }}
               >
                 Mobile-first. Always.
               </h2>
               <p className="text-ink-soft text-[16px] leading-relaxed font-medium mt-2 max-w-md">
                 Every site works perfectly on the device your customers actually use.
               </p>
-
-              <div className="flex items-start justify-center gap-4 sm:gap-6 mt-8">
+              <div className="flex items-start justify-center gap-4 sm:gap-6 mt-6 sm:mt-8">
                 <PhoneFrame className="mt-8 hidden sm:block">
                   <HomepageMini />
                 </PhoneFrame>
@@ -324,18 +346,17 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* Slide 3: Platforms / 90+ — no dark bg, blends with site */}
-            <div className="w-1/4 flex-shrink-0 flex flex-col items-center justify-center text-center px-4">
+            {/* Slide 3: 90+ Performance */}
+            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-4 py-8 sm:py-16" style={{ width: `${100 / SLIDE_COUNT}%` }}>
               <p
                 className="font-display font-medium text-ink leading-[0.85] tracking-[-0.04em]"
                 style={{ fontSize: "clamp(52px, 8vw, 80px)" }}
               >
                 90<span className="text-forest">+</span>
               </p>
-              <p className="text-ink-muted text-[13px] font-medium mt-2 max-w-xs leading-snug">
+              <p className="text-ink-muted text-[14px] font-medium mt-2 max-w-xs leading-snug">
                 Lighthouse performance score on every site I deliver.
               </p>
-
               <div className="mt-6 max-w-lg">
                 <h2
                   className="font-display font-medium leading-[1.05] tracking-[-0.03em] text-ink"
@@ -343,7 +364,7 @@ export default function Hero() {
                 >
                   Your site works everywhere your customers are.
                 </h2>
-                <p className="text-ink-soft text-[13px] font-medium mt-2 leading-relaxed">
+                <p className="text-ink-soft text-[14px] font-medium mt-2 leading-relaxed">
                   SEO, mobile optimization, social preview cards, and performance tuning baked in from day one.
                 </p>
                 <div className="flex items-center justify-center gap-4 mt-4">
@@ -352,49 +373,44 @@ export default function Hero() {
                   <svg viewBox="0 0 24 24" width={20} height={20} fill="currentColor" className="text-ink/35"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.27-.86-.31-.16-.68-.04-.85.27l-1.87 3.23A10.46 10.46 0 0 0 12 8c-1.58 0-3.07.36-4.44.93L5.68 5.7c-.16-.31-.54-.43-.85-.27-.31.17-.43.55-.27.86L6.4 9.48A9.84 9.84 0 0 0 2 17h20a9.84 9.84 0 0 0-4.4-7.52zM7 14.5a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>
                 </div>
               </div>
-
-            </div>
-
-            {/* Slide 4: Duplicate of slide 1 for seamless left loop */}
-            <div className="w-1/4 flex-shrink-0 flex flex-col items-center justify-center text-center px-4">
-              <h1
-                className="font-display font-medium leading-[1.05] tracking-[-0.035em] text-ink text-balance"
-                style={{ fontSize: 'clamp(22px, 3.5vw, 38px)' }}
-                aria-hidden
-              >
-                Hand-coded.
-                <br />
-                Personally designed.
-                <br />
-                Yours forever.
-              </h1>
-              <p className="mt-4 sm:mt-6 text-ink-soft text-[16px] leading-[1.5] max-w-md mx-auto text-pretty">
-                Custom websites for restaurants, shops, studios, and service
-                businesses. One designer, start to finish. You own every line of code.
-              </p>
-              <div className="mt-6 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-center">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center gap-2 bg-clay text-ink px-6 py-3 font-semibold text-[14px] hover:bg-clay-deep transition-colors active:scale-[0.98]"
-                  style={{ boxShadow: '0 8px 24px -8px rgba(14,165,233,0.35)', minHeight: 44 }}
-                  tabIndex={-1}
-                >
-                  Start a project
-                  <span aria-hidden className="text-[14px] leading-none">→</span>
-                </Link>
-                <Link
-                  href="/work"
-                  className="group inline-flex items-center justify-center gap-2 text-forest text-[14px] font-semibold hover:text-forest-bright transition-colors py-3 sm:py-0"
-                  tabIndex={-1}
-                  style={{ minHeight: 44 }}
-                >
-                  See the work
-                  <span className="transition-transform group-hover:translate-x-1">→</span>
-                </Link>
-              </div>
             </div>
 
           </div>
+
+          {/* Arrow buttons */}
+          <button
+            onClick={prev}
+            aria-label="Previous slide"
+            className="absolute left-1 sm:left-3 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-paper/80 backdrop-blur-sm border border-rule hover:border-forest hover:text-forest text-ink-muted transition-colors rounded-full"
+            style={{ minHeight: 44, minWidth: 44 }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button
+            onClick={next}
+            aria-label="Next slide"
+            className="absolute right-1 sm:right-3 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-paper/80 backdrop-blur-sm border border-rule hover:border-forest hover:text-forest text-ink-muted transition-colors rounded-full"
+            style={{ minHeight: 44, minWidth: 44 }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+
+        {/* Dot indicators */}
+        <div className="flex items-center justify-center gap-2 mt-6">
+          {Array.from({ length: SLIDE_COUNT }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              className={`rounded-full transition-all ${
+                i === slide ? 'w-6 h-2 bg-forest' : 'w-2 h-2 bg-ink/15 hover:bg-ink/30'
+              }`}
+              style={{ minHeight: 20, minWidth: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
+              <span className={`block rounded-full ${i === slide ? 'w-6 h-2 bg-forest' : 'w-2 h-2 bg-ink/15'}`} />
+            </button>
+          ))}
         </div>
 
       </div>

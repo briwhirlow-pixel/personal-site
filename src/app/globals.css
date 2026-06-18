@@ -169,20 +169,6 @@ html {
   will-change: transform;
 }
 
-/* ── Hero carousel — auto-slide between two pages ── */
-@keyframes hero-slide {
-  0%, 28%    { transform: translateX(0); }
-  33%, 61%   { transform: translateX(-25%); }
-  66%, 94%   { transform: translateX(-50%); }
-  100%       { transform: translateX(-75%); }
-}
-
-.hero-carousel {
-  animation: hero-slide 14s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-  will-change: transform;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
 
 /* ── Hero logo animations ── */
 @keyframes cursor-blink {
@@ -215,9 +201,7 @@ html {
   .hero-cursor-blink,
   .hero-screen-glow,
   .hero-logo-float,
-  .hero-carousel,
   .reviews-marquee { animation: none; }
-  .hero-carousel { transform: translateX(0); }
 }
 
 /* Touch devices: show static mid-scroll positions since hover never fires */

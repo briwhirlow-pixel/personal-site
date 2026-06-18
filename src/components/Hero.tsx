@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { Search, Smartphone, Share2, MapPin, Zap, ShieldCheck } from 'lucide-react';
 import Logo from './Logo';
 
 function PhoneFrame({ children, className = "" }: { children: React.ReactNode; className?: string }) {
@@ -354,21 +353,6 @@ export default function Hero() {
                 </div>
               </div>
 
-              <div className="mt-6 grid grid-cols-3 sm:grid-cols-6 gap-x-4 gap-y-3 max-w-xl">
-                {[
-                  { name: "Google SEO", Icon: Search },
-                  { name: "Mobile Ready", Icon: Smartphone },
-                  { name: "Social Cards", Icon: Share2 },
-                  { name: "Google Maps", Icon: MapPin },
-                  { name: "Fast Loading", Icon: Zap },
-                  { name: "Secure", Icon: ShieldCheck },
-                ].map((p) => (
-                  <div key={p.name} className="flex flex-col items-center gap-1">
-                    <p.Icon size={14} strokeWidth={1.75} className="text-forest" />
-                    <p className="text-[9px] font-medium text-ink-muted leading-tight text-center">{p.name}</p>
-                  </div>
-                ))}
-              </div>
             </div>
 
             {/* Slide 4: Duplicate of slide 1 for seamless left loop */}

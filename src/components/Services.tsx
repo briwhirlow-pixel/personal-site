@@ -92,22 +92,24 @@ export default function Services() {
 
         {/* Payment methods */}
         <Reveal delay={120} className="mt-6">
-          <div className="flex items-center justify-center gap-6 py-4 border border-rule bg-paper-soft">
+          <div className="flex items-center justify-center gap-6 sm:gap-8 py-4 border border-rule bg-paper-soft">
             <span className="text-ink-muted text-[13px] font-medium">We accept</span>
             <div className="flex items-center gap-2">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <rect width="24" height="24" rx="4" fill="#008CFF"/>
-                <path d="M17.3 7.8l-1.2 7.6c-.1.4-.3.6-.7.6h-1.1l.3-1.8-2.8.0c-.2 0-.3-.1-.3-.3l.1-.5 3-6.9c.1-.3.4-.5.7-.5h1.3c.4 0 .6.2.6.5l.1.3zm-5.8.0c.1-.3.4-.5.7-.5H13.5c.4 0 .6.2.5.5l-2.1 7.2c-.1.3-.4.5-.7.5H9.9c-.4 0-.6-.2-.5-.5L11.5 7.8z" fill="white"/>
+              {/* Venmo official logo mark */}
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                <rect width="32" height="32" rx="6" fill="#3D95CE"/>
+                <path d="M22.667 7.333c.667 1.1 .967 2.233 .967 3.7 0 4.6-3.933 10.567-7.133 14.767H10.6L8 8.733l5.267-.5 1.4 11.233c1.3-2.133 2.9-5.467 2.9-7.733 0-1.4-.233-2.367-.6-3.133L22.667 7.333z" fill="white"/>
               </svg>
-              <span className="text-[14px] font-semibold text-[#008CFF]">Venmo</span>
+              <span className="text-[14px] font-bold text-[#3D95CE]">Venmo</span>
             </div>
             <div className="w-[1px] h-5 bg-rule" />
             <div className="flex items-center gap-2">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <rect width="24" height="24" rx="4" fill="#6D1ED4"/>
-                <path d="M7 8.5h2.5l1.5 4.5L14.5 8.5H17l-4 8H10.5L7 8.5z" fill="white"/>
+              {/* Zelle official logo mark */}
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                <rect width="32" height="32" rx="6" fill="#6D1ED4"/>
+                <path d="M21.5 9.5v2.7H14.2l7.3 8.6v2.7H10.5v-2.7h7.1l-7.1-8.6V9.5H21.5z" fill="white"/>
               </svg>
-              <span className="text-[14px] font-semibold text-[#6D1ED4]">Zelle</span>
+              <span className="text-[14px] font-bold text-[#6D1ED4]">Zelle</span>
             </div>
           </div>
         </Reveal>

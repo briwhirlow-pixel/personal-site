@@ -147,13 +147,7 @@ function H3() {
           <span style={{ color: "#0EA5E9" }}>by</span>
           <span style={{ color: "#0E0C0A" }}>brian</span>
         </span>
-        <svg width="280" height="22" viewBox="0 0 260 22" style={{ marginTop: 10 }}>
-          <path
-            d="M 8 12 Q 40 5, 80 11 T 160 9 Q 200 15, 240 8 T 254 12"
-            stroke="#0E0C0A" strokeWidth="3.4" fill="none" strokeLinecap="round"
-          />
-        </svg>
-        <span style={{ fontSize: 17, color: "#0E0C0A", letterSpacing: "0.42em", marginTop: 20, fontWeight: 700 }}>WEB DESIGN</span>
+        <span style={{ fontSize: 17, color: "#0E0C0A", letterSpacing: "0.42em", marginTop: 18, fontWeight: 700 }}>WEB DESIGN</span>
       </div>
     </div>
   );

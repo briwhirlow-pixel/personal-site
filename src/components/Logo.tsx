@@ -28,22 +28,6 @@ export default function Logo({ light = false, showTagline = true, animated = fal
         <span className={inkClass}>brian</span>
       </span>
 
-      <svg
-        width={isHero ? 280 : 112}
-        height={isHero ? 22 : 10}
-        viewBox="0 0 260 22"
-        className={isHero ? 'mt-2.5' : 'mt-[3px]'}
-        aria-hidden
-      >
-        <path
-          d="M 8 12 Q 40 5, 80 11 T 160 9 Q 200 15, 240 8 T 254 12"
-          stroke={inkColor}
-          strokeWidth={isHero ? 3.4 : 1.7}
-          fill="none"
-          strokeLinecap="round"
-        />
-      </svg>
-
       {showTagline && (
         <span
           className={`font-bold uppercase ${taglineClass} ${

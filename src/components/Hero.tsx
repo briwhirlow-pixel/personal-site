@@ -248,26 +248,49 @@ function SportsMini() {
   );
 }
 
-const SLIDE_COUNT = 3;
+const REAL_SLIDES = 3;
+const TOTAL_SLIDES = REAL_SLIDES + 1;
 const AUTO_MS = 5000;
+const TRANSITION_MS = 700;
 
 export default function Hero() {
   const [slide, setSlide] = useState(0);
-  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [noTransition, setNoTransition] = useState(false);
+  const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const snapRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const resetTimer = useCallback(() => {
-    if (timer.current) clearInterval(timer.current);
-    timer.current = setInterval(() => setSlide(s => (s + 1) % SLIDE_COUNT), AUTO_MS);
+  const clearTimers = useCallback(() => {
+    if (autoRef.current) clearInterval(autoRef.current);
+    if (snapRef.current) clearTimeout(snapRef.current);
   }, []);
 
-  useEffect(() => {
-    resetTimer();
-    return () => { if (timer.current) clearInterval(timer.current); };
-  }, [resetTimer]);
+  const startAuto = useCallback(() => {
+    clearTimers();
+    autoRef.current = setInterval(() => setSlide(s => s + 1), AUTO_MS);
+  }, [clearTimers]);
 
-  const goTo = (i: number) => { setSlide(i); resetTimer(); };
-  const next = () => goTo((slide + 1) % SLIDE_COUNT);
-  const prev = () => goTo((slide - 1 + SLIDE_COUNT) % SLIDE_COUNT);
+  useEffect(() => {
+    startAuto();
+    return clearTimers;
+  }, [startAuto, clearTimers]);
+
+  useEffect(() => {
+    if (slide >= REAL_SLIDES) {
+      snapRef.current = setTimeout(() => {
+        setNoTransition(true);
+        setSlide(0);
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => setNoTransition(false));
+        });
+      }, TRANSITION_MS);
+    }
+  }, [slide]);
+
+  const goTo = (i: number) => { setNoTransition(false); setSlide(i); startAuto(); };
+  const next = () => { setNoTransition(false); setSlide(s => Math.min(s + 1, REAL_SLIDES)); startAuto(); };
+  const prev = () => { goTo((slide - 1 + REAL_SLIDES) % REAL_SLIDES); };
+
+  const activeDot = slide % REAL_SLIDES;
 
   return (
     <section className="relative bg-paper text-ink overflow-hidden">
@@ -281,15 +304,15 @@ export default function Hero() {
           <div
             className="flex"
             style={{
-              width: `${SLIDE_COUNT * 100}%`,
-              transform: `translateX(-${slide * (100 / SLIDE_COUNT)}%)`,
-              transition: 'transform 0.7s cubic-bezier(0.45, 0, 0.55, 1)',
+              width: `${TOTAL_SLIDES * 100}%`,
+              transform: `translateX(-${slide * (100 / TOTAL_SLIDES)}%)`,
+              transition: noTransition ? 'none' : `transform ${TRANSITION_MS}ms cubic-bezier(0.45, 0, 0.55, 1)`,
               willChange: 'transform',
             }}
           >
 
             {/* Slide 1: Heading + CTAs */}
-            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-4 py-8 sm:py-16" style={{ width: `${100 / SLIDE_COUNT}%` }}>
+            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-4 py-8 sm:py-16" style={{ width: `${100 / TOTAL_SLIDES}%` }}>
               <h1
                 className="font-display font-medium leading-[1.05] tracking-[-0.035em] text-ink text-balance"
                 style={{ fontSize: 'clamp(24px, 4.5vw, 42px)' }}
@@ -323,7 +346,7 @@ export default function Hero() {
             </div>
 
             {/* Slide 2: Mobile-first phones */}
-            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-4 py-8 sm:py-16" style={{ width: `${100 / SLIDE_COUNT}%` }}>
+            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-4 py-8 sm:py-16" style={{ width: `${100 / TOTAL_SLIDES}%` }}>
               <h2
                 className="font-display font-medium leading-[1.05] tracking-[-0.03em] text-ink"
                 style={{ fontSize: "clamp(24px, 4.5vw, 42px)" }}
@@ -347,7 +370,7 @@ export default function Hero() {
             </div>
 
             {/* Slide 3: 90+ Performance */}
-            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-4 py-8 sm:py-16" style={{ width: `${100 / SLIDE_COUNT}%` }}>
+            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-4 py-8 sm:py-16" style={{ width: `${100 / TOTAL_SLIDES}%` }}>
               <p
                 className="font-display font-medium text-ink leading-[0.85] tracking-[-0.04em]"
                 style={{ fontSize: "clamp(52px, 8vw, 80px)" }}
@@ -375,6 +398,42 @@ export default function Hero() {
               </div>
             </div>
 
+            {/* Clone of slide 1 for seamless loop */}
+            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-4 py-8 sm:py-16" style={{ width: `${100 / TOTAL_SLIDES}%` }} aria-hidden>
+              <h1
+                className="font-display font-medium leading-[1.05] tracking-[-0.035em] text-ink text-balance"
+                style={{ fontSize: 'clamp(24px, 4.5vw, 42px)' }}
+              >
+                Hand-coded.
+                <br />
+                Personally designed.
+                <br />
+                Yours forever.
+              </h1>
+              <p className="mt-4 sm:mt-6 text-ink-soft text-[16px] leading-[1.5] max-w-md mx-auto text-pretty">
+                Custom websites for restaurants, shops, studios, and service
+                businesses. One designer, start to finish. You own every line of code.
+              </p>
+              <div className="mt-6 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-center">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 bg-clay text-ink px-6 py-3 font-semibold text-[14px] hover:bg-clay-deep transition-colors active:scale-[0.98]"
+                  style={{ boxShadow: '0 8px 24px -8px rgba(14,165,233,0.35)', minHeight: 44 }}
+                  tabIndex={-1}
+                >
+                  Start a project <span aria-hidden>→</span>
+                </Link>
+                <Link
+                  href="/work"
+                  className="group inline-flex items-center justify-center gap-2 text-forest text-[14px] font-semibold hover:text-forest-bright transition-colors py-3 sm:py-0"
+                  style={{ minHeight: 44 }}
+                  tabIndex={-1}
+                >
+                  See the work <span className="transition-transform group-hover:translate-x-1">→</span>
+                </Link>
+              </div>
+            </div>
+
           </div>
 
           {/* Arrow buttons */}
@@ -398,17 +457,17 @@ export default function Hero() {
 
         {/* Dot indicators */}
         <div className="flex items-center justify-center gap-2 mt-6">
-          {Array.from({ length: SLIDE_COUNT }).map((_, i) => (
+          {Array.from({ length: REAL_SLIDES }).map((_, i) => (
             <button
               key={i}
               onClick={() => goTo(i)}
               aria-label={`Go to slide ${i + 1}`}
               className={`rounded-full transition-all ${
-                i === slide ? 'w-6 h-2 bg-forest' : 'w-2 h-2 bg-ink/15 hover:bg-ink/30'
+                i === activeDot ? 'w-6 h-2 bg-forest' : 'w-2 h-2 bg-ink/15 hover:bg-ink/30'
               }`}
               style={{ minHeight: 20, minWidth: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
-              <span className={`block rounded-full ${i === slide ? 'w-6 h-2 bg-forest' : 'w-2 h-2 bg-ink/15'}`} />
+              <span className={`block rounded-full ${i === activeDot ? 'w-6 h-2 bg-forest' : 'w-2 h-2 bg-ink/15'}`} />
             </button>
           ))}
         </div>

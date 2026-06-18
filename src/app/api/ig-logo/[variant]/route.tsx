@@ -81,39 +81,33 @@ function renderH2() {
   );
 }
 
-// H3 — Sharpie / Signed ───────────────────────────────────────
+// H3 — Site logo mirror (icon + bold wordmark, "by" in sky blue) ─
 function renderH3() {
   return (
     <div style={{
       width: "100%", height: "100%",
-      background: CREAM_WARM,
-      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+      background: "#EAE3D5",
+      display: "flex", alignItems: "center", justifyContent: "center",
       fontFamily: "Plus Jakarta Sans",
-      position: "relative",
       padding: 40 * SCALE,
     }}>
-      <div style={{
-        transform: "rotate(-1.5deg)",
-        display: "flex", flexDirection: "column", alignItems: "center",
-      }}>
-        <span style={{ fontSize: 32 * SCALE, fontWeight: 800, color: "#0E0C0A", letterSpacing: "-0.015em" }}>builtbybrian</span>
-        <svg width={220 * SCALE} height={20 * SCALE} viewBox="0 0 220 20" style={{ marginTop: 6 * SCALE, display: "flex" }}>
-          <path
-            d="M 8 12 Q 35 6, 70 11 T 130 9 Q 165 14, 200 8 T 215 11"
-            stroke="#0E0C0A" strokeWidth="3.2" fill="none" strokeLinecap="round"
-          />
+      <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 18 * SCALE }}>
+        <svg width={76 * SCALE} height={62 * SCALE} viewBox="0 0 24 20" fill="none">
+          <rect x="3" y="1" width="18" height="13" rx="2" stroke="#0E0C0A" strokeWidth="1.5" />
+          <path d="M1 16.5h22" stroke="#0E0C0A" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M8 14v2.5M16 14v2.5" stroke="#0E0C0A" strokeWidth="1.2" opacity="0.4" />
         </svg>
-        <span style={{ fontSize: 11 * SCALE, color: "#0E0C0A", letterSpacing: "0.38em", marginTop: 14 * SCALE, fontWeight: 600 }}>WEB · DESIGN</span>
+        <div style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
+          <div style={{ display: "flex", flexDirection: "row", fontSize: 32 * SCALE, fontWeight: 800, letterSpacing: "-0.025em" }}>
+            <span style={{ color: "#0E0C0A" }}>built</span>
+            <span style={{ color: "#0EA5E9" }}>by</span>
+            <span style={{ color: "#0E0C0A" }}>brian</span>
+          </div>
+          <span style={{ fontSize: 10 * SCALE, color: "rgba(14,12,10,0.55)", letterSpacing: "0.32em", marginTop: 8 * SCALE, fontWeight: 500 }}>
+            web design
+          </span>
+        </div>
       </div>
-      <svg
-        width={46 * SCALE} height={46 * SCALE} viewBox="0 0 46 46"
-        style={{ position: "absolute", top: 64 * SCALE, right: 56 * SCALE, display: "flex" }}
-      >
-        <path
-          d="M 8 23 Q 8 8, 23 8 Q 38 8, 38 23 Q 38 38, 23 38 Q 8 38, 8 23 Z"
-          stroke="#0E0C0A" strokeWidth="2.4" fill="none"
-        />
-      </svg>
     </div>
   );
 }

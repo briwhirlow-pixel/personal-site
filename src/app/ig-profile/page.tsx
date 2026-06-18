@@ -128,39 +128,33 @@ function H2() {
   );
 }
 
-// H3 — Sharpie / Signed ───────────────────────────────────────
+// H3 — Site logo mirror (icon + bold wordmark, "by" in sky blue) ─
 function H3() {
   return (
     <div style={{
       width: "100%", height: "100%",
-      background: CREAM_WARM,
-      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+      background: "#EAE3D5",
+      display: "flex", alignItems: "center", justifyContent: "center",
       fontFamily: FONT,
-      position: "relative",
       padding: 40,
     }}>
-      <div style={{
-        transform: "rotate(-1.5deg)",
-        display: "flex", flexDirection: "column", alignItems: "center",
-      }}>
-        <span style={{ fontSize: 32, fontWeight: 800, color: "#0E0C0A", letterSpacing: "-0.015em" }}>builtbybrian</span>
-        <svg width="220" height="20" viewBox="0 0 220 20" style={{ marginTop: 6 }}>
-          <path
-            d="M 8 12 Q 35 6, 70 11 T 130 9 Q 165 14, 200 8 T 215 11"
-            stroke="#0E0C0A" strokeWidth="3.2" fill="none" strokeLinecap="round"
-          />
+      <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 18 }}>
+        <svg width="76" height="62" viewBox="0 0 24 20" fill="none" aria-hidden style={{ flexShrink: 0 }}>
+          <rect x="3" y="1" width="18" height="13" rx="2" stroke="#0E0C0A" strokeWidth="1.5" />
+          <path d="M1 16.5h22" stroke="#0E0C0A" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M8 14v2.5M16 14v2.5" stroke="#0E0C0A" strokeWidth="1.2" opacity="0.4" />
         </svg>
-        <span style={{ fontSize: 11, color: "#0E0C0A", letterSpacing: "0.38em", marginTop: 14, fontWeight: 600 }}>WEB · DESIGN</span>
+        <div style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
+          <span style={{ fontSize: 32, fontWeight: 800, letterSpacing: "-0.025em" }}>
+            <span style={{ color: "#0E0C0A" }}>built</span>
+            <span style={{ color: "#0EA5E9" }}>by</span>
+            <span style={{ color: "#0E0C0A" }}>brian</span>
+          </span>
+          <span style={{ fontSize: 10, color: "rgba(14,12,10,0.55)", letterSpacing: "0.32em", marginTop: 8, fontWeight: 500 }}>
+            web design
+          </span>
+        </div>
       </div>
-      <svg
-        width="46" height="46" viewBox="0 0 46 46"
-        style={{ position: "absolute", top: 64, right: 56 }}
-      >
-        <path
-          d="M 8 23 Q 8 8, 23 8 Q 38 8, 38 23 Q 38 38, 23 38 Q 8 38, 8 23 Z"
-          stroke="#0E0C0A" strokeWidth="2.4" fill="none"
-        />
-      </svg>
     </div>
   );
 }
@@ -255,7 +249,7 @@ export default function IGProfilePreview() {
   const variants = [
     { id: "h1", Component: H1, name: "H1 — Letterpress", description: "Bone paper + ink black. Pressed metal-type feel with letterpress shadow and a printer's ornament." },
     { id: "h2", Component: H2, name: "H2 — Riso Two-Color", description: "Ultramarine + hot pink double-print with misregister offset and halftone dot grain. Indie print shop." },
-    { id: "h3", Component: H3, name: "H3 — Hand-Signed", description: "Sharpie marker wordmark with hand-drawn wobble underline and a hand-drawn circle ornament. Signed, not designed." },
+    { id: "h3", Component: H3, name: "H3 — Site Logo (bold)", description: "Mirrors your site logo lockup: monitor icon + wordmark + web design tagline. Bold 800 weight with 'by' in sky blue (#0EA5E9, same as the Start a project button)." },
     { id: "h4", Component: H4, name: "H4 — Diner Sign Painter", description: "Cream + diner red with hand-painted shadow + stars. Mid-century shop sign / hometown menu." },
     { id: "h5", Component: H5, name: "H5 — Stadium Patch", description: "Chenille felt diagonal weave, dashed embroidered border, varsity-block wordmark. Philly sports patch." },
     { id: "h6", Component: H6, name: "H6 — Photocopy Zine", description: "B&W with intentional photocopy noise, slight rotation, hand-stamped 'NO. 01' label. Anti-polish on purpose." },

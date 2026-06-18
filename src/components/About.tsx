@@ -55,35 +55,36 @@ export default function About() {
                 </a>
               </div>
 
-              <div className="grid grid-cols-3 gap-2">
-                <div className="overflow-hidden border border-rule">
-                  <Image
-                    src="/images/brian-young.jpg"
-                    alt="Brian as a kid at the computer"
-                    width={800}
-                    height={600}
-                    className="w-full h-auto"
-                    sizes="(min-width: 768px) 140px, 30vw"
-                  />
+              <div className="grid grid-cols-2 gap-2">
+                <div className="flex flex-col gap-2">
+                  <div className="overflow-hidden border border-rule">
+                    <Image
+                      src="/images/brian-young.jpg"
+                      alt="Brian as a kid at the computer"
+                      width={800}
+                      height={600}
+                      className="w-full h-auto"
+                      sizes="(min-width: 768px) 180px, 40vw"
+                    />
+                  </div>
+                  <div className="overflow-hidden border border-rule">
+                    <Image
+                      src="/images/brian-beach.jpg"
+                      alt="Brian at the beach"
+                      width={800}
+                      height={600}
+                      className="w-full h-auto"
+                      sizes="(min-width: 768px) 180px, 40vw"
+                    />
+                  </div>
                 </div>
-                <div className="overflow-hidden border border-rule">
-                  <Image
-                    src="/images/brian-beach.jpg"
-                    alt="Brian at the beach"
-                    width={800}
-                    height={600}
-                    className="w-full h-auto"
-                    sizes="(min-width: 768px) 140px, 30vw"
-                  />
-                </div>
-                <div className="overflow-hidden border border-rule">
+                <div className="overflow-hidden border border-rule relative">
                   <Image
                     src="/images/brian-now.jpg"
                     alt="Brian today"
-                    width={800}
-                    height={1000}
-                    className="w-full h-auto"
-                    sizes="(min-width: 768px) 140px, 30vw"
+                    fill
+                    className="object-cover"
+                    sizes="(min-width: 768px) 180px, 40vw"
                   />
                 </div>
               </div>

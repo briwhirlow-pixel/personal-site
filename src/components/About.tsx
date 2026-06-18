@@ -115,7 +115,7 @@ export default function About() {
               </p>
               <p>
                 I hold a degree in Management Information Systems and am currently finishing my MBA
-                in Business Analytics. When I&apos;m not building websites, I&apos;m
+                in Business Analytics and Management. When I&apos;m not building websites, I&apos;m
                 hiking, working out, traveling, and spending time with family and friends.
               </p>
             </div>

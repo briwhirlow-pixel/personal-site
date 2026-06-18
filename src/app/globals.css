@@ -149,14 +149,6 @@ html {
   width: max-content;
 }
 
-/* ── Phone showcase auto-scroll — continuous loop, alternates direction ── */
-@keyframes phone-scroll {
-  0%, 10% { transform: translateY(0); }
-  90%, 100% { transform: translateY(-52%); }
-}
-.phone-auto-1 { animation: phone-scroll 9s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate; }
-.phone-auto-2 { animation: phone-scroll 12s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate; animation-delay: 1.5s; }
-.phone-auto-3 { animation: phone-scroll 8s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate; animation-delay: 3.5s; }
 
 /* ── Reviews marquee — continuous horizontal scroll ── */
 @keyframes reviews-scroll {
@@ -195,9 +187,6 @@ html {
   .pulse-dot,
   .marquee-loop,
   .marquee-track,
-  .phone-auto-1,
-  .phone-auto-2,
-  .phone-auto-3,
   .hero-cursor-blink,
   .hero-screen-glow,
   .hero-logo-float,

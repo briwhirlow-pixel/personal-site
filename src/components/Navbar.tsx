@@ -39,7 +39,17 @@ export default function Navbar() {
       }`}
     >
       <nav className="max-w-6xl mx-auto px-5 sm:px-8 md:px-10 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center" aria-label="BuiltByBrian home">
+        <Link
+          href="/"
+          className="flex items-center"
+          aria-label="BuiltByBrian home"
+          onClick={(e) => {
+            if (pathname === "/") {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}
+        >
           <Logo />
         </Link>
 

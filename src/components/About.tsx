@@ -8,51 +8,89 @@ export default function About() {
     <section id="about" className="relative bg-paper text-ink pt-20 pb-28">
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 md:px-12">
 
-        <Reveal>
-          <div className="max-w-2xl bg-paper-soft border border-rule p-6 sm:p-8 md:p-10">
+        <div className="grid md:grid-cols-12 gap-x-10 gap-y-12 items-start pt-4">
 
-            <h1
-              className="font-display font-extrabold leading-[1.05] tracking-[-0.025em] text-ink"
-              style={{ fontSize: 'clamp(32px, 6vw, 56px)' }}
-            >
-              Brian Whirlow
-            </h1>
-            <p className="font-display font-extrabold tracking-[-0.025em] text-ink-soft text-[15px] sm:text-[17px] mt-1">
-              Designer & Developer · Philadelphia / South Jersey
-            </p>
+          {/* Left — card with name, socials, photos */}
+          <Reveal className="md:col-span-5">
+            <div className="bg-paper-soft border border-rule p-5 sm:p-7">
 
-            <div className="flex items-center gap-2 mt-5">
-              <a
-                href={siteConfig.social.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="w-11 h-11 border border-rule bg-paper flex items-center justify-center text-ink-soft hover:bg-forest hover:text-white hover:border-forest transition-colors"
-                style={{ minWidth: 44, minHeight: 44 }}
+              <h1
+                className="font-display font-extrabold leading-[1.05] tracking-[-0.025em] text-ink"
+                style={{ fontSize: 'clamp(28px, 5vw, 42px)' }}
               >
-                <Linkedin size={16} strokeWidth={1.75} />
-              </a>
-              <a
-                href="https://www.facebook.com/marketplace/profile/100001427946097/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-                className="w-11 h-11 border border-rule bg-paper flex items-center justify-center text-ink-soft hover:bg-forest hover:text-white hover:border-forest transition-colors"
-                style={{ minWidth: 44, minHeight: 44 }}
-              >
-                <Facebook size={16} strokeWidth={1.75} />
-              </a>
-              <a
-                href={`mailto:${siteConfig.email}`}
-                aria-label="Email"
-                className="w-11 h-11 border border-rule bg-paper flex items-center justify-center text-ink-soft hover:bg-forest hover:text-white hover:border-forest transition-colors"
-                style={{ minWidth: 44, minHeight: 44 }}
-              >
-                <Mail size={16} strokeWidth={1.75} />
-              </a>
+                Brian Whirlow
+              </h1>
+              <p className="font-display font-extrabold tracking-[-0.025em] text-ink-soft text-[14px] sm:text-[15px] mt-1">
+                Designer & Developer · Philly / South Jersey
+              </p>
+
+              <div className="flex items-center gap-2 mt-5 mb-6">
+                <a
+                  href={siteConfig.social.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  className="w-11 h-11 border border-rule bg-paper flex items-center justify-center text-ink-soft hover:bg-forest hover:text-white hover:border-forest transition-colors"
+                  style={{ minWidth: 44, minHeight: 44 }}
+                >
+                  <Linkedin size={16} strokeWidth={1.75} />
+                </a>
+                <a
+                  href="https://www.facebook.com/marketplace/profile/100001427946097/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Facebook"
+                  className="w-11 h-11 border border-rule bg-paper flex items-center justify-center text-ink-soft hover:bg-forest hover:text-white hover:border-forest transition-colors"
+                  style={{ minWidth: 44, minHeight: 44 }}
+                >
+                  <Facebook size={16} strokeWidth={1.75} />
+                </a>
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  aria-label="Email"
+                  className="w-11 h-11 border border-rule bg-paper flex items-center justify-center text-ink-soft hover:bg-forest hover:text-white hover:border-forest transition-colors"
+                  style={{ minWidth: 44, minHeight: 44 }}
+                >
+                  <Mail size={16} strokeWidth={1.75} />
+                </a>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="overflow-hidden border border-rule">
+                  <Image
+                    src="/images/brian-young.jpg"
+                    alt="Brian as a kid at the computer"
+                    width={800}
+                    height={600}
+                    className="w-full h-auto"
+                    sizes="(min-width: 768px) 200px, 40vw"
+                  />
+                </div>
+                <div className="overflow-hidden border border-rule">
+                  <Image
+                    src="/images/brian-now.jpg"
+                    alt="Brian today"
+                    width={800}
+                    height={1000}
+                    className="w-full h-auto"
+                    sizes="(min-width: 768px) 200px, 40vw"
+                  />
+                </div>
+              </div>
+
             </div>
+          </Reveal>
 
-            <div className="space-y-4 text-ink-soft text-[15px] sm:text-[16px] leading-[1.65] mt-7 mb-7 font-medium">
+          {/* Right — bio */}
+          <Reveal delay={100} className="md:col-span-7">
+            <h2
+              className="font-display font-medium leading-[1.05] tracking-[-0.03em] text-ink"
+              style={{ fontSize: 'clamp(30px, 5vw, 50px)' }}
+            >
+              I build websites that convert visitors into customers.
+            </h2>
+
+            <div className="space-y-4 text-ink-soft text-[15px] sm:text-[16px] leading-[1.65] mt-7 mb-8 font-medium">
               <p>
                 I&apos;m Brian, a web designer and developer based in the Philadelphia/South Jersey area.
                 With <span className="text-ink font-semibold">5 years of building websites</span> under my belt,
@@ -71,7 +109,7 @@ export default function About() {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row flex-wrap gap-3 mb-8">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3">
               <a
                 href="/contact"
                 className="inline-flex items-center justify-center gap-2 bg-clay text-ink font-semibold px-6 py-4 hover:bg-clay-deep transition-colors text-[14px] active:scale-[0.98]"
@@ -88,32 +126,8 @@ export default function About() {
                 View services
               </a>
             </div>
-
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              <div className="overflow-hidden border border-rule">
-                <Image
-                  src="/images/brian-young.jpg"
-                  alt="Brian as a kid at the computer"
-                  width={800}
-                  height={600}
-                  className="w-full h-auto"
-                  sizes="(min-width: 768px) 300px, 45vw"
-                />
-              </div>
-              <div className="overflow-hidden border border-rule">
-                <Image
-                  src="/images/brian-now.jpg"
-                  alt="Brian today"
-                  width={800}
-                  height={1000}
-                  className="w-full h-auto"
-                  sizes="(min-width: 768px) 300px, 45vw"
-                />
-              </div>
-            </div>
-
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </div>
     </section>
   );

@@ -14,7 +14,7 @@ export default function FinalCTA() {
           </h2>
           <p className="text-ink-soft text-[16px] sm:text-[17px] leading-relaxed font-medium mt-5 max-w-lg mx-auto">
             Tell me about your business and I&apos;ll send a free project
-            estimate within 72 hours.
+            estimate within 24 hours.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link

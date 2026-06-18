@@ -6,16 +6,16 @@ import Logo from './Logo';
 
 function PhoneFrame({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={className} style={{ width: "130px" }}>
+    <div className={`w-[85px] sm:w-[130px] ${className}`}>
       <div
-        className="relative bg-[#1d1d1f] rounded-[22px] p-[3px]"
+        className="relative bg-[#1d1d1f] rounded-[16px] sm:rounded-[22px] p-[2px] sm:p-[3px]"
         style={{ boxShadow: "0 16px 40px -8px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.06) inset" }}
       >
-        <div className="absolute top-[6px] left-1/2 -translate-x-1/2 w-[28px] h-[8px] bg-[#1d1d1f] rounded-full z-10" />
-        <div className="rounded-[19px] overflow-hidden" style={{ aspectRatio: "9/19.5" }}>
+        <div className="absolute top-[4px] sm:top-[6px] left-1/2 -translate-x-1/2 w-[20px] sm:w-[28px] h-[5px] sm:h-[8px] bg-[#1d1d1f] rounded-full z-10" />
+        <div className="rounded-[14px] sm:rounded-[19px] overflow-hidden" style={{ aspectRatio: "9/19.5" }}>
           {children}
         </div>
-        <div className="absolute bottom-[4px] left-1/2 -translate-x-1/2 w-[32%] h-[2.5px] bg-white/15 rounded-full" />
+        <div className="absolute bottom-[3px] sm:bottom-[4px] left-1/2 -translate-x-1/2 w-[32%] h-[2px] sm:h-[2.5px] bg-white/15 rounded-full" />
       </div>
     </div>
   );
@@ -312,7 +312,7 @@ export default function Hero() {
           >
 
             {/* Slide 1: Heading + CTAs */}
-            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-4 py-8 sm:py-16" style={{ width: `${100 / TOTAL_SLIDES}%` }}>
+            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-12 sm:px-4 py-8 sm:py-16" style={{ width: `${100 / TOTAL_SLIDES}%` }}>
               <h1
                 className="font-display font-medium leading-[1.05] tracking-[-0.035em] text-ink text-balance"
                 style={{ fontSize: 'clamp(24px, 4.5vw, 42px)' }}
@@ -346,7 +346,7 @@ export default function Hero() {
             </div>
 
             {/* Slide 2: Mobile-first phones */}
-            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-4 py-8 sm:py-16" style={{ width: `${100 / TOTAL_SLIDES}%` }}>
+            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-12 sm:px-4 py-8 sm:py-16" style={{ width: `${100 / TOTAL_SLIDES}%` }}>
               <h2
                 className="font-display font-medium leading-[1.05] tracking-[-0.03em] text-ink"
                 style={{ fontSize: "clamp(24px, 4.5vw, 42px)" }}
@@ -356,21 +356,21 @@ export default function Hero() {
               <p className="text-ink-soft text-[16px] leading-relaxed font-medium mt-2 max-w-md">
                 Every site works perfectly on the device your customers actually use.
               </p>
-              <div className="flex items-start justify-center gap-4 sm:gap-6 mt-6 sm:mt-8">
-                <PhoneFrame className="mt-8 hidden sm:block">
+              <div className="flex items-start justify-center gap-2 sm:gap-6 mt-6 sm:mt-8">
+                <PhoneFrame className="mt-4 sm:mt-8">
                   <HomepageMini />
                 </PhoneFrame>
                 <PhoneFrame>
                   <FitnessMini />
                 </PhoneFrame>
-                <PhoneFrame className="mt-8 hidden sm:block">
+                <PhoneFrame className="mt-4 sm:mt-8">
                   <SportsMini />
                 </PhoneFrame>
               </div>
             </div>
 
             {/* Slide 3: 90+ Performance */}
-            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-4 py-8 sm:py-16" style={{ width: `${100 / TOTAL_SLIDES}%` }}>
+            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-12 sm:px-4 py-8 sm:py-16" style={{ width: `${100 / TOTAL_SLIDES}%` }}>
               <p
                 className="font-display font-medium text-ink leading-[0.85] tracking-[-0.04em]"
                 style={{ fontSize: "clamp(52px, 8vw, 80px)" }}
@@ -399,7 +399,7 @@ export default function Hero() {
             </div>
 
             {/* Clone of slide 1 for seamless loop */}
-            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-4 py-8 sm:py-16" style={{ width: `${100 / TOTAL_SLIDES}%` }} aria-hidden>
+            <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-12 sm:px-4 py-8 sm:py-16" style={{ width: `${100 / TOTAL_SLIDES}%` }} aria-hidden>
               <h1
                 className="font-display font-medium leading-[1.05] tracking-[-0.035em] text-ink text-balance"
                 style={{ fontSize: 'clamp(24px, 4.5vw, 42px)' }}

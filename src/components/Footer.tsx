@@ -64,7 +64,7 @@ export default function Footer() {
               {siteConfig.email}
             </a>
             <p className="text-ink-muted text-[12.5px] mt-2 font-medium leading-relaxed">
-              Response within 72 hours, usually same day.
+              Response within 24 hours, usually same day.
             </p>
           </div>
         </div>

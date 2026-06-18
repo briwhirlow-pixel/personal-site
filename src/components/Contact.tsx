@@ -163,7 +163,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="text-[10px] text-ink-muted uppercase tracking-[0.12em] font-semibold">Response time</p>
-                    <p className="text-ink text-[14px] font-semibold mt-0.5">Within 72 hours, usually same day</p>
+                    <p className="text-ink text-[14px] font-semibold mt-0.5">Within 24 hours, usually same day</p>
                   </div>
                 </div>
               )}
@@ -394,7 +394,7 @@ export default function Contact() {
                         {status === "loading" ? "Sending…" : "Get My Free Quote →"}
                       </button>
                       <p className="text-center text-[11px] text-ink-muted font-semibold tracking-[0.1em] uppercase mt-2.5">
-                        No commitment · 72-hour response
+                        No commitment · 24-hour response
                       </p>
                     </div>
 

@@ -1,177 +1,95 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "BuiltbyBrian — Hand-built websites for small businesses";
+export const alt = "byBrian Web Design";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const TEXT = "BuiltbyBrian Hand-built websites for small businesses Philadelphia South Jersey 5-day first drafts You own the code ";
-
-async function loadGoogleFont(query: string): Promise<ArrayBuffer> {
-  const url = `https://fonts.googleapis.com/css2?${query}`;
-  const css = await (await fetch(url)).text();
-  const match = css.match(/src:\s*url\(([^)]+)\)\s*format\('([^']+)'\)/);
-  if (!match) throw new Error(`No font URL parsed: ${query}`);
-  const res = await fetch(match[1]);
-  return res.arrayBuffer();
-}
-
-export default async function Image() {
-  const subset = encodeURIComponent(TEXT);
-  const [instrumentRegular, instrumentItalic, mono] = await Promise.all([
-    loadGoogleFont(`family=Instrument+Serif&text=${subset}`),
-    loadGoogleFont(`family=Instrument+Serif:ital@1&text=${subset}`),
-    loadGoogleFont(`family=JetBrains+Mono:wght@600&text=${subset}`),
-  ]);
-
+export default function OGImage() {
   return new ImageResponse(
     (
       <div
         style={{
           width: "100%",
           height: "100%",
-          background: "#E9EDF3",
           display: "flex",
           flexDirection: "column",
-          padding: 80,
-          fontFamily: "Instrument Serif",
-          position: "relative",
+          justifyContent: "center",
+          alignItems: "flex-start",
+          padding: "80px",
+          background: "linear-gradient(135deg, #0A1628 0%, #0F2444 50%, #0A1628 100%)",
+          fontFamily: "sans-serif",
         }}
       >
-        {/* Editorial header rule */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "baseline",
-            paddingBottom: 18,
-            borderBottom: "1px solid #CBD5E1",
-            fontFamily: "JetBrains Mono",
-            fontSize: 16,
-            letterSpacing: 4,
-            color: "#64748B",
-            textTransform: "uppercase",
-          }}
-        >
-          <span style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <span
-              style={{
-                width: 12,
-                height: 12,
-                borderRadius: 12,
-                background: "#0EA5E9",
-                display: "flex",
-              }}
-            />
-            Philadelphia · South Jersey
-          </span>
-          <span style={{ display: "flex" }}>builtbybwhirl.com</span>
+        {/* Logo mark */}
+        <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "48px" }}>
+          <div
+            style={{
+              width: "56px",
+              height: "56px",
+              background: "#2563EB",
+              borderRadius: "12px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "28px",
+              fontWeight: "800",
+              color: "white",
+            }}
+          >
+            B
+          </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <span style={{ color: "white", fontSize: "22px", fontWeight: "800", letterSpacing: "-0.5px" }}>
+              by<span style={{ color: "#2563EB" }}>Brian</span>
+            </span>
+            <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "3px", textTransform: "uppercase" }}>
+              Web Design
+            </span>
+          </div>
         </div>
 
         {/* Headline */}
         <div
           style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
+            fontSize: "72px",
+            fontWeight: "900",
+            color: "white",
+            lineHeight: "1.05",
+            letterSpacing: "-2px",
+            marginBottom: "24px",
+            maxWidth: "820px",
           }}
         >
-          <div
-            style={{
-              fontFamily: "Instrument Serif",
-              fontSize: 110,
-              color: "#1A1A2E",
-              lineHeight: 0.95,
-              letterSpacing: -3,
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <span style={{ display: "flex" }}>Hand-built websites</span>
-            <span style={{ display: "flex" }}>
-              <span style={{ fontFamily: "Instrument Serif", fontStyle: "italic", color: "#2563EB" }}>
-                for small businesses.
-              </span>
-            </span>
-          </div>
+          Websites that{" "}
+          <span style={{ color: "#2563EB" }}>grow</span>
+          {" "}your business.
         </div>
 
-        {/* Footer wordmark */}
+        {/* Subtext */}
+        <div style={{ fontSize: "22px", color: "rgba(255,255,255,0.5)", maxWidth: "600px" }}>
+          Fast, beautiful websites that convert visitors into customers.
+        </div>
+
+        {/* URL badge */}
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-end",
-            paddingTop: 18,
-            borderTop: "1px solid #CBD5E1",
+            position: "absolute",
+            bottom: "80px",
+            right: "80px",
+            background: "rgba(255,255,255,0.08)",
+            border: "1px solid rgba(255,255,255,0.15)",
+            borderRadius: "100px",
+            padding: "10px 24px",
+            color: "rgba(255,255,255,0.5)",
+            fontSize: "16px",
+            letterSpacing: "0.5px",
           }}
         >
-          <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
-            <span
-              style={{
-                width: 10,
-                height: 10,
-                borderRadius: 10,
-                background: "#2563EB",
-                display: "flex",
-                marginRight: 4,
-              }}
-            />
-            <span
-              style={{
-                fontFamily: "Instrument Serif",
-                fontSize: 44,
-                color: "#1A1A2E",
-                display: "flex",
-              }}
-            >
-              Built
-            </span>
-            <span
-              style={{
-                fontFamily: "Instrument Serif",
-                fontSize: 44,
-                fontStyle: "italic",
-                color: "#0EA5E9",
-                display: "flex",
-              }}
-            >
-              by
-            </span>
-            <span
-              style={{
-                fontFamily: "Instrument Serif",
-                fontSize: 44,
-                color: "#1A1A2E",
-                display: "flex",
-              }}
-            >
-              Brian
-            </span>
-          </div>
-          <span
-            style={{
-              fontFamily: "JetBrains Mono",
-              fontSize: 16,
-              letterSpacing: 4,
-              color: "#64748B",
-              textTransform: "uppercase",
-              display: "flex",
-            }}
-          >
-            5-day first drafts · You own the code
-          </span>
+          builtbybwhirl.com
         </div>
       </div>
     ),
-    {
-      ...size,
-      fonts: [
-        { name: "Instrument Serif", data: instrumentRegular, weight: 400, style: "normal" },
-        { name: "Instrument Serif", data: instrumentItalic, weight: 400, style: "italic" },
-        { name: "JetBrains Mono", data: mono, weight: 600, style: "normal" },
-      ],
-    }
+    { ...size }
   );
 }

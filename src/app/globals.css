@@ -208,6 +208,10 @@ html.smooth-scroll {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin { animation: none; }
+}
+
 @layer base {
   body {
     @apply bg-paper text-ink antialiased font-sans;

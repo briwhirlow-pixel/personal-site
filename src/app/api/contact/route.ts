@@ -3,6 +3,11 @@ import nodemailer from "nodemailer";
 import { z } from "zod";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { escapeHtml } from "@/lib/htmlEscape";
+import { rateLimit, clientIp, sameOrigin } from "@/lib/rateLimit";
+
+// Max submissions allowed per IP within the window (best-effort, per instance).
+const RATE_MAX = 5;
+const RATE_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
 
 const schema = z.object({
   name: z.string().min(1),
@@ -12,6 +17,7 @@ const schema = z.object({
   budget: z.string().min(1),
   launchDate: z.string().optional(),
   message: z.string().min(1),
+  companyWebsite: z.string().optional(), // honeypot — real users never fill this
 });
 
 const DEFAULTS = {
@@ -44,11 +50,30 @@ function applyVars(template: string, vars: Record<string, string>): string {
 
 export async function POST(request: Request) {
   try {
+    // Reject cross-origin browser requests (CSRF-style abuse from other sites).
+    if (!sameOrigin(request)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    // Throttle by client IP to block submission flooding.
+    if (!rateLimit(`contact:${clientIp(request)}`, RATE_MAX, RATE_WINDOW_MS)) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again in a few minutes, or email brianwhirlowbusiness@gmail.com directly." },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const parsed = schema.safeParse(body);
 
     if (!parsed.success) {
       return NextResponse.json({ error: "Invalid input" }, { status: 400 });
+    }
+
+    // Honeypot tripped — a bot filled the hidden field. Return success so the
+    // bot sees no error, but don't save or send anything.
+    if (parsed.data.companyWebsite) {
+      return NextResponse.json({ success: true });
     }
 
     const { name, email, phone, websiteType, budget, launchDate, message } = parsed.data;

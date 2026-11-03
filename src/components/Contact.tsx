@@ -15,6 +15,7 @@ type FormData = {
   budget: string;
   launchDate: string;
   message: string;
+  companyWebsite: string; // honeypot — must stay empty for real users
 };
 
 function getDateFromOption(option: string): string {
@@ -232,6 +233,12 @@ export default function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 bg-paper-soft border border-rule p-6 sm:p-7">
+
+                {/* Honeypot — hidden from real users, bots tend to fill it. Server drops any submission where this is non-empty. */}
+                <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
+                  <label htmlFor="company-website">Company Website (leave blank)</label>
+                  <input id="company-website" type="text" tabIndex={-1} autoComplete="off" {...register("companyWebsite")} />
+                </div>
 
                 {/* Step indicator — no numbers, just progress bar */}
                 <div className="flex items-center gap-3 mb-2">

@@ -201,10 +201,14 @@ export async function GET(_req: NextRequest, ctx: { params: Promise<{ variant: s
     return new Response(`Unknown variant: ${variant}`, { status: 404 });
   }
 
+  // Every weight renders a mix of upper/lower case, digits, and symbols across
+  // the six variants, so request the full glyph set for each weight. A too-narrow
+  // subset (e.g. no lowercase at wght@700) renders missing glyphs as blank boxes.
+  const GLYPHS = encodeURIComponent("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ·.★⁂");
   const [jk500, jk700, jk800] = await Promise.all([
-    loadGoogleFont("family=Plus+Jakarta+Sans:wght@500&text=builtbyrian"),
-    loadGoogleFont("family=Plus+Jakarta+Sans:wght@700&text=BUILTBYRIANWEBDESIGN·PHILADELPHIA★NO.012024EST"),
-    loadGoogleFont("family=Plus+Jakarta+Sans:wght@800&text=builtbyrianPHILY·BBZINENO.012024EST"),
+    loadGoogleFont(`family=Plus+Jakarta+Sans:wght@500&text=${GLYPHS}`),
+    loadGoogleFont(`family=Plus+Jakarta+Sans:wght@700&text=${GLYPHS}`),
+    loadGoogleFont(`family=Plus+Jakarta+Sans:wght@800&text=${GLYPHS}`),
   ]);
 
   return new ImageResponse(renderer(), {

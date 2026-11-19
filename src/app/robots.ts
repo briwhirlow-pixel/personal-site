@@ -11,6 +11,8 @@ export default function robots(): MetadataRoute.Robots {
           "/admin/*",
           "/gym",
           "/gym/*",
+          "/lift",
+          "/lift/*",
           "/api/*",
           "/invoice/*",
           "/delivery/*",
